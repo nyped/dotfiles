@@ -21,6 +21,6 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 
 - install `macfanctld` from your package manager.
 
-## gnome terminal configs
+## gnome configs
 
 - [useful link](https://gist.github.com/reavon/0bbe99150810baa5623e5f601aa93afc) to restore your configs.
