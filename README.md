@@ -1,4 +1,4 @@
-# My linux settings
+# My linux settings on 8,1 macbook pro
 
 ## trackpad
 
@@ -9,7 +9,7 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 - [Macterial](https://www.gnome-look.org/p/1248255/) with gnome-tweaks.
 - [Frippery move clock](https://extensions.gnome.org/extension/2/move-clock/) extenstion to move the clock on the right.
 
-## 5ghz wifi driver on 8,1 mbp
+## 5ghz wifi driver on 8,1
 
 - install `broadcom-sta-dkms` from your package manager.
 
