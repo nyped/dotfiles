@@ -1,0 +1,16 @@
+# Next Workspace
+"xdotool key Control+Alt+Right"
+   b:11
+
+# Previous Workspace
+"xdotool key Control+Alt+Left"
+   b:10
+
+# Zoom in
+"xdotool key ctrl+21"
+   b:12
+
+# Zoom out
+"xdotool key ctrl+20"
+   b:13
+
