@@ -16,3 +16,7 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 ## boot manager
 
 - install `refind` from your package manager.
+
+## fan daemon
+
+- install `macfanctld` from your package manager.
