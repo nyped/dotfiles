@@ -1,2 +1,1 @@
-# My zsh profile
-i am using oh my zsh
+# files that i need to easily switch distros
