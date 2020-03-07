@@ -1,0 +1,10 @@
+texlive-full
+pandoc
+pyradio
+fortunes
+lolcat
+cowsay
+googler
+translate-shell
+xclip
+
