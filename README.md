@@ -24,3 +24,8 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 ## gnome configs
 
 - [useful link](https://gist.github.com/reavon/0bbe99150810baa5623e5f601aa93afc) to restore your configs.
+
+## bluetooth
+
+`_ service bluetooth start` to start daemon
+
