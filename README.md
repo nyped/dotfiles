@@ -11,7 +11,7 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 
 ## 5ghz wifi driver on 8,1
 
-- install `broadcom-sta-dkms` from your package manager.
+- install `broadcom-sta-dkms` in Debian and `broadcom-wl` in Arch.
 
 ## boot manager
 
