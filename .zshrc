@@ -8,7 +8,7 @@ alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
 alias r='/usr/lib/R/bin/R' # to get the path -> R.home() 
-alias bluetooth='_ service bluetooth start'
+alias bluetooth='sudo service bluetooth start'
 
 # linux and mac
 alias musique='pyradio'
