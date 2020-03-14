@@ -15,7 +15,7 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 
 ## boot manager
 
-- install `refind` from your package manager. A nice looking theme [here] (https://github.com/EvanPurkhiser/rEFInd-minimal)
+- install `refind` from your package manager. A nice looking theme [here](https://github.com/EvanPurkhiser/rEFInd-minimal)
 
 ## fan daemon
 
