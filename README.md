@@ -15,11 +15,11 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 
 ## boot manager
 
-- install `refind` from your package manager.
+- install `refind` from your package manager. A nice looking theme [here] (https://github.com/EvanPurkhiser/rEFInd-minimal)
 
 ## fan daemon
 
-- install `macfanctld` from your package manager. In arch, you have to create a service that runs the daemon at each boot
+- install `macfanctld` from your package manager. In arch, you have to create a service that runs the daemon at each boot.
 
 ## gnome configs
 
