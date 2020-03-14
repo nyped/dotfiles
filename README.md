@@ -8,6 +8,9 @@ I use mtrack and xbindkeys on Xorg. [useful link](https://int3ractive.com/2018/0
 
 - [Macterial](https://www.gnome-look.org/p/1248255/) with gnome-tweaks.
 - [Frippery move clock](https://extensions.gnome.org/extension/2/move-clock/) extenstion to move the clock on the right.
+- [capitaine-cursors](https://www.archlinux.org/packages/community/any/capitaine-cursors/).
+- [papirus-icon-theme](https://www.archlinux.org/packages/community/any/papirus-icon-theme/).
+- [transparent osd](https://extensions.gnome.org/extension/1073/transparent-osd/)
 
 ## 5ghz wifi driver on 8,1
 
