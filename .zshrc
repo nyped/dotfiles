@@ -14,6 +14,8 @@ alias bluetooth='sudo service bluetooth start'
 alias musique='pyradio'
 alias maison='cd /home/lenny/Desktop/learning'
 alias old='$OLDPWD'
+alias dl='cd ~/Downloads'
+alias tmp='cd /tmp'
 
 # launching
 vache () {
