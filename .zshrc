@@ -17,6 +17,9 @@ alias old='$OLDPWD'
 alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 
+#mac
+hidutil property --set '{UserKeyMapping:[{HIDKeyboardModifierMappingSrc:0x700000039,HIDKeyboardModifierMappingDst:0x70000002A}]}' > /dev/null 2>&1
+
 # launching
 vache () {
 set $(ls /usr/share/cowsay/cows/ | cut -d '.' -f 1 )
@@ -42,7 +45,7 @@ fi
 
 pan () {
 var=$( basename $1 | sed s/.md// | sed s/.pdf// )
-pandoc -so $var.pdf $var.md
+pandoc --highlight-style=tango -so $var.pdf $var.md
 }
 
 google () {
