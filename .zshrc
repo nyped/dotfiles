@@ -18,7 +18,7 @@ alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 
 #mac
-hidutil property --set '{UserKeyMapping:[{HIDKeyboardModifierMappingSrc:0x700000039,HIDKeyboardModifierMappingDst:0x70000002A}]}' > /dev/null 2>&1
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000002A}]}' > /dev/null 2>&1
 
 # launching
 vache () {
