@@ -1,4 +1,5 @@
 "my keybinds
+:set termguicolors
 :set shellcmdflag=-ic
 :set tabstop=4
 :set relativenumber
