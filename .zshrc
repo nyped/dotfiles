@@ -16,6 +16,7 @@ alias maison='cd /home/lenny/Desktop/learning'
 alias old='$OLDPWD'
 alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
+alias vim='nvim'
 
 #mac
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000002A}]}' > /dev/null 2>&1
@@ -28,7 +29,6 @@ eval x='$'$x
 echo $x
 clear && fortune | cowsay -f $x | lolcat
 }
-vache
 
 # translation
 trad () {
