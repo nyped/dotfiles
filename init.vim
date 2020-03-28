@@ -2,7 +2,7 @@
 :set termguicolors
 :set shellcmdflag=-ic
 :set tabstop=4
-:set relativenumber
+:set nu relativenumber
 :set shiftwidth=4
 "to work faster
 :command Q q
