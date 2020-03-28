@@ -1,4 +1,5 @@
 "my keybinds
+:set shellcmdflag=-ic
 :set tabstop=4
 :set relativenumber
 :set shiftwidth=4
