@@ -70,7 +70,7 @@ let g:PaperColor_Theme_Options = {
   \   'theme': {
   \     'default.dark': {
   \       'override' : {
-  \         'color07' : ['', '84'],
+  \         'color07' : ['', '82'],
   \         'linenumber_fg' : ['', '109']
   \       }
   \     }
