@@ -51,6 +51,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'vimlab/split-term.vim'
 Plug 'oblitum/rainbow'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'preservim/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 call plug#end()
