@@ -52,6 +52,7 @@ Plug 'vimlab/split-term.vim'
 Plug 'oblitum/rainbow'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'preservim/nerdcommenter'
+Plug 'unblevable/quick-scope'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 call plug#end()
@@ -82,4 +83,9 @@ let g:lightline = { 'colorscheme': 'PaperColor' }
 set background=dark
 colorscheme PaperColor
 highlight Normal ctermbg=none
-
+"
+"quick-scope
+"
+let g:qs_highlight_on_keys = ['f', 'F']
+highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
