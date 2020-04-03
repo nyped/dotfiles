@@ -18,6 +18,11 @@ alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 alias vim='nvim'
 
+#linux: new terminal tabs keep the same wd
+if [ -e /etc/profile.d/vte.sh ]; then
+    . /etc/profile.d/vte.sh
+fi
+
 #mac
 hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000002A}]}' > /dev/null 2>&1
 
@@ -45,12 +50,22 @@ fi
 
 pan () {
 var=$( basename $1 | sed s/.md// | sed s/.pdf// )
-pandoc --highlight-style=tango -so $var.pdf $var.md
+pandoc --highlight-style=tango ~/maison/style.md -so $var.pdf $var.md
 }
 
 google () {
 echo q | googler -n 5 -x $@
 }
+
+lyrics () {
+# receives 2 arguments : artist and title
+# fork of https://gist.github.com/febuiles/1549991
+[ $# -ne 2 ] && echo Format: artist title && return 1
+artist=$1
+title=$2
+curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less -FX
+}
+
 
 # colors for less
 export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
