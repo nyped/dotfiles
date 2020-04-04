@@ -21,6 +21,8 @@
 :command Q q
 :command WQ wq
 :command Wq wq
+:command Nt tabnew
+:command E edit
 "
 "C-z do decrement and C-x to increment
 "
@@ -41,7 +43,15 @@
 :map <C-q> :q!
 :imap <C-q> <Esc>:q!
 "
+"switch windows
 "
+:map <leader>1 1gt
+:map <leader>2 2gt
+:map <leader>3 3gt
+:map <leader>4 4gt
+:map <leader>5 5gt
+:map <leader>6 6gt
+:map <leader>7 7gt
 "
 "My plugins
 "
