@@ -57,6 +57,12 @@ google () {
 echo q | googler -n 5 -x $@
 }
 
+copy () {
+	# receives files name as argument
+	[ $# -eq 0 ] && echo No file && return 1
+	tail -n +1 $(for i in $( seq 1 $#) ; do ; eval x="$"$i && echo $x ; done) | pbcopy		
+}
+
 lyrics () {
 # receives 2 arguments : artist and title
 # fork of https://gist.github.com/febuiles/1549991
