@@ -1,4 +1,13 @@
+# Useful link:
+# https://wiki.archlinux.org/index.php/Xbindkeys
+#
+# Identifying keycodes:
+# - $ xbindkeys --key
+# - $ xbindkeys --multikey
+
+
 # Next Workspace
+
 "xdotool key Control+Alt+Right"
    b:11
 
@@ -14,3 +23,37 @@
 "xdotool key ctrl+20"
    b:13
 
+# Left Cycle in Firefox
+"xdotool search --name Mozilla key Ctrl+Tab"
+	Mod4 + Tab
+
+# Righ Cycle in Firefox
+"xdotool search --name Mozilla key Ctrl+Shift+Tab"
+	Mod4 + Shift + Tab
+
+# Launch a terminal
+"gnome-terminal"
+	Control + Alt + t
+
+# Screenshot of an area (doesn't work with xbindkey, the cursor is stuck)
+#"gnome-screenshot -a"
+	#XF86LaunchA
+
+# Screenshot of the current windows
+"gnome-screenshot -w"
+	Shift + XF86LaunchA
+
+# For some weird reasons, i can't map my alt gr key
+# to alt in a US dead keys layout...
+
+# Going backward in web browsers
+"xdotool search --name Mozilla key Alt+Left"
+	Mod5 + Left
+
+# Going backward in web browsers
+"xdotool search --name Mozilla key Alt+Right"
+	Mod5 + Right
+
+# Opening a new terminal with alt gr
+"gnome-terminal"
+	Control+ Mod5 + t
