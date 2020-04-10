@@ -36,14 +36,19 @@ clear && fortune | cowsay -f $x | lolcat
 }
 
 # translation
-trad () {
+t () {
 echo $@ >> ~/maison/mots.txt
-if [ $1 = 'fr' ]
+if [ $1 = 'f' ]
 then
 shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
 else
 echo $@ | trans -shell -b | grep -v "^>$"
 fi
+}
+
+def () {
+[ $# -eq 0 ] && echo Entrez un mot && return 1
+echo $@ | trans | less -FX 
 }
 
 # pandoc function
