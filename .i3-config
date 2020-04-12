@@ -38,7 +38,7 @@ floating_modifier $mod
 bindsym ctrl+Shift+Return exec termite 
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym ctrl+Shift+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
@@ -247,8 +247,17 @@ bindsym  --release $altgr+Right exec --no-startup-id xdotool search --name Mozil
 # todo : install a screenshot tool
 # bindsym Shift+XF86LaunchA exec yourtool
 
+##############################
+# hide top bar 	 			 #
+##############################
 
+bindcode 169 bar mode toggle
 
+##############################
+# exit      	 			 #
+##############################
+
+bindsym Shift+XF86Eject exec i3-msg exit
 
 
 
