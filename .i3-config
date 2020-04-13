@@ -61,16 +61,16 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym ctrl+Shift+j move left
+bindsym ctrl+Shift+k move down
+bindsym ctrl+Shift+l move up
+bindsym ctrl+Shift+semicolon move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym ctrl+Shift+Left move left
+bindsym ctrl+Shift+Down move down
+bindsym ctrl+Shift+Up move up
+bindsym ctrl+Shift+Right move right
 
 # split in horizontal orientation
 bindsym $mod+h split h
@@ -178,7 +178,7 @@ bar {
 
 		
 	font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-    font pango:DejaVu Sans Mono 10
+    font pango: Knack Nerd Font 10
 
 	colors {
         background #222D31
@@ -227,6 +227,7 @@ gaps inner 14
 gaps outer -2
 smart_gaps on
 smart_borders on
+smart_gaps inverse_outer
 
 ##############################
 # Firefox                    #
@@ -259,5 +260,12 @@ bindcode 169 bar mode toggle
 
 bindsym Shift+XF86Eject exec i3-msg exit
 
+##############################
+# automove windows      	 #
+##############################
+
+for_window [class="firefox"] move container to workspace 1
+for_window [class="Discord"] move container to workspace 4
+for_window [class="Termite"] move container to workspace 2
 
 
