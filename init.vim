@@ -5,7 +5,7 @@
 "
 "
 "
-":set termguicolors "only for linux
+:set termguicolors "only for linux
 :set shellcmdflag=-ic
 :set tabstop=4
 :set nu rnu
@@ -82,8 +82,11 @@ let g:PaperColor_Theme_Options = {
   \   'theme': {
   \     'default.dark': {
   \       'override' : {
+  \         'color00' : ['#263238', '15'],
   \         'color07' : ['', '15'],
-  \         'linenumber_fg' : ['', '109']
+  \         'cursorlinenr_bg' : ['#263238', ''],
+  \         'linenumber_bg' : ['#263238', ''],
+  \         'linenumber_fg' : ['', '110']
   \       }
   \     }
   \   }
