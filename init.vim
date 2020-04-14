@@ -84,6 +84,7 @@ let g:PaperColor_Theme_Options = {
   \       'override' : {
   \         'color00' : ['#263238', '15'],
   \         'color07' : ['', '15'],
+  \ 		'cursorlinenr_fg' : ['', '208'], 
   \         'cursorlinenr_bg' : ['#263238', ''],
   \         'linenumber_bg' : ['#263238', ''],
   \         'linenumber_fg' : ['', '110']
