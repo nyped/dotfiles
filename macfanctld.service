@@ -1,16 +1,16 @@
 [Unit]
 Description=macfanctld deamon
-After=network-online.target
+After=syslog.target
+After=sysinit.target
 
 [Service]
-Type=oneshot
+Type=simple
 RemainAfterExit=yes
 ExecStart=/usr/bin/macfanctld -f
-
 Restart=on-failure
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=sysinit.target
 
 # for Arch
 # /etc/systemd/system/macfanctld.service
