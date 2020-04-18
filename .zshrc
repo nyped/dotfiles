@@ -2,7 +2,6 @@ ZSH_THEME="mortalscumbag"
 #trapd00r is also a nice theme
 
 # linux
-alias open='xdg-open'
 alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
@@ -77,6 +76,9 @@ title=$2
 curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less -FX
 }
 
+open () {
+	xdg-open $@ > /dev/null 2>&1 &!
+}
 
 # colors for less
 export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
