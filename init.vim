@@ -14,8 +14,8 @@
 "
 "scrolling
 "
-:nnoremap <S-Up> <C-y>
-:nnoremap <S-Down> <C-e>
+:nnoremap <C-Up> <C-y>
+:nnoremap <C-Down> <C-e>
 "
 "add lines
 "

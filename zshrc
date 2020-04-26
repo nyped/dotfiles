@@ -11,8 +11,8 @@ function color () {
 	then
 		export THEME=day
 		ln -f ~/dotfiles/termite-conf-day ~/.config/termite/config
-	    ln -f ~/dotfiles/i3-config-day ~/.config/i3/config
-	    ln -f ~/dotfiles/i3-blocks-day ~/.config/i3/i3blocks.conf
+		ln -f ~/dotfiles/i3-config-day ~/.config/i3/config
+		ln -f ~/dotfiles/i3-blocks-day ~/.config/i3/i3blocks.conf
 		ln -f ~/dotfiles/zathurarc-day ~/.config/zathura/zathurarc
 		ln -f ~/dotfiles/rofi-theme-day.rasi ~/.config/rofi/my-theme.rasi
 		killall -USR1 termite
@@ -20,10 +20,10 @@ function color () {
 		xsetroot -solid "#99bbff"
 	elif [[ $1 = night ]]
 	then
-		export THEME=day
+		export THEME=night
 		ln -f ~/dotfiles/termite-conf-night ~/.config/termite/config
-	    ln -f ~/dotfiles/i3-config-night ~/.config/i3/config
-	    ln -f ~/dotfiles/i3-blocks-night ~/.config/i3/i3blocks.conf
+		ln -f ~/dotfiles/i3-config-night ~/.config/i3/config
+		ln -f ~/dotfiles/i3-blocks-night ~/.config/i3/i3blocks.conf
 		ln -f ~/dotfiles/zathurarc-night ~/.config/zathura/zathurarc
 		ln -f ~/dotfiles/rofi-theme-night.rasi ~/.config/rofi/my-theme.rasi
 		killall -USR1 termite
