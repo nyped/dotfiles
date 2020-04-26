@@ -9,6 +9,7 @@
 :set shellcmdflag=-ic
 :set tabstop=4
 :set nu rnu
+:set softtabstop=0 noexpandtab
 :set shiftwidth=4
 "
 "scrolling
@@ -94,6 +95,15 @@ let g:PaperColor_Theme_Options = {
   \         'linenumber_bg' : ['#263238', ''],
   \         'linenumber_fg' : ['', '110']
   \       }
+  \     },
+  \      'default.light': {
+  \        'override' : {
+  \         'color00' : ['#f1efee', ''],
+  \ 		'cursorlinenr_fg' : ['', '208'], 
+  \         'cursorlinenr_bg' : ['#f1efee', ''],
+  \         'linenumber_bg' : ['#f1efee', ''],
+  \         'linenumber_fg' : ['', '110']
+  \       } 
   \     }
   \   }
   \ }

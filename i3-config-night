@@ -27,9 +27,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 
@@ -217,7 +217,7 @@ bindsym XF86KbdBrightnessDown exec macbook-lighter-kbd --dec 10
 new_window 1pixel 
 
 ##############################
-# alt tab like				 #
+# alt tab like               #
 ##############################
 
 bindsym ctrl+Shift+Tab workspace prev 
@@ -253,23 +253,26 @@ bindcode 128 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/sc
 bindsym Shift+XF86LaunchA exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh whole
 
 ##############################
-# hide top bar 	 			 #
+# hide top bar               #
 ##############################
 
 bindcode 169 bar mode toggle
 
 ##############################
-# exit      	 			 #
+# exit                       #
 ##############################
 
 bindsym Shift+XF86Eject exec i3-msg exit
 
 ##############################
-# automove windows      	 #
+# automove windows           #
 ##############################
 
 for_window [class="firefox"] move container to workspace 1
 for_window [class="Discord"] move container to workspace 4
 for_window [class="Termite"] move container to workspace 2
 
+##############################
+# Name of workspaces         #
+##############################
 

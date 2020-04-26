@@ -1,0 +1,11 @@
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set page-padding 1
+map i recolor
+map r reload
+set default-bg "#f9f5d7"
+set inputbar-bg "#f9f5d7"
+set inputbar-fg "#263238"
+set statusbar-bg "#f9f5d7"
+map <C-h> toggle_statusbar 
+

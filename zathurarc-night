@@ -1,5 +1,3 @@
-# ~/.config/zathura/zathurarc
-
 set statusbar-h-padding 0
 set statusbar-v-padding 0
 set page-padding 1
@@ -8,9 +6,6 @@ map r reload
 set default-bg "#263238"
 set inputbar-bg "#263238"
 set inputbar-fg "#ffffff"
-set default-bg "#263238"
-# set default-fg "#ff8700"
 set statusbar-bg "#263238"
 map <C-h> toggle_statusbar 
-
 

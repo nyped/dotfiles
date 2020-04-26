@@ -1,5 +1,3 @@
-# fork of https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/mortalscumbag.zsh-theme
-
 # temperature of the mac
 function temp () { /usr/bin/sensors | grep --color=never high | head -n 1 | tr -s ' ' | cut -d ' ' -f 4 | sed s/+// 
 }
@@ -64,11 +62,11 @@ local ret_status="%(?:%{$fg_bold[yellow]%}:%{$fg_bold[red]%})%?%{$reset_color%}"
 PROMPT=$'\n$(ssh_connection)%{$fg_bold[yellow]%}%n%{$reset_color%}@%{$fg_bold[yellow]%}%m%{$reset_color%}$(my_git_prompt) : %~\n[${ret_status}] %# '
 
 ZSH_THEME_PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
-ZSH_THEME_GIT_PROMPT_PREFIX=" $fg[white]‹ %{$fg_bold[yellow]%}"
+ZSH_THEME_GIT_PROMPT_PREFIX=" (%{$fg_bold[yellow]%}"
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[magenta]%}↑"
 ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[yellow]%}↓"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[yellow]%}●"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg_bold[red]%}●"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[white]%}●"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[cyan]%}●"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg_bold[red]%}✕"
-ZSH_THEME_GIT_PROMPT_SUFFIX=" $fg_bold[white]›%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})"
