@@ -11,6 +11,11 @@
 :set nu rnu
 :set shiftwidth=4
 "
+"scrolling
+"
+:nnoremap <S-Up> <C-y>
+:nnoremap <S-Down> <C-e>
+"
 "add lines
 "
 :nnoremap o o<Esc>
