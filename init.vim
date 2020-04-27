@@ -99,7 +99,7 @@ let g:PaperColor_Theme_Options = {
   \      'default.light': {
   \        'override' : {
   \         'color00' : ['#ffffb3', ''],
-  \ 		'cursorlinenr_fg' : ['', '208'], 
+  \ 		'cursorlinenr_fg' : ['', '56'], 
   \         'cursorlinenr_bg' : ['#ffffb3', ''],
   \         'linenumber_bg' : ['#ffffb3', ''],
   \         'linenumber_fg' : ['', '110']

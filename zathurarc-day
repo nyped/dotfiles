@@ -7,5 +7,6 @@ set default-bg "#ffffb3"
 set inputbar-bg "#ffffb3"
 set inputbar-fg "#263238"
 set statusbar-bg "#ffffb3"
+set statusbar-fg "#263238"
 map <C-h> toggle_statusbar 
 

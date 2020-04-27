@@ -3,7 +3,7 @@
 name=$(date "+Screenshot-%d_%h_%y-at-%H:%M:%S")
 cd ~/Pictures
 
-if [ "$1" = "windows" ]
+if [[ $1 = windows ]]
 then
 	sleep 0.5
 	xwininfo > screen &
@@ -12,7 +12,7 @@ then
 	xwd -id $id -frame -out ${name}.xwd
 
 
-elif [ "$1" = "whole" ] 
+elif [[ $1 = whole ]] 
 then
 	xwd -root -out ${name}.xwd &!
 	xdotool click 1 > /dev/null
