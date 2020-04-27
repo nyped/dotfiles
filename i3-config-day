@@ -185,12 +185,12 @@ bar {
     font pango: Knack Nerd Font 10
 
 	colors {
-        background #f1efee
+        background #ffffb3
         statusline #F9FAF9
         separator  #454947
         focused_workspace  #a9b3bc #ccddff #292F34
         active_workspace   #f5eebc #353836 #FDF6E3
-        inactive_workspace #a9b3bc #fcf9e9 #292F34
+        inactive_workspace #a9b3bc #ffffb3 #292F34
         binding_mode       #16a085 #2C2C2C #F9FAF9
         urgent_workspace   #16a085 #FDF6E3 #E5201D
     }

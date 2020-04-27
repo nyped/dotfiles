@@ -48,7 +48,7 @@ cursor_shape = block
 # Base16 Atelier Forest
 # Scheme: Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/forest)
 foreground=#263238
-background=#f1efee
+background=#ffffb3
 cursor=#68615e
 
 color0=#1b1918
