@@ -12,7 +12,7 @@ separator_block_width=15
 
 [time]
 color=#f5af19
-command=date '+%B %d - %r'
+command=date '+%B %d at %r'
 interval=1
 align=center
 

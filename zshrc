@@ -17,7 +17,7 @@ function color () {
 		ln -f ~/dotfiles/rofi-theme-day.rasi ~/.config/rofi/my-theme.rasi
 		killall -USR1 termite
 		i3-msg -q restart
-		xsetroot -solid "#99bbff"
+		xsetroot -solid "#BCD4E6"
 	elif [[ $1 = night ]]
 	then
 		export THEME=night
