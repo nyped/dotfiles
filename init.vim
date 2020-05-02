@@ -12,6 +12,10 @@
 :set softtabstop=0 noexpandtab
 :set shiftwidth=4
 "
+"exiting terminal
+"
+tnoremap <Esc> <C-\><C-n>
+"
 "scrolling
 "
 :nnoremap <C-Up> <C-y>
@@ -30,10 +34,9 @@
 :command Nt tabnew
 :command E edit
 "
-"C-z do decrement and C-x to increment
+"C-x do decrement and C-c to increment
 "
-:nnoremap <C-z> <C-x>
-:nnoremap <C-x> <C-a>
+:nnoremap <C-c> <C-a>
 "
 "C-a/e to go to the beginning / end of line
 "

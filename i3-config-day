@@ -269,8 +269,9 @@ bindsym Shift+XF86Eject exec i3-msg exit
 ##############################
 
 for_window [class="firefox"] move container to workspace 1
-for_window [class="Discord"] move container to workspace 4
+for_window [class="discord"] move container to workspace 4
 for_window [class="Termite"] move container to workspace 2
+for_window [class="Zathura"] move container to workspace 3
 
 ##############################
 # colors of windows          #
