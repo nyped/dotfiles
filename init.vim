@@ -14,7 +14,7 @@
 "
 "exiting terminal
 "
-tnoremap <Esc> <C-\><C-n>
+:tnoremap <Esc> <C-\><C-n>
 "
 "scrolling
 "
@@ -76,6 +76,9 @@ Plug 'unblevable/quick-scope'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-surround'
 call plug#end()
 "
 "rainbow settings
