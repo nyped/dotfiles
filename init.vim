@@ -20,6 +20,7 @@ tnoremap <Esc> <C-\><C-n>
 "
 :nnoremap <C-Up> <C-y>
 :nnoremap <C-Down> <C-e>
+:set scrolloff=5
 "
 "add lines
 "
@@ -74,6 +75,7 @@ Plug 'preservim/nerdcommenter'
 Plug 'unblevable/quick-scope'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'preservim/nerdtree'
 call plug#end()
 "
 "rainbow settings
@@ -84,6 +86,11 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 "
 :set splitbelow
 :command T 10Term
+"
+"Nerd tree
+"
+:nmap <Leader>] :NERDTreeToggle<CR>
+:let g:NERDTreeWinSize=35
 "
 "Theme settings
 "

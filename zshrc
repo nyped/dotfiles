@@ -66,7 +66,6 @@ alias bluetooth='systemctl start bluetooth'
 alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 alias grep='grep --color=always'
-#alias pfe='clear && echo && /home/lenny/Desktop/learning/pfe.sh'
 
 # linux and mac
 alias musique='pyradio'
@@ -145,6 +144,12 @@ export LESS_TERMCAP_ZW=$(tput rsupm)
 
 # for ssh
 export TERM=xterm-256color
+
+# zathura
+
+function z {
+	zathura $* > /dev/null 2>&1 &!
+}
 
 # auto startx
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
