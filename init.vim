@@ -103,7 +103,7 @@ let g:PaperColor_Theme_Options = {
   \       'override' : {
   \         'color00' : ['#263238', '15'],
   \         'color07' : ['', '15'],
-  \ 		'cursorlinenr_fg' : ['', '208'], 
+  \ 		'cursorlinenr_fg' : ['', '208'],
   \         'cursorlinenr_bg' : ['#263238', ''],
   \         'linenumber_bg' : ['#263238', ''],
   \         'linenumber_fg' : ['', '110']
@@ -112,12 +112,12 @@ let g:PaperColor_Theme_Options = {
   \      'default.light': {
   \        'override' : {
   \         'color00' : ['#ffffb3', ''],
-  \ 		'cursorlinenr_fg' : ['', '56'], 
+  \ 		'cursorlinenr_fg' : ['', '56'],
   \         'cursorlinenr_bg' : ['#ffffb3', ''],
   \         'linenumber_bg' : ['#ffffb3', ''],
   \         'linenumber_fg' : ['', '110']
-  \       } 
-  \     }
+  \       }
+  \     },
   \   }
   \ }
 let g:airline_theme='papercolor'
@@ -131,3 +131,9 @@ highlight Normal ctermbg=none
 let g:qs_highlight_on_keys = ['f', 'F']
 highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
 highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+"
+"extra spaces
+"
+:function! Rms ()
+:	%s/\s\+$//e
+:endfunction

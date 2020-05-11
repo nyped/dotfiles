@@ -33,8 +33,8 @@ function color () {
 }
 
 if cat ~/.config/termite/config | grep day >/dev/null 2>&1
-then export THEME=day
-else export THEME=night
+	then export THEME=day
+	else export THEME=night
 fi
 
 if [[ -n $SSH_CONNECTION ]]; then
@@ -74,33 +74,34 @@ alias old='$OLDPWD'
 
 # translation
 t () {
-echo $@ >> ~/maison/mots.txt
-if [ $1 = 'f' ]
-then
-shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
-else
-echo $@ | trans -shell -b | grep -v "^>$"
-fi
+	echo $@ >> ~/maison/mots.txt
+	if [ $1 = 'f' ]
+		then
+		shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
+	else
+		echo $@ | trans -shell -b | grep -v "^>$"
+	fi
 }
 
 def () {
-[ $# -eq 0 ] && echo Entrez un mot && return 1
-echo $@ | trans | less -FX 
+	[[ $# -lt 1 ]] && echo Entrez un mot ou plus && return 1
+	echo $@ >> ~/maison/def.txt
+	echo $@ | trans | less -FX 
 }
 
 # pandoc function
 pan () {
-var=$( basename $1 | sed s/.md// | sed s/.pdf// )
-pandoc --highlight-style=tango ~/maison/style.md -so $var.pdf $var.md
+	var=$( basename $1 | sed s/.md// | sed s/.pdf// )
+	pandoc --highlight-style=tango ~/maison/style.md -so $var.pdf $var.md
 }
 
 lyrics () {
 # receives 2 arguments : artist and title
 # fork of https://gist.github.com/febuiles/1549991
-[ $# -ne 2 ] && echo Format: artist title && return 1
-artist=$1
-title=$2
-curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less -FX
+	[[ $# != 2 ]] && echo Format: artist title && return 1
+	artist=$1
+	title=$2
+	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less -FX
 }
 
 # opam configuration
@@ -111,17 +112,13 @@ if [ -e /etc/profile.d/vte.sh ]; then
     . /etc/profile.d/vte.sh
 fi
 
-
-copy () {
-	# receives files name as argument
-	[ $# -eq 0 ] && echo No file && return 1
-	tail -n +1 $(for i in $( seq 1 $#) ; do ; eval x="$"$i && echo $x ; done) | pbcopy		
-}
-
 open () {
-
-	xdg-open $@ >/dev/null 2>&1 &
-
+	local opener
+	[[ $# != 1 ]] && echo 1 argument plz && return 1 
+	if [[ $( cut -d . -f 2 <<< $1) = pdf ]]
+		then opener=zathura
+	fi
+	${opener:-xdg-open} $@ >/dev/null 2>&1 &!
 }
 
 lorem () {
@@ -145,13 +142,11 @@ export LESS_TERMCAP_ZW=$(tput rsupm)
 # for ssh
 export TERM=xterm-256color
 
-# zathura
-
-function z {
-	zathura $* > /dev/null 2>&1 &!
-}
-
 # auto startx
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
+
+alias wf='sudo modprobe -r brcmfmac ; sudo modprobe brcmfmac rambase_addr=0x160000'
+
+
