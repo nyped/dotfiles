@@ -8,31 +8,23 @@ source $ZSH/oh-my-zsh.sh
 
 function color () {
 	if [[ $1 = day ]]
-	then
-		export THEME=day
-		ln -f ~/dotfiles/termite-conf-day ~/.config/termite/config
-		ln -f ~/dotfiles/i3-config-day ~/.config/i3/config
-		ln -f ~/dotfiles/i3-blocks-day ~/.config/i3/i3blocks.conf
-		ln -f ~/dotfiles/zathurarc-day ~/.config/zathura/zathurarc
-		ln -f ~/dotfiles/rofi-theme-day.rasi ~/.config/rofi/my-theme.rasi
-		killall -USR1 termite
-		i3-msg -q restart
+		then export THEME=day
 		xsetroot -solid "#BCD4E6"
 	elif [[ $1 = night ]]
-	then
-		export THEME=night
-		ln -f ~/dotfiles/termite-conf-night ~/.config/termite/config
-		ln -f ~/dotfiles/i3-config-night ~/.config/i3/config
-		ln -f ~/dotfiles/i3-blocks-night ~/.config/i3/i3blocks.conf
-		ln -f ~/dotfiles/zathurarc-night ~/.config/zathura/zathurarc
-		ln -f ~/dotfiles/rofi-theme-night.rasi ~/.config/rofi/my-theme.rasi
-		killall -USR1 termite
-		i3-msg -q restart
+		then export THEME=night
 		xsetroot -solid "#ff8533"
 	fi
+
+		ln -f ~/dotfiles/termite-conf-${THEME} ~/.config/termite/config
+		ln -f ~/dotfiles/i3-config-${THEME} ~/.config/i3/config
+		ln -f ~/dotfiles/i3-blocks-${THEME} ~/.config/i3blocks/config
+		ln -f ~/dotfiles/zathurarc-${THEME} ~/.config/zathura/zathurarc
+		ln -f ~/dotfiles/rofi-theme-${THEME}.rasi ~/.config/rofi/my-theme.rasi
+		killall -USR1 termite
+		i3-msg -q restart
 }
 
-if cat ~/.config/termite/config | grep day >/dev/null 2>&1
+if cat ~/.config/termite/config | grep day > /dev/null 2>&1
 	then export THEME=day
 	else export THEME=night
 fi
@@ -75,9 +67,8 @@ alias old='$OLDPWD'
 # translation
 t () {
 	echo $@ >> ~/maison/mots.txt
-	if [ $1 = 'f' ]
-		then
-		shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
+	if [[ $1 = f ]]
+		then shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
 	else
 		echo $@ | trans -shell -b | grep -v "^>$"
 	fi

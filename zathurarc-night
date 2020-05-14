@@ -7,5 +7,6 @@ set default-bg "#263238"
 set inputbar-bg "#263238"
 set inputbar-fg "#ffffff"
 set statusbar-bg "#263238"
+set selection-clipboard clipboard
 map <C-h> toggle_statusbar 
 
