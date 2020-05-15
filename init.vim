@@ -30,10 +30,16 @@
 "to work faster
 "
 :command Q q
+:command W w
 :command WQ wq
 :command Wq wq
 :command Nt tabnew
 :command E edit
+"
+"switching tabs
+"
+:nmap <Tab> gt
+:nmap <S-Tab> gT
 "
 "C-x do decrement and C-c to increment
 "
