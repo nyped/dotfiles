@@ -9,7 +9,7 @@ source $ZSH/oh-my-zsh.sh
 function color () {
 	if [[ $1 = day ]]
 		then export THEME=day
-		xsetroot -solid "#BCD4E6"
+		xsetroot -solid "#ccccb3"
 	elif [[ $1 = night ]]
 		then export THEME=night
 		xsetroot -solid "#ff8533"
@@ -77,7 +77,7 @@ t () {
 def () {
 	[[ $# -lt 1 ]] && echo Entrez un mot ou plus && return 1
 	echo $@ >> ~/maison/def.txt
-	echo $@ | trans | less -FX 
+	echo $@ | trans | less -FX
 }
 
 # pandoc function
@@ -105,7 +105,7 @@ fi
 
 open () {
 	local opener
-	[[ $# != 1 ]] && echo 1 argument plz && return 1 
+	[[ $# != 1 ]] && echo 1 argument plz && return 1
 	if [[ $( cut -d . -f 2 <<< $1) = pdf ]]
 		then opener=zathura
 	fi
@@ -113,7 +113,7 @@ open () {
 }
 
 lorem () {
-	curl -s http://metaphorpsum.com/sentences/3 | pbcopy 
+	curl -s http://metaphorpsum.com/sentences/3 | pbcopy
 }
 
 export LESS_TERMCAP_mb=$(tput bold; tput setaf 41) # green

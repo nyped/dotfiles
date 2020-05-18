@@ -7,10 +7,10 @@
 "
 :set termguicolors "only for linux
 :set shellcmdflag=-ic
-:set tabstop=4
+:set tabstop=8
 :set nu rnu
-:set softtabstop=0 noexpandtab
-:set shiftwidth=4
+:set softtabstop=8 noexpandtab
+:set shiftwidth=8
 "
 "exiting terminal
 "
