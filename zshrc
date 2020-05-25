@@ -30,8 +30,7 @@ if cat ~/.config/termite/config | grep day > /dev/null 2>&1
 fi
 
 if [[ -n $SSH_CONNECTION ]]; then
-	export EDITOR='nvim'
-	export THEME=ssh
+	export EDITOR='nvim' THEME=ssh
 else
 	export EDITOR='nvim'
 fi

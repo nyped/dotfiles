@@ -200,8 +200,8 @@ bar {
 # screen brightness controls #
 ##############################
 
-bindsym XF86MonBrightnessUp exec macbook-lighter-screen --inc 100
-bindsym XF86MonBrightnessDown exec macbook-lighter-screen --dec 100
+bindsym XF86MonBrightnessUp exec macbook-lighter-screen --inc 50
+bindsym XF86MonBrightnessDown exec macbook-lighter-screen --dec 50
 
 ##############################
 # keyboard backlight controls#
