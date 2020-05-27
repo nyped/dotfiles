@@ -137,6 +137,9 @@ if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]
   exec startx
 fi
 
-alias wf='sudo modprobe -r brcmfmac ; sudo modprobe brcmfmac rambase_addr=0x160000'
-
-
+function wf {
+	sudo systemctl restart NetworkManager iwd
+	sleep 1
+	nmcli device wifi list 
+	nmcli device wifi connect Bbox-254A6CC9
+}
