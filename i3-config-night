@@ -249,8 +249,8 @@ bindsym  --release $altgr+Right exec --no-startup-id xdotool search --name Mozil
 # Screenshot                 #
 ############################## 
 
-bindcode 128 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh windows
-bindsym Shift+XF86LaunchA exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh whole
+bindsym F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh windows
+bindsym Shift+F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh whole
 
 ##############################
 # hide top bar               #
