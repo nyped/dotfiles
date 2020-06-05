@@ -1,3 +1,3 @@
 xrdb -merge ~/.Xresources
-/usr/bin/xbindkeys_autostart
+xbindkeys
 exec i3
