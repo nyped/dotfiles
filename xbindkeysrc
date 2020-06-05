@@ -1,7 +1,7 @@
 # switch to previous workspace
 "xdotool key ctrl+shift+Tab"
-   b:11
+   b:10
 
 # switch to next workspace
 "xdotool key ctrl+Tab"
-   b:10
+   b:11
