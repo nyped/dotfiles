@@ -132,6 +132,9 @@ export LESS_TERMCAP_ZW=$(tput rsupm)
 # for ssh
 export TERM=xterm-256color
 
+# colors
+export C='--color=always'
+
 # auto startx
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx

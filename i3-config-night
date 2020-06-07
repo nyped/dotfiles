@@ -256,13 +256,13 @@ bindsym Shift+F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenn
 # hide top bar               #
 ##############################
 
-bindcode 169 bar mode toggle
+bindsym F12 bar mode toggle
 
 ##############################
 # exit                       #
 ##############################
 
-bindsym Shift+XF86Eject exec i3-msg exit
+bindsym Shift+F12 exec i3-msg exit
 
 ##############################
 # automove windows           #
