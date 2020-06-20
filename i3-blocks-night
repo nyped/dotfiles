@@ -10,6 +10,16 @@
 separator=true
 separator_block_width=15
 
+[motto]
+color=#f5af19
+command=echo "Never a dull moment"
+interval=once
+
+#[matrix-1]
+#color=#485f6a
+#command=while sleep .1; do echo "$(cat /home/lenny/tmp | shuf -n 32 | tr '\n' ' ')"  ; done
+#interval=persist
+
 [time]
 color=#f5af19
 command=date '+%B %d at %r'
@@ -18,11 +28,15 @@ align=center
 
 [battery]
 color=#f5af19
-command=echo $(cat /sys/class/power_supply/BAT0/capacity)%
+command=echo "$(cat /sys/class/power_supply/BAT0/capacity)% "
 interval=10
 
-[greetings]
-color=#f5af19
-command=echo "lenny "
-interval=once
+#[matrix-2]
+#color=#485f6a
+#command=while sleep .1; do echo "$(cat /home/lenny/tmp | shuf -n 32 |tr '\n' ' ')"  ; done
+#interval=persist
 
+#[greetings]
+#color=#f5af19
+#command=echo "lenny "
+#interval=once

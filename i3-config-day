@@ -1,4 +1,4 @@
-exec --no-startup-id xsetroot -solid "#ccccb3"
+exec --no-startup-id xsetroot -solid "#ccccb3" && macbook-lighter-screen -m && macbook-lighter-screen -i 150
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -262,7 +262,7 @@ bindsym F12 bar mode toggle
 # exit                       #
 ##############################
 
-bindsym Shift+F12 exec i3-msg exit
+bindsym shift+F12 exec i3-msg exit
 
 ##############################
 # automove windows           #
