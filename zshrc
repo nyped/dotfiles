@@ -7,6 +7,7 @@ plugins=(git lenny web-search)
 source $ZSH/oh-my-zsh.sh
 
 function color () {
+	setopt localoptions rmstarsilent
 	if [[ $1 = day ]]
 		then export THEME=day
 		xsetroot -solid "#ccccb3"
@@ -15,11 +16,12 @@ function color () {
 		xsetroot -solid "#ff8533"
 	fi
 
-		ln -f ~/dotfiles/termite-conf-${THEME} ~/.config/termite/config
-		ln -f ~/dotfiles/i3-config-${THEME} ~/.config/i3/config
-		ln -f ~/dotfiles/i3-blocks-${THEME} ~/.config/i3blocks/config
-		ln -f ~/dotfiles/zathurarc-${THEME} ~/.config/zathura/zathurarc
-		ln -f ~/dotfiles/rofi-theme-${THEME}.rasi ~/.config/rofi/my-theme.rasi
+		ln -f ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
+		ln -f ~/dotfiles/${THEME}-theme/i3-config ~/.config/i3/config
+		ln -f ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
+		ln -f ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
+		rm -rf ~/.config/polybar/*
+		ln -s ~/dotfiles/${THEME}-theme/polybar/* ~/.config/polybar
 		killall -USR1 termite
 		i3-msg -q restart
 }
@@ -132,11 +134,17 @@ export LESS_TERMCAP_ZW=$(tput rsupm)
 # for ssh
 export TERM=xterm-256color
 
+# colors
+export C='--color=always'
+
 # auto startx
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
 
-alias wf='sudo modprobe -r brcmfmac ; sudo modprobe brcmfmac rambase_addr=0x160000'
-
-
+function wf {
+	sudo systemctl restart NetworkManager iwd
+	sleep 1
+	nmcli device wifi list 
+	nmcli device wifi connect Bbox-254A6CC9
+}
