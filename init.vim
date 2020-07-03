@@ -101,6 +101,10 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 :nmap <Leader>] :NERDTreeToggle<CR>
 :let g:NERDTreeWinSize=35
 "
+"New tab
+"
+:nmap <Leader>= :Nt<CR>
+"
 "Theme settings
 "
 let g:PaperColor_Theme_Options = {

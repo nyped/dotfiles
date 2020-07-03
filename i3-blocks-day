@@ -10,11 +10,6 @@
 separator=true
 separator_block_width=15
 
-[motto]
-color=#263238
-command=echo "Never a dull moment"
-interval=once
-
 [time]
 color=#263238
 command=date '+%B %d at %r'
@@ -25,9 +20,3 @@ align=center
 color=#263238
 command=echo "$(cat /sys/class/power_supply/BAT0/capacity)% "
 interval=10
-
-#[greetings]
-#color=#263238
-#command=echo "lenny "
-#interval=once
-
