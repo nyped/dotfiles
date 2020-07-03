@@ -1,9 +1,11 @@
-exec --no-startup-id xsetroot -solid "#ff8533"  && macbook-lighter-screen -m && macbook-lighter-screen -i 150 
+exec --no-startup-id xsetroot -solid "#ff8533" && macbook-lighter-screen -m && macbook-lighter-screen -i 150 && pactl set-sink-volume @DEFAULT_SINK@ 20%
+exec_always --no-startup-id /home/lenny/.config/polybar/launch.sh
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
 set $altgr Mod5
+set $alt Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -52,25 +54,24 @@ bindsym Ctrl+space exec rofi -dpi 170 -show run
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# move focused window
-bindsym ctrl+Shift+j move left
-bindsym ctrl+Shift+k move down
-bindsym ctrl+Shift+l move up
-bindsym ctrl+Shift+semicolon move right
+# resize stuff
+bindsym ctrl+Shift+$alt+Left resize shrink left 5
+bindsym ctrl+Shift+$alt+Down resize shrink down 5
+bindsym ctrl+Shift+$alt+Up resize shrink up 5
+bindsym ctrl+Shift+$alt+Right resize shrink right 5
 
-# alternatively, you can use the cursor keys:
+bindsym ctrl+Shift+$altgr+Left resize grow left 5
+bindsym ctrl+Shift+$altgr+Down resize grow down 5
+bindsym ctrl+Shift+$altgr+Up resize grow up 5
+bindsym ctrl+Shift+$altgr+Right resize grow right 5
+
+# moving windows
 bindsym ctrl+Shift+Left move left
 bindsym ctrl+Shift+Down move down
 bindsym ctrl+Shift+Up move up
@@ -173,29 +174,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-	i3bar_command i3bar
-	status_command i3blocks /home/lenny/.config/i3/i3blocks.conf  
-	position top
-
-		
-	font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-    font pango: Knack Nerd Font 10
-
-	colors {
-        background #222D31
-        statusline #F9FAF9
-        separator  #454947
-        focused_workspace  #F9FAF9 #ffb366 #292F34
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
-        binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #E5201D
-    }
-}
-
 ##############################
 # screen brightness controls #
 ##############################
@@ -232,6 +210,7 @@ gaps outer -2
 smart_gaps on
 smart_borders on
 smart_gaps inverse_outer
+default_border pixel 0
 
 ##############################
 # Firefox                    #
@@ -272,8 +251,3 @@ for_window [class="firefox"] move container to workspace 1
 for_window [class="discord"] move container to workspace 4
 for_window [class="Termite"] move container to workspace 2
 for_window [class="Zathura"] move container to workspace 3
-
-##############################
-# Name of workspaces         #
-##############################
-
