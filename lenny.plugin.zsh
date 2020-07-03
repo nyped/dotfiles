@@ -1,16 +1,18 @@
 function ls-term-color() {
 	local index
-	for index in {30..39} {100..107}
-	do
-		printf "\033[${index}m\U2588\U2588\033[0m "
-	done
+	printf "	  	  "
+	for index in {30..37}
+		do printf "\033[${index}m\U2588\U2588 "; done
+	printf "\n		  "
+	for index in {100..107}
+	do printf "\033[${index}m  \033[0m "; done
 	printf "\n"
 }
 
 function pfe() {
 	clear && echo
 
-	label=$(printf "\033[34m")
+	label=$([[ $THEME = day ]] && printf "\033[34m" || printf "\033[31m")
 	reset=$(printf "\033[0m")
 	. /etc/os-release
 	k=`uname -r`
@@ -53,31 +55,5 @@ function pfe() {
 	"
 	unset u
 
-[[ ! -z $1 ]] && printf	"    " && ls-term-color
-}
-
-function screenshot() {
-	[[ $# -ne 1 ]] && return 1
-
-	local name=$(date "+Screenshot-%d_%h_%y-at-%H:%M:%S")
-	cd ~/Pictures
-
-	if [ "$1" = "windows" ]
-	then
-		xwininfo > screen &!
-		xdotool click 1 > /dev/null
-		local id=$(cat screen | grep 'id:' | cut -d ' ' -f 4)
-		xwd -id $id -frame -out ${name}.xwd
-
-
-	elif [ "$1" = "whole" ] 
-	then
-		xwd -root -out ${name}.xwd &!
-		sleep 0.5
-		xdotool click 1 > /dev/null
-	fi
-
-	convert ${name}.xwd ${name}.png 2>/dev/null
-	rm ${name}.xwd screen 2>/dev/null 
-	cd $OLDPWD
+[[ ! -z $1 ]] && ls-term-color
 }
