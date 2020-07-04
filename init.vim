@@ -130,7 +130,8 @@ let g:PaperColor_Theme_Options = {
   \     },
   \   }
   \ }
-let g:airline_theme='papercolor'
+let g:airline_powerline_fonts = 1
+let g:airline_theme='papercolormod'
 let g:lightline = { 'colorscheme': 'PaperColor' }
 set background=dark
 colorscheme PaperColor

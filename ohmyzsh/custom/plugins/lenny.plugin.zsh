@@ -1,11 +1,11 @@
 function ls-term-color() {
 	local index
-	printf "	  	  "
+	printf "			"
 	for index in {30..37}
-		do printf "\033[${index}m\U2588\U2588 "; done
-	printf "\n		  "
+		do printf "\033[${index}m\U2588\U2588"; done
+	printf "\n			"
 	for index in {100..107}
-	do printf "\033[${index}m  \033[0m "; done
+	do printf "\033[${index}m  \033[0m"; done
 	printf "\n"
 }
 
