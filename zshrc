@@ -139,12 +139,5 @@ export C='--color=always'
 
 # auto startx
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-  exec startx
+	startx
 fi
-
-function wf {
-	sudo systemctl restart NetworkManager iwd
-	sleep 1
-	nmcli device wifi list 
-	nmcli device wifi connect Bbox-254A6CC9
-}
