@@ -1,9 +1,3 @@
-# temperature of the mac
-function temp () { /usr/bin/sensors | grep --color=never high | head -n 1 | tr -s ' ' | cut -d ' ' -f 4 | sed s/+// 
-}
-
-
-
 function my_git_prompt() {
   tester=$(git rev-parse --git-dir 2> /dev/null) || return
   
