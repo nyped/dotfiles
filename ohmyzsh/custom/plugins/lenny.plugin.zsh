@@ -50,7 +50,7 @@ function pfe() {
 	t=$((t/=1024))
 	host=$(cat /sys/devices/virtual/dmi/id/product_name)
 	let margin="($COLUMNS - 26 - `max ${#PRETTY_NAME} ${#host} ${#u} ${#EDITOR} ${#SHELL##*/} $((${#x}+${#t}+9)) ${#k} 3`)/2"
-	label=`printf "%*s${label}" "$margin" " "`
+	[[ ! -z $1 ]] && label=`printf "%*s${label}" "$margin" " "`
 	let margin="($COLUMNS - 16)/2"
 
 	echo "
@@ -64,5 +64,5 @@ ${label} /_-''    ''-_\   KERNEL  ${reset}$k
 ${label}                  PKGS    ${reset}`pacman -Q | wc -l`
 "
 
-[[ ! -z $1 ]] && ls-term-color margin
+[[ ! -z $1 ]] && ls-term-color margin || true
 }

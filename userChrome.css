@@ -1,0 +1,9 @@
+    /* Do not display close button in tabs */
+    
+    #tabbrowser-tabs .tabbrowser-tab .tab-close-button {
+	display:none !important;
+    }
+
+
+#back-button, #forward-button { display:none!important; }
+

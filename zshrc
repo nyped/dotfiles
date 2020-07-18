@@ -31,18 +31,14 @@ if cat ~/.config/termite/config | grep day > /dev/null 2>&1
 	else export THEME=night
 fi
 
-#if [[ -n $SSH_CONNECTION ]]; then
-	#export EDITOR='nvim' THEME=ssh
-#else
-	#export EDITOR='nvim'
-#fi
+export EDITOR='nvim'
 
 function vim () {
 	if [[ $THEME = day ]]
 		then /bin/nvim -p $* -c ':set background=light'
 
 	elif [[ $THEME = night ]]
-		then /bin/nvim -p $* -c ':set background=dark'
+		then /bin/nvim -p $* -c "let g:airline_theme='papercolor'" -c ':set background=dark'
 
 	elif [[ $THEME = ssh ]]
 		then /bin/nvim -p $* -c ':source ~/.ssh-conf.vim'
@@ -141,10 +137,3 @@ export C='--color=always'
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
-
-function wf {
-	sudo systemctl restart NetworkManager iwd
-	sleep 1
-	nmcli device wifi list 
-	nmcli device wifi connect Bbox-254A6CC9
-}
