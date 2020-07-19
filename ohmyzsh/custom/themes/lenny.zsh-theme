@@ -1,9 +1,3 @@
-# temperature of the mac
-function temp () { /usr/bin/sensors | grep --color=never high | head -n 1 | tr -s ' ' | cut -d ' ' -f 4 | sed s/+// 
-}
-
-
-
 function my_git_prompt() {
   tester=$(git rev-parse --git-dir 2> /dev/null) || return
   
@@ -58,8 +52,8 @@ function ssh_connection() {
 }
 
 
-local ret_status="%(?:%{$fg_bold[yellow]%}:%{$fg_bold[red]%})%?%{$reset_color%}"
-PROMPT=$'\n$(ssh_connection)%{$fg_bold[yellow]%}%n%{$reset_color%}@%{$fg_bold[yellow]%}%m%{$reset_color%}$(my_git_prompt) : %~\n[${ret_status}] %# '
+local ret_status="%(?..%{$fg_bold[red]%}%?%{$reset_color%})"
+PROMPT=$'\n$(ssh_connection)%{$fg_bold[yellow]%}%n%{$reset_color%}@%{$fg_bold[yellow]%}%m%{$reset_color%}$(my_git_prompt) : %~\n${ret_status} %# '
 
 ZSH_THEME_PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
 ZSH_THEME_GIT_PROMPT_PREFIX=" (%{$fg_bold[yellow]%}"

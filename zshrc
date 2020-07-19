@@ -10,7 +10,7 @@ function color () {
 	setopt localoptions rmstarsilent
 	if [[ $1 = day ]]
 		then export THEME=day
-		xsetroot -solid "#ccccb3"
+		xsetroot -solid "#eec277"
 	elif [[ $1 = night ]]
 		then export THEME=night
 		xsetroot -solid "#ff8533"
@@ -31,18 +31,14 @@ if cat ~/.config/termite/config | grep day > /dev/null 2>&1
 	else export THEME=night
 fi
 
-if [[ -n $SSH_CONNECTION ]]; then
-	export EDITOR='nvim' THEME=ssh
-else
-	export EDITOR='nvim'
-fi
+export EDITOR='nvim'
 
 function vim () {
 	if [[ $THEME = day ]]
 		then /bin/nvim -p $* -c ':set background=light'
 
 	elif [[ $THEME = night ]]
-		then /bin/nvim -p $* -c ':set background=dark'
+		then /bin/nvim -p $* -c ":set background=dark" -c "let g:airline_theme='papercolor'"
 
 	elif [[ $THEME = ssh ]]
 		then /bin/nvim -p $* -c ':source ~/.ssh-conf.vim'
@@ -141,3 +137,6 @@ export C='--color=always'
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
 	startx
 fi
+
+# sharing text stuff -> pbs = paste bin share    
+alias pbs='nc termbin.com 9999|pbcopy && pbpaste'

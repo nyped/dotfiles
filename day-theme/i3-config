@@ -1,4 +1,4 @@
-exec --no-startup-id xsetroot -solid "#ccccb3" && macbook-lighter-screen -m && macbook-lighter-screen -i 150 && pactl set-sink-volume @DEFAULT_SINK@ 20%
+exec --no-startup-id xsetroot -solid "#eec277" && macbook-lighter-screen -m && macbook-lighter-screen -i 150 && pactl set-sink-volume @DEFAULT_SINK@ 20%
 exec_always --no-startup-id /home/lenny/.config/polybar/launch.sh
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!

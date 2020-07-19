@@ -1,0 +1,33 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* set default namespace to XUL */ 
+
+
+/* Do not display close button in tabs */
+
+#tabbrowser-tabs .tabbrowser-tab .tab-close-button {
+	display:none!important;
+}
+
+
+#back-button, #forward-button {
+	display:none!important;
+} /* remove back button */
+
+
+.titlebar-buttonbox-container {
+	display: none !important
+}
+
+.titlebar-spacer[type="pre-tabs"], .titlebar-spacer[type="post-tabs"] {
+    width: 0px !important;
+} /*remove left blank space mac os */
+
+/* ok it makes the thing ugly
+
+:-moz-any(#content,#appcontent) browser{
+ margin-right:-14px!important;
+ overflow-y:scroll;
+ margin-bottom:-14px!important;
+ overflow-x:scroll;
+}
+
+*/
