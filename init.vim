@@ -85,6 +85,7 @@ Plug 'preservim/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
+Plug 'chrisbra/Colorizer'
 call plug#end()
 "
 "rainbow settings
@@ -113,7 +114,7 @@ let g:PaperColor_Theme_Options = {
   \       'override' : {
   \         'color00' : ['#263238', '15'],
   \         'color07' : ['', '15'],
-  \ 		'cursorlinenr_fg' : ['', '208'],
+  \         'cursorlinenr_fg' : ['', '208'],
   \         'cursorlinenr_bg' : ['#263238', ''],
   \         'linenumber_bg' : ['#263238', ''],
   \         'linenumber_fg' : ['', '110']
@@ -122,10 +123,16 @@ let g:PaperColor_Theme_Options = {
   \      'default.light': {
   \        'override' : {
   \         'color00' : ['#ffffb3', ''],
-  \ 		'cursorlinenr_fg' : ['', '56'],
+  \	    'cursorlinenr_fg' : ['', '56'],
   \         'cursorlinenr_bg' : ['#ffffb3', ''],
   \         'linenumber_bg' : ['#ffffb3', ''],
-  \         'linenumber_fg' : ['', '110']
+  \         'linenumber_fg' : ['', '110'],
+  \         'tabline_bg' : ['#eec277', ''],
+  \	    'tabline_inactive_bg' : ['#eec277', ''],
+  \	    'tabline_inactive_fg' : ['#263238', ''],
+  \         'vertsplit_bg' : ['#ffffb3', ''],
+  \	    'statusline_inactive_bg' : ['#e4e4e4', ''],
+  \	    'statusline_active_bg' : ['#e4e4e4', ''],
   \       }
   \     },
   \   }
@@ -148,3 +155,7 @@ highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=und
 :function! Rms ()
 :	%s/\s\+$//e
 :endfunction
+"
+"highlight the colors
+"
+:nmap <Leader>p :ColorToggle<CR>

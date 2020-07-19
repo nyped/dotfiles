@@ -10,7 +10,7 @@ function color () {
 	setopt localoptions rmstarsilent
 	if [[ $1 = day ]]
 		then export THEME=day
-		xsetroot -solid "#ccccb3"
+		xsetroot -solid "#eec277"
 	elif [[ $1 = night ]]
 		then export THEME=night
 		xsetroot -solid "#ff8533"
@@ -38,7 +38,7 @@ function vim () {
 		then /bin/nvim -p $* -c ':set background=light'
 
 	elif [[ $THEME = night ]]
-		then /bin/nvim -p $* -c "let g:airline_theme='papercolor'" -c ':set background=dark'
+		then /bin/nvim -p $* -c "let g:airline_theme='papercolor'" -c ":set background=dark"
 
 	elif [[ $THEME = ssh ]]
 		then /bin/nvim -p $* -c ':source ~/.ssh-conf.vim'
@@ -135,5 +135,8 @@ export C='--color=always'
 
 # auto startx
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-  exec startx
+	startx
 fi
+
+# sharing text stuff -> pbs = paste bin share
+alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
