@@ -7,23 +7,21 @@ plugins=(git lenny web-search)
 source $ZSH/oh-my-zsh.sh
 
 function color () {
-	setopt localoptions rmstarsilent
 	if [[ $1 = day ]]
-		then export THEME=day
-		xsetroot -solid "#eec277"
+		then export THEME=day B1=221 B2=222 B3=223 B4=220
+		hsetroot -solid "#eec277"
 	elif [[ $1 = night ]]
-		then export THEME=night
-		xsetroot -solid "#ff8533"
+		then export THEME=night	B1=024 B2=025 B3=031 B4=027
+		hsetroot -solid "#ffa366"
 	fi
 
 		ln -f ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
 		ln -f ~/dotfiles/${THEME}-theme/i3-config ~/.config/i3/config
 		ln -f ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
 		ln -f ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
-		rm -rf ~/.config/polybar/*
-		ln -s ~/dotfiles/${THEME}-theme/polybar/* ~/.config/polybar
 		killall -USR1 termite
 		i3-msg -q restart
+		clear
 }
 
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1

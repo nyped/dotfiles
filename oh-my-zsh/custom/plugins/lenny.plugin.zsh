@@ -19,7 +19,7 @@ function pfe() {
 	clear && echo
 	local u margin i
 
-	label=$([[ $THEME = day ]] && printf "\033[34m" || printf "\033[31m")
+	label=$([[ $THEME = day ]] && printf "\033[31m" || printf "\033[34m")
 	reset=$(printf "\033[0m")
 	. /etc/os-release
 	k=`uname -r`
@@ -64,5 +64,5 @@ ${label} /_-''    ''-_\   KERNEL  ${reset}$k
 ${label}                  PKGS    ${reset}`pacman -Q | wc -l`
 "
 
-[[ ! -z $1 ]] && ls-term-color margin || true
+[[ ! -z $2 ]] && ls-term-color margin || true
 }

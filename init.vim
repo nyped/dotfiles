@@ -140,6 +140,8 @@ let g:PaperColor_Theme_Options = {
 let g:airline_powerline_fonts = 1
 let g:airline_theme='papercolormod'
 let g:lightline = { 'colorscheme': 'PaperColor' }
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 set background=dark
 colorscheme PaperColor
 highlight Normal ctermbg=none
