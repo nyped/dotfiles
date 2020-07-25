@@ -122,15 +122,15 @@ let g:PaperColor_Theme_Options = {
   \     },
   \      'default.light': {
   \        'override' : {
-  \         'color00' : ['#ffffb3', ''],
+  \         'color00' : ['#ffecb3', ''],
   \	    'cursorlinenr_fg' : ['', '56'],
-  \         'cursorlinenr_bg' : ['#ffffb3', ''],
-  \         'linenumber_bg' : ['#ffffb3', ''],
+  \         'cursorlinenr_bg' : ['#ffecb3', ''],
+  \         'linenumber_bg' : ['#ffecb3', ''],
   \         'linenumber_fg' : ['', '110'],
   \         'tabline_bg' : ['#eec277', ''],
   \	    'tabline_inactive_bg' : ['#eec277', ''],
   \	    'tabline_inactive_fg' : ['#263238', ''],
-  \         'vertsplit_bg' : ['#ffffb3', ''],
+  \         'vertsplit_bg' : ['#ffecb3', ''],
   \	    'statusline_inactive_bg' : ['#e4e4e4', ''],
   \	    'statusline_active_bg' : ['#e4e4e4', ''],
   \       }
@@ -140,6 +140,8 @@ let g:PaperColor_Theme_Options = {
 let g:airline_powerline_fonts = 1
 let g:airline_theme='papercolormod'
 let g:lightline = { 'colorscheme': 'PaperColor' }
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 set background=dark
 colorscheme PaperColor
 highlight Normal ctermbg=none

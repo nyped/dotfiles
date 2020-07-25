@@ -3,10 +3,10 @@ set statusbar-v-padding 0
 set page-padding 1
 map i recolor
 map r reload
-set default-bg "#ffffb3"
-set inputbar-bg "#ffffb3"
+set default-bg "#ffecb3"
+set inputbar-bg "#ffecb3"
 set inputbar-fg "#263238"
-set statusbar-bg "#ffffb3"
+set statusbar-bg "#ffecb3"
 set statusbar-fg "#263238"
 set selection-clipboard clipboard
 map <C-h> toggle_statusbar 

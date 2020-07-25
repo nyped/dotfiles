@@ -1,5 +1,5 @@
-exec --no-startup-id xsetroot -solid "#eec277" && macbook-lighter-screen -m && macbook-lighter-screen -i 150 && pactl set-sink-volume @DEFAULT_SINK@ 20%
-exec_always --no-startup-id /home/lenny/.config/polybar/launch.sh
+exec --no-startup-id hsetroot -solid "#eec277" && pactl set-sink-volume @DEFAULT_SINK@ 20%
+exec --no-startup-id /home/lenny/.config/polybar/launch.sh
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -208,9 +208,10 @@ bindsym ctrl+Tab workspace next
 gaps inner 14
 gaps outer -2
 smart_gaps on
-smart_borders on
+#smart_borders on
 smart_gaps inverse_outer
 default_border pixel 0
+#border_radius 5
 
 ##############################
 # Firefox                    #
@@ -235,7 +236,7 @@ bindsym Shift+F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenn
 # hide top bar               #
 ##############################
 
-bindsym F12 bar mode toggle
+bindsym F12 exec polybar-msg cmd toggle
 
 ##############################
 # exit                       #
