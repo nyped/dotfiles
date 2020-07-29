@@ -9,4 +9,5 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch bar1 and bar2
+i3-msg -q bar mode dock
 polybar -c ~/.config/polybar/config.ini main &

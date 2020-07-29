@@ -3,8 +3,7 @@
 name=$(date "+Screenshot-%d_%h_%y-at-%H:%M:%S")
 cd ~/Pictures
 
-if [ "$1" = "windows" ]
-then
+if [ "$1" = "windows" ]; then
 	sleep 0.5
 	xwininfo > screen &
 	sleep 1
@@ -13,8 +12,7 @@ then
 	xwd -id $id -frame -out ${name}.xwd
 
 
-elif [ "$1" = "whole" ] 
-then
+elif [ "$1" = "whole" ]; then
 	xwd -root -out ${name}.xwd &!
 	sleep 0.5
 	xdotool click 1 > /dev/null
@@ -22,4 +20,3 @@ fi
 
 convert ${name}.xwd ${name}.png
 rm ${name}.xwd screen 2>/dev/null 
-

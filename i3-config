@@ -1,4 +1,4 @@
-exec --no-startup-id xsetroot -solid "#eec277" && macbook-lighter-screen -m && macbook-lighter-screen -i 150 && pactl set-sink-volume @DEFAULT_SINK@ 20%
+exec --no-startup-id hsetroot -solid "$_BG" && macbook-lighter-screen -m && macbook-lighter-screen -i 150 && pactl set-sink-volume @DEFAULT_SINK@ 20%
 exec --no-startup-id /home/lenny/.config/polybar/launch.sh
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -174,6 +174,30 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+bar {
+  # command in i3-gaps to allow rgba colors for i3bar
+  i3bar_command i3bar -t
+
+  position            top
+  tray_output         none  # do not show tray output
+  workspace_buttons   no    # do not show workspace buttons
+  height              35    # same height as polybar
+
+  # prevent any accidental clicks/scrolls
+  bindsym button1 nop
+  bindsym button2 nop
+  bindsym button3 nop
+  bindsym button4 nop
+  bindsym button5 nop
+
+  colors {
+    # set bar background to transparent
+    background #00000000
+  }
+}
+
+for_window [class=".*"] split toggle
+
 ##############################
 # screen brightness controls #
 ##############################
@@ -208,10 +232,10 @@ bindsym ctrl+Tab workspace next
 gaps inner 14
 gaps outer -2
 smart_gaps on
-#smart_borders on
+smart_borders on
 smart_gaps inverse_outer
 default_border pixel 0
-#border_radius 2
+border_radius 2
 
 ##############################
 # Firefox                    #
@@ -236,7 +260,7 @@ bindsym Shift+F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenn
 # hide top bar               #
 ##############################
 
-bindsym F12 exec polybar-msg cmd toggle
+bindsym F12 exec polybar-msg cmd toggle && i3-msg -q bar mode toggle
 
 ##############################
 # exit                       #
@@ -252,16 +276,3 @@ for_window [class="firefox"] move container to workspace 1
 for_window [class="discord"] move container to workspace 4
 for_window [class="Termite"] move container to workspace 2
 for_window [class="Zathura"] move container to workspace 3
-
-##############################
-# colors of windows          #
-##############################
-
-# class                 border  backgr. text    indicator child_border
-client.focused          #f9f5d7 #f9f5d7 #f9f5d7 #f9f5d7   #f9f5d7
-client.focused_inactive #f9f5d7 #f9f5d7 #f9f5d7 #f9f5d7   #f9f5d7
-client.unfocused        #f9f5d7 #f9f5d7 #f9f5d7 #f9f5d7   #f9f5d7
-client.urgent           #f9f5d7 #f9f5d7 #f9f5d7 #f9f5d7   #f9f5d7
-client.placeholder      #f9f5d7 #f9f5d7 #f9f5d7 #f9f5d7   #f9f5d7
-
-client.background       #ffffff

@@ -6,40 +6,40 @@ plugins=(git lenny web-search)
 
 source $ZSH/oh-my-zsh.sh
 
+export EDITOR=nvim
+
 function color () {
-	if [[ $1 = day ]]
-		then export THEME=day B1=221 B2=222 B3=223 B4=220
-		hsetroot -solid "#eec277"
-	elif [[ $1 = night ]]
-		then export THEME=night	B1=024 B2=025 B3=031 B4=027
-		hsetroot -solid "#ffa366"
+	if [[ ${1[1]} = d ]]; then
+		export THEME=day B1=221 B2=222 B3=223 B4=220 _BG=#eec277
+	elif [[ ${1[1]} = n ]]; then
+		export THEME=night B1=024 B2=025 B3=031 B4=027 _BG=#ffa366
+	else
+		[[ $THEME = day ]] && color d || color n
+		return 0
 	fi
 
-		ln -f ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
-		ln -f ~/dotfiles/${THEME}-theme/i3-config ~/.config/i3/config
-		ln -f ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
-		ln -f ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
-		killall -USR1 termite
-		i3-msg -q restart
-		clear
+	hsetroot -solid "$_BG"
+	ln -f ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
+	ln -f ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
+	ln -f ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
+	killall -USR1 termite
+	clear
 }
 
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1
-	then export THEME=day
-	else export THEME=night
+	then export THEME=day B1=221 B2=222 B3=223 B4=220 _BG=#eec277
+	else export THEME=night B1=024 B2=025 B3=031 B4=027 _BG=#ffa366
 fi
 
-export EDITOR='nvim'
-
 function vim () {
-	if [[ $THEME = day ]]
-		then /bin/nvim -p $* -c ':set background=light'
+	if [[ $THEME = day ]]; then
+		/bin/nvim -p $* -c ':set background=light'
 
-	elif [[ $THEME = night ]]
-		then /bin/nvim -p $* -c "let g:airline_theme='papercolor'" -c ":set background=dark"
+	elif [[ $THEME = night ]]; then
+		/bin/nvim -p $* -c "let g:airline_theme='papercolor'" -c ":set background=dark"
 
-	elif [[ $THEME = ssh ]]
-		then /bin/nvim -p $* -c ':source ~/.ssh-conf.vim'
+	elif [[ $THEME = ssh ]]; then
+		/bin/nvim -p $*
 	fi
 }
 
@@ -62,8 +62,8 @@ alias old='$OLDPWD'
 # translation
 t () {
 	echo $@ >> ~/maison/mots.txt
-	if [[ $1 = f ]]
-		then shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
+	if [[ $1 = f ]]; then
+		shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
 	else
 		echo $@ | trans -shell -b | grep -v "^>$"
 	fi
@@ -101,8 +101,8 @@ fi
 open () {
 	local opener
 	[[ $# != 1 ]] && echo 1 argument plz && return 1
-	if [[ $( cut -d . -f 2 <<< $1) = pdf ]]
-		then opener=zathura
+	if [[ $( cut -d . -f 2 <<< $1) = pdf ]]; then
+		opener=zathura
 	fi
 	${opener:-xdg-open} $@ >/dev/null 2>&1 &!
 }
@@ -133,7 +133,7 @@ export C='--color=always'
 
 # auto startx
 if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-	startx
+	exec startx
 fi
 
 # sharing text stuff -> pbs = paste bin share

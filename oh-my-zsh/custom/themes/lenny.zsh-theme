@@ -1,9 +1,3 @@
-if cat ~/.config/termite/config | grep day > /dev/null 2>&1; then
-	export B1=221	B2=222	B3=223	B4=220
-else
-	export B1=024	B2=025	B3=031	B4=027
-fi
-
 function BUBBLE_PREFIX() {
 	eval c=$"B$1"
 	echo "%{$FG[$c]%}%{$BG[$c]%}%f"
