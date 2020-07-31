@@ -1,4 +1,4 @@
-exec --no-startup-id hsetroot -solid "#ffb366" && pactl set-sink-volume @DEFAULT_SINK@ 20%
+exec --no-startup-id hsetroot -solid "$_BG" && pactl set-sink-volume @DEFAULT_SINK@ 20%
 exec --no-startup-id /home/lenny/.config/polybar/launch.sh
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
@@ -41,14 +41,14 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym ctrl+Shift+Return exec termite 
+bindsym ctrl+Shift+Return exec termite
 
 # kill focused window
 bindsym ctrl+Shift+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
-bindsym Ctrl+space exec rofi -dpi 170 -show run 
+bindsym Ctrl+space exec rofi -dpi 170 -show run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -174,6 +174,30 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+bar {
+  # command in i3-gaps to allow rgba colors for i3bar
+  i3bar_command i3bar -t
+
+  position            top
+  tray_output         none  # do not show tray output
+  workspace_buttons   no    # do not show workspace buttons
+  height              60    # same height as polybar
+
+  # prevent any accidental clicks/scrolls
+  bindsym button1 nop
+  bindsym button2 nop
+  bindsym button3 nop
+  bindsym button4 nop
+  bindsym button5 nop
+
+  colors {
+    # set bar background to transparent
+    background #00000000
+  }
+}
+
+for_window [class=".*"] split toggle
+
 ##############################
 # screen brightness controls #
 ##############################
@@ -192,14 +216,14 @@ bindsym XF86KbdBrightnessDown exec macbook-lighter-kbd --dec 50
 # remove the title bar :)    #
 ##############################
 
-new_window 1pixel 
+new_window 1pixel
 
 ##############################
 # alt tab like               #
 ##############################
 
-bindsym ctrl+Shift+Tab workspace prev 
-bindsym ctrl+Tab workspace next 
+bindsym ctrl+Shift+Tab workspace prev
+bindsym ctrl+Tab workspace next
 
 ##############################
 # Set inner/outer gaps       #
@@ -211,32 +235,32 @@ smart_gaps on
 #smart_borders on
 smart_gaps inverse_outer
 default_border pixel 0
-#border_radius 5
+border_radius 5
 
 ##############################
 # Firefox                    #
 ##############################
 
-bindsym --release $mod+Tab exec --no-startup-id xdotool search --name Mozilla key Ctrl+Tab 
+bindsym --release $mod+Tab exec --no-startup-id xdotool search --name Mozilla key Ctrl+Tab
 
-bindsym --release $mod+Shift+Tab exec --no-startup-id xdotool search --name Mozilla key Ctrl+Shift+Tab 
+bindsym --release $mod+Shift+Tab exec --no-startup-id xdotool search --name Mozilla key Ctrl+Shift+Tab
 
-bindsym --release $altgr+Left exec --no-startup-id xdotool search --name Mozilla key Alt+Left 
+bindsym --release $altgr+Left exec --no-startup-id xdotool search --name Mozilla key Alt+Left
 
-bindsym  --release $altgr+Right exec --no-startup-id xdotool search --name Mozilla key Alt+Right 
+bindsym  --release $altgr+Right exec --no-startup-id xdotool search --name Mozilla key Alt+Right
 
 ##############################
 # Screenshot                 #
-############################## 
+##############################
 
-bindsym F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh windows
-bindsym Shift+F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh whole
+bindsym F3 exec --no-startup-id screen -w
+bindsym Shift+F3 exec --no-startup-id screen -a
 
 ##############################
 # hide top bar               #
 ##############################
 
-bindsym F12 bar mode toggle
+bindsym F12 exec polybar-msg cmd toggle && i3-msg -q bar mode toggle
 
 ##############################
 # exit                       #
