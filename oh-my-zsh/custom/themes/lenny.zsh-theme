@@ -48,7 +48,7 @@ function my_git_prompt() {
     STATUS=" $STATUS"
   fi
 
-  echo " $(BUBBLE_PREFIX 2)$ZSH_THEME_GIT_PROMPT_PREFIX$(my_current_branch)$STATUS$(BUBBLE_SUFFIX 2)"
+  echo " %B%U$(my_current_branch)%u$STATUS%f"
 }
 
 function my_current_branch() {
@@ -61,11 +61,22 @@ function ssh_connection() {
   fi
 }
 
-local ret_status="%(?..%{$fg_bold[red]%}%?%{$reset_color%})"
-PROMPT=$'\n$(ssh_connection)$(BUBBLE_PREFIX 1)%n%{$FG[white]%}@%f%m$(BUBBLE_SUFFIX 1)$(my_git_prompt) $(BUBBLE_PREFIX 3)%~$(BUBBLE_SUFFIX 3)\n${ret_status} %# '
+function top_left() { 
+  echo "$(ssh_connection)$(BUBBLE_PREFIX 1)$(if [[ $#PWD > $(($COLUMNS / 2)) ]]; then echo %n; else echo %n@%m; fi)$(BUBBLE_SUFFIX 1 2)%2(~.. $(BUBBLE_PREFIX 3)%~$(BUBBLE_SUFFIX 3))"
+}
+
+function top_right() {
+  echo "%2(~.$(BUBBLE_PREFIX 3)%~$(BUBBLE_SUFFIX 3) .)"
+}
+
+invisible='%([BSUbfksu]|([FBK]|){*})'
+leftcontent='${(S)$(top_left)//$~invisible}'
+rightcontent='${(S)$(top_right)//$~invisible}'
+
+PROMPT=$'\n$(top_left)'"\${(l,COLUMNS-\${#\${(%):-$leftcontent$rightcontent}},)}"'$(top_right)$final_prompt'"%(?. %B%#%b .%{$fg_bold[red]%} %# %{$reset_color%})"
+RPROMPT='%(?..%{$fg_bold[red]%}(✘ %?%)%{$reset_color%})%1(j.%{$fg_bold[blue]%}  %{$reset_color%}.)$(my_git_prompt)'
 
 ZSH_THEME_PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
-ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[magenta]%}↑"
 ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[blue]%}↓"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[blue]%}●"
