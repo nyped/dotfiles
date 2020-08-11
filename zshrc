@@ -7,6 +7,7 @@ plugins=(git lenny web-search)
 source $ZSH/oh-my-zsh.sh
 
 export EDITOR=nvim
+export MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
 
 function color () {
 	if [[ ${1[1]} = d ]]; then
@@ -43,21 +44,24 @@ function vim () {
 	fi
 }
 
+function bat () {
+	[[ $THEME = day ]] && \
+		/bin/bat --theme ansi-dark $* || \
+		/bin/bat --theme GitHub $*GitHub
+}
+
 
 alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
 alias R='/usr/lib64/R/bin/R' # to get the path -> R.home()
-alias bluetooth='systemctl start bluetooth'
 alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 alias grep='grep --color=always'
 
 # linux and mac
-alias musique='pyradio'
 alias maison='cd /home/lenny/Desktop/learning'
-alias old='$OLDPWD'
 
 # translation
 t () {
@@ -89,9 +93,6 @@ lyrics () {
 	title=$2
 	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less -FX
 }
-
-# opam configuration
-test -r /home/lenny/.opam/opam-init/init.zsh && . /home/lenny/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 #linux: new terminal tabs keep the same wd
 if [ -e /etc/profile.d/vte.sh ]; then
