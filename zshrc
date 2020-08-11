@@ -7,6 +7,7 @@ plugins=(git lenny web-search)
 source $ZSH/oh-my-zsh.sh
 
 export EDITOR=nvim
+export MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
 
 function color () {
 	if [[ ${1[1]} = d ]]; then
