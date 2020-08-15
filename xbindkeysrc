@@ -1,7 +1,15 @@
-# switch to previous workspace
+# swipe 4 left -> switch to previous workspace
 "xdotool key ctrl+shift+Tab"
    b:10
 
-# switch to next workspace
+# swipe 4 right -> switch to next workspace
 "xdotool key ctrl+Tab"
    b:11
+
+# swipe 4 up -> floate focused window
+"i3-msg floating toggle"
+   b:12
+
+# swipe 4 down -> tile focused window
+"i3-msg floating toggle"
+   b:13
