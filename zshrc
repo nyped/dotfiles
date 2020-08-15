@@ -47,7 +47,7 @@ function vim () {
 function bat () {
 	[[ $THEME = day ]] && \
 		/bin/bat --theme ansi-dark $* || \
-		/bin/bat --theme GitHub $*GitHub
+		/bin/bat --theme GitHub $*
 }
 
 
