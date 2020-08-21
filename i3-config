@@ -224,6 +224,8 @@ new_window 1pixel
 
 bindsym ctrl+Shift+Tab workspace prev
 bindsym ctrl+Tab workspace next
+bindsym $alt+Tab         exec --no-startup-id i3-switch-tabs right
+bindsym $alt+Shift+Tab   exec --no-startup-id i3-switch-tabs left
 
 ##############################
 # Set inner/outer gaps       #
