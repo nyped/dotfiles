@@ -2,7 +2,7 @@ export ZSH="/home/lenny/.oh-my-zsh"
 
 ZSH_THEME="lenny"
 
-plugins=(git lenny web-search)
+plugins=(git lenny web-search zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.id
@@ -16,7 +16,7 @@ function color () {
 	elif [[ ${1[1]} = n ]]; then
 		export THEME=night B1=024 B2=025 B3=031 B4=027 _BG=#ffa366
 	else
-		[[ $THEME = day ]] && color d || color n
+		[[ $THEME = day ]] && color n || color d
 		return 0
 	fi
 
@@ -45,21 +45,23 @@ function vim () {
 	fi
 }
 
+function bat () {
+	[[ $THEME = day ]] && \
+		/bin/bat --theme ansi-dark $* || \
+		/bin/bat --theme GitHub $*
+}
 
 alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
 alias R='/usr/lib64/R/bin/R' # to get the path -> R.home()
-alias bluetooth='systemctl start bluetooth'
 alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 alias grep='grep --color=always'
 
 # linux and mac
-alias musique='pyradio'
 alias maison='cd /home/lenny/Desktop/learning'
-alias old='$OLDPWD'
 
 # translation
 t () {
