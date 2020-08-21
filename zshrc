@@ -5,6 +5,7 @@ ZSH_THEME="lenny"
 plugins=(git lenny web-search)
 
 source $ZSH/oh-my-zsh.sh
+source ~/.id
 
 export EDITOR=nvim
 export MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
@@ -90,9 +91,6 @@ lyrics () {
 	title=$2
 	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | less -FX
 }
-
-# opam configuration
-test -r /home/lenny/.opam/opam-init/init.zsh && . /home/lenny/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 #linux: new terminal tabs keep the same wd
 if [ -e /etc/profile.d/vte.sh ]; then
