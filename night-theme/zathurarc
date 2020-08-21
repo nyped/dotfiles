@@ -4,8 +4,9 @@ set page-padding 1
 map i recolor
 map r reload
 set default-bg "rgba(255,255,255,0)"
-set inputbar-bg "#263238"
+set inputbar-bg "rgba(255,255,255,0)"
 set inputbar-fg "#ffffff"
-set statusbar-bg "#263238"
+set statusbar-bg "rgba(255,255,255,0)"
+set statusbar-fg "#ffffff"
 set selection-clipboard clipboard
 map <C-h> toggle_statusbar
