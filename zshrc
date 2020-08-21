@@ -2,9 +2,10 @@ export ZSH="/home/lenny/.oh-my-zsh"
 
 ZSH_THEME="lenny"
 
-plugins=(git lenny web-search)
+plugins=(git lenny web-search zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
+source ~/.id
 
 export EDITOR=nvim
 export MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
@@ -49,7 +50,6 @@ function bat () {
 		/bin/bat --theme ansi-dark $* || \
 		/bin/bat --theme GitHub $*
 }
-
 
 alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
 alias pbcopy='xclip -selection clipboard'
