@@ -1,8 +1,8 @@
 export ZSH="/home/lenny/.oh-my-zsh"
 
-ZSH_THEME="lenny"
+ZSH_THEME="simple"
 
-plugins=(git lenny web-search zsh-autosuggestions)
+plugins=(git lenny web-search)
 
 source $ZSH/oh-my-zsh.sh
 source ~/.id
@@ -12,25 +12,27 @@ export MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode la
 
 function color () {
 	if [[ ${1[1]} = d ]]; then
-		export THEME=day B1=221 B2=222 B3=223 B4=220 _BG=#eec277
+		export THEME=day B3=145
 	elif [[ ${1[1]} = n ]]; then
-		export THEME=night B1=024 B2=025 B3=031 B4=027 _BG=#ffa366
+		export THEME=night B3=031
 	else
 		[[ $THEME = day ]] && color n || color d
 		return 0
 	fi
 
-	hsetroot -solid "$_BG"
-	ln -f ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
-	ln -f ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
-	ln -f ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
+	local pic_path=~/Pictures/${THEME}.png
+
+	hsetroot -cover $pic_path >/dev/null || hsetroot -solid "$_BG"
+	ln -sf ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
+	ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
+	ln -sf ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
 	killall -USR1 termite
 	clear
 }
 
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1
-	then export THEME=day B1=221 B2=222 B3=223 B4=220 _BG=#eec277
-	else export THEME=night B1=024 B2=025 B3=031 B4=027 _BG=#ffa366
+	then export THEME=day B3=145
+	else export THEME=night B3=031 _BG=#ffa366
 fi
 
 function vim () {
@@ -46,7 +48,7 @@ function vim () {
 }
 
 function bat () {
-	[[ $THEME = day ]] && \
+	[[ $THEME = night ]] && \
 		/bin/bat --theme ansi-dark $* || \
 		/bin/bat --theme GitHub $*
 }
@@ -133,7 +135,7 @@ export TERM=xterm-256color
 export C='--color=always'
 
 # auto startx
-if systemctl -q is-active graphical.target && [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+if [[ $(tty) = /dev/tty1 ]]; then
 	exec startx
 fi
 
