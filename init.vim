@@ -69,6 +69,10 @@
 :map <leader>6 6gt
 :map <leader>7 7gt
 "
+"default split to right
+"
+:set splitright
+"
 "My plugins
 "
 "
@@ -140,7 +144,6 @@ let g:PaperColor_Theme_Options = {
   \   }
   \ }
 let g:airline_powerline_fonts = 1
-let g:airline_theme='minimalist'
 let g:lightline = { 'colorscheme': 'PaperColor' }
 let g:airline_left_sep=''
 let g:airline_right_sep=''
@@ -163,3 +166,18 @@ highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=und
 "highlight the colors
 "
 :nmap <Leader>p :ColorToggle<CR>
+"
+"Setting the theme
+"
+if $THEME =~ 'day'
+	set background=light
+	let g:airline_theme='minimalist'
+else
+	let g:airline_theme='papercolor'
+	set background=dark
+endif
+"
+"cleaning the new terminal split
+"
+:autocmd TermOpen * :set nonu nornu
+:autocmd TermOpen term://* :startinsert
