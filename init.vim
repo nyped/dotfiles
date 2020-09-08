@@ -121,7 +121,8 @@ let g:PaperColor_Theme_Options = {
   \         'cursorlinenr_fg' : ['', '208'],
   \         'cursorlinenr_bg' : ['#263238', ''],
   \         'linenumber_bg' : ['#263238', ''],
-  \         'linenumber_fg' : ['', '110']
+  \         'linenumber_fg' : ['', '110'],
+  \         'tabline_bg' : ['#575757', '']
   \       }
   \     },
   \      'default.light': {
@@ -147,7 +148,6 @@ let g:airline_powerline_fonts = 1
 let g:lightline = { 'colorscheme': 'PaperColor' }
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-set background=dark
 colorscheme PaperColor
 highlight Normal ctermbg=none
 "
@@ -181,3 +181,8 @@ endif
 "
 :autocmd TermOpen * :set nonu nornu
 :autocmd TermOpen term://* :startinsert
+:autocmd TermClose * :set nu rnu
+"
+"open everything in tabs
+"
+:tab all

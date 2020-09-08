@@ -74,7 +74,9 @@ alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
 alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 alias grep='grep --color=always'
-alias vim='nvim -p'
+alias vim='nvim'
+alias vr='nvim -R'
+alias v='nvim'
 alias maison='cd /home/lenny/Desktop/learning'
 alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
 
