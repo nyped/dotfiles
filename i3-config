@@ -230,7 +230,7 @@ bindsym $alt+Shift+Tab   exec --no-startup-id i3-switch-tabs left
 # Set inner/outer gaps       #
 ##############################
 
-gaps inner 14
+gaps inner 20
 gaps outer -2
 smart_gaps on
 smart_borders on

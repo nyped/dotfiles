@@ -61,7 +61,7 @@ export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 export TERM=xterm-256color
 export EDITOR=nvim
-export MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
+export MANPAGER='nvim -u NORC +"set ft=man nocul scrolloff=5 noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
 
 #
 ## aliases
@@ -74,7 +74,9 @@ alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
 alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 alias grep='grep --color=always'
-alias vim='nvim -p'
+alias vim='nvim'
+alias vr='nvim -R'
+alias v='nvim'
 alias maison='cd /home/lenny/Desktop/learning'
 alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
 
