@@ -9,4 +9,5 @@ set inputbar-fg "#263238"
 set statusbar-bg "rgba(255,255,255,0)"
 set statusbar-fg "#263238"
 set selection-clipboard clipboard
+set guioptions none
 map <C-h> toggle_statusbar
