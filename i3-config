@@ -1,5 +1,4 @@
 exec --no-startup-id hsetroot -cover ~/Pictures/${THEME}.png && pactl set-sink-volume @DEFAULT_SINK@ 20% && pactl set-sink-mute @DEFAULT_SINK@ 1
-exec --no-startup-id /home/lenny/.config/polybar/launch.sh
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -175,24 +174,8 @@ bindsym $mod+r mode "resize"
 
 bar {
   # command in i3-gaps to allow rgba colors for i3bar
-  i3bar_command i3bar -t
-
-  position            top
-  tray_output         none  # do not show tray output
-  workspace_buttons   no    # do not show workspace buttons
-  height              35    # same height as polybar
-
-  # prevent any accidental clicks/scrolls
-  bindsym button1 nop
-  bindsym button2 nop
-  bindsym button3 nop
-  bindsym button4 nop
-  bindsym button5 nop
-
-  colors {
-    # set bar background to transparent
-    background #00000000
-  }
+  i3bar_command ~/dotfiles/polybar/launch.sh
+  position top
 }
 
 for_window [class=".*"] split toggle
@@ -201,16 +184,16 @@ for_window [class=".*"] split toggle
 # screen brightness controls #
 ##############################
 
-bindsym XF86MonBrightnessUp exec macbook-lighter-screen --inc 250
-bindsym XF86MonBrightnessDown exec macbook-lighter-screen --dec 250
+bindsym XF86MonBrightnessUp exec notify-send Brightness "$(macbook-lighter-screen --inc 250)" -h string:x-canonical-private-synchronous:anything -a all
+
+bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 250)" -h string:x-canonical-private-synchronous:anything -a all 
 
 ##############################
 # keyboard backlight controls#
 ##############################
 
-bindsym XF86KbdBrightnessUp exec macbook-lighter-kbd --inc 50
-bindsym XF86KbdBrightnessDown exec macbook-lighter-kbd --dec 50
-
+bindsym XF86KbdBrightnessUp exec notify-send Backlight "$(macbook-lighter-kbd --inc 50)" -h string:x-canonical-private-synchronous:anything -a all
+bindsym XF86KbdBrightnessDown exec notify-send Backlight "$(macbook-lighter-kbd --dec 50)" -h string:x-canonical-private-synchronous:anything -a all
 ##############################
 # remove the title bar :)    #
 ##############################
@@ -232,11 +215,12 @@ bindsym $alt+Shift+Tab   exec --no-startup-id i3-switch-tabs left
 
 gaps inner 20
 gaps outer -2
-smart_gaps on
+gaps top 40
+
 smart_borders on
-smart_gaps inverse_outer
+#smart_gaps inverse_outer
 default_border pixel 0
-#border_radius 2
+
 bindsym	$mod+plus exec i3-msg -q gaps inner current plus 2
 bindsym	$mod+minus exec i3-msg -q gaps inner current minus 2
 
@@ -264,7 +248,7 @@ bindsym Shift+F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenn
 # hide top bar               #
 ##############################
 
-bindsym F12 exec polybar-msg cmd toggle && i3-msg -q bar mode toggle
+bindsym F12 exec polybar-msg cmd toggle && i3-msg -q gaps top all toggle 40
 
 ##############################
 # exit                       #
