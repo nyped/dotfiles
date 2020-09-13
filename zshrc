@@ -131,10 +131,12 @@ open () {
 	local opener
 	while [[ $# != 0 ]]; do
 		if [[ ${1##*.} = pdf ]]; then
-			zathura $1 >/dev/null 2>&1 &!
+			opener=zathura
 		else
-			xdg-open $1 >/dev/null 2>&1 &!
+			opener=xdg-open
 		fi
+		$opener $1 >/dev/null 2>&1 &!
+		notify-send "${1##*/}" "Opened by $opener" -a all
 		shift
 	done
 }

@@ -184,9 +184,9 @@ for_window [class=".*"] split toggle
 # screen brightness controls #
 ##############################
 
-bindsym XF86MonBrightnessUp exec notify-send Brightness "$(macbook-lighter-screen --inc 250)" -h string:x-canonical-private-synchronous:anything -a all
+bindsym XF86MonBrightnessUp exec notify-send Brightness "$(macbook-lighter-screen --inc 25)" -h string:x-canonical-private-synchronous:anything -a all
 
-bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 250)" -h string:x-canonical-private-synchronous:anything -a all 
+bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 25)" -h string:x-canonical-private-synchronous:anything -a all 
 
 ##############################
 # keyboard backlight controls#
@@ -241,8 +241,8 @@ bindsym  --release $altgr+Right exec --no-startup-id xdotool search --name Mozil
 # Screenshot                 #
 ##############################
 
-bindsym F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh windows
-bindsym Shift+F3 exec --no-startup-id /home/lenny/.oh-my-zsh/custom/plugins/lenny/screenshot.sh whole
+bindsym F3 exec --no-startup-id ~/dotfiles/screenshot.sh -w
+bindsym Shift+F3 exec --no-startup-id ~/dotfiles/screenshot.sh -a
 
 ##############################
 # hide top bar               #
