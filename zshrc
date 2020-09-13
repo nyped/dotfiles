@@ -28,13 +28,16 @@ function color () {
 	fi
 
 	local pic_path=~/Pictures/${THEME}.png
+	killall dunst
 
 	hsetroot -cover $pic_path >/dev/null
 	ln -sf ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
 	ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
 	ln -sf ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
+	ln -sf ~/dotfiles/${THEME}-theme/dunstrc ~/.config/dunst/dunstrc
 	killall -USR1 termite
 	clear
+	dunst >/dev/null 2>&1 &!
 }
 
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1
@@ -126,11 +129,14 @@ lyrics () {
 
 open () {
 	local opener
-	[[ $# != 1 ]] && echo 1 argument plz && return 1
-	if [[ $( cut -d . -f 2 <<< $1) = pdf ]]; then
-		opener=zathura
-	fi
-	${opener:-xdg-open} $@ >/dev/null 2>&1 &!
+	while [[ $# != 0 ]]; do
+		if [[ ${1##*.} = pdf ]]; then
+			zathura $1 >/dev/null 2>&1 &!
+		else
+			xdg-open $1 >/dev/null 2>&1 &!
+		fi
+		shift
+	done
 }
 
 # random text
