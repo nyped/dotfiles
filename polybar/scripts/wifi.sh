@@ -1,10 +1,8 @@
 #!/bin/env zsh
 
 while :; do
-	if iwctl station wlan0 show | tr -s ' ' | grep "State connected" >/dev/null 2>&1; then
-		echo "直"
-	else
-		echo "睊"
-	fi
-	sleep 10
+	for i in $(netctl list | sed s/\\\*\ //); do
+		netctl status $i | sed s/inactive// | grep active >/dev/null 2>&1 && echo 直 && break || echo 睊
+	done
+	sleep 10;
 done
