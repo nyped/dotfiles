@@ -151,7 +151,7 @@ if [ -e /etc/profile.d/vte.sh ]; then
 	. /etc/profile.d/vte.sh
 fi
 
-# auto startx
+#auto startx
 if [[ $(tty) = /dev/tty1 ]]; then
 	exec startx
 fi
