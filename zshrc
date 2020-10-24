@@ -75,13 +75,17 @@ alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
 alias dl='cd ~/Downloads'
-alias tmp='cd /tmp'
+alias tmp=/tmp
 alias grep='grep --color=always'
-alias vim='nvim'
+alias vim=nvim
 alias vr='nvim -R'
-alias v='nvim'
+alias v=nvim
 alias maison='cd /home/lenny/Desktop/learning'
 alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
+alias p=pacman
+alias o=open
+alias m=make
+alias mc='make clean'
 
 #
 ## functions
