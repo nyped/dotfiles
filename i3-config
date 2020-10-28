@@ -190,7 +190,7 @@ for_window [class=".*"] split toggle
 
 bindsym XF86MonBrightnessUp exec notify-send Brightness "$(macbook-lighter-screen --inc 25)" -h string:x-canonical-private-synchronous:anything -a all
 
-bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 25)" -h string:x-canonical-private-synchronous:anything -a all 
+bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 25)" -h string:x-canonical-private-synchronous:anything -a all
 
 ##############################
 # keyboard backlight controls#
@@ -221,7 +221,7 @@ gaps inner 20
 gaps outer -2
 gaps top 40
 
-smart_borders on
+#smart_borders on
 #smart_gaps inverse_outer
 default_border pixel 0
 
@@ -265,6 +265,8 @@ bindsym shift+F12 exec i3-msg exit
 ##############################
 
 for_window [class="firefox"] move container to workspace 1
-for_window [class="discord"] move container to workspace 4
-for_window [class="Termite"] move container to workspace 2
-for_window [class="Zathura"] move container to workspace 3
+for_window [class="discord"] move container to workspace 5
+for_window [class="Termite"] move container to workspace 3
+for_window [class="Zathura"] move container to workspace 4
+for_window [class="Brave-browser"] move container to workspace 2
+for_window [class="libreoffice-writter"] move container to workspace 8

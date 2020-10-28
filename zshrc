@@ -8,7 +8,7 @@
 
 export ZSH="/home/lenny/.oh-my-zsh"
 ZSH_THEME="simple"
-plugins=(git lenny web-search)
+plugins=(git lenny web-search zsh-syntax-highlighting history)
 source $ZSH/oh-my-zsh.sh
 
 #
@@ -159,3 +159,6 @@ fi
 if [[ $(tty) = /dev/tty1 ]]; then
 	exec startx
 fi
+
+# zle stuff
+export ZSH_HIGHLIGHT_STYLES[arg0]="bold" ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
