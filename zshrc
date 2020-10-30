@@ -8,7 +8,7 @@
 
 export ZSH="/home/lenny/.oh-my-zsh"
 ZSH_THEME="simple"
-plugins=(git lenny web-search zsh-syntax-highlighting history)
+plugins=(git lenny web-search zsh-syntax-highlighting history systemd)
 source $ZSH/oh-my-zsh.sh
 
 #
@@ -27,65 +27,68 @@ function color () {
 		return 0
 	fi
 
-	local pic_path=~/Pictures/${THEME}.png
 	killall dunst
+	[[ $THEME == day ]] && export BGG=\#efdba9 || export BGG=\#a2b9bc
 
-	hsetroot -cover $pic_path >/dev/null
+	hsetroot -solid $BGG
 	ln -sf ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
 	ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
-	ln -sf ~/dotfiles/${THEME}-theme/rofi-theme.rasi ~/.config/rofi/my-theme.rasi
 	ln -sf ~/dotfiles/${THEME}-theme/dunstrc ~/.config/dunst/dunstrc
+	ln -sf ~/dotfiles/${THEME}-theme/rofi.rasi ~/.config/rofi/config.rasi
 	killall -USR1 termite
 	clear
 	dunst >/dev/null 2>&1 &!
 }
 
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1
-	then export THEME=day
-	else export THEME=night
+	then export THEME=day BGG=\#efdba9
+	else export THEME=night BGG=\#a2b9bc
 fi
 
 #
 ## Env vars
 #
 
-export LESS_TERMCAP_mb=$(tput bold; tput setaf 41) # green
-export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
-export LESS_TERMCAP_me=$(tput sgr0)
-export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 24) # yellow on blue
-export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
-export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 9) # white
-export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
-export LESS_TERMCAP_mr=$(tput rev)
-export LESS_TERMCAP_mh=$(tput dim)
-export LESS_TERMCAP_ZN=$(tput ssubm)
-export LESS_TERMCAP_ZV=$(tput rsubm)
-export LESS_TERMCAP_ZO=$(tput ssupm)
-export LESS_TERMCAP_ZW=$(tput rsupm)
-export TERM=xterm-256color
-export EDITOR=nvim
-export MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
+export \
+	LESS_TERMCAP_mb=$(tput bold; tput setaf 41) green		\
+	LESS_TERMCAP_md=$(tput bold; tput setaf 6)			\
+	LESS_TERMCAP_me=$(tput sgr0)					\
+	LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 24)	\
+	LESS_TERMCAP_se=$(tput rmso; tput sgr0)				\
+	LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 9)		\
+	LESS_TERMCAP_ue=$(tput rmul; tput sgr0)				\
+	LESS_TERMCAP_mr=$(tput rev)					\
+	LESS_TERMCAP_mh=$(tput dim)					\
+	LESS_TERMCAP_ZN=$(tput ssubm)					\
+	LESS_TERMCAP_ZV=$(tput rsubm)					\
+	LESS_TERMCAP_ZO=$(tput ssupm)					\
+	LESS_TERMCAP_ZW=$(tput rsupm)					\
+	TERM=xterm-256color						\
+	EDITOR=nvim							\
+	MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
 
 #
 ## aliases
 #
 
-alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
-alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
-alias dl='cd ~/Downloads'
-alias tmp=/tmp
-alias grep='grep --color=always'
-alias vim=nvim
-alias vr='nvim -R'
-alias v=nvim
-alias maison='cd /home/lenny/Desktop/learning'
-alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
-alias p=pacman
-alias o=open
-alias m=make
-alias mc='make clean'
+alias \
+	cycle='cat /sys/class/power_supply/BAT0/cycle_count'			\
+	pbcopy='xclip -selection clipboard'					\
+	pbpaste='xclip -selection clipboard -o'					\
+	sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"	\
+	dl='cd ~/Downloads'							\
+	tmp=/tmp								\
+	grep='grep --color=always'						\
+	vim=nvim								\
+	vr='nvim -R'								\
+	v=nvim									\
+	maison='cd /home/lenny/Desktop/learning'				\
+	pbs='nc termbin.com 9999|pbcopy && pbpaste'				\
+	p=pacman								\
+	o=open									\
+	m=make									\
+	mc='make clean'								\
+	b=bat
 
 #
 ## functions
@@ -157,8 +160,14 @@ fi
 
 #auto startx
 if [[ $(tty) = /dev/tty1 ]]; then
+	echo 1 > /tmp/polybar_status
 	exec startx
 fi
 
 # zle stuff
-export ZSH_HIGHLIGHT_STYLES[arg0]="bold" ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
+export \
+	ZSH_HIGHLIGHT_STYLES[arg0]="none"			\
+	ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"		\
+	ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"	\
+	ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"	\
+	ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"

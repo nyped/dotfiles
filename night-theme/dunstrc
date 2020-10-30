@@ -3,14 +3,14 @@
 [global]
     font = Fantasque Sans Mono 12
     markup = full
-    format = "%s\n%b"
+    format = "<b>%s</b>    %b"
     sort = yes
     indicate_hidden = yes
     bounce_freq = 0
     show_age_threshold = 60
     word_wrap = yes
     ignore_newline = no
-    geometry = "260x10-18+60"
+    geometry = "260x10-505+5"
     idle_threshold = 120
     monitor = 0
     follow = mouse
@@ -26,24 +26,31 @@
     mouse_left_click = close_current
 
 [frame]
-    color = "#6090d6"
-    width = 0
+    color = "#7066708f"
+    width = 1
 
 [urgency_low]
-    background = "#6090d6"
+    background = "#a2b9bc"
     foreground = "#223238"
     timeout = 5
 
 [urgency_normal]
-    background = "#6090d6"
+    background = "#a2b9bc"
     foreground = "#223238"
     timeout = 5
 
 [urgency_critical]
-    background = "#6090d6"
+    background = "#a2b9bc"
     foreground = "#223238"
     timeout = 5
 
+[Discord]
+    appname = discord
+    format = "<b>%s</b>\n%b"
+    timeout = 5
+    script = /home/lenny/dotfiles/scripts/testpid.sh
+
 [all]
     appname = all
-    format = "<b>%s</b>\n%b"
+    format = "<b>%s</b>    %b"
+    script = /home/lenny/dotfiles/scripts/testpid.sh

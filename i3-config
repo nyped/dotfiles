@@ -1,4 +1,4 @@
-exec --no-startup-id hsetroot -cover ~/Pictures/${THEME}.png && pactl set-sink-volume @DEFAULT_SINK@ 20% && pactl set-sink-mute @DEFAULT_SINK@ 1
+exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 20% && pactl set-sink-mute @DEFAULT_SINK@ 1 && hsetroot -solid $BGG
 
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -227,6 +227,9 @@ default_border pixel 0
 
 bindsym	$mod+plus exec i3-msg -q gaps inner current plus 2
 bindsym	$mod+minus exec i3-msg -q gaps inner current minus 2
+bindsym	$mod+Shift+plus exec i3-msg -q gaps outer current plus 2
+bindsym	$mod+Shift+minus exec i3-msg -q gaps outer current minus 2
+
 
 
 ##############################
@@ -245,14 +248,14 @@ bindsym  --release $altgr+Right exec --no-startup-id xdotool search --name Mozil
 # Screenshot                 #
 ##############################
 
-bindsym F3 exec --no-startup-id ~/dotfiles/screenshot.sh -w
-bindsym Shift+F3 exec --no-startup-id ~/dotfiles/screenshot.sh -a
+bindsym F3 exec --no-startup-id ~/dotfiles/scripts/screenshot.sh -w
+bindsym Shift+F3 exec --no-startup-id ~/dotfiles/scripts/screenshot.sh -a
 
 ##############################
 # hide top bar               #
 ##############################
 
-bindsym F12 exec polybar-msg cmd toggle && i3-msg -q gaps top all toggle 40
+bindsym XF86Eject exec bash -c "grep 1 /tmp/polybar_status && /home/lenny/dotfiles/scripts/togglebar.sh hide || /home/lenny/dotfiles/scripts/togglebar.sh show"
 
 ##############################
 # exit                       #
@@ -270,3 +273,17 @@ for_window [class="Termite"] move container to workspace 3
 for_window [class="Zathura"] move container to workspace 4
 for_window [class="Brave-browser"] move container to workspace 2
 for_window [class="libreoffice-writter"] move container to workspace 8
+
+for_window [class=".*"] border pixel 1
+for_window [class="Discord"] gaps inner 40
+
+set $border \#9ba2b0
+
+# class                 border  backgr. text    indicator child_border
+client.focused          $border $border #ffffff $border   $border
+client.focused_inactive $border $border #ffffff $border   $border
+client.unfocused        $border $border #ffffff $border   $border
+client.urgent           $border $border #ffffff $border   $border
+client.placeholder      $border $border #ffffff $border   $border
+
+client.background       #ffffff
