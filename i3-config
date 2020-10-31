@@ -27,9 +27,9 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Use pactl to adjust volume in PulseAudio.
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send 'Volume' "Set to $(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed s/\ //g)" -h string:x-canonical-private-synchronous:anything -a notif
 
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send 'Volume' "Set to $(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed s/\ //g)" -h string:x-canonical-private-synchronous:anything -a notif
 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
@@ -188,16 +188,16 @@ for_window [class=".*"] split toggle
 # screen brightness controls #
 ##############################
 
-bindsym XF86MonBrightnessUp exec notify-send Brightness "$(macbook-lighter-screen --inc 25)" -h string:x-canonical-private-synchronous:anything -a all
+bindsym XF86MonBrightnessUp exec notify-send Brightness "$(macbook-lighter-screen --inc 25)" -h string:x-canonical-private-synchronous:anything -a notif
 
-bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 25)" -h string:x-canonical-private-synchronous:anything -a all
+bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 25)" -h string:x-canonical-private-synchronous:anything -a notif
 
 ##############################
 # keyboard backlight controls#
 ##############################
 
-bindsym XF86KbdBrightnessUp exec notify-send Backlight "$(macbook-lighter-kbd --inc 50)" -h string:x-canonical-private-synchronous:anything -a all
-bindsym XF86KbdBrightnessDown exec notify-send Backlight "$(macbook-lighter-kbd --dec 50)" -h string:x-canonical-private-synchronous:anything -a all
+bindsym XF86KbdBrightnessUp exec notify-send Backlight "$(macbook-lighter-kbd --inc 25)" -h string:x-canonical-private-synchronous:anything -a notif
+bindsym XF86KbdBrightnessDown exec notify-send Backlight "$(macbook-lighter-kbd --dec 25)" -h string:x-canonical-private-synchronous:anything -a notif
 ##############################
 # remove the title bar :)    #
 ##############################
