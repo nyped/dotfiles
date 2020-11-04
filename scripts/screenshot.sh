@@ -2,10 +2,11 @@
 
 function usage() {
 echo "\
-Usage: screen <cmd>
+Usage: ${1##*/} <cmd>
 Available commands:
 -w	--windows	capture the focused window
 -a	--all		capture the whole screen
+-s	--select	capture the selected part
 "
 }
 
@@ -14,19 +15,15 @@ cd ~/Pictures
 
 case $1 in
 	-w | --windows)
-		sleep 0.5
-		xwininfo > screen &
-		sleep 1
-		xdotool click 1 > /dev/null
-		id=$( cat screen | grep 'id:' | cut -d ' ' -f 4)
-		xwd -id $id -frame -out ${name}.xwd
-		convert ${name}.xwd ${name}.png
-		rm ${name}.xwd screen 2>/dev/null
+		scrot -q 100 -u -b ~/Pictures/%y-%m-%d-%T-screenshot.png
 		;;
-	-a | -all)
-		scrot -b ~/Pictures/%Y-%m-%d-%T-screenshot.png
+	-a | --all)
+		scrot -q 100 -b ~/Pictures/%y-%m-%d-%T-screenshot.png
+		;;
+	-s | --select)
+		scrot -q 100 -b -s -l style=dash,width=3,color=red -f ~/Pictures/%y-%m-%d-%T-screenshot.png
 		;;
 	*)
-		usage && exit 1
+		usage $0 && exit 1
 		;;
 esac

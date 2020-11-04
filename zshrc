@@ -143,7 +143,7 @@ open () {
 			opener=xdg-open
 		fi
 		$opener $1 >/dev/null 2>&1 &!
-		notify-send "${1##*/}" "Opened by $opener" -a all
+		notify-send "${1##*/}" "Opened by $opener" -a notif
 		shift
 	done
 }
