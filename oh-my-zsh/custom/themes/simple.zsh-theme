@@ -53,15 +53,15 @@ function ssh_connection() {
 
 function show_path() {
   if [[ ${#PWD} -gt $(expr $COLUMNS / 2 + 8) ]]; then
-    echo ${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+    echo in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
   else
-    echo %~
+    [[ $PWD = /home/lenny ]] || echo in \%B%~
   fi
 }
 
 PROMPT=$'\n$(ssh_connection)%(?. %B%% .%{$fg_bold[red]%} %% )%b'
 
-RPROMPT='%(?..%{$fg_bold[red]%}(%?%)%b)%1(j.%{$fg_bold[blue]%}  %{$reset_color%}.)$(my_git_prompt) in %B$(show_path)%b'
+RPROMPT='%(?..%{$fg_bold[red]%}(%?%)%b)%1(j.%{$fg_bold[blue]%}  %{$reset_color%}.)$(my_git_prompt) $(show_path)%b'
 
 ZSH_THEME_PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[magenta]%}↑"

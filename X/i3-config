@@ -205,7 +205,7 @@ bindsym XF86Eject exec bash -c "grep 1 /tmp/polybar_status && /home/lenny/dotfil
 
 ## Exit
 #
-bindsym shift+F12 exec i3-msg exit
+bindsym shift+XF86Eject exec i3-msg exit
 
 ## Global rules
 #
@@ -214,6 +214,7 @@ for_window [class="firefox"] move container to workspace 1
 for_window [class="discord"] move container to workspace 5
 for_window [class="Termite"] move container to workspace 3
 for_window [class="Zathura"] move container to workspace 4
+for_window [class="Chromium"] move container to workspace 2
 for_window [class="Brave-browser"] move container to workspace 2
 for_window [class="libreoffice-writter"] move container to workspace 8
 for_window [class=".*"] border pixel 1

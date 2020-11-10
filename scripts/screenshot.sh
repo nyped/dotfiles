@@ -10,18 +10,15 @@ Available commands:
 "
 }
 
-name=$(date "+%Y-%m-%d-%T-screenshot")
-cd ~/Pictures
-
 case $1 in
 	-w | --windows)
-		scrot -q 100 -u -b ~/Pictures/%y-%m-%d-%T-screenshot.png
+		scrot -q 100 -u -b ~/Screenshots/%y-%m-%d-%T-screenshot.png
 		;;
 	-a | --all)
-		scrot -q 100 -b ~/Pictures/%y-%m-%d-%T-screenshot.png
+		scrot -q 100 -b ~/Screenshots/%y-%m-%d-%T-screenshot.png
 		;;
 	-s | --select)
-		scrot -q 100 -b -s -l style=dash,width=3,color=red -f ~/Pictures/%y-%m-%d-%T-screenshot.png
+		scrot -q 100 -b -s -l style=dash,width=3,color=red -f ~/Screenshots/%y-%m-%d-%T-screenshot.png
 		;;
 	*)
 		usage $0 && exit 1

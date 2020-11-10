@@ -1,7 +1,7 @@
 "
 "
-"
-"my settings
+" http://github.com/lennypeers/dotfiles
+" vim FTW
 "
 "
 "
@@ -30,7 +30,8 @@
 "to work faster
 "
 :command Q q
-:command W w
+:command Qa qa
+:command W :sil w | echo ''
 :command WQ wq
 :command Wq wq
 :command Nt tabnew
@@ -56,8 +57,18 @@
 "
 :imap <C-o> <Esc>:w<Return>
 :map <C-o> :w<Return>
-:map <C-q> :q!
-:imap <C-q> <Esc>:q!
+:map <C-q> :q<Return>
+:imap <C-q> <Esc>:q<Return>
+"
+"overwrite w, hide the messages: "filename" XC written...
+"
+function Clean()
+	echo ''
+endfunction
+"
+" https://vim.fandom.com/wiki/Replace_a_builtin_command_using_cabbrev
+"
+:cabbrev w <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'sil w \| call Clean()' : 'w')<CR>
 "
 "switch windows
 "
@@ -83,8 +94,6 @@ Plug 'oblitum/rainbow'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'preservim/nerdcommenter'
 Plug 'unblevable/quick-scope'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
@@ -99,7 +108,7 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 "Terminal settings
 "
 :set splitbelow
-:command T 10Term
+":command T 10Term
 "
 "Nerd tree
 "
@@ -113,41 +122,37 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 "Theme settings
 "
 let g:PaperColor_Theme_Options = {
-  \   'theme': {
-  \     'default.dark': {
-  \       'override' : {
-  \         'color00' : ['#263238', '15'],
-  \         'color07' : ['', '15'],
-  \         'cursorlinenr_fg' : ['', '208'],
-  \         'cursorlinenr_bg' : ['#263238', ''],
-  \         'linenumber_bg' : ['#263238', ''],
-  \         'linenumber_fg' : ['', '110'],
-  \         'tabline_bg' : ['#575757', '']
-  \       }
-  \     },
-  \      'default.light': {
-  \        'override' : {
-  \         'color00' : ['#fdf6e3', ''],
-  \	    'cursorlinenr_fg' : ['', '56'],
-  \         'cursorlinenr_bg' : ['#fdf6e3', ''],
-  \         'linenumber_bg' : ['#fdf6e3', ''],
-  \         'linenumber_fg' : ['', '110'],
-  \         'tabline_bg' : ['#e4e4e4', ''],
-  \	    'tabline_inactive_bg' : ['#e4e4e4', ''],
-  \	    'tabline_inactive_fg' : ['#263238', ''],
-  \	    'tabline_active_bg' : ['#666666', ''],
-  \	    'tabline_active_fg' : ['#fdf6e3', ''],
-  \         'vertsplit_bg' : ['#fdf6e3', ''],
-  \	    'statusline_inactive_bg' : ['#e4e4e4', ''],
-  \	    'statusline_active_bg' : ['#e4e4e4', ''],
-  \       }
-  \     },
-  \   }
-  \ }
-let g:airline_powerline_fonts = 1
-let g:lightline = { 'colorscheme': 'PaperColor' }
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+	\   'theme': {
+	\     'default.dark': {
+	\       'override' : {
+	\         'color00' : ['#263238', '15'],
+	\         'color07' : ['', '15'],
+	\         'cursorlinenr_fg' : ['', '44'],
+	\         'cursorlinenr_bg' : ['#263238', ''],
+	\         'linenumber_bg' : ['#263238', ''],
+	\         'linenumber_fg' : ['', '110'],
+	\         'tabline_bg' : ['#575757', '']
+	\       }
+	\     },
+	\      'default.light': {
+	\        'override' : {
+	\         'color00' : ['#fdf6e3', ''],
+	\	    'cursorlinenr_fg' : ['', '25'],
+	\         'cursorlinenr_bg' : ['#fdf6e3', ''],
+	\         'linenumber_bg' : ['#fdf6e3', ''],
+	\         'linenumber_fg' : ['', '110'],
+	\         'tabline_bg' : ['#e4e4e4', ''],
+	\	    'tabline_inactive_bg' : ['#e4e4e4', ''],
+	\	    'tabline_inactive_fg' : ['#263238', ''],
+	\	    'tabline_active_bg' : ['#666666', ''],
+	\	    'tabline_active_fg' : ['#fdf6e3', ''],
+	\         'vertsplit_bg' : ['#fdf6e3', ''],
+	\	    'statusline_inactive_bg' : ['#fdf6e3', ''],
+	\	    'statusline_active_bg' : ['#fdf6e3', ''],
+	\       }
+	\     },
+	\   }
+	\ }
 colorscheme PaperColor
 highlight Normal ctermbg=none
 "
@@ -173,8 +178,8 @@ if $THEME =~ 'day'
 	set background=light
 	let g:airline_theme='minimalist'
 else
-	let g:airline_theme='papercolor'
 	set background=dark
+	let g:airline_theme='papercolor'
 endif
 "
 "cleaning the new terminal split
@@ -186,3 +191,12 @@ endif
 "open everything in tabs
 "
 :tab all
+"
+"sourcing coding style modules
+"
+source ~/dotfiles/nvim/whitespace.vim
+"
+"custom ruler
+"
+set laststatus=0
+set rulerformat=%50(%#CursorLineNr#%=%{StatuslineTabWarning()}\ %#VertSplit#%{StatuslineTrailingSpaceWarning()}%#String#%F%)

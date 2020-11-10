@@ -171,3 +171,8 @@ export \
 	ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"	\
 	ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"	\
 	ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
+
+# firefox stuff
+export \
+	MOZ_X11_EGL=1		\
+	VDPAU_DRIVER=va_gl
