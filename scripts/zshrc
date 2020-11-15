@@ -49,46 +49,45 @@ fi
 ## Env vars
 #
 
-export \
-	LESS_TERMCAP_mb=$(tput bold; tput setaf 41) green		\
-	LESS_TERMCAP_md=$(tput bold; tput setaf 6)			\
-	LESS_TERMCAP_me=$(tput sgr0)					\
-	LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 24)	\
-	LESS_TERMCAP_se=$(tput rmso; tput sgr0)				\
-	LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 9)		\
-	LESS_TERMCAP_ue=$(tput rmul; tput sgr0)				\
-	LESS_TERMCAP_mr=$(tput rev)					\
-	LESS_TERMCAP_mh=$(tput dim)					\
-	LESS_TERMCAP_ZN=$(tput ssubm)					\
-	LESS_TERMCAP_ZV=$(tput rsubm)					\
-	LESS_TERMCAP_ZO=$(tput ssupm)					\
-	LESS_TERMCAP_ZW=$(tput rsupm)					\
-	TERM=xterm-256color						\
-	EDITOR=nvim							\
-	MANPAGER='nvim -u NORC +"set ft=man nocul noshowcmd noruler noshowmode laststatus=2" +"let w:airline_disabled=1" +"set statusline=\ %t%=%p%%\ L%l:C%c\ " --noplugin'
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 41) green
+export LESS_TERMCAP_md=$(tput bold; tput setaf 6)
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 24)
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 9)
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+export LESS_TERMCAP_ZN=$(tput ssubm)
+export LESS_TERMCAP_ZV=$(tput rsubm)
+export LESS_TERMCAP_ZO=$(tput ssupm)
+export LESS_TERMCAP_ZW=$(tput rsupm)
+export TERM=xterm-256color
+export EDITOR=nvim
+export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0" --noplugin'
 
 #
 ## aliases
 #
 
-alias \
-	cycle='cat /sys/class/power_supply/BAT0/cycle_count'			\
-	pbcopy='xclip -selection clipboard'					\
-	pbpaste='xclip -selection clipboard -o'					\
-	sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"	\
-	dl='cd ~/Downloads'							\
-	tmp=/tmp								\
-	grep='grep --color=always'						\
-	vim=nvim								\
-	vr='nvim -R'								\
-	v=nvim									\
-	maison='cd /home/lenny/Desktop/learning'				\
-	pbs='nc termbin.com 9999|pbcopy && pbpaste'				\
-	p=pacman								\
-	o=open									\
-	m=make									\
-	mc='make clean'								\
-	b=bat
+alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
+alias dl='cd ~/Downloads'
+alias tmp=/tmp
+alias grep='grep --color=always'
+alias vim=nvim
+alias vr='nvim -R'
+alias v=nvim
+alias maison='cd /home/lenny/Desktop/learning'
+alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
+alias p=pacman
+alias o=open
+alias m=make
+alias mc='make clean'
+alias b=bat
+alias ssel='v -u ~/dotfiles/nvim/less.vim'
 
 #
 ## functions
@@ -165,14 +164,16 @@ if [[ $(tty) = /dev/tty1 ]]; then
 fi
 
 # zle stuff
-export \
-	ZSH_HIGHLIGHT_STYLES[arg0]="none"			\
-	ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"		\
-	ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"	\
-	ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"	\
-	ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
+
+export ZSH_HIGHLIGHT_STYLES[arg0]="none"
+export ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
+export ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"
+export ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"
+export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 
 # firefox stuff
-export \
-	MOZ_X11_EGL=1		\
-	VDPAU_DRIVER=va_gl
+
+export MOZ_X11_EGL=1
+export VDPAU_DRIVER=va_gl
+
+# vim: set ts=4 sts=4 sw=4 noet :

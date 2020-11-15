@@ -33,13 +33,13 @@ function pfe() {
 	[ $m = 0 ]||u="${u}${m}m"
 
 	while IFS=: read -r a b
-	do 
+	do
 		b=${b%kB}
 		case $a in
 		MemTotal)
 			x=$((x+=b))
 			t=$((t=b));;
-		Shmem) 
+		Shmem)
 			x=$((x+=b)) ;;
 		MemFree|Buffers|Cached|SReclaimable)
 			x=$((x-=b));;

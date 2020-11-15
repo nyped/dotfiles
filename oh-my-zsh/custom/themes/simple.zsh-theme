@@ -55,7 +55,7 @@ function show_path() {
   if [[ ${#PWD} -gt $(expr $COLUMNS / 2 + 8) ]]; then
     echo in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
   else
-    [[ $PWD = /home/lenny ]] || echo in \%B%~
+    [[ $PWD = /home/$(whoami) ]] || echo in \%B%~
   fi
 }
 
