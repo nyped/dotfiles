@@ -10,15 +10,23 @@ autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
 "return an empty string if everything is fine
 function! StatuslineTabWarning()
 	if !exists("b:statusline_tab_warning")
-		let tabs = search('^\t', 'nw')
-		let spaces = search('^ ', 'nw')
 		let tmp = ''
+		" looking for tabs at beginning of lines
+		let tabs = search('^\t', 'nw')
+		" looking for spaces at beginning of lines
+		" C multi-lines comments comments are allowed
+		" only for C files and CSS
+		if &filetype == 'css' || &filetype == 'c' || &filetype == 'cpp' || &filetype == 'ocaml'
+			let spaces = search('^ [^\*]', 'nw')
+		else
+			let spaces = search('^ ', 'nw')
+		endif
 		if tabs != 0 && spaces != 0
-			let b:statusline_tab_warning =  tmp.printf('MI %d:%d ', tabs, spaces)
+			let b:statusline_tab_warning =  tmp.printf('MI[%d:%d]', tabs, spaces)
 		elseif (spaces != 0 && !&et)
-			let b:statusline_tab_warning = tmp.printf('BI %d ', spaces)
+			let b:statusline_tab_warning = tmp.printf('BI[%d]', spaces)
 		elseif (tabs != 0 && &et)
-			let b:statusline_tab_warning = tmp.printf('BI %d ', tabs)
+			let b:statusline_tab_warning = tmp.printf('BI[%d]', tabs)
 		else
 			let b:statusline_tab_warning = ''
 		endif
@@ -36,10 +44,13 @@ function! StatuslineTrailingSpaceWarning()
 		let trailing = search('\s\+$', 'nw')
 		let tmp = ''
 		if trailing != 0
-			let b:statusline_trailing_space_warning = tmp.printf('TS %d ', trailing)
+			let b:statusline_trailing_space_warning = tmp.printf('TS[%d]', trailing)
 		else
 			let b:statusline_trailing_space_warning = ''
 		endif
 	endif
 	return b:statusline_trailing_space_warning
 endfunction
+"
+" vim: set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab :
+"
