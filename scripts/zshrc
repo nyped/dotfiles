@@ -87,7 +87,7 @@ alias o=open
 alias m=make
 alias mc='make clean'
 alias b=bat
-alias ssel='v -u ~/dotfiles/nvim/less.vim'
+alias matlab='~/matlab/R2018a/bin/matlab &!'
 
 #
 ## functions

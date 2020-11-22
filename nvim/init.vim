@@ -9,7 +9,7 @@
 :set termguicolors "only for linux
 :set shellcmdflag=-ic
 :set nu rnu
-:set tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+:set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 "
 " exiting terminal
 "
@@ -20,6 +20,11 @@
 :nnoremap <C-Up> <C-y>
 :nnoremap <C-Down> <C-e>
 :set scrolloff=5
+"
+" arrow keys like hjkl feature
+"
+:map <C-h> <C-left>
+:map <C-l> <C-right>
 "
 " add lines
 "
@@ -196,7 +201,6 @@ endif
 "
 " hide statusline
 "
-:set noshowcmd    "hide partial commands
 :set laststatus=0 "statusline is BLOAT
 :set statusline=%(\ %)
 "
