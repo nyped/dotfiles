@@ -18,17 +18,6 @@ set $alt Mod1
 #
 font : Noto Mono 11
 
-## Volume bindkeys
-## TODO: write a script
-#
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && notify-send 'Volume' "Set to $(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed s/\ //g)" -h string:x-canonical-private-synchronous:anything -a notif
-
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && notify-send 'Volume' "Set to $(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed s/\ //g)" -h string:x-canonical-private-synchronous:anything -a notif
-
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
-
 ## Use Mouse+$mod to drag floating windows to their wanted position
 #
 floating_modifier $mod
@@ -40,10 +29,6 @@ bindsym ctrl+Shift+Return exec termite
 ## Kill focused window
 #
 bindsym ctrl+Shift+q kill
-
-## Start Rofi
-#
-bindsym Ctrl+space exec rofi -show run
 
 ## Resize stuff
 #
@@ -148,33 +133,14 @@ bar {
 	position top
 }
 
-
-## Screen brightness control
-#
-bindsym XF86MonBrightnessUp exec notify-send Brightness "$(macbook-lighter-screen --inc 25)" -h string:x-canonical-private-synchronous:anything -a notif
-
-bindsym XF86MonBrightnessDown exec notify-send Brightness "$(macbook-lighter-screen --dec 25)" -h string:x-canonical-private-synchronous:anything -a notif
-
-## Keyboard backlight controls
-#
-bindsym XF86KbdBrightnessUp exec notify-send Backlight "$(macbook-lighter-kbd --inc 25)" -h string:x-canonical-private-synchronous:anything -a notif
-
-bindsym XF86KbdBrightnessDown exec notify-send Backlight "$(macbook-lighter-kbd --dec 25)" -h string:x-canonical-private-synchronous:anything -a notif
-
 ## remove the title bar :)
 #
 new_window 1pixel
-
-## alt tab like stuff
-#
-bindsym ctrl+Shift+Tab workspace prev
-bindsym ctrl+Tab workspace next
 
 ## Set inner/outer gaps
 #
 gaps inner 20
 gaps outer -2
-gaps top 40
 default_border pixel 0
 #smart_borders on
 #smart_gaps inverse_outer
@@ -186,26 +152,9 @@ bindsym	$mod+minus exec i3-msg -q gaps inner current minus 2
 bindsym	$mod+Shift+plus exec i3-msg -q gaps outer current plus 2
 bindsym	$mod+Shift+minus exec i3-msg -q gaps outer current minus 2
 
-## Firefox
-#
-bindsym --release $mod+Tab exec --no-startup-id xdotool search --name Mozilla key Ctrl+Tab
-bindsym --release $mod+Shift+Tab exec --no-startup-id xdotool search --name Mozilla key Ctrl+Shift+Tab
-bindsym --release $altgr+Left exec --no-startup-id xdotool search --name Mozilla key Alt+Left
-bindsym  --release $altgr+Right exec --no-startup-id xdotool search --name Mozilla key Alt+Right
-
-## Screenshots
-#
-bindsym F3 exec --no-startup-id ~/dotfiles/scripts/screenshot.sh -w
-bindsym Shift+F3 exec --no-startup-id ~/dotfiles/scripts/screenshot.sh -a
-bindsym --release XF86LaunchA exec ~/dotfiles/scripts/screenshot.sh -s
-
 ## Hide polybar
 #
-bindsym XF86Eject exec bash -c "grep 1 /tmp/polybar_status && /home/lenny/dotfiles/scripts/togglebar.sh hide || /home/lenny/dotfiles/scripts/togglebar.sh show"
-
-## Exit
-#
-bindsym shift+XF86Eject exec i3-msg exit
+bindsym XF86Eject exec polybar-msg cmd toggle
 
 ## Global rules
 #

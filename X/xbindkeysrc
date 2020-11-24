@@ -1,10 +1,16 @@
 # swipe 4 left -> switch to previous workspace
-"xdotool key ctrl+shift+Tab"
+"i3-msg workspace prev"
    b:10
 
+"i3-msg workspace prev"
+   Control+Shift+Tab
+
 # swipe 4 right -> switch to next workspace
-"xdotool key ctrl+Tab"
+"i3-msg workspace next"
    b:11
+
+"i3-msg workspace next"
+   Control+Tab
 
 # swipe 4 up -> floate focused window
 "i3-msg floating toggle"
@@ -13,3 +19,49 @@
 # swipe 4 down -> tile focused window
 "i3-msg floating toggle"
    b:13
+
+# volume up
+"~/dotfiles/scripts/volume.sh"
+   XF86AudioRaiseVolume
+
+# volume up
+"~/dotfiles/scripts/volume.sh -5"
+   XF86AudioLowerVolume
+
+# mute
+"~/dotfiles/scripts/volume.sh toggle"
+   XF86AudioMute
+
+# rofi
+"rofi -show run"
+   Control+space
+
+# inc kbd
+"~/dotfiles/scripts/kb.sh --inc 5"
+   XF86KbdBrightnessUp
+
+# dec kbd
+"~/dotfiles/scripts/kb.sh --dec 5"
+   XF86KbdBrightnessDown
+
+# inc screen bl
+"~/dotfiles/scripts/screenbl.sh --inc 25"
+   XF86MonBrightnessUp
+
+# dec screen bl
+"~/dotfiles/scripts/screenbl.sh --dec 25"
+   XF86MonBrightnessDown
+
+# screenshots
+"~/dotfiles/scripts/screenshot.sh -w"
+   F3
+
+"~/dotfiles/scripts/screenshot.sh -a"
+   Shift+F3
+
+"~/dotfiles/scripts/screenshot.sh -s"
+   XF86LaunchA
+
+# exit i3
+"i3-msg exit"
+   Shit+XF86Eject

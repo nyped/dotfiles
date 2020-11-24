@@ -10,7 +10,7 @@
     show_age_threshold = 60
     word_wrap = yes
     ignore_newline = no
-    geometry = "510x0-20+8"
+    geometry = "510x0+10+10"
     idle_threshold = 120
     monitor = 0
     follow = mouse
@@ -22,7 +22,7 @@
     separator_color = "#223238"
     startup_notification = false
     show_indicators = no
-    transparency = 5
+    transparency = 4
     mouse_left_click = close_current
     alignment = center
 
@@ -49,10 +49,8 @@
     appname = discord
     format = "<b>(discord) %s</b>\n%b"
     timeout = 5
-    script = /home/lenny/dotfiles/scripts/testpid.sh
 
 [all]
     appname = notif
     timeout = 2
     format = "<b>%s</b>    %b"
-    script = /home/lenny/dotfiles/scripts/testpid.sh

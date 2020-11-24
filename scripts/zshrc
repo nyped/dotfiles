@@ -159,7 +159,6 @@ fi
 
 #auto startx
 if [[ $(tty) = /dev/tty1 ]]; then
-	echo 1 > /tmp/polybar_status
 	exec startx
 fi
 
