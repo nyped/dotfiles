@@ -152,14 +152,14 @@ lorem () {
 	curl -s http://metaphorpsum.com/sentences/3 | pbcopy
 }
 
+share () {
+	[[ $# != 1 ]] && echo usage: share \<file\> && return 1
+	curl -F file=@$1 http://0x0.st 2>/dev/null | pbcopy && pbpaste
+}
+
 #linux: new terminal tabs keep the same wd
 if [ -e /etc/profile.d/vte.sh ]; then
 	. /etc/profile.d/vte.sh
-fi
-
-#auto startx
-if [[ $(tty) = /dev/tty1 ]]; then
-	exec startx
 fi
 
 # zle stuff
@@ -174,5 +174,10 @@ export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 
 export MOZ_X11_EGL=1
 export VDPAU_DRIVER=va_gl
+
+#auto startx
+if [[ $(tty) = /dev/tty1 ]]; then
+	exec startx
+fi
 
 # vim: set ts=4 sts=4 sw=4 noet :
