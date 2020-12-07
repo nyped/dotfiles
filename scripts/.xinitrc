@@ -7,3 +7,4 @@ picom --experimental-backend --config ~/dotfiles/X/picom.conf -b
 xbindkeys
 dunst &!
 exec i3
+#~/xephyr.sh

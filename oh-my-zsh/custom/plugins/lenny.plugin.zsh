@@ -9,9 +9,9 @@ function ls-term-color() {
 	# $1 is the left margin width
 	local index
 	printf "%*s" ${1:-0} " "
-	for index in {30..37}; do printf "\033[${index}m\U2588\U2588"; done
+	for index in {31..37}; do printf "\033[${index}m\U2588\U2588"; done
 	printf "\n%*s" ${1:-0} " "
-	for index in {100..107}; do printf "\033[${index}m  \033[0m"; done
+	for index in {101..107}; do printf "\033[${index}m  \033[0m"; done
 	printf "\n"
 }
 

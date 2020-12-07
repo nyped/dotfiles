@@ -15,6 +15,11 @@
 "
 :tnoremap <Esc> <C-\><C-n>
 "
+" silent undo redo
+"
+:nmap <C-r> :sil redo<Return>
+:nmap <A-u> :sil u<Return>
+"
 " scrolling
 "
 :nnoremap <C-Up> <C-y>

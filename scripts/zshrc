@@ -154,6 +154,7 @@ lorem () {
 
 share () {
 	[[ $# != 1 ]] && echo usage: share \<file\> && return 1
+	[[ ! -f $1 ]] && echo File non readable 1>&2 && return 2
 	curl -F file=@$1 http://0x0.st 2>/dev/null | pbcopy && pbpaste
 }
 

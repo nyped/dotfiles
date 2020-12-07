@@ -1,3 +1,16 @@
+/* hide tab scroll button */
+
+toolbarbutton[id^="scrollbutton"] {
+	display: none !important;
+}
+
+/* invisible overflow button */
+
+#nav-bar-overflow-button{
+	list-style-image: url() !important;
+	margin-right: 7px !important;
+}
+
 /* Do not display close button */
 
 #tabbrowser-tabs .tabbrowser-tab .tab-close-button {
@@ -37,4 +50,27 @@
 #urlbar[breakout][breakout-extend] > #urlbar-background {
 	box-shadow: 0 1px 4px rgba(0,0,0,.05) !important;
 	animation: none !important;
+}
+
+/* change font */
+
+* {
+	font-family: "Fantasque Sans Mono";
+}
+
+/* panelui button on the lhs
+ * https://github.com/Timvde/UserChrome-Tweaks/blob/master/hamburger/move-to-top-left-Linux-Windows.css
+ */
+
+#PanelUI-button {
+	-moz-box-ordinal-group: 0 !important;
+	color: blue;
+	border-left: none !important;
+	position: absolute;
+}
+
+/* invisible panel ui button */
+
+#PanelUI-menu-button {
+	list-style-image: url() !important;
 }
