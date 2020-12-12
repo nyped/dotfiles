@@ -6,6 +6,7 @@
 "
 "
 "
+:set cursorline
 :set termguicolors "only for linux
 :set shellcmdflag=-ic
 :set nu rnu
@@ -133,31 +134,31 @@ call plug#end()
 	\       'override' : {
 	\         'color00' : ['#263238', '15'],
 	\         'color07' : ['', '15'],
-	\	  'cursorline' : ['#29363d', ''],
+	\		  'cursorline' : ['#1f292e', ''],
 	\         'cursorlinenr_fg' : ['', '44'],
 	\         'cursorlinenr_bg' : ['#263238', ''],
 	\         'linenumber_bg' : ['#263238', ''],
 	\         'linenumber_fg' : ['', '110'],
 	\         'tabline_bg' : ['#575757', ''],
-	\	  'statusline_inactive_bg' : ['#263238', ''],
-	\	  'statusline_active_bg' : ['#263238', ''],
+	\		  'statusline_inactive_bg' : ['#263238', ''],
+	\		  'statusline_active_bg' : ['#263238', ''],
 	\       }
 	\     },
 	\      'default.light': {
 	\        'override' : {
-	\         'color00' : ['#fdf6e3', ''],
-	\	  'cursorlinenr_fg' : ['', '25'],
-	\         'cursorlinenr_bg' : ['#fdf6e3', ''],
-	\         'linenumber_bg' : ['#fdf6e3', ''],
-	\         'linenumber_fg' : ['', '110'],
-	\         'tabline_bg' : ['#e4e4e4', ''],
-	\	  'tabline_inactive_bg' : ['#e4e4e4', ''],
-	\	  'tabline_inactive_fg' : ['#263238', ''],
-	\	  'tabline_active_bg' : ['#666666', ''],
-	\	  'tabline_active_fg' : ['#fdf6e3', ''],
-	\         'vertsplit_bg' : ['#fdf6e3', ''],
-	\	  'statusline_inactive_bg' : ['#fdf6e3', ''],
-	\	  'statusline_active_bg' : ['#fdf6e3', ''],
+	\          'color00' : ['#fdf6e3', ''],
+	\	       'cursorlinenr_fg' : ['', '25'],
+	\          'cursorlinenr_bg' : ['#fdf6e3', ''],
+	\          'linenumber_bg' : ['#fdf6e3', ''],
+	\          'linenumber_fg' : ['', '110'],
+	\          'tabline_bg' : ['#e4e4e4', ''],
+	\		   'tabline_inactive_bg' : ['#e4e4e4', ''],
+	\	       'tabline_inactive_fg' : ['#263238', ''],
+	\	       'tabline_active_bg' : ['#666666', ''],
+	\	       'tabline_active_fg' : ['#fdf6e3', ''],
+	\          'vertsplit_bg' : ['#fdf6e3', ''],
+	\	       'statusline_inactive_bg' : ['#fdf6e3', ''],
+	\	       'statusline_active_bg' : ['#fdf6e3', ''],
 	\       }
 	\     },
 	\   }

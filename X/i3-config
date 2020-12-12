@@ -30,6 +30,10 @@ bindsym ctrl+Shift+Return exec termite
 #
 bindsym ctrl+Shift+q kill
 
+## Focus follow mouse
+#
+focus_follows_mouse yes
+
 ## Resize stuff
 #
 bindsym ctrl+Shift+$alt+Left resize shrink left 5

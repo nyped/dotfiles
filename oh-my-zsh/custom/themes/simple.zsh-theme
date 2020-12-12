@@ -59,7 +59,7 @@ function show_path() {
   fi
 }
 
-PROMPT=$'\n$(ssh_connection)%(?. %B%% .%{$fg_bold[red]%} %% )%b'
+PROMPT=$'\n$(ssh_connection)%(?. %B> .%{$fg_bold[red]%} > )%b'
 
 RPROMPT='%(?..%{$fg_bold[red]%}(%?%)%b)%1(j.%{$fg_bold[blue]%}  %{$reset_color%}.)$(my_git_prompt) $(show_path)%b'
 
