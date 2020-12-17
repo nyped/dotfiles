@@ -53,6 +53,12 @@ bindsym ctrl+Shift+Down move down
 bindsym ctrl+Shift+Up move up
 bindsym ctrl+Shift+Right move right
 
+## Media keys
+#
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
 ## Enter fullscreen mode for the focused container
 #
 bindsym XF86LaunchB fullscreen toggle

@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 function update() {
 	pactl set-sink-volume @DEFAULT_SINK@ ${1:-+5}%

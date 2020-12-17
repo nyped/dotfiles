@@ -45,11 +45,11 @@
 	XF86KbdBrightnessDown
 
 # inc screen bl
-"~/dotfiles/scripts/screenbl.sh --inc 25"
+"~/dotfiles/scripts/bl.sh --inc 25"
 	XF86MonBrightnessUp
 
 # dec screen bl
-"~/dotfiles/scripts/screenbl.sh --dec 25"
+"~/dotfiles/scripts/bl.sh --dec 25"
 	XF86MonBrightnessDown
 
 # screenshots
