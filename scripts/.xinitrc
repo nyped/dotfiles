@@ -6,4 +6,4 @@ export GDK_BACKEND=x11
 picom --experimental-backend --config ~/dotfiles/X/picom.conf -b
 xbindkeys
 dunst &!
-exec i3
+exec bspwm

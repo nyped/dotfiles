@@ -67,6 +67,19 @@ bindsym XF86LaunchB fullscreen toggle
 #
 bindsym ctrl+Shift+space floating toggle
 
+## rofi
+#
+bindsym ctrl+space exec rofi -show run
+
+## exit
+#
+bindsym Shit+XF86Eject exit i3-msg exit
+
+## workspace cycling
+#
+bindsym ctrl+Shift+Tab workspace prev
+bindsym ctrl+Tab workspace next
+
 ## Workspaces
 #
 set $ws1 "1"

@@ -1,23 +1,17 @@
 # swipe 4 left -> switch to previous workspace
-"i3-msg workspace prev"
+"bspc desktop -f prev.occupied.local"
 	b:10
 
-"i3-msg workspace prev"
-	Control+Shift+Tab
-
 # swipe 4 right -> switch to next workspace
-"i3-msg workspace next"
+"bspc desktop -f next.occupied.local"
 	b:11
 
-"i3-msg workspace next"
-	Control+Tab
-
 # swipe 4 up -> floate focused window
-"i3-msg floating toggle"
+"[[ -z $(bspc query -N -n focused.floating) ]] && bspc node focused -t floating || bspc node focused -t tiled"
 	b:12
 
 # swipe 4 down -> tile focused window
-"i3-msg floating toggle"
+"[[ -z $(bspc query -N -n focused.floating) ]] && bspc node focused -t floating || bspc node focused -t tiled"
 	b:13
 
 # volume up
@@ -31,10 +25,6 @@
 # mute
 "~/dotfiles/scripts/volume.sh toggle"
 	XF86AudioMute
-
-# rofi
-"rofi -show run"
-	Control+space
 
 # inc kbd
 "~/dotfiles/scripts/kb.sh --inc 5"
@@ -61,7 +51,3 @@
 
 "sleep 1 && ~/dotfiles/scripts/screenshot.sh -s"
 	XF86LaunchA
-
-# exit i3
-"i3-msg exit"
-	Shit+XF86Eject

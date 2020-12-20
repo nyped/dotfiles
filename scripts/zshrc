@@ -17,35 +17,6 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.id
 
-function color () {
-	if [[ ${1[1]} = d ]]; then
-		export THEME=day
-	elif [[ ${1[1]} = n ]]; then
-		export THEME=night
-	else
-		[[ $THEME = day ]] && color n || color d
-		return 0
-	fi
-
-	killall dunst
-	[[ $THEME == day ]] && export BGG=\#efdba9 || export BGG=\#a2b9bc
-
-	if [[ $THEME == "day" ]]; then
-		export LS_COLORS="$(vivid generate ayu)"
-	else
-		export LS_COLORS="$(vivid generate molokai)"
-	fi
-
-	hsetroot -solid $BGG
-	ln -sf ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
-	ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
-	ln -sf ~/dotfiles/${THEME}-theme/dunstrc ~/.config/dunst/dunstrc
-	ln -sf ~/dotfiles/${THEME}-theme/rofi.rasi ~/.config/rofi/config.rasi
-	killall -USR1 termite
-	clear
-	dunst >/dev/null 2>&1 &!
-}
-
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1
 	then export THEME=day BGG=\#efdba9
 	else export THEME=night BGG=\#a2b9bc
@@ -70,13 +41,7 @@ export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 export TERM=xterm-256color
 export EDITOR=nvim
-export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0" --noplugin'
-
-if [[ $THEME == "day" ]]; then
-	export LS_COLORS="$(vivid generate ayu)"
-else
-	export LS_COLORS="$(vivid generate molokai)"
-fi
+export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=5" --noplugin'
 
 #
 ## aliases
@@ -102,6 +67,7 @@ alias mc='make clean'
 alias b=bat
 alias matlab='~/matlab/R2018a/bin/matlab &!'
 alias pfe='~/dotfiles/scripts/fetch.sh | ~/dotfiles/scripts/center.sh'
+alias color='export THEME=$(~/dotfiles/scripts/color.sh) && clear'
 
 #
 ## functions
@@ -111,7 +77,7 @@ alias pfe='~/dotfiles/scripts/fetch.sh | ~/dotfiles/scripts/center.sh'
 function bat () {
 	[[ $THEME = night ]] && \
 		/bin/bat --theme ansi-dark $* || \
-		/bin/bat --theme GitHub $*
+		/bin/bat colortheme GitHub $*
 }
 
 # translation
