@@ -10,7 +10,7 @@
     show_age_threshold = 60
     word_wrap = yes
     ignore_newline = no
-    geometry = "510x0-10-10"
+    geometry = "400x0-10-10"
     idle_threshold = 120
     monitor = 0
     follow = mouse

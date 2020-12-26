@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1
 	then export THEME=day BGG=\#efdba9
@@ -14,7 +14,7 @@ else
 	exit 0
 fi
 
-killall dunst
+killall dunst 2>/dev/null 1>&2
 [[ $THEME = day ]] && export BGG=\#efdba9 || export BGG=\#a2b9bc
 
 hsetroot -solid $BGG
@@ -22,7 +22,7 @@ ln -sf ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
 ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
 ln -sf ~/dotfiles/${THEME}-theme/dunstrc ~/.config/dunst/dunstrc
 ln -sf ~/dotfiles/${THEME}-theme/rofi.rasi ~/.config/rofi/config.rasi
-killall -USR1 termite
+killall -USR1 termite >/dev/null 2>&1
 dunst >/dev/null 2>&1 &!
 echo $THEME
 

@@ -1,8 +1,10 @@
 set statusbar-h-padding 0
 set statusbar-v-padding 0
-set page-padding 1
+set page-padding 0
 map i recolor
 map r reload
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
 set default-bg "rgba(255,255,255,0)"
 set inputbar-bg "rgba(255,255,255,0)"
 set inputbar-fg "#ffffff"
