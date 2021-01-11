@@ -25,6 +25,7 @@
     transparency = 4
     mouse_left_click = close_current
     alignment = center
+	icon_path = usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/
 
 [frame]
     color = "#9ba2b0"

@@ -32,11 +32,11 @@ x=$((x/=1024))
 t=$((t/=1024))
 
 cat <<EOF
-${label}OS       ${reset}${PRETTY_NAME:-?}
+${label}OS       ${reset}${PRETTY_NAME/Linux/}
 ${label}PKG      ${reset}$(pacman -Q | wc -l)
 ${label}UPTIME   ${reset}$u
 ${label}EDITOR   ${reset}${EDITOR:-?}
 ${label}SHELL    ${reset}${SHELL##*/}
-${label}MEMORY   ${reset}${x}MiB / ${t}MiB
-${label}KERNEL   ${reset}$k
+${label}MEMORY   ${reset}${x}/${t}
+${label}KERNEL   ${reset}${k%%-arch*}
 EOF

@@ -1,23 +1,22 @@
 #!/usr/bin/env zsh
 
 if cat ~/.config/termite/config | grep day > /dev/null 2>&1
-	then export THEME=day BGG=\#efdba9
-	else export THEME=night BGG=\#a2b9bc
+	then export THEME=day
+	else export THEME=night
 fi
 
 if [[ $1 = day || $1 = d ]]; then
-	export THEME=day BGG=\#efdba9
+	export THEME=day
 elif [[ $1 = night || $1 = n ]]; then
-	export THEME=night BGG=\#a2b9bc
+	export THEME=night
 else
 	[[ $THEME = day ]] && $0 n || $0 d
 	exit 0
 fi
 
 killall dunst 2>/dev/null 1>&2
-[[ $THEME = day ]] && export BGG=\#efdba9 || export BGG=\#a2b9bc
 
-hsetroot -solid $BGG
+hsetroot -cover ~/dotfiles/wallpaper/${THEME}.png
 ln -sf ~/dotfiles/${THEME}-theme/termite-conf ~/.config/termite/config
 ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
 ln -sf ~/dotfiles/${THEME}-theme/dunstrc ~/.config/dunst/dunstrc

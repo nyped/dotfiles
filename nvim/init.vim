@@ -200,7 +200,7 @@ endif
 "
 :tab all
 "
-" sourcing coding my modules
+" sourcing
 "
 :source ~/dotfiles/nvim/whitespace.vim
 :source ~/dotfiles/nvim/myprettyruler.vim

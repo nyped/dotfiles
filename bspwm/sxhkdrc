@@ -101,7 +101,7 @@ super + shift + {equal,minus}
 	((cur{++,--}));                             \
 	((cur=cur<0?0:cur));                        \
 	bspc config -d focused top_padding $cur ;   \
-	bspc config -d focused bottom_padding $cur ;\
+	bspc config -d focused bottom_padding $cur; \
 	bspc config -d focused left_padding $cur ;  \
 	bspc config -d focused right_padding $cur
 
@@ -122,10 +122,11 @@ super + {a,s}
 
 # toggle polybar
 super + z
+	polybar-msg cmd toggle;                     \
 	if [[ $(bspc config top_padding) != 0 ]];   \
 	then bspc config top_padding 0;             \
 	else bspc config top_padding 35;            \
-	fi; polybar-msg cmd toggle
+	fi
 
 # quick resize
 super + shift + {1-5}

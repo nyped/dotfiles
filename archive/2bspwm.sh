@@ -1,13 +1,10 @@
 #!/bin/bash
-#
-#   double borders
-#
 
 outer='0x263238'   # outer
-inner1='0xcf9b6a'  # focused
+inner1='0x99ccff'  # focused
 inner2='0x808297'  # normal
 
-bspc config -d 3 border_width 12
+bspc config -d 3 border_width 6
 bspc config focused_border_color \#${outer#0x}
 bspc config normal_border_color \#${outer#0x}
 bspc config active_border_color \#${outer#0x}
@@ -22,7 +19,7 @@ targets() {
 draw() {
 	# only in workspace 3
 	[[ -n $(bspc query -N -n -d 3) ]] && \
-	chwb2 -I "$inner" -O "$outer" -i "2" -o "9" $* 2> /dev/null
+	chwb2 -I "$inner" -O "$outer" -i "1" -o "5" $* 2> /dev/null
 }
 
 # initial draw, and then subscribe to events
