@@ -18,10 +18,7 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.id
 
-if cat ~/.config/termite/config | grep day > /dev/null 2>&1
-	then export THEME=day
-	else export THEME=night
-fi
+export THEME=$(< ~/.t)
 
 #
 ## Env vars
@@ -179,9 +176,12 @@ export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 export MOZ_X11_EGL=1
 export VDPAU_DRIVER=va_gl
 
-# underscore cursor
+# underscore cursor + theme update
 precmd() {
 	printf "\033[4 q"
+	if [[ $(< ~/.t) != $THEME ]]; then
+		export THEME=$(< ~/.t)
+	fi
 }
 
 #linux: new terminal tabs keep the same wd

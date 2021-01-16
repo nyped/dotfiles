@@ -2,7 +2,7 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
-if cat ~/.config/termite/config | grep day > /dev/null 2>&1
+if [ "$(< ~/.t)" = day ]
 	then ~/dotfiles/scripts/color.sh day
 	else ~/dotfiles/scripts/color.sh night
 fi

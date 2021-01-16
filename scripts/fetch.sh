@@ -5,7 +5,7 @@ label=$([[ $THEME = day ]] && printf "\033[31m" || printf "\033[34m")
 reset=$(printf "\033[0m")
 . /etc/os-release
 k=$(uname -r)
-s=$(cat /proc/uptime)
+s=$(< /proc/uptime)
 s=${s%%.*}
 d=$((s/86400))
 h=$((s/3600%24))

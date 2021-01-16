@@ -1,10 +1,11 @@
 #!/bin/bash
 
+hwmon=/sys/devices/platform/applesmc.768
+
 toggle() {
 	local tmp
-	[[ $(cat /sys/devices/platform/applesmc.768/fan1_manual) = 1 ]] && tmp=0
-	echo ${tmp:-1} | tee /sys/devices/platform/applesmc.768/fan1_manual 2>/dev/null 1>&2
-
+	[[ $(< ${hwmon}/fan1_manual) = 1 ]] && tmp=0
+	echo ${tmp:-1} | tee ${hwmon}/fan1_manual
 }
 
 case $1 in
@@ -16,6 +17,7 @@ case $1 in
 		exit 1
 		;;
 	*)
-		echo $1 | tee /sys/devices/platform/applesmc.768/fan1_output
+		[[ $(< ${hwmon}/fan1_manual) != 1 ]] && echo 1 > ${hwmon}/fan1_manual
+		echo ${1/k/000} > ${hwmon}/fan1_output
 		;;
 esac
