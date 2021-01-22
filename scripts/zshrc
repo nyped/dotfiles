@@ -179,9 +179,7 @@ export VDPAU_DRIVER=va_gl
 # underscore cursor + theme update
 precmd() {
 	printf "\033[4 q"
-	if [[ $(< ~/.t) != $THEME ]]; then
-		export THEME=$(< ~/.t)
-	fi
+	THEME=$(< ~/.t)
 }
 
 #linux: new terminal tabs keep the same wd

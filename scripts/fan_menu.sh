@@ -25,6 +25,11 @@ case $ret in
 		fi
 		;;
 
+	[[:digit:]]k)
+		sudo fan $ret
+		mes="Set to ${ret/k/000} rpm"
+		;;
+
 	[Mn]edium)
 		sudo fan 4000
 		mes="Set to 4000 rpm"

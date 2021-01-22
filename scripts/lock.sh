@@ -3,8 +3,9 @@
 # https://michaelabrahamsen.com/posts/custom-lockscreen-i3lock/
 # lockscreen with blur
 
-bg=$(mktemp -u).png
-scrot $bg
-convert $bg -filter Gaussian -thumbnail 20% -sample 500% $bg
-i3lock -i $bg
-rm $bg
+bg=$(mktemp -u)
+import -window root ${bg}.xwd
+convert ${bg}.xwd -filter Gaussian -thumbnail 20% -sample 500% ${bg}.png
+rm ${bg}.xwd
+i3lock -i ${bg}.png
+rm ${bg}.png
