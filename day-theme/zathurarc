@@ -5,7 +5,6 @@ map i recolor
 map r reload
 map f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
-set default-bg "rgba(255,255,255,0)"
 set inputbar-bg "rgba(255,255,255,0)"
 set inputbar-fg "#263238"
 set statusbar-bg "rgba(255,255,255,0)"
@@ -13,3 +12,9 @@ set statusbar-fg "#263238"
 set selection-clipboard clipboard
 set guioptions none
 map <C-h> toggle_statusbar
+# bg stuff
+set recolor
+set recolor-keephue
+set recolor-lightcolor "rgba(253,246,227,0)"
+set recolor-darkcolor "#000000"
+set default-bg "rgba(253,246,227,0.95)"

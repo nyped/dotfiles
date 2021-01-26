@@ -29,7 +29,7 @@ bspc rule -a qBittorrent desktop=^10 follow=off
 bspc rule -a Termite desktop=^3 follow=off
 bspc rule -a vlc desktop=^6 follow=off
 bspc rule -a Vlc desktop=^6 follow=off
-bspc rule -a Zathura desktop=^4 follow=off border=off
+bspc rule -a Zathura desktop=^4 follow=off
 bspc rule -a zoom desktop=^7 follow=off
 
 ~/dotfiles/polybar/launch.sh
