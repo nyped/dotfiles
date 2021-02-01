@@ -184,11 +184,21 @@ call plug#end()
 "
 " Setting the theme
 "
-if $THEME =~ 'day'
-	set background=light
-else
-	set background=dark
-endif
+function! UpdateBg()
+	if system("cat ~/.t")  =~ "day\n"
+		set background=light
+	else
+		set background=dark
+	endif
+	redraw
+endfunction
+"
+:call UpdateBg()
+"
+" SIGUSR1 updates bg
+"
+:autocmd Signal SIGUSR1 :call UpdateBg()
+"
 "
 " cleaning the new terminal split
 "

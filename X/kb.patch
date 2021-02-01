@@ -1,0 +1,24 @@
+--- kb.now	2021-01-26 17:41:46.919270953 +0100
++++ /proc/self/fd/11	2021-01-26 17:42:15.065503243 +0100
+@@ -19,16 +19,16 @@
+     key  <TAB> {	[ Tab,	ISO_Left_Tab	]	};
+     key <RTRN> {	[ Return		]	};
+ 
+-    key <CAPS> {	[ BackSpace, BackSpace	]	};
++    key <CAPS> {	[ Caps_Lock		]	};
+     key <NMLK> {	[ Num_Lock 		]	};
+ 
+     key <LFSH> {	[ Shift_L		]	};
+-    key <LCTL> {	[ Super_L		]	};
+-    key <LWIN> {	[ Control_L		]	};
++    key <LCTL> {	[ Control_L		]	};
++    key <LWIN> {	[ Super_L		]	};
+ 
+     key <RTSH> {	[ Shift_R		]	};
+-    key <RCTL> {	[ Super_R		]	};
+-    key <RWIN> {	[ Control_R		]	};
++    key <RCTL> {	[ Control_R		]	};
++    key <RWIN> {	[ Super_R		]	};
+     key <MENU> {	[ Menu			]	};
+ 
+     // Beginning of modifier mappings.

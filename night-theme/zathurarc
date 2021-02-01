@@ -11,9 +11,14 @@ set statusbar-bg "rgba(255,255,255,0)"
 set statusbar-fg "#ffffff"
 set selection-clipboard clipboard
 set guioptions none
+set notification-bg "rgba(0,0,0,0)"
+set notification-fg "#ffffff"
 map <C-h> toggle_statusbar
 # bg stuff
 set recolor
 set recolor-keephue
 set recolor-lightcolor "rgba(38,50,56,0)"
-set default-bg "rgba(38,50,56,0.95)"
+set default-bg "rgba(38,50,56,0.97)"
+# FIXME:
+# map b set default-bg\ "rgba(255,255,255,1)"
+# map B set default-bg\ "rgba(38,50,56,0)"

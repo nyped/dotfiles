@@ -1,10 +1,11 @@
 #!/bin/zsh
 
-export XDG_SESSION_TYPE=x11
-export GDK_BACKEND=x11
-xrdb -merge ~/.Xresources
+export XDG_SESSION_TYPE=x11 GDK_BACKEND=x11
+dunst >/dev/null 2>&1 &!
 picom --config ~/dotfiles/X/picom.conf -b --experimental-backend
-xbindkeys
 systemctl --user import-environment DISPLAY
-dunst &!
+xbindkeys
+xrdb -merge ~/.Xresources
+xset s off
+xset s noblank
 exec bspwm

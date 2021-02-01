@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 clear && echo
-label=$([[ $THEME = day ]] && printf "\033[31m" || printf "\033[34m")
+label=$([[ "$(< ~/.t)" = day ]] && printf "\033[31m" || printf "\033[34m")
 reset=$(printf "\033[0m")
 . /etc/os-release
 k=$(uname -r)

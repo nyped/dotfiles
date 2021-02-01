@@ -18,8 +18,6 @@ source $ZSH/oh-my-zsh.sh
 
 source ~/.id
 
-export THEME=$(< ~/.t)
-
 #
 ## Env vars
 #
@@ -75,19 +73,7 @@ alias vr='nvim -R'
 
 # theme
 color() {
-	if [[ $# = 1 ]];  then
-		export THEME=$(~/dotfiles/scripts/color.sh $1)
-	else
-		export THEME=$(~/dotfiles/scripts/color.sh)
-	fi
-	clear
-}
-
-# bat theme mod
-bat() {
-	[[ $THEME = night ]] && \
-		/bin/bat --theme ansi-dark $* || \
-		/bin/bat --theme GitHub $*
+	(~/dotfiles/scripts/color.sh "$1")
 }
 
 # translation
@@ -176,10 +162,25 @@ export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 export MOZ_X11_EGL=1
 export VDPAU_DRIVER=va_gl
 
-# underscore cursor + theme update
+# univ env
+if [ "$(< ~/extra/state)" = "on" ]; then
+	alias a2ps='a2ps -s 2 -A fill -M Letter'
+	alias gcc='gcc -Wall -pedantic'
+	export GNUARMDIR=/home/${USER}/extra/stolenbin/
+	export PREFIX=`find ${GNUARMDIR} -maxdepth 1 -type d | grep --color=never arm- | sed -e "s/\/home\/${USER}\/extra\/stolenbin\///"`-
+	export PATH=/home/${USER}/extra/stolenbin/bin:/home/${USER}/extra/inf401bin:${PATH}
+fi
+
+toggleTP() {
+	if [ "$(cat ~/extra/state)" = "on" ]; then
+		echo off > ~/extra/state
+	else
+		echo on > ~/extra/state
+	fi
+}
+
 precmd() {
-	printf "\033[4 q"
-	THEME=$(< ~/.t)
+       printf "\033[4 q"
 }
 
 #linux: new terminal tabs keep the same wd
@@ -187,7 +188,7 @@ if [ -e /etc/profile.d/vte.sh ]; then
 	. /etc/profile.d/vte.sh
 fi
 
-#auto startx
+#auto startx on TTY1
 if [[ $(tty) = /dev/tty1 ]]; then
 	exec startx
 fi
