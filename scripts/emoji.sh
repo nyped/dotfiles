@@ -8,6 +8,7 @@ alpha
 and
 angel
 apple
+bar
 bug
 calendar
 car
@@ -24,6 +25,7 @@ exists!
 eyes
 false
 forall
+gammma
 gasy
 genius
 heart
@@ -45,6 +47,7 @@ noteq
 notin
 or
 police
+proves
 qed
 robot
 rock
@@ -55,7 +58,9 @@ sigma
 strong
 swim
 tautology
+theta
 this
+thumb
 true
 wave
 EOF
@@ -128,6 +133,10 @@ case "$in" in
 
 	wave)
 		ret=👋
+		;;
+
+	thumb)
+		ret=👍
 		;;
 
 	nose)
@@ -238,6 +247,10 @@ case "$in" in
 		ret=⊨
 		;;
 
+	proves)
+		ret=⊢
+		;;
+
 	delta)
 		ret=δ
 		;;
@@ -262,6 +275,14 @@ case "$in" in
 		ret=σ
 		;;
 
+	gamma)
+		ret=𝚪
+		;;
+
+	theta)
+		ret=Θ
+		;;
+
 	in)
 		ret=∈
 		;;
@@ -282,10 +303,14 @@ case "$in" in
 		ret=↓
 		;;
 
+	bar)
+		ret=$(printf "\U0305")
+		;;
+
 	*)
 		exit 0
 		;;
 esac
 
-echo -n $ret | xclip -selection clipboard
+echo -n "$ret" | xclip -selection clipboard
 xdotool key --window $(bspc query -N -n .local.focused) ctrl+v

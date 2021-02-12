@@ -54,6 +54,8 @@ alias grep='grep --color=always'
 alias lA='ls -A'
 alias maison='cd /home/lenny/Desktop/learning'
 alias matlab='~/matlab/R2018a/bin/matlab &!'
+alias mt=make\ test
+alias mr=make\ clear
 alias mc=make\ clean
 alias m=make
 alias o=open
@@ -173,9 +175,9 @@ fi
 
 toggleTP() {
 	if [ "$(cat ~/extra/state)" = "on" ]; then
-		echo off > ~/extra/state
+		echo off | tee ~/extra/state
 	else
-		echo on > ~/extra/state
+		echo on | tee ~/extra/state
 	fi
 }
 

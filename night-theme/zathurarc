@@ -18,7 +18,6 @@ map <C-h> toggle_statusbar
 set recolor
 set recolor-keephue
 set recolor-lightcolor "rgba(38,50,56,0)"
-set default-bg "rgba(38,50,56,0.97)"
-# FIXME:
-# map b set default-bg\ "rgba(255,255,255,1)"
-# map B set default-bg\ "rgba(38,50,56,0)"
+set default-bg "rgba(38,50,56,0.95)"
+map b set default-bg\ "rgba(255,255,255,1)"
+map B set default-bg\ "rgba(38,50,56,0.95)"
