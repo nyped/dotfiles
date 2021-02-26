@@ -109,6 +109,22 @@ super + shift + {equal,minus}
 	bspc config -d focused left_padding $cur ;  \
 	bspc config -d focused right_padding $cur
 
+# left right outter gaps
+super + {Left,Right}
+	cur=$(bspc config -d focused left_padding); \
+	((cur{++,--}));                             \
+	((cur=cur<0?0:cur));                        \
+	bspc config -d focused left_padding $cur ;  \
+	bspc config -d focused right_padding $cur
+
+# top bottom outter gaps
+super + {Up,Down}
+	cur=$(bspc config -d focused top_padding); \
+	((cur{++,--}));                             \
+	((cur=cur<0?0:cur));                        \
+	bspc config -d focused top_padding $cur ;   \
+	bspc config -d focused bottom_padding $cur
+
 # borders
 super + {equal,minus}
 	cur=$(bspc config -d focused window_gap);   \

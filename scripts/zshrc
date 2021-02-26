@@ -64,6 +64,7 @@ alias pbpaste='xclip -selection clipboard -o'
 alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
 alias p=pacman
 alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
+alias song='playerctl --player=$PLAYER metadata --format "{{ artist }} - {{ title }}"'
 alias tmp=/tmp
 alias vim=nvim
 alias v=nvim
@@ -166,6 +167,8 @@ export VDPAU_DRIVER=va_gl
 
 # univ env
 if [ "$(< ~/extra/state)" = "on" ]; then
+	echo TP mode on /\!\\, autocd
+	cd ~/maison/sync/inf401
 	alias a2ps='a2ps -s 2 -A fill -M Letter'
 	alias gcc='gcc -Wall -pedantic'
 	export GNUARMDIR=/home/${USER}/extra/stolenbin/
