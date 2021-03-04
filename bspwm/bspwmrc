@@ -23,6 +23,7 @@ bspc config top_padding 32
 
 bspc rule -a discord desktop=^5 follow=off
 bspc rule -a firefox desktop=^1 follow=off
+bspc rule -a Gimp desktop=^7 follow=off
 bspc rule -a libreoffice-startcenter desktop=^8 follow=off
 bspc rule -a PyRadio desktop=^9 follow=off
 bspc rule -a qBittorrent desktop=^10 follow=off

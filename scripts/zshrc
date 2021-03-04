@@ -112,6 +112,12 @@ lyrics() {
 	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | ~/dotfiles/scripts/center.sh |less -FX
 }
 
+lyr() {
+	song | IFS=- read a b
+	echo -e $a - $b "\n" | center
+	lyrics "$a" "$b"
+}
+
 open() {
 	local opener
 	while [[ $# != 0 ]]; do
