@@ -97,16 +97,14 @@
 "
 "
 call plug#begin('~/.vim/plugged')
-Plug 'vimlab/split-term.vim'
 Plug 'oblitum/rainbow'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'preservim/nerdcommenter'
 Plug 'unblevable/quick-scope'
 Plug 'preservim/nerdtree'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-surround'
 Plug 'chrisbra/Colorizer'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 "
 " rainbow settings
@@ -234,6 +232,20 @@ augroup end
 " hsplit sep is the minus character
 "
 :set fillchars=stl:-,stlnc:-
+"
+" coc vim
+"
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+inoremap <silent><expr> <Tab>
+	\ pumvisible() ? "\<C-n>" :
+	\ <SID>check_back_space() ? "\<Tab>" :
+	\ coc#refresh()
+" use shift tab navigate backwards
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "
 " vim: set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab :
 "

@@ -48,12 +48,9 @@ alias c=color
 alias center=~/dotfiles/scripts/center.sh
 alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
 alias dl='cd ~/Downloads'
-alias e=echo
 alias f='~/dotfiles/scripts/fetch.sh'
 alias grep='grep --color=always'
 alias lA='ls -A'
-alias maison='cd /home/lenny/Desktop/learning'
-alias matlab='~/matlab/R2018a/bin/matlab &!'
 alias mt=make\ test
 alias mr=make\ clear
 alias mc=make\ clean
