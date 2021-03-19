@@ -55,6 +55,7 @@ sad
 shook
 shookcat
 sigma
+sleep
 strong
 swim
 tautology
@@ -189,6 +190,10 @@ case "$in" in
 
 	nahhh)
 		ret=🥲
+		;;
+
+	sleep)
+		ret=😴
 		;;
 
 	implies)

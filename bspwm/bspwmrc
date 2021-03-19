@@ -27,7 +27,8 @@ bspc rule -a Gimp desktop=^7 follow=off
 bspc rule -a libreoffice-startcenter desktop=^8 follow=off
 bspc rule -a PyRadio desktop=^9 follow=off
 bspc rule -a qBittorrent desktop=^10 follow=off
-bspc rule -a Termite desktop=^3 follow=off
+bspc rule -a Termite state=floating rectangle=524x297+900+580
+bspc rule -a Terminal desktop=^3 follow=off
 bspc rule -a vlc desktop=^6 follow=off
 bspc rule -a Vlc desktop=^6 follow=off
 bspc rule -a Zathura desktop=^4 follow=off

@@ -3,6 +3,9 @@
 
 # term
 control + shift + Return
+	termite --class=Terminal
+
+control + Return
 	termite
 
 # rofi
@@ -61,9 +64,15 @@ control + shift + q
 
 # toggle fullscreen
 @XF86LaunchB
-	[[ -z `bspc query -N -n focused.fullscreen` ]]\
-	&& bspc node focused -t fullscreen            \
-	|| bspc node focused -t tiled
+	if [[ -z `bspc query -N -n focused.fullscreen` ]];\
+	then :;                                           \
+	bspc node focused.floating -g marked=on;          \
+	bspc node focused.tiled -g marked=off;            \
+	bspc node focused -t fullscreen;                  \
+	else :;                                           \
+	bspc node focused.marked -t floating;             \
+	bspc node focused.\!marked -t tiled;              \
+	fi;
 
 # switch workspaces
 alt + {1-9,0}
