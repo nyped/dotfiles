@@ -6,7 +6,7 @@
 ## Zsh stuff
 #
 
-export ZSH=/home/lenny/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 ZSH_THEME=simple
 plugins=(git web-search zsh-syntax-highlighting history)
 # TODO: get rid of omz
@@ -104,14 +104,14 @@ lyrics() {
 # receives 2 arguments : artist and title
 # fork of https://gist.github.com/febuiles/1549991
 	[[ $# != 2 ]] && echo usage: lyrics \<artist\> \<title\> && return 1
-	artist=$1
-	title=$2
-	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$artist" --data-urlencode "title=$title" | ~/dotfiles/scripts/center.sh |less -FX
+	{
+	echo -e $1 - $2 "\n"
+	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$1" --data-urlencode "title=$2"
+	} | ~/dotfiles/scripts/center.sh | less -FX
 }
 
 lyr() {
 	song | IFS=- read a b
-	echo -e $a - $b "\n" | center
 	lyrics "$a" "$b"
 }
 
@@ -174,9 +174,9 @@ if [ "$(< ~/extra/state)" = "on" ]; then
 	cd ~/maison/sync/inf401
 	alias a2ps='a2ps -s 2 -A fill -M Letter'
 	alias gcc='gcc -Wall -pedantic'
-	export GNUARMDIR=/home/${USER}/extra/stolenbin/
+	export GNUARMDIR=~/extra/stolenbin/
 	export PREFIX=`find ${GNUARMDIR} -maxdepth 1 -type d | grep --color=never arm- | sed -e "s/\/home\/${USER}\/extra\/stolenbin\///"`-
-	export PATH=/home/${USER}/extra/stolenbin/bin:/home/${USER}/extra/inf401bin:${PATH}
+	export PATH=~/extra/stolenbin/bin:~/extra/inf401bin:${PATH}
 fi
 
 toggleTP() {
@@ -188,7 +188,7 @@ toggleTP() {
 }
 
 precmd() {
-       printf "\033[4 q"
+	printf "\033[4 q"
 }
 
 #linux: new terminal tabs keep the same wd
