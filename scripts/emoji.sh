@@ -34,6 +34,7 @@ in
 incognito
 kali
 lambda
+lenny
 lol
 modulo
 monkey
@@ -49,11 +50,14 @@ or
 police
 proves
 qed
+really
 robot
 rock
 sad
+shame
 shook
 shookcat
+shrug
 sigma
 sleep
 strong
@@ -63,7 +67,9 @@ theta
 this
 thumb
 true
+wall
 wave
+yes
 EOF
 ) | rofi -dmenu -i -p Find: -lines 5 -columns 3)
 
@@ -74,6 +80,28 @@ case "$in" in
 
 	clown)
 		ret=🤡
+		;;
+
+	# requires japenes fonts
+	# arch: adobe-source-han-sans-otc-fonts
+	shrug)
+		ret="¯\_(ツ)_/¯"
+		;;
+
+	lenny)
+		ret="( ͡° ͜ʖ ͡°)"
+		;;
+
+	shame|wall)
+		ret="┬┴┬┴┤(･_├┬┴┬┴"
+		;;
+
+	really)
+		ret="﴾͡๏̯͡๏﴿ O'RLY?"
+		;;
+
+	yes)
+		ret="(ง'̀-'́)ง"
 		;;
 
 	shook)
