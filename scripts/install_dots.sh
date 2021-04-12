@@ -10,6 +10,8 @@ dir=(
   ~/.config/sxhkd
   ~/.config/termite
   ~/.config/zathura
+  ~/.config/rofi
+  ~/.config/gtk-3.0
 )
 
 pacman_deps=(
@@ -46,11 +48,14 @@ install_dots() {
   ln -sf ~/dotfiles/bspwm/bspwmrc ${dir[1]}
   ln -sf ~/dotfiles/${1}-theme/dunstrc ${dir[2]}
   ln -sf ~/dotfiles/nvim/init.vim ${dir[3]}
+  ln -sf ~/dotfiles/nvim/coc-settings.json ${dir[3]}
   ln -sf ~/dotfiles/X/picom.conf ${dir[4]}
   ln -sf ~/dotfiles/polybar/* ${dir[5]}
   ln -sf ~/dotfiles/bspwm/sxhkdrc ${dir[6]}
   ln -sf ~/dotfiles/${1}-theme/termite-conf ${dir[7]}/config
   ln -sf ~/dotfiles/${1}-theme/zathurarc ${dir[8]}
+  ln -sf ~/dotfiles/${1}-theme/rofi.rasi ${dir[9]}
+  ln -sf ~/dotfiles/X/gtk.css ${dir[10]}
   ln -sf ~/dotfiles/X/xbindkeysrc ~/.xbindkeysrc
   ln -sf ~/dotfiles/scripts/.xinitrc ~
   ln -sf ~/dotfiles/scripts/zshrc ~/.zshrc
@@ -59,7 +64,7 @@ install_dots() {
 
 install_deps() {
   echo Installing deps
-  sudo pacman -S ${pacman_deps[@]} || fail "Pacman deps install failed" 1
+  sudo pacman -S "${pacman_deps[@]}" || fail "Pacman deps install failed" 1
   which yay &>/dev/null || {
     sudo pacman -S --needed git base-devel
     git clone https://aur.archlinux.org/yay.git
@@ -67,7 +72,7 @@ install_deps() {
     makepkg -si
     cd -
   }
-  yay ${yay_deps[@]} || fail "Yay deps install failed" 2
+  yay "${yay_deps[@]}" || fail "Yay deps install failed" 2
 }
 
 install_dots day
