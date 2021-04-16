@@ -1,6 +1,18 @@
 #!/usr/bin/env bash
 
 clear && echo
+
+logo=(
+"    .--.     "
+"   |o_o |    "
+"   |:_/ |    "
+"  //   \ \   "
+" (|     | )  "
+"/'\_   _/'\  "
+"\___)=(___/  "
+)
+# logo taken from https://ascii.co.uk/art/linux
+
 label=$([[ "$(< ~/.t)" = day ]] && printf "\033[31m" || printf "\033[34m")
 reset=$(printf "\033[0m")
 . /etc/os-release
@@ -32,11 +44,11 @@ x=$((x/=1024))
 t=$((t/=1024))
 
 cat <<EOF
-${label}OS       ${reset}${PRETTY_NAME/Linux/}
-${label}PKG      ${reset}$(pacman -Q | wc -l)
-${label}UPTIME   ${reset}$u
-${label}EDITOR   ${reset}${EDITOR:-?}
-${label}SHELL    ${reset}${SHELL##*/}
-${label}MEMORY   ${reset}${x}/${t}
-${label}KERNEL   ${reset}${k%%-arch*}
+${label}${logo[0]} OS       ${reset}${PRETTY_NAME/Linux/}
+${label}${logo[1]} PKG      ${reset}$(pacman -Q | wc -l)
+${label}${logo[2]} UPTIME   ${reset}$u
+${label}${logo[3]} EDITOR   ${reset}${EDITOR:-?}
+${label}${logo[4]} SHELL    ${reset}${SHELL##*/}
+${label}${logo[5]} MEMORY   ${reset}${x}/${t}
+${label}${logo[6]} KERNEL   ${reset}${k%%-arch*}
 EOF

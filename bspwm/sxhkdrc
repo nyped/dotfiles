@@ -6,7 +6,7 @@ control + shift + Return
 	termite --class=Terminal
 
 control + Return
-	termite
+	termite --class=terminal
 
 # rofi
 control + space
@@ -58,9 +58,9 @@ shift + @{XF86MonBrightnessUp,XF86MonBrightnessDown}
 super + shift + {q,r}
 	bspc {quit,wm -r}
 
-# kill windows
-control + shift + q
-	bspc node -k
+# close/kill windows
+control + {shift + q,q}
+	bspc node -{k,c}
 
 # toggle fullscreen
 @XF86LaunchB
