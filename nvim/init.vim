@@ -11,6 +11,7 @@
 :set shellcmdflag=-ic
 :set nu rnu
 :set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+:set mouse=nv
 "
 " exiting terminal
 "
@@ -23,9 +24,34 @@
 "
 " scrolling
 "
-:nnoremap <C-Up> <C-y>
-:nnoremap <C-Down> <C-e>
 :set scrolloff=5
+if &mouse == 'nv'
+	" scroll up with k
+	:noremap <ScrollWheelUp>     k
+	:noremap <2-ScrollWheelUp>   2k
+	:noremap <3-ScrollWheelUp>   3k
+	:noremap <4-ScrollWheelUp>   4k
+	:noremap <ScrollWheelDown>   j
+	:noremap <2-ScrollWheelDown> 2j
+	:noremap <3-ScrollWheelDown> 3j
+	:noremap <4-ScrollWheelDown> 4j
+	" scroll down with j
+	:noremap <C-ScrollWheelUp>     <C-y>
+	:noremap <C-2-ScrollWheelUp>   2<C-y>
+	:noremap <C-3-ScrollWheelUp>   3<C-y>
+	:noremap <C-4-ScrollWheelUp>   4<C-y>
+	:noremap <C-ScrollWheelDown>   <C-e>
+	:noremap <C-2-ScrollWheelDown> 2<C-e>
+	:noremap <C-3-ScrollWheelDown> 3<C-e>
+	:noremap <C-4-ScrollWheelDown> 4<C-e>
+else
+	:nnoremap <C-Up> <C-y>
+	:nnoremap <C-Down> <C-e>
+endif
+"
+" don't paste in normal mode
+"
+:map <MiddleMouse> <Nop>
 "
 " arrow keys like hjkl feature
 "
@@ -201,9 +227,9 @@ endfunction
 "
 " cleaning the new terminal split
 "
-:autocmd TermOpen * :set nonu nornu
+:autocmd TermOpen * :set nonu nornu nocursorline
 :autocmd TermOpen term://* :startinsert
-:autocmd TermClose * :set nu rnu
+:autocmd TermClose * :set nu rnu cursorline
 "
 " open everything in tabs
 "
@@ -232,7 +258,7 @@ augroup end
 "
 " hsplit sep is the minus character
 "
-:set fillchars=stl:-,stlnc:-
+:set fillchars=stl:―,stlnc:―
 "
 " coc vim
 "
