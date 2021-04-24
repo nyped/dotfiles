@@ -12,6 +12,7 @@ bar
 bug
 calendar
 car
+center
 clown
 cold
 definition
@@ -338,6 +339,12 @@ case "$in" in
 
 	bar)
 		ret=$(printf "\U0305")
+		;;
+
+	center)
+		# send ctrl+enter (it is mapped to spawn a new term...)
+		xdotool key --window $(bspc query -N -n .local.focused) ctrl+KP_Enter
+		exit 0
 		;;
 
 	*)
