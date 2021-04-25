@@ -274,5 +274,9 @@ inoremap <silent><expr> <Tab>
 " use shift tab navigate backwards
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "
+" restore cursor
+"
+autocmd VimLeave * set guicursor=a:hor20
+"
 " vim: set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab :
 "
