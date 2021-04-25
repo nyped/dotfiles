@@ -95,8 +95,9 @@ def() {
 
 # pandoc
 pan() {
-	var=$( basename $1 | sed s/.md// | sed s/.pdf// )
-	pandoc --highlight-style=tango ~/maison/style.md -so $var.pdf $var.md
+	[[ $# != 1 ]] && echo usage: pan \<file\> && return 1
+	var="${1%.*}"
+	pandoc --highlight-style=tango -so "$var".pdf "$var".md
 }
 
 # karaoke stuff lmao
@@ -185,10 +186,6 @@ toggleTP() {
 	else
 		echo on | tee ~/extra/state
 	fi
-}
-
-precmd() {
-	printf "\033[4 q"
 }
 
 #linux: new terminal tabs keep the same wd
