@@ -38,7 +38,7 @@ function my_git_prompt() {
     STATUS="($STATUS%f)%b"
   fi
 
-  echo " %B%U$(my_current_branch)%u$STATUS%f%b"
+  echo "on %B$(my_current_branch)$STATUS%f%b"
 }
 
 function my_current_branch() {
@@ -55,27 +55,31 @@ function show_path() {
   if [[ ${#PWD} -gt "$(($COLUMNS/2))" ]]; then
     if [[ ${#PWD:t} -gt "$(($COLUMNS/2))" ]]; then
       # fish like wd but with shrinked tail
-      echo in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}}}/${${PWD:t}:0:10}%b...%B${${PWD:t}:$((${#PWD:t}-10)):10}
+      echo \ in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}}//\/~/\~}/${${PWD:t}:0:10}%b...%B${${PWD:t}:$((${#PWD:t}-10)):10}
     else
       # fish like wd with expanded tail
-      echo in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+      echo \ in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
     fi
   else
     # full size wd (ommit home dir)
-    [[ $PWD = /home/$(whoami) ]] || echo in \%B%~
+    [[ $PWD = /home/$(whoami) ]] || echo \ in \%B%~
   fi
 }
 
-PROMPT=$'\n$(ssh_connection)%(?. %B> .%{$fg_bold[red]%} > )%b'
-
-RPROMPT='%(?..%{$fg_bold[red]%}(%?%)%b)%1(j.%{$fg_bold[blue]%}  %{$reset_color%}.)$(my_git_prompt) $(show_path)%b'
-
-ZSH_THEME_PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[magenta]%}↑"
 ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[blue]%}↓"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[blue]%}●"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}●"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}●"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}✕"
+
+RPROMPT_BAD_RETURN="%{$fg_bold[red]%}%?%b"
+RPROMPT_BG_JOB="%{$fg_bold[blue]%}+%b"
+
+PROMPT=$'\n'
+PROMPT+="$(ssh_connection)"
+PROMPT+="%B%(?. > . >> )%b"
+RPROMPT='$(my_git_prompt)$(show_path)%b'
+RPROMPT+="%(?.%1(j.%B[%b$RPROMPT_BG_JOB%B]%b.).%B[%b$RPROMPT_BAD_RETURN%1(j.$RPROMPT_BG_JOB.)%B]%b)"
 
 # vim:set ts=8 sts=2 sw=2 et syn=sh :
