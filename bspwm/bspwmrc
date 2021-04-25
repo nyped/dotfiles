@@ -36,3 +36,5 @@ bspc rule -a zoom desktop=^7 follow=off
 bspc config external_rules_command /home/lenny/dotfiles/bspwm/external_rules.sh
 
 ~/dotfiles/polybar/launch.sh
+~/dotfiles/bspwm/urgent_win.sh &
+disown
