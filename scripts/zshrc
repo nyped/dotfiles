@@ -95,9 +95,9 @@ def() {
 
 # pandoc
 pan() {
-	[[ $# != 1 ]] && echo usage: pan \<file\> && return 1
+	[[ $# != 1 ]] && echo usage: EXT= pan \<file\> && return 1
 	var="${1%.*}"
-	pandoc --highlight-style=tango -so "$var".pdf "$var".md
+	pandoc --highlight-style=tango -so "$var"."${EXT:-pdf}" "$var".md
 }
 
 # karaoke stuff lmao
@@ -143,14 +143,15 @@ share() {
 
 # replace patterns in file name
 # by default:
-# _F=' ' _R=_ evomer stuff
+# F=' ' R= evomer stuff
 evomer() {
 	[[ $# = 0 ]] && \
-	echo usage: \[_F=pat1\] \[_R=pat2\] evomer \<files\> >&2 && \
+	echo usage: \[F=pat1\] \[R=pat2\] evomer \<files\> >&2 && \
 	return 1
 
 	for i in $* ; do
-		tmp=${i//${_F:= }/${_R:=_}}
+		tmp=${i//${F:= }/${R}}
+		[[ "$tmp" == "$i" ]] && continue
 		if [[ -f $tmp ]];
 			then echo $tmp exists >&2
 			else mv $i $tmp
