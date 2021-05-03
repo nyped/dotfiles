@@ -3,7 +3,7 @@
 [global]
     font = Fantasque Sans Mono 11
     markup = full
-    format = "<b>%s</b>    %b"
+    format = "<b>%s</b>\n%b"
     sort = yes
     indicate_hidden = yes
     bounce_freq = 0
@@ -26,6 +26,7 @@
     mouse_left_click = close_current
     alignment = center
 	icon_path = usr/share/icons/Adwaita/16x16/status/:/usr/share/icons/Adwaita/16x16/devices/
+	max_icon_size = 128
 
 [frame]
     color = "#9ba2b0"
