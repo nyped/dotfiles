@@ -63,7 +63,7 @@ control + {shift + q,q}
 	bspc node -{k,c}
 
 # toggle fullscreen
-@XF86LaunchB
+alt + Tab
 	if [[ -z `bspc query -N -n focused.fullscreen` ]];\
 	then :;                                           \
 	bspc node focused.floating -g marked=on;          \

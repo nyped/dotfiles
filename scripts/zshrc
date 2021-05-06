@@ -183,6 +183,9 @@ export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 export MOZ_X11_EGL=1
 export VDPAU_DRIVER=va_gl
 
+# qt dark theme
+export QT_QPA_PLATFORMTHEME=qt5ct
+
 # univ env
 if [ "$(< ~/extra/state)" = "on" ]; then
 	echo TP mode on /\!\\, autocd
