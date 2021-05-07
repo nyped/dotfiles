@@ -24,7 +24,6 @@ pacman_deps=(
   picom
   sxhkd
   termite
-  xbindkeys
   xsetroot
   zathura
   zathura-djvu
@@ -56,7 +55,6 @@ install_dots() {
   ln -sf ~/dotfiles/${1}-theme/zathurarc ${dir[8]}
   ln -sf ~/dotfiles/${1}-theme/rofi.rasi ${dir[9]}
   ln -sf ~/dotfiles/X/gtk.css ${dir[10]}
-  ln -sf ~/dotfiles/X/xbindkeysrc ~/.xbindkeysrc
   ln -sf ~/dotfiles/scripts/.xinitrc ~
   ln -sf ~/dotfiles/scripts/zshrc ~/.zshrc
   echo ${1} > ~/.t
