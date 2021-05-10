@@ -7,4 +7,5 @@ systemctl --user import-environment DISPLAY
 xrdb -merge ~/.Xresources
 xset s off
 xset s noblank
+xbindkeys &!
 exec bspwm

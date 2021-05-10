@@ -8,7 +8,7 @@ dir=(
   ~/.config/picom
   ~/.config/polybar
   ~/.config/sxhkd
-  ~/.config/termite
+  ~/.config/alacritty
   ~/.config/zathura
   ~/.config/rofi
   ~/.config/gtk-3.0
@@ -23,7 +23,7 @@ pacman_deps=(
   neovim
   picom
   sxhkd
-  termite
+  alacritty
   xsetroot
   zathura
   zathura-djvu
@@ -43,7 +43,7 @@ fail() {
 
 install_dots() {
   mkdir -p ${dir[@]}
-  ln -sf ~/dotfiles/${1:=day}-theme/bat-conf ${dir[0]}/config
+  ln -sf ~/dotfiles/${1:=day}-theme/bat.conf ${dir[0]}/config
   ln -sf ~/dotfiles/bspwm/bspwmrc ${dir[1]}
   ln -sf ~/dotfiles/${1}-theme/dunstrc ${dir[2]}
   ln -sf ~/dotfiles/nvim/init.vim ${dir[3]}
@@ -51,7 +51,6 @@ install_dots() {
   ln -sf ~/dotfiles/X/picom.conf ${dir[4]}
   ln -sf ~/dotfiles/polybar/* ${dir[5]}
   ln -sf ~/dotfiles/bspwm/sxhkdrc ${dir[6]}
-  ln -sf ~/dotfiles/${1}-theme/termite-conf ${dir[7]}/config
   ln -sf ~/dotfiles/${1}-theme/zathurarc ${dir[8]}
   ln -sf ~/dotfiles/${1}-theme/rofi.rasi ${dir[9]}
   ln -sf ~/dotfiles/X/gtk.css ${dir[10]}

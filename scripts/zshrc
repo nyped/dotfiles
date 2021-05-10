@@ -172,6 +172,10 @@ mount_dev() {
 	sudo mount -o gid=users,fmask=113,dmask=002 "$1" "${2:-/mnt}" && echo mounted successfully || echo error
 }
 
+precmd() {
+	printf "\033[4 q"
+}
+
 # zle stuff
 export ZSH_HIGHLIGHT_STYLES[arg0]="none"
 export ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
@@ -179,12 +183,11 @@ export ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"
 export ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"
 export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 
-# firefox stuff
-export MOZ_X11_EGL=1
-export VDPAU_DRIVER=va_gl
-
 # qt dark theme
 export QT_QPA_PLATFORMTHEME=qt5ct
+
+export LIBVA_DRIVER_NAME=i965
+export MOZ_X11_EGL=1
 
 # univ env
 if [ "$(< ~/extra/state)" = "on" ]; then

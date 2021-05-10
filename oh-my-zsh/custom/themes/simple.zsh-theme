@@ -38,7 +38,7 @@ function my_git_prompt() {
     STATUS="($STATUS%f)%b"
   fi
 
-  echo "on %B$(my_current_branch)$STATUS%f%b"
+  echo " on %B$(my_current_branch)$STATUS%f%b"
 }
 
 function my_current_branch() {
@@ -75,11 +75,13 @@ ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}✕"
 
 RPROMPT_BAD_RETURN="%{$fg_bold[red]%}%?%b"
 RPROMPT_BG_JOB="%{$fg_bold[blue]%}+%b"
+PRE_INFOS="("
+POST_INFOS="%)"
 
 PROMPT=$'\n'
 PROMPT+="$(ssh_connection)"
 PROMPT+="%B%(?. > . >> )%b"
-RPROMPT='$(my_git_prompt)$(show_path)%b'
-RPROMPT+="%(?.%1(j.%B[%b$RPROMPT_BG_JOB%B]%b.).%B[%b$RPROMPT_BAD_RETURN%1(j.$RPROMPT_BG_JOB.)%B]%b)"
+RPROMPT="%(?.%1(j.%B$PRE_INFOS%b$RPROMPT_BG_JOB%B$POST_INFOS%b.).%B$PRE_INFOS%b$RPROMPT_BAD_RETURN%1(j.$RPROMPT_BG_JOB.)%B$POST_INFOS%b)"
+RPROMPT+='$(my_git_prompt)$(show_path)%b'
 
 # vim:set ts=8 sts=2 sw=2 et syn=sh :

@@ -3,10 +3,10 @@
 
 # term
 control + shift + Return
-	termite --class=Terminal
+	alacritty
 
 control + Return
-	termite --class=terminal
+	alacritty --class alacritty,terminal
 
 # rofi
 control + space

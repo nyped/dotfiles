@@ -1,15 +1,7 @@
 # swipe 4 left -> switch to previous workspace
 "bspc desktop -f prev.occupied.local"
-	b:10
+	b:11
 
 # swipe 4 right -> switch to next workspace
 "bspc desktop -f next.occupied.local"
-	b:11
-
-# swipe 4 up -> floate focused window
-"[[ -z $(bspc query -N -n focused.floating) ]] && bspc node focused -t floating || bspc node focused -t tiled"
-	b:12
-
-# swipe 4 down -> tile focused window
-"[[ -z $(bspc query -N -n focused.floating) ]] && bspc node focused -t floating || bspc node focused -t tiled"
-	b:13
+	b:10
