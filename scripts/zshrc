@@ -67,6 +67,8 @@ alias vim=nvim
 alias v=nvim
 alias vr='nvim -R'
 
+bindkey \^U backward-kill-line
+
 #
 ## functions
 #
@@ -186,6 +188,7 @@ export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 # qt dark theme
 export QT_QPA_PLATFORMTHEME=qt5ct
 
+# hardware acceleration
 export LIBVA_DRIVER_NAME=i965
 export MOZ_X11_EGL=1
 

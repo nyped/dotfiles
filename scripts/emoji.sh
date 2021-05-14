@@ -5,7 +5,7 @@
 in=$((cat <<EOF
 alien
 alpha
-and
+land
 angel
 apple
 bar
@@ -47,7 +47,7 @@ not
 note
 noteq
 notin
-or
+lor
 police
 proves
 qed
@@ -237,11 +237,11 @@ case "$in" in
 		ret=¬
 		;;
 
-	and)
+	land)
 		ret=∧
 		;;
 
-	or)
+	lor)
 		ret=∨
 		;;
 

@@ -1,6 +1,9 @@
-#!/bin/zsh
+#!/bin/bash
 
 pgrep -x sxhkd > /dev/null || sxhkd &
+
+monitors=($(bspc query -M --names | sort))
+xrandr --output "${monitors[0]}" --auto --output "${monitors[1]:-HDMI-1}" --auto --right-of "${monitors[0]}"
 
 if [ "$(< ~/.t)" = day ]
 	then ~/dotfiles/scripts/color.sh day
@@ -15,26 +18,14 @@ bspc config active_border_color \#9ba2b0
 bspc config focus_follows_pointer true
 bspc config ignore_ewmh_focus    true
 bspc config pointer_motion_interval 7
-bspc config remove_unplugged_monitors
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
 bspc config split_ratio          0.5
 bspc config window_gap          12
-bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+bspc monitor eDP-1 -d 1 2 3 4 5 6 7 8 9 10
+bspc monitor HDMI-1 -d 11 12 13 14 15 16 17 18 19 20
 bspc config border_width         1
 bspc config top_padding 32
-
-bspc rule -a discord desktop=^5 follow=off
-bspc rule -a firefox desktop=^1 follow=off
-bspc rule -a Gimp desktop=^7 follow=off
-bspc rule -a GV desktop=^2 follow=on
-bspc rule -a PyRadio desktop=^9 follow=off
-bspc rule -a qBittorrent desktop=^10 follow=off
-bspc rule -a terminal state=floating rectangle=524x297+900+580
-bspc rule -a Terminal desktop=^3 follow=off
-bspc rule -a vlc desktop=^6 follow=off
-bspc rule -a Vlc desktop=^6 follow=off
-bspc rule -a Zathura desktop=^4 follow=off
-bspc rule -a zoom desktop=^7 follow=off
-
 bspc config external_rules_command /home/lenny/dotfiles/bspwm/external_rules.sh
 
 ~/dotfiles/polybar/launch.sh

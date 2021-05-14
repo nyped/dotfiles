@@ -78,9 +78,17 @@ alt + Tab
 alt + {1-9,0}
 	bspc desktop -f '^{1-9,10}'
 
+# switch workspaces (right monitor)
+alt + shift + {1-9}
+	bspc desktop -f '^1{1-9}'
+
 # move win to workspace
 ctrl + shift + {1-9,0}
 	bspc node -d '^{1-9,10}'
+
+# move win to workspace (right monitor)
+super + {1-9}
+	bspc node -d '^1{1-9}'
 
 # next workspace
 ctrl + Tab
@@ -160,7 +168,3 @@ super + z
 # quick resize
 super + shift + {1-5}
 	pkill resize.sh ; ~/dotfiles/scripts/resize.sh {0-4}
-
-# quick moves
-super + {1-5}
-	pkill move.sh ; ~/dotfiles/scripts/move.sh {0-4}
