@@ -7,11 +7,15 @@ class="$2"
 instance="$3"
 
 # Windows spawn in the focused monitor
-[[ "$(bspc query -M -m .focused --names)" == "HDMI-1" && "$(bspc query -M --names | wc -l)" > 1 ]] && _PREF=1 || _PREF=""
+[[ "$(bspc query -M -m .focused --names)" == "HDMI1" && "$(bspc query -M --names | wc -l)" > 1 ]] && _PREF=1 || _PREF=""
 
 case "$class" in
   *office*)
      echo desktop=^${_PREF}8
+  ;;
+
+  discord)
+     echo desktop=^${_PREF}5
   ;;
 
   firefox)
