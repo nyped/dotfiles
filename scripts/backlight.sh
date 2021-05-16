@@ -1,0 +1,96 @@
+#!/bin/bash
+# deps: brightnessctl ddccontrol libnotify
+# All my backlight stuff in one script !
+
+notify() {
+  [[ -n $NOTIFY ]] && \
+  notify-send "$1" "$2" \
+    -h string:x-canonical-private-synchronous:anything \
+    -a notif \
+  || \
+  echo "$1 - $2"
+}
+
+info() {
+  cat << EOF
+usage: ${0##*/} [-i | -d N] [-l | -m | -k | -b] [-h] [-n]
+      -i : increase of N (an integer that can be followed by a % sign)
+      -d : decrease of N (an integer that can be followed by a % sign)
+      -l : operate on laptop backlight
+      -m : operate on monitor backlight
+      -k : operate on keyboard backlight
+      -b : operate on monitor blue light
+      -h : show help
+      -n : send a notification
+EOF
+}
+
+while [[ $# != 0 ]]; do
+  case "$1" in
+    -l | --laptop)
+      DEV=laptop
+    ;;
+
+    -m | --monitor)
+      MESS=brightness
+      DEV=monitor
+    ;;
+
+    -k | --keyboard)
+      DEV=keyboard
+    ;;
+
+    -b | --blue)
+      MESS="blue light"
+      DEV=monitor
+      ADDRESS=0x1a
+    ;;
+
+    --inc | -i)
+      shift
+      BCTL_VAL="$1+" DDC_VAL="+${1/%/}"
+    ;;
+
+    --dec | -d)
+      shift
+      BCTL_VAL="$1-" DDC_VAL="-${1/%/}"
+    ;;
+
+    --help | -h)
+      info
+      exit 0
+    ;;
+
+    --notify | -n)
+      NOTIFY=y
+    ;;
+
+    *)
+      usage >&2
+      exit 255
+    ;;
+  esac
+
+  shift
+done
+
+: ${BCTL_VAL:=1%+} ${DDC_VAL:=+1} ${DEV:=laptop} ${ADDRESS:=0x10}
+
+case "$DEV" in
+  laptop)
+    RET=$(brightnessctl s $BCTL_VAL | awk 'NR==3 {gsub("[()]",""); print $4}')
+    notify "Laptop brightness" "at $RET"
+  ;;
+
+  keyboard)
+    RET=$(brightnessctl -d smc::kbd_backlight s $BCTL_VAL | awk 'NR==3 {gsub("[()]",""); print $4}')
+    notify "Keyboard backlight" "at $RET"
+  ;;
+
+  monitor)
+    RET=$(ddccontrol dev:/dev/i2c-5 -r $ADDRESS -W $DDC_VAL 2>/dev/null | awk -F'/' 'END {print $2}')
+    notify "Monitor $MESS" "at $RET%"
+  ;;
+esac
+
+# vim: set ts=8 sts=2 sw=2 noet :

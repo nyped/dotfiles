@@ -4,7 +4,7 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 
 monitors=($(xrandr --query | grep \ connected --color=never | cut -d \  -f 1 | sort))
 # LVDS-1 is indexed 1. Gotta reverse it
-[[ ${monitors[0]} == HDMI1 ]] && monitors=(${monitors[1]} ${monitors[0]})
+[[ ${monitors[0]} == HDMI-1 ]] && monitors=(${monitors[1]} ${monitors[0]})
 
 if [ "$(< ~/.t)" = day ]
 	then ~/dotfiles/scripts/color.sh day
@@ -24,7 +24,7 @@ bspc config remove_unplugged_monitors true
 bspc config split_ratio          0.5
 bspc config window_gap          12
 bspc monitor "${monitors[0]}" -d 1 2 3 4 5 6 7 8 9 10
-bspc monitor HDMI1 -d 11 12 13 14 15 16 17 18 19 20
+bspc monitor HDMI-1 -d 11 12 13 14 15 16 17 18 19 20
 bspc config border_width         1
 bspc config top_padding 32
 bspc config external_rules_command /home/lenny/dotfiles/bspwm/external_rules.sh

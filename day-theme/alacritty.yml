@@ -1,5 +1,4 @@
 env:
-  TERM: alacritty
   WINIT_X11_SCALE_FACTOR: '1'
 
 font:

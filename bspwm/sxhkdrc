@@ -31,17 +31,13 @@ super + space
 shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
 	~/dotfiles/scripts/volume.sh {+1,-1}
 
-# kb
-@{XF86KbdBrightnessUp,XF86KbdBrightnessDown}
-	~/dotfiles/scripts/kb.sh {--inc,--dec} 5
-
 # screen bl
-@{XF86MonBrightnessUp,XF86MonBrightnessDown}
-	~/dotfiles/scripts/bl.sh {--inc,--dec} 25
+@{XF86MonBrightnessUp,XF86MonBrightnessDown} {+ shift,_}
+	~/dotfiles/scripts/backlight.sh -n -l {--inc,--dec} {1,1%}
 
-# screen bl with 1% scale
-shift + @{XF86MonBrightnessUp,XF86MonBrightnessDown}
-	~/dotfiles/scripts/bl.sh {--inc,--dec} 1
+# kb, monitor bl
+{shift +,_} @{XF86KbdBrightnessUp,XF86KbdBrightnessDown}
+	~/dotfiles/scripts/backlight.sh -n {-m,-k} {--inc,--dec} 5
 
 # play, next, prev
 @{XF86AudioPlay,XF86AudioNext,XF86AudioPrev}

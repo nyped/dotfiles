@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
 
-ret=$(echo -e "Lock\nReboot\nRecord\nTheme\nShutdown\nScreenshot" | rofi -dmenu -i -p Do: -lines 3 -columns 3)
-
+ret=$(
+cat <<EOF | rofi -dmenu -i -p Do: -lines 4 -columns 4
+Lock
+Reboot
+Shutdown
+Suspend
+Screen
+Record
+Theme
+Music
+Dock
+Multihead
+Monohead
+Editor
+EOF
+)
 case $ret in
 	Lock)
 		~/dotfiles/scripts/lock.sh
@@ -23,8 +37,34 @@ case $ret in
 		~/dotfiles/scripts/color.sh
 		;;
 
-	Screenshot)
+	Screen | Screenshoot)
 		~/dotfiles/scripts/screenshot.sh -s
+		;;
+
+	Suspend)
+		systemctl suspend
+		;;
+
+	Music)
+		spotify  --no-zygote --disable-gpu --disable-software-rasterizer &
+		disown
+		;;
+
+	Dock)
+		~/dotfiles/scripts/monitors.sh -d
+		;;
+
+	Multihead)
+		~/dotfiles/scripts/monitors.sh -m
+		;;
+
+	Monohead)
+		~/dotfiles/scripts/monitors.sh -l
+		;;
+
+	Editor)
+		alacritty -e nvim &
+		disown
 		;;
 
 	"")
