@@ -1,12 +1,9 @@
 ## wm independent hotkeys
 #
 
-# term
-control + shift + Return
-	alacritty
-
-control + Return
-	alacritty --class alacritty,terminal
+# term/floating term
+control + {shift +,_} Return
+	alacritty {_,--class alacritty\,terminal}
 
 # rofi
 control + space
@@ -70,29 +67,34 @@ alt + Tab
 	bspc node focused.\!marked -t tiled;              \
 	fi;
 
-# switch workspaces
+# switch workspaces on current monitor
 alt + {1-9,0}
-	bspc desktop -f '^{1-9,10}'
+	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 ]] \
+	&& SHIFT=10 || SHIFT=0;                                \
+	TARGET=$(($SHIFT+{1-9,10}));                           \
+	bspc desktop -f ^$TARGET
 
-# switch workspaces (right monitor)
-alt + shift + {1-9}
-	bspc desktop -f '^1{1-9}'
-
-# move win to workspace
+# move win to current monitor
 ctrl + shift + {1-9,0}
-	bspc node -d '^{1-9,10}'
+	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 \
+	&& "$(bspc query -M | wc -l)" > 1 ]] &&             \
+	_PREF=1 || _PREF="";                                \
+	bspc node -d ^$\{_PREF\}{1-9,0}
 
-# move win to workspace (right monitor)
-super + {1-9}
-	bspc node -d '^1{1-9}'
+# move win to the next monitor (follow or not)
+super + c
+	bspc node -m next
 
-# next workspace
-ctrl + Tab
-	bspc desktop -f next.occupied.local
+# next/prev workspace on focused monitor
+ctrl {_,+ shift} + Tab
+	bspc desktop -f {next,prev}.occupied.local
 
-# prev workspace
-ctrl + shift + Tab
-	bspc desktop -f prev.occupied.local
+# next/prev workspace on unfocused monitor
+super {_,+ shift} + Tab
+	dir={next,prev};                            \
+	bspc monitor -f next;                       \
+	bspc desktop -f $dir.occupied.local;        \
+	bspc monitor -f last
 
 # toggle floating
 ctrl + shift + space
@@ -150,8 +152,12 @@ super + x
 	bspc node @parent -R 90
 
 # whole tree rotation
-super + {a,s}
+super + {a,d}
 	bspc node @/ -C {forward,backward}
+
+# whole tree symmetry
+super + {w,s}
+	bspc node @/ -F {vertical,horizontal}
 
 # toggle polybar
 super + z
