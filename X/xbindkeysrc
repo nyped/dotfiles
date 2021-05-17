@@ -2,6 +2,14 @@
 "bspc desktop -f prev.occupied.local"
 	b:11
 
+# same but with mouse
+"bspc desktop -f prev.occupied.local"
+	b:8
+
 # swipe 4 right -> switch to next workspace
 "bspc desktop -f next.occupied.local"
 	b:10
+
+# same but with mouse
+"bspc desktop -f next.occupied.local"
+	b:9

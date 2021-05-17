@@ -14,8 +14,8 @@ super + Escape
 	pkill -USR1 -x sxhkd
 
 # emojis
-super + space
-	~/dotfiles/scripts/emoji.sh
+{super + space,control + shift + alt + mod4 + space}
+	~/dotfiles/scripts/emoji.sh {_,_}
 
 ## media and backlights
 #
@@ -44,6 +44,10 @@ shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
 {F3,shift + F3, @XF86LaunchA}
 	~/dotfiles/scripts/screenshot.sh {-w,-a,-s}
 
+# launch menu
+XF86Tools
+	~/dotfiles/scripts/menu.sh
+
 ## bspwm hotkeys
 #
 
@@ -69,9 +73,10 @@ alt + Tab
 
 # switch workspaces on current monitor
 alt + {1-9,0}
-	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 ]] \
-	&& SHIFT=10 || SHIFT=0;                                \
-	TARGET=$(($SHIFT+{1-9,10}));                           \
+	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 \
+	&& "$(bspc query -M | wc -l)" > 1 ]]                \
+	&& SHIFT=10 || SHIFT=0;                             \
+	TARGET=$(($SHIFT+{1-9,10}));                        \
 	bspc desktop -f ^$TARGET
 
 # move win to current monitor

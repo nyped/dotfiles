@@ -37,7 +37,7 @@ export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 export TERM=xterm-256color
 export EDITOR=nvim
-export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=5" --noplugin'
+export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=500" --noplugin'
 
 #
 ## aliases
