@@ -101,6 +101,11 @@ super {_,+ shift} + Tab
 	bspc desktop -f $dir.occupied.local;        \
 	bspc monitor -f last
 
+# focus in the given direction
+control + shift + alt + mod4 + {h,j,k,l}
+	bspc node -f {west,south,north,east}
+
+
 # toggle floating
 ctrl + shift + space
 	[[ -z `bspc query -N -n focused.floating` ]]\

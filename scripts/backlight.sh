@@ -66,7 +66,7 @@ while [[ $# != 0 ]]; do
     ;;
 
     *)
-      usage >&2
+      info >&2
       exit 255
     ;;
   esac
