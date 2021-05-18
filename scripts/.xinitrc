@@ -13,7 +13,7 @@ setxkbmap \
 	-option ctrl:swap_lwin_lctl \
 	-option caps:none \
 	-option compose:ralt \
-	-option ctrl:menu_rctrl
+	-option altwin:menu_win
 xmodmap \
 	-e "clear Lock" \
 	-e "keycode 0x42 = BackSpace BackSpace BackSpace"

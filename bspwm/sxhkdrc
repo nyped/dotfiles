@@ -48,6 +48,19 @@ shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
 XF86Tools
 	~/dotfiles/scripts/menu.sh
 
+# reload keyboard config
+XF86Calculator
+	setxkbmap -option; \
+	setxkbmap \
+	-layout us \
+	-option ctrl:swap_lwin_lctl \
+	-option caps:none \
+	-option compose:ralt \
+	-option altwin:menu_win; \
+	xmodmap \
+	-e "clear Lock" \
+	-e "keycode 0x42 = BackSpace BackSpace BackSpace"
+
 ## bspwm hotkeys
 #
 
@@ -85,6 +98,19 @@ ctrl + shift + {1-9,0}
 	&& "$(bspc query -M | wc -l)" > 1 ]] &&             \
 	_PREF=1 || _PREF="";                                \
 	bspc node -d ^$\{_PREF\}{1-9,0}
+
+# move win to the current desktop of the next monitor
+control + shift + alt + mod4 + space + m
+	bspc node -m next
+
+# move win to the corresponding workspace of the next monitor
+control + shift + alt + mod4 + space + n
+	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 ]] \
+	&& SHIFT=0 || SHIFT=10;                                \
+	[[ "$(bspc query -M | wc -l)" > 1 ]] || SHIFT=0;       \
+	CURRENT=$(bspc query -D -m -n --names);                \
+	TARGET=$(($SHIFT+$\{CURRENT: -1\}));                   \
+	bspc node -d ^$TARGET
 
 # move win to the next monitor (follow or not)
 super + c

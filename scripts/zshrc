@@ -66,10 +66,9 @@ alias tmp=/tmp
 alias vim=nvim
 alias v=nvim
 alias vr='nvim -R'
-alias day='redshift -P -O 6500'
-alias night='redshift -P -O 4500'
 
-bindkey \^U backward-kill-line
+bindkey "^U" backward-kill-line
+bindkey "^[l" clear-screen
 
 #
 ## functions
