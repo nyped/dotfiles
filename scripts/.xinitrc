@@ -8,13 +8,5 @@ xrdb -merge ~/.Xresources
 xset s off
 xset s noblank
 xbindkeys &!
-setxkbmap \
-	-layout us \
-	-option ctrl:swap_lwin_lctl \
-	-option caps:none \
-	-option compose:ralt \
-	-option altwin:menu_win
-xmodmap \
-	-e "clear Lock" \
-	-e "keycode 0x42 = BackSpace BackSpace BackSpace"
+~/dotfiles/scripts/kb.sh -m
 exec bspwm

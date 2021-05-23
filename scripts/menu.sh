@@ -52,14 +52,17 @@ case $ret in
 
 	Dock)
 		~/dotfiles/scripts/monitors.sh -d
+		~/dotfiles/scripts/kb.sh -e
 		;;
 
 	Multihead)
 		~/dotfiles/scripts/monitors.sh -m
+		~/dotfiles/scripts/kb.sh -e
 		;;
 
 	Monohead)
 		~/dotfiles/scripts/monitors.sh -l
+		~/dotfiles/scripts/kb.sh -m
 		;;
 
 	Editor)

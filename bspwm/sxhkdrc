@@ -49,17 +49,8 @@ XF86Tools
 	~/dotfiles/scripts/menu.sh
 
 # reload keyboard config
-XF86Calculator
-	setxkbmap -option; \
-	setxkbmap \
-	-layout us \
-	-option ctrl:swap_lwin_lctl \
-	-option caps:none \
-	-option compose:ralt \
-	-option altwin:menu_win; \
-	xmodmap \
-	-e "clear Lock" \
-	-e "keycode 0x42 = BackSpace BackSpace BackSpace"
+{_,shift +} XF86Calculator
+	~/dotfiles/scripts/kb.sh {-e,-m}
 
 ## bspwm hotkeys
 #
@@ -128,9 +119,8 @@ super {_,+ shift} + Tab
 	bspc monitor -f last
 
 # focus in the given direction
-control + shift + alt + mod4 + {h,j,k,l}
+alt + {h,j,k,l}
 	bspc node -f {west,south,north,east}
-
 
 # toggle floating
 ctrl + shift + space

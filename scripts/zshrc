@@ -68,7 +68,6 @@ alias v=nvim
 alias vr='nvim -R'
 
 bindkey "^U" backward-kill-line
-bindkey "^[l" clear-screen
 
 #
 ## functions
