@@ -15,11 +15,11 @@ case "$class" in
   ;;
 
   discord)
-     echo desktop=^${_PREF}5
+     echo desktop=^${_PREF}5 state=pseudo_tiled
   ;;
 
   firefox)
-    echo desktop=^${_PREF}1 follow=off
+    echo desktop=^${_PREF}1 follow=off state=pseudo_tiled
     ;;
 
   Gimp)
@@ -67,7 +67,7 @@ owner="$(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null)"
 
 case "$owner" in
   spotify)
-    echo desktop=^${_PREF}9 follow=off
+    echo desktop=^${_PREF}9 follow=off state=pseudo_tiled
     ;;
 
   *)

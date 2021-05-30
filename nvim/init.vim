@@ -29,21 +29,25 @@ if &mouse == 'nv'
 	" scroll up with k
 	:noremap <ScrollWheelUp>     k
 	:noremap <2-ScrollWheelUp>   2k
-	:noremap <3-ScrollWheelUp>   3k
-	:noremap <4-ScrollWheelUp>   4k
+	:noremap <3-ScrollWheelUp>   4k
+	:noremap <4-ScrollWheelUp>   8k
+	" scroll down with j
 	:noremap <ScrollWheelDown>   j
 	:noremap <2-ScrollWheelDown> 2j
-	:noremap <3-ScrollWheelDown> 3j
-	:noremap <4-ScrollWheelDown> 4j
-	" scroll down with j
+	:noremap <3-ScrollWheelDown> 4j
+	:noremap <4-ScrollWheelDown> 8j
+	" control + scroll adjusts the screen
 	:noremap <C-ScrollWheelUp>     <C-y>
 	:noremap <C-2-ScrollWheelUp>   2<C-y>
-	:noremap <C-3-ScrollWheelUp>   3<C-y>
-	:noremap <C-4-ScrollWheelUp>   4<C-y>
+	:noremap <C-3-ScrollWheelUp>   4<C-y>
+	:noremap <C-4-ScrollWheelUp>   8<C-y>
 	:noremap <C-ScrollWheelDown>   <C-e>
 	:noremap <C-2-ScrollWheelDown> 2<C-e>
-	:noremap <C-3-ScrollWheelDown> 3<C-e>
-	:noremap <C-4-ScrollWheelDown> 4<C-e>
+	:noremap <C-3-ScrollWheelDown> 4<C-e>
+	:noremap <C-4-ScrollWheelDown> 8<C-e>
+	" same but with keyboard
+	:noremap <C-k> <C-y>
+	:noremap <C-j> <C-e>
 else
 	:nnoremap <C-Up> <C-y>
 	:nnoremap <C-Down> <C-e>

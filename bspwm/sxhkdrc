@@ -1,7 +1,7 @@
 ## wm independent hotkeys
 #
 
-# term/floating term
+# spawn a term/floating term
 control + {shift +,_} Return
 	alacritty {_,--class alacritty\,terminal}
 
@@ -16,6 +16,22 @@ super + Escape
 # emojis
 {super + space,control + shift + alt + mod4 + space}
 	~/dotfiles/scripts/emoji.sh {_,_}
+
+# launch menu
+XF86Tools
+	~/dotfiles/scripts/menu.sh
+
+# reload keyboard config
+XF86Calculator
+	~/dotfiles/scripts/kb.sh -e
+
+# toggle polybar
+super + z
+	polybar-msg cmd toggle;                     \
+	if [[ $(bspc config top_padding) != 0 ]];   \
+	then bspc config top_padding 0;             \
+	else bspc config top_padding 35;            \
+	fi
 
 ## media and backlights
 #
@@ -44,14 +60,6 @@ shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
 {F3,shift + F3, @XF86LaunchA}
 	~/dotfiles/scripts/screenshot.sh {-w,-a,-s}
 
-# launch menu
-XF86Tools
-	~/dotfiles/scripts/menu.sh
-
-# reload keyboard config
-{_,shift +} XF86Calculator
-	~/dotfiles/scripts/kb.sh {-e,-m}
-
 ## bspwm hotkeys
 #
 
@@ -75,6 +83,10 @@ alt + Tab
 	bspc node focused.\!marked -t tiled;              \
 	fi;
 
+# pseudo tile a window
+super + f
+	bspc node focused -t pseudo_tiled
+
 # switch workspaces on current monitor
 alt + {1-9,0}
 	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 \
@@ -90,12 +102,8 @@ ctrl + shift + {1-9,0}
 	_PREF=1 || _PREF="";                                \
 	bspc node -d ^$\{_PREF\}{1-9,0}
 
-# move win to the current desktop of the next monitor
-control + shift + alt + mod4 + space + m
-	bspc node -m next
-
 # move win to the corresponding workspace of the next monitor
-control + shift + alt + mod4 + space + n
+super + v
 	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 ]] \
 	&& SHIFT=0 || SHIFT=10;                                \
 	[[ "$(bspc query -M | wc -l)" > 1 ]] || SHIFT=0;       \
@@ -122,6 +130,10 @@ super {_,+ shift} + Tab
 alt + {h,j,k,l}
 	bspc node -f {west,south,north,east}
 
+# focus next/prev on the same monitor
+alt + {m,n}
+	bspc node -f {next,prev}.local.window
+
 # toggle floating
 ctrl + shift + space
 	[[ -z `bspc query -N -n focused.floating` ]]\
@@ -136,9 +148,12 @@ ctrl + alt + {Left,Down,Up,Right}
 ctrl + alt + shift + {Right,Up,Down,Left}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
-# swap win
-ctrl + shift + {Left,Down,Up,Right}
-	bspc node -s {west,south,north,east}
+# quick resize
+super + shift + {1-5}
+	pkill resize.sh ; ~/dotfiles/scripts/resize.sh {0-4}
+
+## gaps and border
+#
 
 # outter gaps
 super + shift + {equal,minus}
@@ -173,7 +188,10 @@ super + {equal,minus}
 	((cur=cur<0?0:cur));                        \
 	bspc config -d focused window_gap $cur
 
-# parent rotation
+## layout adjustment
+#
+
+# parent rotation 90 degrees
 super + x
 	bspc node @parent -R 90
 
@@ -185,14 +203,6 @@ super + {a,d}
 super + {w,s}
 	bspc node @/ -F {vertical,horizontal}
 
-# toggle polybar
-super + z
-	polybar-msg cmd toggle;                     \
-	if [[ $(bspc config top_padding) != 0 ]];   \
-	then bspc config top_padding 0;             \
-	else bspc config top_padding 35;            \
-	fi
-
-# quick resize
-super + shift + {1-5}
-	pkill resize.sh ; ~/dotfiles/scripts/resize.sh {0-4}
+# swap win
+ctrl + shift + {Left,Down,Up,Right}
+	bspc node -s {west,south,north,east}
