@@ -15,15 +15,15 @@ super + Escape
 
 # emojis
 {super + space,control + shift + alt + mod4 + space}
-	~/dotfiles/scripts/emoji.sh {_,_}
+	~/dotfiles/scripts/emoji {_,_}
 
 # launch menu
 XF86Tools
-	~/dotfiles/scripts/menu.sh
+	~/dotfiles/scripts/menu
 
 # reload keyboard config
 XF86Calculator
-	~/dotfiles/scripts/kb.sh -e
+	~/dotfiles/scripts/keyboard -e
 
 # toggle polybar
 super + z
@@ -38,19 +38,19 @@ super + z
 
 # ++, --, mute sound
 @{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
-	~/dotfiles/scripts/volume.sh {_,-5,toggle}
+	~/dotfiles/scripts/volume {_,-5,toggle}
 
 # ++, -- volume with 1% scale
 shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
-	~/dotfiles/scripts/volume.sh {+1,-1}
+	~/dotfiles/scripts/volume {+1,-1}
 
 # screen bl
 @{XF86MonBrightnessUp,XF86MonBrightnessDown} {+ shift,_}
-	~/dotfiles/scripts/backlight.sh -n -l {--inc,--dec} {1,1%}
+	~/dotfiles/scripts/backlight -n -l {--inc,--dec} {1,1%}
 
 # kb, monitor bl
 {shift +,_} @{XF86KbdBrightnessUp,XF86KbdBrightnessDown}
-	~/dotfiles/scripts/backlight.sh -n {-m,-k} {--inc,--dec} 5
+	~/dotfiles/scripts/backlight -n {-m,-k} {--inc,--dec} 5
 
 # play, next, prev
 @{XF86AudioPlay,XF86AudioNext,XF86AudioPrev}
@@ -58,7 +58,7 @@ shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
 
 # screenshot window
 {F3,shift + F3, @XF86LaunchA}
-	~/dotfiles/scripts/screenshot.sh {-w,-a,-s}
+	~/dotfiles/scripts/screenshot {-w,-a,-s}
 
 ## bspwm hotkeys
 #
@@ -150,7 +150,7 @@ ctrl + alt + shift + {Right,Up,Down,Left}
 
 # quick resize
 super + shift + {1-5}
-	pkill resize.sh ; ~/dotfiles/scripts/resize.sh {0-4}
+	pkill resize ; ~/dotfiles/scripts/resize {0-4}
 
 ## gaps and border
 #

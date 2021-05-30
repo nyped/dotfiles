@@ -7,8 +7,8 @@ monitors=($(xrandr --query | grep \ connected --color=never | cut -d \  -f 1 | s
 [[ ${monitors[0]} == HDMI-1 ]] && monitors=(${monitors[1]} ${monitors[0]})
 
 if [ "$(< ~/.t)" = day ]
-	then ~/dotfiles/scripts/color.sh day
-	else ~/dotfiles/scripts/color.sh night
+	then ~/dotfiles/scripts/color day
+	else ~/dotfiles/scripts/color night
 fi
 
 xsetroot -cursor_name left_ptr

@@ -45,10 +45,10 @@ export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststat
 
 alias b=bat
 alias c=color
-alias center=~/dotfiles/scripts/center.sh
+alias center=~/dotfiles/scripts/center
 alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
 alias dl='cd ~/Downloads'
-alias f='~/dotfiles/scripts/fetch.sh'
+alias f='~/dotfiles/scripts/fetch'
 alias grep='grep --color=always'
 alias lA='ls -A'
 alias mt=make\ test
@@ -75,7 +75,7 @@ bindkey "^U" backward-kill-line
 
 # theme
 color() {
-	(~/dotfiles/scripts/color.sh "$1")
+	(~/dotfiles/scripts/color "$1")
 }
 
 # translation
@@ -110,7 +110,7 @@ lyrics() {
 	{
 	echo -e $1 - $2 "\n"
 	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$1" --data-urlencode "title=$2"
-	} | ~/dotfiles/scripts/center.sh | less -FX
+	} | ~/dotfiles/scripts/center | less -FX
 }
 
 lyr() {

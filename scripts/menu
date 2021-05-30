@@ -30,7 +30,7 @@ case $ret in
 		;;
 
 	Record)
-		~/dotfiles/scripts/scast.sh &
+		~/dotfiles/scripts/screencast.sh &
 		;;
 
 	Theme)
@@ -52,17 +52,17 @@ case $ret in
 
 	Dock)
 		~/dotfiles/scripts/monitors.sh -d
-		~/dotfiles/scripts/kb.sh -e
+		~/dotfiles/scripts/keyboard.sh -e
 		;;
 
 	Multihead)
 		~/dotfiles/scripts/monitors.sh -m
-		~/dotfiles/scripts/kb.sh -e
+		~/dotfiles/scripts/keyboard.sh -e
 		;;
 
 	Monohead)
 		~/dotfiles/scripts/monitors.sh -l
-		~/dotfiles/scripts/kb.sh -m
+		~/dotfiles/scripts/keyboard.sh -m
 		;;
 
 	Editor)

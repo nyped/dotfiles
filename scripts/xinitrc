@@ -8,5 +8,5 @@ xrdb -merge ~/.Xresources
 xset s off
 xset s noblank
 xbindkeys &!
-~/dotfiles/scripts/kb.sh -m
+~/dotfiles/scripts/kb -m
 exec bspwm
