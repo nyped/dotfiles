@@ -18,7 +18,7 @@ EOF
 )
 case $ret in
 	Lock)
-		~/dotfiles/scripts/lock.sh
+		~/dotfiles/scripts/lock
 		;;
 
 	Reboot)
@@ -30,15 +30,15 @@ case $ret in
 		;;
 
 	Record)
-		~/dotfiles/scripts/screencast.sh &
+		~/dotfiles/scripts/screencast &
 		;;
 
 	Theme)
-		~/dotfiles/scripts/color.sh
+		~/dotfiles/scripts/color
 		;;
 
 	Screen | Screenshoot)
-		~/dotfiles/scripts/screenshot.sh -s
+		~/dotfiles/scripts/screenshot -s
 		;;
 
 	Suspend)
@@ -51,18 +51,18 @@ case $ret in
 		;;
 
 	Dock)
-		~/dotfiles/scripts/monitors.sh -d
-		~/dotfiles/scripts/keyboard.sh -e
+		~/dotfiles/scripts/monitors -d
+		~/dotfiles/scripts/keyboard -e
 		;;
 
 	Multihead)
-		~/dotfiles/scripts/monitors.sh -m
-		~/dotfiles/scripts/keyboard.sh -e
+		~/dotfiles/scripts/monitors -m
+		~/dotfiles/scripts/keyboard -e
 		;;
 
 	Monohead)
-		~/dotfiles/scripts/monitors.sh -l
-		~/dotfiles/scripts/keyboard.sh -m
+		~/dotfiles/scripts/monitors -l
+		~/dotfiles/scripts/keyboard -m
 		;;
 
 	Editor)
