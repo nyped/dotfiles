@@ -30,7 +30,6 @@ toolbarbutton[id^="scrollbutton"] {
 
 #urlbar[breakout],
 #urlbar[breakout][breakout-extend] {
-	--urlbar-height: 28px !important;
 	--urlbar-toolbar-height: 38px !important;
 
 	width: 100% !important;
