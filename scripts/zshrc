@@ -192,25 +192,6 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export LIBVA_DRIVER_NAME=i965
 export MOZ_X11_EGL=1
 
-# univ env
-if [ "$(< ~/extra/state)" = "on" ]; then
-	echo TP mode on /\!\\, autocd
-	cd ~/maison/sync/inf401
-	alias a2ps='a2ps -s 2 -A fill -M Letter'
-	alias gcc='gcc -Wall -pedantic'
-	export GNUARMDIR=~/extra/stolenbin/
-	export PREFIX=`find ${GNUARMDIR} -maxdepth 1 -type d | grep --color=never arm- | sed -e "s/\/home\/${USER}\/extra\/stolenbin\///"`-
-	export PATH=~/extra/stolenbin/bin:~/extra/inf401bin:${PATH}
-fi
-
-toggleTP() {
-	if [ "$(cat ~/extra/state)" = "on" ]; then
-		echo off | tee ~/extra/state
-	else
-		echo on | tee ~/extra/state
-	fi
-}
-
 #linux: new terminal tabs keep the same wd
 if [ -e /etc/profile.d/vte.sh ]; then
 	. /etc/profile.d/vte.sh

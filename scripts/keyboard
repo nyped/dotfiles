@@ -25,7 +25,7 @@ case "$1" in
   ;;
 
   -e | --external) # external kb
-    setxkbmap -option
+    setxkbmap -option -layout us
     xmodmap \
       -e "clear Lock" \
       -e "keycode 0x42 = BackSpace BackSpace BackSpace" \
