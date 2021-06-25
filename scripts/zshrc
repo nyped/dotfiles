@@ -66,6 +66,7 @@ alias tmp=/tmp
 alias vim=nvim
 alias v=nvim
 alias vr='nvim -R'
+alias y=yay
 
 bindkey "^U" backward-kill-line
 

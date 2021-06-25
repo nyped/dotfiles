@@ -278,5 +278,11 @@ inoremap <silent><expr> <Tab>
 " use shift tab navigate backwards
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "
+" vimsence
+"
+let g:vimsence_client_id = '783349650148950076'
+let g:vimsence_small_text = 'neovim'
+let g:vimsence_small_image = 'neovim'
+"
 " vim: set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab :
 "
