@@ -17,6 +17,10 @@
 "
 :tnoremap <Esc> <C-\><C-n>
 "
+" Quick move in terminal mode
+"
+:tnoremap <C-w>w <C-\><C-n><C-w>w
+"
 " silent undo redo
 "
 :nmap <C-r> :sil redo<Return>
