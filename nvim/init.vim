@@ -140,6 +140,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'chrisbra/Colorizer'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vimsence/vimsence'
+Plug 'fladson/vim-kitty'
 call plug#end()
 "
 " rainbow settings

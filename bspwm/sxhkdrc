@@ -3,7 +3,7 @@
 
 # spawn a term/floating term
 control + {shift +,_} Return
-	alacritty {_,--class alacritty\,terminal}
+	kitty {--class Terminal,--class terminal}
 
 # rofi
 control + space
