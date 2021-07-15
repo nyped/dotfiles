@@ -3,7 +3,7 @@
 
 # spawn a term/floating term
 control + {shift +,_} Return
-	kitty {--class Terminal,--class terminal}
+	kitty {--class Terminal,--class terminal} -d ~
 
 # rofi
 control + space
