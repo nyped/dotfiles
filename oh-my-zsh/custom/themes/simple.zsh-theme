@@ -66,22 +66,21 @@ function show_path() {
   fi
 }
 
-ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[magenta]%}↑"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[blue]%}↓"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[blue]%}●"
-ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}●"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}●"
+ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[magenta]%}▲"
+ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[blue]%}▼"
+ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[blue]%}"
+ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}✕"
 
-RPROMPT_BAD_RETURN="%{$fg_bold[red]%}%?%b"
-RPROMPT_BG_JOB="%{$fg_bold[blue]%}+%b"
-PRE_INFOS="("
-POST_INFOS="%)"
+RPROMPT_BAD_RETURN="%(?.. ret. %B%{$fg[red]%}%?%b)"
+RPROMPT_BG_JOB="%1(j. with %B%{$fg[blue]%}jobs%b.)"
 
 PROMPT=$'\n'
 PROMPT+="$(ssh_connection)"
-PROMPT+="%B%(?. > . >> )%b"
-RPROMPT="%(?.%1(j.%B$PRE_INFOS%b$RPROMPT_BG_JOB%B$POST_INFOS%b.).%B$PRE_INFOS%b$RPROMPT_BAD_RETURN%1(j.$RPROMPT_BG_JOB.)%B$POST_INFOS%b)"
+PROMPT+="%B%(?. > .>> )%b"
+
+RPROMPT="$RPROMPT_BAD_RETURN$RPROMPT_BG_JOB"
 RPROMPT+='$(my_git_prompt)$(show_path)%b'
 
 # vim:set ts=8 sts=2 sw=2 et syn=sh :
