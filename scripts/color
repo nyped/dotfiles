@@ -1,25 +1,33 @@
 #!/usr/bin/env zsh
 
+[[ $1 = -h || $1 == --help ]] && exec cat >&2 <<EOF
+usage: ${0%%*/} [-h | --help | THEME]
+Switch themes: update configuration file with symlinks and load them.
+THEME can be day (or d), or night (or night)
+EOF
+
 if [[ $1 = day || $1 = d ]]; then
 	THEME=day
 elif [[ $1 = night || $1 = n ]]; then
 	THEME=night
 else
 	THEME=$(< ~/.t)
-	[[ $THEME = day ]] && $0 n || $0 d
-	exit 0
+	[[ $THEME = day ]] && exec $0 n || exec $0 d
 fi
 
 echo $THEME > ~/.t
-killall dunst 2>/dev/null 1>&2
-killall -SIGUSR1 nvim >/dev/null 2>&1
-hsetroot -cover ~/dotfiles/wallpaper/${THEME}.png >/dev/null 2>&1
-ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
+
+ln -sf ~/dotfiles/${THEME}-theme/bat.conf ~/.config/bat/config
 ln -sf ~/dotfiles/${THEME}-theme/dunstrc ~/.config/dunst/dunstrc
 ln -sf ~/dotfiles/${THEME}-theme/rofi.rasi ~/.config/rofi/config.rasi
-ln -sf ~/dotfiles/${THEME}-theme/bat.conf ~/.config/bat/config
+ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
 ln -sf ~/dotfiles/kitty/kitty-${THEME}-scheme.conf ~/.config/kitty/color-scheme.conf
-dunst >/dev/null 2>&1 &!
-killall -s SIGUSR1 kitty
+
+{
+	hsetroot -cover ~/dotfiles/wallpaper/${THEME}.png
+	killall dunst
+	killall -SIGUSR1 nvim kitty
+	dunst &!
+} &>/dev/null
 
 # vim: set ts=4 sts=4 sw=4 noet :

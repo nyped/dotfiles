@@ -131,7 +131,7 @@ endif
 "
 "
 call plug#begin('~/.vim/plugged')
-Plug 'oblitum/rainbow'
+Plug 'luochen1990/rainbow'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'preservim/nerdcommenter'
 Plug 'unblevable/quick-scope'
