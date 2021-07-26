@@ -15,22 +15,25 @@ fi
 cd ~/Videos
 name=$(date "+%Y-%m-%d-%H.%M.%S-screencast.mp4")
 dimensions=$(xdpyinfo | awk '/dimensions/{print $2}')
+force=''
 
 function help() {
 	cat <<EOF
 usage: ./${0##*/} [-hfs] [filename]
-	-h --help   show help
-	-f --force  overwrite output file
-	-s --sound  record with sound
+	-h --help    show help
+	-f --force   overwrite output file
+	-s --sound   record with sound
+	-d --daemon  run as a daemon
+	-n --dry-run do nothing
 EOF
 }
 
 while [[ -n "$1" ]]; do
 	case "$1" in
 		-h | --help)
-			help
-			exit 255
-			;;
+		help
+		exit 255
+		;;
 
 		-s | --sound) # with sound
 		flags+=" -f pulse"
@@ -39,7 +42,15 @@ while [[ -n "$1" ]]; do
 		;;
 
 		-f | --force) # overwrite
-		force=" -y"
+		force+="-y"
+		;;
+
+		-d | --daemon)
+		daemon=1
+		;;
+
+		-n | --dry-run)
+		dry=1
 		;;
 
 		*) # a filename ?
@@ -51,6 +62,16 @@ while [[ -n "$1" ]]; do
 	esac
 	shift
 done
+
+[[ -n $dry ]] && {
+	set flags force daemon dry custom_name name dimensions DISPLAY
+
+	for var; do
+		eval "printf \"%12s: %s\\n\" $var \${$var:-undefined}"
+	done
+
+	set -nv
+}
 
 [[ -f "$name" && -z "$force" ]] && \
 	notify "File exists" 254
@@ -67,5 +88,7 @@ ffmpeg \
 	-c:a aac \
 	$force \
 	"$name" >/dev/null 2>&1 &
-disown
+
+[[ -n $daemon ]] && disown
+
 notify "Screencast started" 0

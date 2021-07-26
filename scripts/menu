@@ -30,7 +30,7 @@ case $ret in
 		;;
 
 	Record)
-		~/dotfiles/scripts/screencast &
+		~/dotfiles/scripts/screencast -d &
 		;;
 
 	Theme)

@@ -11,7 +11,9 @@ control + space
 
 # reload sxhkd conf
 super + Escape
-	pkill -USR1 -x sxhkd
+	killall sxhkd;       \
+	sxhkd &>/dev/null &; \
+	disown
 
 # emojis
 {super + space,control + shift + alt + mod4 + space}
@@ -58,7 +60,7 @@ shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
 
 # screenshot window
 {F3,shift + F3, @XF86LaunchA}
-	~/dotfiles/scripts/screenshot {-w,-a,-s}
+	~/dotfiles/scripts/screenshot {-w,-a,-s} -S
 
 ## bspwm hotkeys
 #
