@@ -78,7 +78,7 @@ RPROMPT_BG_JOB="%1(j. with %B%{$fg[blue]%}jobs%b.)"
 
 PROMPT=$'\n'
 PROMPT+="$(ssh_connection)"
-PROMPT+="%B%(?. > .>> )%b"
+PROMPT+="%B > %b"
 
 RPROMPT="$RPROMPT_BAD_RETURN$RPROMPT_BG_JOB"
 RPROMPT+='$(my_git_prompt)$(show_path)%b'
