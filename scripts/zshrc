@@ -22,10 +22,11 @@ source ~/.id
 ## Env vars
 #
 
+export LESS=-r\ --mouse
 export LESS_TERMCAP_mb=$(tput bold; tput setaf 41) green
 export LESS_TERMCAP_md=$(tput bold; tput setaf 6)
 export LESS_TERMCAP_me=$(tput sgr0)
-export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 24)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 231; tput setab 241)
 export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
 export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 9)
 export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
@@ -37,7 +38,9 @@ export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 export TERM=xterm-256color
 export EDITOR=nvim
-export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=500" --noplugin'
+export MANPAGER='nvim -u NORC --noplugin
+  +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=500"
+  +"norm M"'
 
 #
 ## aliases
@@ -61,7 +64,7 @@ alias pbpaste='xclip -selection clipboard -o'
 alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
 alias p=pacman
 alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"
-alias song='playerctl --player=$PLAYER metadata --format "{{ artist }} - {{ title }}"'
+alias song='playerctl metadata -f "{{ artist }} - {{ title }}"'
 alias tmp=/tmp
 alias vim=nvim
 alias v=nvim
@@ -76,107 +79,110 @@ bindkey "^U" backward-kill-line
 
 # theme
 color() {
-	(~/dotfiles/scripts/color "$1")
+  (~/dotfiles/scripts/color "$1")
 }
 
 # translation
 t() {
-	echo $@ >> ~/maison/mots.txt
-	if [[ $1 = f ]]; then
-		shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
-	else
-		echo $@ | trans -shell -b | grep -v "^>$"
-	fi
+  echo $@ >> ~/maison/mots.txt
+  if [[ $1 = f ]]; then
+    shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
+  else
+    echo $@ | trans -shell -b | grep -v "^>$"
+  fi
 }
 
 # dictionary
 def() {
-	[[ $# -lt 1 ]] && echo usage: def \<stuff\> && return 1
-	echo $@ >> ~/maison/def.txt
-	echo $@ | trans | less -FX
+  [[ $# -lt 1 ]] && echo usage: def \<stuff\> && return 1
+  echo $@ >> ~/maison/def.txt
+  echo $@ | trans | less -FX
 }
 
 # pandoc
 pan() {
-	[[ $# != 1 ]] && echo usage: EXT= pan \<file\> && return 1
-	var="${1%.*}"
-	pandoc --highlight-style=tango -so "$var"."${EXT:-pdf}" "$var".md
+  [[ $# != 1 ]] && echo usage: EXT= pan \<file\> && return 1
+  var="${1%.*}"
+  pandoc --highlight-style=tango -so "$var"."${EXT:-pdf}" "$var".md
 }
 
 # karaoke stuff lmao
 lyrics() {
 # receives 2 arguments : artist and title
 # fork of https://gist.github.com/febuiles/1549991
-	[[ $# != 2 ]] && echo usage: lyrics \<artist\> \<title\> && return 1
-	{
-	echo -e $1 - $2 "\n"
-	curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode "artist=$1" --data-urlencode "title=$2"
-	} | ~/dotfiles/scripts/center | less -FX
+  [[ $# != 2 ]] && echo usage: lyrics \<artist\> \<title\> && return 1
+  {
+  echo -e $1 - $2 "\n"
+  curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode \
+    "artist=$1" --data-urlencode "title=$2"
+  } | ~/dotfiles/scripts/center | less -FX
 }
 
 lyr() {
-	song | IFS=- read a b
-	lyrics "$a" "$b"
+  song | IFS=- read a b
+  lyrics "$a" "$b"
 }
 
 open() {
-	local opener
-	while [[ $# != 0 ]]; do
-		if [[ ${1##*.} = pdf ]]; then
-			opener=zathura
-		else
-			opener=xdg-open
-		fi
-		$opener $1 >/dev/null 2>&1 &!
-		notify-send "${1##*/}" "Opened by $opener" -a notif
-		shift
-	done
+  local opener
+  while [[ $# != 0 ]]; do
+    if [[ ${1##*.} = pdf ]]; then
+      opener=zathura
+    else
+      opener=xdg-open
+    fi
+    $opener $1 >/dev/null 2>&1 &!
+    notify-send "${1##*/}" "Opened by $opener" -a notif
+    shift
+  done
 }
 
 # random text
 lorem() {
-	curl -s http://metaphorpsum.com/sentences/3 | pbcopy
+  curl -s http://metaphorpsum.com/sentences/3 | pbcopy
 }
 
 share() {
-	[[ $# != 1 ]] && echo usage: share \<file\> && return 1
-	[[ ! -f $1 ]] && echo File non readable 1>&2 && return 2
-	curl -F file=@$1 http://0x0.st 2>/dev/null | pbcopy && pbpaste
+  [[ $# != 1 ]] && echo usage: share \<file\> && return 1
+  [[ ! -f $1 ]] && echo File non readable 1>&2 && return 2
+  curl -F file=@$1 http://0x0.st 2>/dev/null | pbcopy && pbpaste
 }
 
 # replace patterns in file name
 # by default:
 # F=' ' R= evomer stuff
 evomer() {
-	[[ $# = 0 ]] && \
-	echo usage: \[F=pat1\] \[R=pat2\] evomer \<files\> >&2 && \
-	return 1
+  [[ $# = 0 ]] && \
+  echo usage: \[F=pat1\] \[R=pat2\] evomer \<files\> >&2 && \
+  return 1
 
-	for i in $* ; do
-		tmp=${i//${F:= }/${R}}
-		[[ "$tmp" == "$i" ]] && continue
-		if [[ -f $tmp ]];
-			then echo $tmp exists >&2
-			else mv $i $tmp
-		fi
-	done
+  for i in $* ; do
+    tmp=${i//${F:= }/${R}}
+    [[ "$tmp" == "$i" ]] && continue
+    if [[ -f $tmp ]];
+      then echo $tmp exists >&2
+      else mv $i $tmp
+    fi
+  done
 }
 
 mount_dev() {
-	[[ $# == 0 ]] && \
-		echo usage: mmount \<device\> \[destination\] >&2 && \
-		return 255
+  [[ $# == 0 ]] && \
+    echo usage: mmount \<device\> \[destination\] >&2 && \
+    return 255
 
-	[[ "${1:h2}" != "/dev" ]] && \
-		echo Select a device >&2 && \
-		return 254
+  [[ "${1:h2}" != "/dev" ]] && \
+    echo Select a device >&2 && \
+    return 254
 
-	echo Mounting the device:
-	sudo mount -o gid=users,fmask=113,dmask=002 "$1" "${2:-/mnt}" && echo mounted successfully || echo error
+  echo Mounting the device:
+  sudo mount -o gid=users,fmask=113,dmask=002 "$1" "${2:-/mnt}" \
+    && echo mounted successfully \
+    || echo error
 }
 
 precmd() {
-	printf "\033[4 q"
+  printf "\033[4 q"
 }
 
 # zle stuff
@@ -195,12 +201,12 @@ export MOZ_X11_EGL=1
 
 #linux: new terminal tabs keep the same wd
 if [ -e /etc/profile.d/vte.sh ]; then
-	. /etc/profile.d/vte.sh
+  . /etc/profile.d/vte.sh
 fi
 
 #auto startx on TTY1
 if [[ $(tty) = /dev/tty1 ]]; then
-	exec startx
+  exec startx
 fi
 
-# vim: set ts=4 sts=4 sw=4 noet :
+# vim: set ts=2 sts=2 sw=2 et :

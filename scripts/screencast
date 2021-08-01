@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
 function notify() {
-	notify-send "Screencast" "$1"
-	exit ${2:-255}
+  notify-send "Screencast" "$1"
+  exit ${2:-255}
 }
 
 # kill other instances of ffmpeg
 a="$(pidof ffmpeg)"
 if [[ -n "$a" ]]; then
-	kill $a
-	notify "Screencast stopped" 0
+  kill $a
+  notify "Screencast stopped" 0
 fi
 
 cd ~/Videos
@@ -18,77 +18,79 @@ dimensions=$(xdpyinfo | awk '/dimensions/{print $2}')
 force=''
 
 function help() {
-	cat <<EOF
+  cat <<EOF
 usage: ./${0##*/} [-hfs] [filename]
-	-h --help    show help
-	-f --force   overwrite output file
-	-s --sound   record with sound
-	-d --daemon  run as a daemon
-	-n --dry-run do nothing
+  -h --help    show help
+  -f --force   overwrite output file
+  -s --sound   record with sound
+  -d --daemon  run as a daemon
+  -n --dry-run do nothing
 EOF
 }
 
 while [[ -n "$1" ]]; do
-	case "$1" in
-		-h | --help)
-		help
-		exit 255
-		;;
+  case "$1" in
+    -h | --help)
+    help
+    exit 255
+    ;;
 
-		-s | --sound) # with sound
-		flags+=" -f pulse"
-		flags+=" -i alsa_input.pci-0000_00_1b.0.analog-stereo"
-		flags+=" -ac 1"
-		;;
+    -s | --sound) # with sound
+    flags+=" -f pulse"
+    flags+=" -i alsa_input.pci-0000_00_1b.0.analog-stereo"
+    flags+=" -ac 1"
+    ;;
 
-		-f | --force) # overwrite
-		force+="-y"
-		;;
+    -f | --force) # overwrite
+    force+="-y"
+    ;;
 
-		-d | --daemon)
-		daemon=1
-		;;
+    -d | --daemon)
+    daemon=1
+    ;;
 
-		-n | --dry-run)
-		dry=1
-		;;
+    -n | --dry-run)
+    dry=1
+    ;;
 
-		*) # a filename ?
-		[[ -n "$custom_name" ]] && \
-			notify "Cannot parse the argument: $1"
-		custom_name=1
-		name="$1"
-		;;
-	esac
-	shift
+    *) # a filename ?
+    [[ -n "$custom_name" ]] && \
+      notify "Cannot parse the argument: $1"
+    custom_name=1
+    name="$1"
+    ;;
+  esac
+  shift
 done
 
 [[ -n $dry ]] && {
-	set flags force daemon dry custom_name name dimensions DISPLAY
+  set flags force daemon dry custom_name name dimensions DISPLAY
 
-	for var; do
-		eval "printf \"%12s: %s\\n\" $var \${$var:-undefined}"
-	done
+  for var; do
+    eval "printf \"%12s: %s\\n\" $var \${$var:-undefined}"
+  done
 
-	set -nv
+  set -nv
 }
 
 [[ -f "$name" && -z "$force" ]] && \
-	notify "File exists" 254
+  notify "File exists" 254
 
-ffmpeg \
-	-framerate 60 \
-	-f x11grab \
-	-video_size $dimensions \
-	-thread_queue_size 1024 \
-	-i $DISPLAY \
-	$flags \
-	-c:v libx264 \
-	-preset ultrafast \
-	-c:a aac \
-	$force \
-	"$name" >/dev/null 2>&1 &
+ffmpeg                    \
+  -framerate 60           \
+  -f x11grab              \
+  -video_size $dimensions \
+  -thread_queue_size 1024 \
+  -i $DISPLAY             \
+  $flags                  \
+  -c:v libx264            \
+  -preset ultrafast       \
+  -c:a aac                \
+  $force                  \
+  "$name" >/dev/null 2>&1 &
 
 [[ -n $daemon ]] && disown
 
 notify "Screencast started" 0
+
+# vim: set ts=2 sts=2 sw=2 et :

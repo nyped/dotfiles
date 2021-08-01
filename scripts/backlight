@@ -32,8 +32,7 @@ while [[ $# != 0 ]]; do
     ;;
 
     -m | --monitor)
-      MESS=brightness
-      DEV=monitor
+      MESS=brightness DEV=monitor
     ;;
 
     -k | --keyboard)
@@ -41,9 +40,7 @@ while [[ $# != 0 ]]; do
     ;;
 
     -b | --blue)
-      MESS="blue light"
-      DEV=monitor
-      ADDRESS=0x1a
+      MESS="blue light" DEV=monitor ADDRESS=0x1a
     ;;
 
     --inc | -i)
@@ -93,4 +90,4 @@ case "$DEV" in
   ;;
 esac
 
-# vim: set ts=8 sts=2 sw=2 noet :
+# vim: set ts=2 sts=2 sw=2 et :
