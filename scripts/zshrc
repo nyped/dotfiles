@@ -22,7 +22,7 @@ source ~/.id
 ## Env vars
 #
 
-export LESS=-r\ --mouse
+export LESS=-r\ --mouse\ --wheel-lines=2
 export LESS_TERMCAP_mb=$(tput bold; tput setaf 41) green
 export LESS_TERMCAP_md=$(tput bold; tput setaf 6)
 export LESS_TERMCAP_me=$(tput sgr0)
