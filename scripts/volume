@@ -1,12 +1,101 @@
 #!/bin/bash
+# this comment is a waste of bits !
 
-function update() {
-	pactl set-sink-volume @DEFAULT_SINK@ ${1:-+5}%
-	notify-send Volume "Set to $(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed s/\ //g)" -h string:x-canonical-private-synchronous:anything -a notif
+notify() {
+  [[ -n $NOTIFY ]] && \
+  notify-send "$1" "$2" \
+    -h string:x-canonical-private-synchronous:anything \
+    -a notif \
+  || \
+  echo "$1 - $2"
 }
 
-if [[ $1 = toggle ]]; then
-	pactl set-sink-mute @DEFAULT_SINK@ toggle
-else
-	update $1
-fi
+notify_level() {
+  percentage="$(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed s/\ //g)"
+  notify Volume "at $percentage"
+}
+
+update() {
+  pactl set-sink-volume @DEFAULT_SINK@ ${1:-+5}%
+  notify_level
+}
+
+info() {
+  cat << EOF
+usage: ${0##*/} <cmd>
+Available commands:
+-t --toggle         toggle mute
+-l --level          show volume level
+-h --help           show help
+-n --notify         send a notification
+-i --inc N          increase the volume of N percentages
+-d --dec N          decrease the volume of N percentages
+EOF
+}
+
+while [[ $# != 0 ]]; do
+  case "$1" in
+    -t | --toggle)
+      opp=toggle
+    ;;
+
+    -i | --inc)
+      shift
+      opp=i val="$1"
+    ;;
+
+    -d | --dec)
+      shift
+      opp=d val="$1"
+    ;;
+
+    -n | --notify)
+      NOTIFY=1
+    ;;
+
+    -l | --level)
+      [[ -z $opp ]] && opp=level
+    ;;
+
+    -h | --help)
+      info
+      exit 0
+    ;;
+
+    *) # fallthrough
+      info >&2
+      exit 255
+    ;;
+  esac
+
+  shift
+done
+
+case "$opp" in
+  level)
+    notify_level
+  ;;
+
+  toggle)
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    is_muted="$(pacmd list-sinks | awk '/muted/ { print $2 }')"
+
+    if [[ yes == $is_muted ]]; then
+      payload=muted
+    else
+      payload=unmuted
+    fi
+
+    notify Volume $payload
+  ;;
+
+  i)
+    update "+$val"
+  ;;
+
+  d)
+    update "-$val"
+  ;;
+esac
+
+# vim: set ts=2 sts=2 sw=2 et :

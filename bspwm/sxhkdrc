@@ -40,11 +40,11 @@ super + z
 
 # ++, --, mute sound
 @{XF86AudioRaiseVolume,XF86AudioLowerVolume,XF86AudioMute}
-	~/dotfiles/scripts/volume {_,-5,toggle}
+	~/dotfiles/scripts/volume --notify {-i 5,-d 5,--toggle}
 
 # ++, -- volume with 1% scale
 shift + @{XF86AudioRaiseVolume,XF86AudioLowerVolume}
-	~/dotfiles/scripts/volume {+1,-1}
+	~/dotfiles/scripts/volume --notify {-i 1,-d 1}
 
 # screen bl
 @{XF86MonBrightnessUp,XF86MonBrightnessDown} {+ shift,_}
