@@ -21,7 +21,7 @@ name="${HOME}/Screenshots/$(date +%F-%Hh%Mm%Ss-screenshot)"
 flags="-border -quality 0 "
 payload="saved as ${name##*/}.png"
 
-while [[ -n "$1" ]]; do
+while [[ $# != 0 ]]; do
   case "$1" in
     -w | --windows)
       flags+="-windows $(bspc query -N -n .local.focused)"
