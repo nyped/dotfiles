@@ -13,15 +13,15 @@ notify() {
 
 info() {
   cat << EOF
-usage: ${0##*/} [-i | -d N] [-l | -m | -k | -b] [-h] [-n]
-      -i : increase of N (an integer that can be followed by a % sign)
-      -d : decrease of N (an integer that can be followed by a % sign)
-      -l : operate on laptop backlight
-      -m : operate on monitor backlight
-      -k : operate on keyboard backlight
-      -b : operate on monitor blue light
-      -h : show help
-      -n : send a notification
+Usage: ${0##*/} [-i | -d N] [-l | -m | -k | -b] [-h] [-n]
+-i, --inc N      increase of N (an integer that can be followed by a % sign)
+-d, --dec N      decrease of N (an integer that can be followed by a % sign)
+-l, --laptop     operate on laptop backlight
+-m, --monitor    operate on monitor backlight
+-k, --keyboard   operate on keyboard backlight
+-b, --blue       operate on monitor blue light
+-h, --help       show help
+-n, --notify     send a notification
 EOF
 }
 
@@ -43,22 +43,22 @@ while [[ $# != 0 ]]; do
       MESS="blue light" DEV=monitor ADDRESS=0x1a
     ;;
 
-    --inc | -i)
+    -i | --inc)
       shift
       BCTL_VAL="$1+" DDC_VAL="+${1/%/}"
     ;;
 
-    --dec | -d)
+    -d | --dec)
       shift
       BCTL_VAL="$1-" DDC_VAL="-${1/%/}"
     ;;
 
-    --help | -h)
+    -h | --help)
       info
       exit 0
     ;;
 
-    --notify | -n)
+    -n | --notify)
       NOTIFY=y
     ;;
 

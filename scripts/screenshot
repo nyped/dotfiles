@@ -3,17 +3,17 @@
 # quick scrots
 # https://thurlow.io/linux/2017/11/10/replicating-macos-screenshot-utility-on-linux.html
 
-function usage() {
-cat <<EOF >&2
-Usage: ${1##*/} <cmd>
+usage() {
+  cat <<EOF
+Usage: ${0##*/} <cmd>
 Available commands:
--w  --windows       capture the focused window
--a  --all           capture the whole screen
--s  --select        capture the selected part (default)
--c  --clipboard     save to the clipboard
--S  --shadows       add macos like shadows
--n  --dry-run       perform a trial run with no changes
--h  --help          show help
+-w, --windows     capture the focused window
+-a, --all         capture the whole screen
+-s, --select      capture the selected part (default)
+-c, --clipboard   save to the clipboard
+-S, --shadows     add macos like shadows
+-n, --dry-run     perform a trial run with no changes
+-h, --help        show help
 EOF
 }
 
@@ -53,7 +53,8 @@ while [[ $# != 0 ]]; do
       ;;
 
     *)
-      usage $0 && exit 1
+      usage >&2
+      exit 1
     ;;
   esac
 

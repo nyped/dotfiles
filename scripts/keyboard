@@ -5,7 +5,13 @@
 
 usage() {
   cat << EOF
-usage: kb [-m | --mac | -e | --external | -h | --help]
+Usage: kb <cmd>
+Apple keyboard layout manager on Linux.
+Tab is mapped to backspace.
+Available commands
+-m, --mac        MacBook like layout on Apple keyboards
+-e, --external   MacBook like layout on non Apple keyboards
+-h, --help       show this message
 EOF
 }
 
@@ -43,11 +49,10 @@ case "$1" in
 
   -h | --help)
     usage
-    exit 0
   ;;
 
   *)
-    usage
+    usage >&2
     exit 255
   ;;
 esac

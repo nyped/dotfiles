@@ -61,6 +61,8 @@ alias m=make
 alias o=open
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
+alias pbc=pbcopy
+alias pbp=pbpaste
 alias pbs='nc termbin.com 9999|pbcopy && pbpaste'
 alias p=pacman
 alias sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1"

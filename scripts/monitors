@@ -6,7 +6,11 @@ monitors=($(xrandr --query | grep \ connected --color=never | cut -d \  -f 1 | s
 
 usage() {
     cat << _HELPTXT
-usage: ${0##*/} [--help | -h | --dock | -d | --multi | -m | --laptop | -l]
+Usage: ${0##*/} [--help | -h | --dock | -d | --multi | -m | --laptop | -l]
+-d, --dock     output on external monitor only
+-l, --laptop   output on laptop screen only
+-m, --multi    output on external monitor and laptop screen
+-h, --help     show this message
 _HELPTXT
 }
 

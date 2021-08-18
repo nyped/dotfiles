@@ -24,12 +24,12 @@ info() {
   cat << EOF
 usage: ${0##*/} <cmd>
 Available commands:
--t --toggle         toggle mute
--l --level          show volume level
--h --help           show help
--n --notify         send a notification
--i --inc N          increase the volume of N percentages
--d --dec N          decrease the volume of N percentages
+-t, --toggle     toggle mute
+-l, --level      show volume level
+-h, --help       show help
+-n, --notify     send a notification
+-i, --inc N      increase the volume of N percentages
+-d, --dec N      decrease the volume of N percentages
 EOF
 }
 
