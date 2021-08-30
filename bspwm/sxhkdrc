@@ -7,7 +7,7 @@ control + {shift +,_} Return
 
 # rofi
 control + space
-	rofi -show run -lines 5
+	rofi -show run
 
 # reload sxhkd conf
 super + Escape

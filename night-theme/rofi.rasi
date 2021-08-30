@@ -1,8 +1,8 @@
 * {
 	highlight: bold italic;
 	scrollbar: false;
-	/*columns:   1;*/
-	/*lines:     4;*/
+	columns:   1;
+	lines:     4;
 	width:     300;
 
 	bg-col:			#a2b9bc;
