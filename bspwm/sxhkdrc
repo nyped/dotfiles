@@ -159,13 +159,42 @@ super + shift + {1-5}
 
 # outter gaps
 super + shift + {equal,minus}
+	op={++,--};                                 \
+	for a in \{top,bottom,left,right\}_padding; \
+	do;                                         \
+	  cur=$(bspc config -d focused $a);         \
+	  ((cur$op));                               \
+	  ((cur=cur<0?0:cur));                      \
+	  bspc config -d focused $a $cur;           \
+	done
+
+# left outter gaps
+super {_,+ shift} + h
 	cur=$(bspc config -d focused left_padding); \
-	((cur{++,--}));                             \
+	((cur{+,-}=5));                             \
 	((cur=cur<0?0:cur));                        \
-	bspc config -d focused top_padding $cur ;   \
-	bspc config -d focused bottom_padding $cur; \
-	bspc config -d focused left_padding $cur ;  \
+	bspc config -d focused left_padding $cur
+
+# right outter gaps
+super {_,+ shift} + l
+	cur=$(bspc config -d focused right_padding);\
+	((cur{+,-}=5));                             \
+	((cur=cur<0?0:cur));                        \
 	bspc config -d focused right_padding $cur
+
+# top outter gaps
+super {_,+ shift} + k
+	cur=$(bspc config -d focused top_padding); \
+	((cur{+,-}=5));                            \
+	((cur=cur<0?0:cur));                       \
+	bspc config -d focused top_padding $cur
+
+# bottom outter gaps
+super {_,+ shift} + j
+	cur=$(bspc config -d focused bottom_padding);\
+	((cur{+,-}=5));                              \
+	((cur=cur<0?0:cur));                         \
+	bspc config -d focused bottom_padding $cur
 
 # left right outter gaps
 super + {Left,Right}
@@ -189,6 +218,11 @@ super + {equal,minus}
 	((cur{++,--}));                             \
 	((cur=cur<0?0:cur));                        \
 	bspc config -d focused window_gap $cur
+
+# restore padding
+super + r
+	for a in \{top,bottom,left,right\}_padding; \
+	do bspc config -d focused $a 0; done
 
 ## layout adjustment
 #
