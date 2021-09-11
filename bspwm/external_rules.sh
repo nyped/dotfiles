@@ -54,6 +54,10 @@ case "$class" in
     echo desktop=^${_PREF}7 follow=off
     ;;
 
+  Spyder)
+    echo desktop=^${_PREF}2 follow=off state=pseudo_tiled
+    ;;
+
   *)
     :
     ;;
@@ -61,7 +65,7 @@ esac
 
 
 # from here, handling empty wm_class
-[[ -n "$class" ]] && exit 0
+case "$class" in ""|" ");; *) exit 0; esac
 
 owner="$(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null)"
 
@@ -70,7 +74,8 @@ case "$owner" in
     echo desktop=^${_PREF}9 follow=off state=pseudo_tiled
     ;;
 
-  *)
+  python)
+    echo state=floating focus=off
     ;;
 esac
 
