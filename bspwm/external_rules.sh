@@ -58,6 +58,10 @@ case "$class" in
     echo desktop=^${_PREF}2 follow=off state=pseudo_tiled
     ;;
 
+  java-lang-Thread) # maple
+    echo desktop=^${_PREF}2 follow=off state=pseudo_tiled
+    ;;
+
   *)
     :
     ;;
