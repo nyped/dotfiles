@@ -4,7 +4,7 @@
 
 shopt -s extglob
 
-ret=$(echo -e "Toggle\nSlow\nMedium\nFast" | rofi -dmenu -i -p "Fan menu:" -lines 2 -columns 2)
+ret=$(echo -e "Toggle\nSlow\nMedium\nFast" | rofi -dmenu -i -p "Fan menu:" -l 2)
 
 case $ret in
   [Tt]oggle)

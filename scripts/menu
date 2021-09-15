@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ret=$(
-cat <<EOF | rofi -dmenu -i -p Do: -lines 4 -columns 4
+cat <<EOF | rofi -dmenu -i -p Do: -l 7
 Lock
 Reboot
 Shutdown
@@ -14,6 +14,8 @@ Dock
 Multihead
 Monohead
 Editor
+VPN
+Maple
 EOF
 )
 case $ret in
@@ -70,8 +72,17 @@ case $ret in
 		disown
 		;;
 
-	"")
-		: # pass
+	VPN)
+		/opt/cisco/anyconnect/bin/vpnui &
+		disown
+	    ;;
+
+	Maple)
+		/home/lenny/maple2020/bin/xmaple &
+		disown
+		;;
+
+	"") # pass
 		;;
 
 	*)
