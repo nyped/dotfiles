@@ -50,11 +50,13 @@ alias b=bat
 alias c=color
 alias center=~/dotfiles/scripts/center
 alias cycle='cat /sys/class/power_supply/BAT0/cycle_count'
+alias dots=~/dotfiles
 alias dl='cd ~/Downloads'
 alias f='~/dotfiles/scripts/fetch'
 alias ff=firefox
 alias grep='grep --color=always'
 alias lA='ls -A'
+alias maison=~/maison/sync/current/
 alias mt=make\ test
 alias mr=make\ clear
 alias mc=make\ clean
@@ -182,6 +184,12 @@ mount_dev() {
   sudo mount -o gid=users,fmask=113,dmask=002 "$1" "${2:-/mnt}" \
     && echo mounted successfully \
     || echo error
+}
+
+rm_orphans() {
+  orphans="$(pacman -Qtd | awk '{print $1}')"
+  echo "Removing: $orphans"
+  _ p -Rns $orphans
 }
 
 precmd() {
