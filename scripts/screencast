@@ -16,15 +16,17 @@ cd ~/Videos
 name=$(date "+%Y-%m-%d-%H.%M.%S-screencast.mp4")
 dimensions=$(xdpyinfo | awk '/dimensions/{print $2}')
 force=''
+frate=30
 
 function help() {
   cat <<EOF
-usage: ./${0##*/} [-hfs] [filename]
+usage: ./${0##*/} [-hfsdn] [-r F] [filename]
   -h --help    show help
   -f --force   overwrite output file
   -s --sound   record with sound
   -d --daemon  run as a daemon
   -n --dry-run do nothing
+  -r --rate F  record at F fps (default 30)
 EOF
 }
 
@@ -43,6 +45,11 @@ while [[ $# != 0 ]]; do
 
     -f | --force) # overwrite
     force+="-y"
+    ;;
+
+    -r | --rate)
+    shift
+    frate="$1"
     ;;
 
     -d | --daemon)
@@ -77,7 +84,7 @@ done
   notify "File exists" 254
 
 ffmpeg                    \
-  -framerate 60           \
+  -framerate "$frate"     \
   -f x11grab              \
   -video_size $dimensions \
   -thread_queue_size 1024 \
