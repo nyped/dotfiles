@@ -38,9 +38,7 @@ export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 export TERM=xterm-256color
 export EDITOR=nvim
-export MANPAGER='nvim -u NORC --noplugin
-  +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=500"
-  +"norm M"'
+export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=500" +Man! +"norm M"'
 
 #
 ## aliases
@@ -123,9 +121,20 @@ lyrics() {
   } | ~/dotfiles/scripts/center | less -FX
 }
 
+genius() {
+  [[ $# != 2 ]] && {
+    song | IFS=- read artist title
+  } || {
+    artist="$1" title="$2"
+  }
+
+  web_search duckduckgo "\!genius $artist - $title"
+  notify-send Lyrics "Firefox tab opened for $artist - $title"
+}
+
 lyr() {
-  song | IFS=- read a b
-  lyrics "$a" "$b"
+  song | IFS=- read artist title
+  lyrics "$artist" "$title"
 }
 
 open() {
