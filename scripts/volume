@@ -78,7 +78,7 @@ case "$opp" in
 
   toggle)
     pactl set-sink-mute @DEFAULT_SINK@ toggle
-    is_muted="$(pacmd list-sinks | awk '/muted/ { print $2 }')"
+    is_muted="$(pactl list | awk '/Mute:/{i++}i==1 { print $2; exit }')"
 
     if [[ yes == $is_muted ]]; then
       payload=muted
