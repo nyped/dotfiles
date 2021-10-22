@@ -196,9 +196,9 @@ mount_dev() {
 }
 
 rm_orphans() {
-  orphans="$(pacman -Qtd | awk '{print $1}')"
+  orphans="$(pacman -Qqtd)"
   echo "Removing: $orphans"
-  _ p -Rns $orphans
+  echo $orphans | sudo pacman -Rns -
 }
 
 precmd() {
@@ -221,6 +221,9 @@ export MOZ_X11_EGL=1
 
 # maple
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+# cursors
+export XCURSOR_PATH=~/.local/share/icons
 
 #linux: new terminal tabs keep the same wd
 if [ -e /etc/profile.d/vte.sh ]; then

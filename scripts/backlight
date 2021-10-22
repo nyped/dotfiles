@@ -5,6 +5,7 @@
 notify() {
   [[ -n $NOTIFY ]] && \
   notify-send "$1" "$2" \
+    -h int:value:"$3" \
     -h string:x-canonical-private-synchronous:anything \
     -a notif \
   || \
@@ -76,17 +77,17 @@ done
 case "$DEV" in
   laptop)
     RET=$(brightnessctl s $BCTL_VAL | awk 'NR==3 {gsub("[()]",""); print $4}')
-    notify "Laptop brightness" "at $RET"
+    notify "Laptop brightness" "at $RET" "$RET"
   ;;
 
   keyboard)
     RET=$(brightnessctl -d smc::kbd_backlight s $BCTL_VAL | awk 'NR==3 {gsub("[()]",""); print $4}')
-    notify "Keyboard backlight" "at $RET"
+    notify "Keyboard backlight" "at $RET" "$RET"
   ;;
 
   monitor)
     RET=$(ddccontrol dev:/dev/i2c-5 -r $ADDRESS -W $DDC_VAL 2>/dev/null | awk -F'/' 'END {print $2}')
-    notify "Monitor $MESS" "at $RET%"
+    notify "Monitor $MESS" "at $RET%" "$RET"
   ;;
 esac
 

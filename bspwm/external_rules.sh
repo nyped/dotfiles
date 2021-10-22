@@ -11,12 +11,16 @@ instance="$3"
 
 case "$class" in
   *office*)
-     echo desktop=^${_PREF}8
-  ;;
+    echo desktop=^${_PREF}8
+    ;;
 
   discord)
-     echo desktop=^${_PREF}5 state=pseudo_tiled
-  ;;
+    echo desktop=^${_PREF}5 state=pseudo_tiled
+    ;;
+
+  Xephyr)
+    echo focus=off
+    ;;
 
   firefox)
     echo desktop=^${_PREF}1 follow=off state=pseudo_tiled
