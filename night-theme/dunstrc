@@ -29,6 +29,7 @@
     frame_width = 1
     progress_bar_max_width = 400
     progress_bar_min_width = 400
+    highlight = "#4e6265"
 
 [urgency_low]
     background = "#95aaad"
