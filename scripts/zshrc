@@ -104,9 +104,14 @@ def() {
 
 # pandoc
 pan() {
-  [[ $# != 1 ]] && echo usage: EXT= pan \<file\> && return 1
+  [[ $# != 1 ]] && {
+    cat <<EOF >&2
+echo usage: [OUT | HI | IN] pan <file>
+EOF
+    return 1
+  }
   var="${1%.*}"
-  pandoc --highlight-style=tango -so "$var"."${EXT:-pdf}" "$var".md
+  pandoc --highlight-style="${HI:-tango}" -so "$var"."${OUT:-pdf}" "$var"."${IN:-md}"
 }
 
 # karaoke stuff lmao
