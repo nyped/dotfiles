@@ -22,9 +22,10 @@ ln -sf ~/dotfiles/${THEME}-theme/dunstrc ~/.config/dunst/dunstrc
 ln -sf ~/dotfiles/${THEME}-theme/rofi.rasi ~/.config/rofi/config.rasi
 ln -sf ~/dotfiles/${THEME}-theme/zathurarc ~/.config/zathura/zathurarc
 ln -sf ~/dotfiles/kitty/kitty-${THEME}-scheme.conf ~/.config/kitty/color-scheme.conf
+ln -sf ~/dotfiles/wallpaper/${THEME}.png ~/Pictures/wallpaper.png
 
 {
-	hsetroot -cover ~/dotfiles/wallpaper/${THEME}.png
+	hsetroot -cover ~/Pictures/wallpaper.png
 	killall dunst
 	killall -SIGUSR1 nvim kitty
 	dunst &!
