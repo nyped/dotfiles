@@ -11,14 +11,14 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "sans 8"
+theme.font = "JetBrains Mono Regular 9"
 
 theme.bg_normal     = "#00000000"
 theme.bg_focus      = "#00000017"
 theme.bg_urgent     = "#00000000"
 theme.bg_minimize   = "#00000000"
 
-theme.fg_normal     = "#223238"
+theme.fg_normal     = "#000000"
 theme.fg_focus      = "#000000"
 theme.fg_urgent     = "#e53935"
 theme.fg_minimize   = "#000000"
@@ -32,15 +32,15 @@ theme.tooltip_border_color = "#b3b3b3"
 theme.tooltip_border_width = 1
 
 theme.progressbar_bg = "#e4e4e4"
-theme.progressbar_fg = "#808080"
+theme.progressbar_fg = theme.fg_normal
 theme.progressbar_border_color = "#808080"
 theme.progressbar_border_width = 1
 
 theme.useless_gap   = dpi(0)
 theme.border_width  = dpi(1)
-theme.border_normal = "#000000"
-theme.border_focus  = "#535d6c"
-theme.border_marked = "#91231c"
+theme.border_normal = "#b3b3b3"
+theme.border_focus  = "#b3b3b3"
+theme.border_marked = "#e53935"
 
 theme.titlebar_fg = theme.fg_normal
 theme.titlebar_bg = "#f2f2f2"
@@ -48,6 +48,15 @@ theme.titlebar_fg_focus = theme.fg_normal
 theme.titlebar_bg_focus = "#e4e4e4"
 theme.titlebar_fg_normal = theme.fg_normal
 theme.titlebar_bg_normal = "#e4e4e4"
+
+theme.tasklist_bg_focus = "#e4e4e4"
+theme.tasklist_plain_task_name=true
+
+theme.taglist_fg_focus  = "#808080"
+theme.taglist_bg_focus  = "#223238"
+theme.taglist_bg_urgent = "#e53935"
+
+theme.icon_path  = "/home/lenny/.config/awesome/assets/"
 
 -- There are other variable sets
 -- overriding the default one when
@@ -62,20 +71,18 @@ theme.titlebar_bg_normal = "#e4e4e4"
 -- Example:
 --theme.taglist_bg_focus = "#ff0000"
 
--- Generate taglist squares:
-local taglist_square_size = dpi(4)
-theme.taglist_squares_sel = theme_assets.taglist_squares_sel(
-    taglist_square_size, theme.fg_normal
-)
-theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
-    taglist_square_size, theme.fg_normal
-)
-
 -- Variables set for theming notifications:
--- notification_font
--- notification_[bg|fg]
--- notification_[width|height|margin]
--- notification_[border_color|border_width|shape|opacity]
+theme.notification_font = theme.font
+theme.notification_bg   = "#e4e4e4"
+theme.notification_fg   = theme.fg_normal
+theme.notification_border_width = 1
+theme.notification_border_color = theme.border_normal
+theme.notification_width      = 400
+theme.notification_max_width  = 400
+theme.notification_icon_size  = 128
+--theme.notification_shape
+--theme.notification_opacity
+--theme.notification_margin
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
@@ -120,92 +127,7 @@ theme.titlebar_floating_normal_inactive = theme.color_idle_normal
 theme.titlebar_floating_focus_active = "#0a84ff"
 theme.titlebar_floating_normal_active = theme.color_idle_normal
 
--- Define the image to load
---theme.titlebar_close_button_normal = themes_path.."default/titlebar/close_normal.png"
-theme.titlebar_close_button_normal = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_close_normal
-                                    )
-theme.titlebar_close_button_focus = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_close_focus
-                                    )
-theme.titlebar_sticky_button_focus_inactive = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_sticky_focus_inactive
-                                    )
-theme.titlebar_sticky_button_normal_inactive = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_sticky_normal_inactive
-                                    )
-theme.titlebar_sticky_button_focus_active = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_sticky_focus_active
-                                    )
-theme.titlebar_sticky_button_normal_active = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_sticky_normal_active
-                                    )
-theme.titlebar_maximized_button_focus_inactive = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_maximized_focus_inactive
-                                    )
-theme.titlebar_maximized_button_normal_inactive = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_maximized_normal_inactive
-                                    )
-theme.titlebar_maximized_button_focus_active = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_maximized_focus_active
-                                    )
-theme.titlebar_maximized_button_normal_active = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_maximized_normal_active
-                                    )
-theme.titlebar_floating_button_focus_inactive = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_floating_focus_inactive
-                                    )
-theme.titlebar_floating_button_normal_inactive = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_floating_normal_inactive
-                                    )
-theme.titlebar_floating_button_focus_active = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_floating_focus_active
-                                    )
-theme.titlebar_floating_button_normal_active = gears.surface.load_from_shape(
-                                        theme.titlebar_button_size,
-                                        theme.titlebar_button_size,
-                                        circle,
-                                        theme.titlebar_floating_normal_active
-                                    )
+theme.overline_color = "#808080"
 
 theme.wallpaper = "/home/lenny/Pictures/wallpaper.png"
 
