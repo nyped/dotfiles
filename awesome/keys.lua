@@ -3,6 +3,7 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 
+-- {{{
 -- Switch tag, while skipping empty ones
 -- with teleportation !
 local function tag_view_nonempty(step)
@@ -28,23 +29,35 @@ local function tag_view_nonempty(step)
         end
     end
 end
+-- }}}
 
---
+-- {{{
+function update_backlight(cmd, signal)
+    awful.spawn.easy_async_with_shell(
+        cmd,
+        function (stdout)
+            local percentage = tonumber(stdout:match('(%d+)'))
+            awesome.emit_signal(signal, percentage)
+        end
+    )
+end
+-- }}}
+
 -- {{{ Mouse bindings
 root.buttons(gears.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 10, function()
-		tag_view_nonempty(1)
-	end),
+        tag_view_nonempty(1)
+    end),
     awful.button({ }, 11, function()
-		tag_view_nonempty(-1)
-	end),
+        tag_view_nonempty(-1)
+    end),
     awful.button({ }, 9, function()
-		tag_view_nonempty(1)
-	end),
+        tag_view_nonempty(1)
+    end),
     awful.button({ }, 8, function()
-		tag_view_nonempty(-1)
-	end)
+        tag_view_nonempty(-1)
+    end)
 ))
 -- }}}
 
@@ -117,22 +130,40 @@ globalkeys = gears.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
-	-- Rofi
+    -- Rofi
     awful.key({"Control"}, "space",
         function () awful.util.spawn("rofi -show run") end,
         {description = "Open rofi", group = "launcher"}
     ),
     -- Volume
-    awful.key({ }, "XF86AudioRaiseVolume",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/volume -i 1 -n") end,
+    awful.key({ "Shift" }, "XF86AudioRaiseVolume",
+        function()
+            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -i 1")
+        end,
         {description = "Raise volume", group = "volume"}
     ),
+    awful.key({ }, "XF86AudioRaiseVolume",
+        function()
+            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -i 5")
+        end,
+        {description = "Raise volume", group = "volume"}
+    ),
+    awful.key({ "Shift" }, "XF86AudioLowerVolume",
+        function()
+            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -d 1")
+        end,
+        {description = "Lower volume", group = "volume"}
+    ),
     awful.key({ }, "XF86AudioLowerVolume",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/volume -d 1 -n") end,
+        function()
+            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -d 5")
+        end,
         {description = "Lower volume", group = "volume"}
     ),
     awful.key({ }, "XF86AudioMute",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/volume -t -n") end,
+        function()
+            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -t")
+        end,
         {description = "Toggle mute", group = "volume"}
     ),
     -- media keys
@@ -150,28 +181,58 @@ globalkeys = gears.table.join(
     ),
     -- Brightness
     awful.key({ }, "XF86MonBrightnessUp",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/backlight -l -i 1% -n") end,
+        function ()
+            update_backlight(
+                "/home/lenny/dotfiles/scripts/backlight -l -i 1%",
+                "screen_backlight_change"
+            )
+        end,
         {description = "Increase brightness (1%)", group = "volume"}
     ),
     awful.key({ "Shift"}, "XF86MonBrightnessUp",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/backlight -l -i 1 -n") end,
+        function ()
+            update_backlight(
+                "/home/lenny/dotfiles/scripts/backlight -l -i 1",
+                "screen_backlight_change"
+            )
+        end,
         {description = "Increase brightness", group = "volume"}
     ),
     awful.key({ }, "XF86MonBrightnessDown",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/backlight -l -d 1% -n") end,
+        function ()
+            update_backlight(
+                "/home/lenny/dotfiles/scripts/backlight -l -d 1%",
+                "screen_backlight_change"
+            )
+        end,
         {description = "Decrease brightness (1%)", group = "volume"}
     ),
     awful.key({ "Shift"}, "XF86MonBrightnessDown",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/backlight -l -d 1 -n") end,
+        function ()
+            update_backlight(
+                "/home/lenny/dotfiles/scripts/backlight -l -d 1",
+                "screen_backlight_change"
+            )
+        end,
         {description = "Decrease brightness", group = "volume"}
     ),
     -- Kb backlight
     awful.key({ }, "XF86KbdBrightnessUp",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/backlight -k -i 1% -n") end,
+        function ()
+            update_backlight(
+                "/home/lenny/dotfiles/scripts/backlight -k -i 1%",
+                "keyboard_backlight_change"
+            )
+        end,
         {description = "Increase keyboard backlight brightness", group = "volume"}
     ),
     awful.key({ }, "XF86KbdBrightnessDown",
-        function () awful.util.spawn("/home/lenny/dotfiles/scripts/backlight -k -d 1% -n") end,
+        function ()
+            update_backlight(
+                "/home/lenny/dotfiles/scripts/backlight -k -d 1%",
+                "keyboard_backlight_change"
+            )
+        end,
         {description = "Decrease keyboard backlight brightness", group = "volume"}
     )
 )
@@ -232,16 +293,16 @@ clientbuttons = gears.table.join(
         awful.mouse.client.resize(c)
     end),
     awful.button({ }, 9, function(_)
-		tag_view_nonempty(1)
+        tag_view_nonempty(1)
     end),
     awful.button({ }, 8, function(_)
-		tag_view_nonempty(-1)
+        tag_view_nonempty(-1)
     end),
     awful.button({ }, 10, function(_)
-		tag_view_nonempty(1)
+        tag_view_nonempty(1)
     end),
     awful.button({ }, 11, function(_)
-		tag_view_nonempty(-1)
+        tag_view_nonempty(-1)
     end)
 )
 
@@ -262,31 +323,13 @@ clientkeys = gears.table.join(
               {description = "move to screen", group = "client"}),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end,
               {description = "toggle keep on top", group = "client"}),
-	awful.key({ modkey            }, "s",
-		function (c)
-			-- The client currently has the input focus, so it cannot be
-			-- minimized, since minimized clients can't have the focus.
-			c.minimized = true
-		end ,
-		{description = "minimize", group = "client"})
-    --awful.key({ modkey,           }, "m",
-        --function (c)
-            --c.maximized = not c.maximized
-            --c:raise()
-        --end ,
-        --{description = "(un)maximize", group = "client"}),
-    --awful.key({ modkey, "Control" }, "m",
-        --function (c)
-            --c.maximized_vertical = not c.maximized_vertical
-            --c:raise()
-        --end ,
-        --{description = "(un)maximize vertically", group = "client"}),
-    --awful.key({ modkey, "Shift"   }, "m",
-        --function (c)
-            --c.maximized_horizontal = not c.maximized_horizontal
-            --c:raise()
-        --end ,
-        --{description = "(un)maximize horizontally", group = "client"})
+    awful.key({ modkey            }, "s",
+        function (c)
+            -- The client currently has the input focus, so it cannot be
+            -- minimized, since minimized clients can't have the focus.
+            c.minimized = true
+        end ,
+        {description = "minimize", group = "client"})
 )
 
-
+-- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

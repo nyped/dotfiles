@@ -1,35 +1,22 @@
 #!/bin/bash
 # this comment is a waste of bits !
 
-notify() {
-  [[ -n $NOTIFY ]] && \
-  notify-send "$1" "$2" $3 \
-    -h string:x-canonical-private-synchronous:anything \
-    -a notif \
-  || \
-  echo "$1 - $2"
-}
-
-notify_level() {
-  percentage="$(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed s/\ //g)"
-  notify Volume "at $percentage" "-h int:value:$percentage"
-}
-
 update() {
   pactl set-sink-volume @DEFAULT_SINK@ ${1:-+5}%
-  notify_level
 }
 
 info() {
   cat << EOF
 usage: ${0##*/} <cmd>
 Available commands:
--t, --toggle     toggle mute
--l, --level      show volume level
 -h, --help       show help
--n, --notify     send a notification
+-t, --toggle     toggle mute
 -i, --inc N      increase the volume of N percentages
 -d, --dec N      decrease the volume of N percentages
+
+output: percentage muted
+- percentage an integer
+- muted is [yes | no]
 EOF
 }
 
@@ -49,14 +36,6 @@ while [[ $# != 0 ]]; do
       opp=d val="$1"
     ;;
 
-    -n | --notify)
-      NOTIFY=1
-    ;;
-
-    -l | --level)
-      [[ -z $opp ]] && opp=level
-    ;;
-
     -h | --help)
       info
       exit 0
@@ -72,21 +51,8 @@ while [[ $# != 0 ]]; do
 done
 
 case "$opp" in
-  level)
-    notify_level
-  ;;
-
   toggle)
     pactl set-sink-mute @DEFAULT_SINK@ toggle
-    is_muted="$(pactl list | awk '/Mute:/{i++}i==1 { print $2; exit }')"
-
-    if [[ yes == $is_muted ]]; then
-      payload=muted
-    else
-      payload=unmuted
-    fi
-
-    notify Volume $payload
   ;;
 
   i)
@@ -97,5 +63,10 @@ case "$opp" in
     update "-$val"
   ;;
 esac
+
+is_muted="$(pactl list | awk '/Mute:/{i++}i==1 { print $2; exit }')"
+percentage="$(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed -e s/\ //g -e s/\%//)"
+
+echo $percentage $is_muted
 
 # vim: set ts=2 sts=2 sw=2 et :

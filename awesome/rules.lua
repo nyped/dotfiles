@@ -48,43 +48,45 @@ awful.rules.rules = {
           "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
       },
-	  properties = { floating = true }
-	},
+      properties = { floating = true }
+    },
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = false }
 
-	-- Custom rules
+    -- Custom rules
     },
-	{ rule = { instance = "Firefox" },
-	  properties = { tag = "1" }
-	},
-	{ rule = { class = "kitty" },
-	  properties = { tag = "3" }
+    { rule = { instance = "Firefox" },
+      properties = { tag = "1" }
     },
-	{ rule = { class = "Zathura" },
-	  properties = { tag = "4" }
+    { rule = { class = "kitty" },
+      properties = { tag = "3" }
     },
-	{ rule = { class = "discord" },
-	  properties = { tag = "5" }
+    { rule = { class = "Zathura" },
+      properties = { tag = "4" }
     },
-	{ rule = { class = "qBittorrent" },
-	  properties = { tag = "10" }
+    { rule = { class = "discord" },
+      properties = { tag = "5" }
     },
-	{ rule = { class = "Spotify" },
-	  properties = { tag = "9" }
+    { rule = { class = "qBittorrent" },
+      properties = { tag = "10" }
     },
-	{ rule_any = {
-		class = { "Spyder", "java-lang-Thread" }
-	  },
-	  properties = { tag = "2" }
+    { rule = { class = "Spotify" },
+      properties = { tag = "9" }
     },
-	{ rule_any = {
-		class = { "vlc", "Vlc" }
-	  },
-	  properties = { tag = "7" }
+    { rule_any = {
+        class = { "Spyder", "java-lang-Thread" }
+      },
+      properties = { tag = "2" }
+    },
+    { rule_any = {
+        class = { "vlc", "Vlc" }
+      },
+      properties = { tag = "7" }
     },
 }
 
 -- }}}
+
+-- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
