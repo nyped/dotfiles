@@ -1,5 +1,7 @@
 local awful = require("awful")
---
+local wibox = require("wibox")
+local beautiful = require("beautiful")
+
 -- {{{ Volume signals
 -- https://github.com/JavaCafe01/dotfiles/blob/master/config/awesome/signal/volume.lua
 
@@ -53,8 +55,7 @@ end)
 
 -- }}}
 
--- {{{ Signals
--- Signal function to execute when a new client appears.
+-- {{{ Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
@@ -67,12 +68,43 @@ client.connect_signal("manage", function (c)
         awful.placement.no_offscreen(c)
     end
 end)
+-- }}}
 
--- Enable sloppy focus, so that focus follows mouse.
+-- {{{ Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = false})
+    c:activate { context = "mouse_enter", raise = false }
 end)
+-- }}}
 
+-- {{{ Floating windows on top
+client.connect_signal("property::floating", function(c)
+    c.ontop = c.floating
+end)
+-- }}}
+
+-- {{{ Layouts
+tag.connect_signal("request::default_layouts", function()
+    awful.layout.append_default_layouts({
+        awful.layout.suit.tile,
+        awful.layout.suit.tile.left,
+        awful.layout.suit.tile.bottom,
+        awful.layout.suit.tile.top
+    })
+end)
+-- }}}
+
+-- {{{ Wallpaper
+screen.connect_signal("request::wallpaper", function(s)
+    awful.wallpaper {
+        screen = s,
+        widget = {
+            horizontal_fit_policy = "fit",
+            vertical_fit_policy   = "fit",
+            image     = beautiful.wallpaper,
+            widget    = wibox.widget.imagebox
+        }
+    }
+end)
 -- }}}
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

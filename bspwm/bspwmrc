@@ -1,6 +1,7 @@
 #!/bin/bash
 
 pgrep -x sxhkd > /dev/null || sxhkd &
+pgrep -x xbindkeys > /dev/null || xbindkeys &
 
 monitors=($(xrandr --query | grep \ connected --color=never | cut -d \  -f 1 | sort))
 # LVDS-1 is indexed 1. Gotta reverse it

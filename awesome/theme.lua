@@ -32,7 +32,9 @@ theme.progressbar_fg = theme.fg_normal
 theme.progressbar_border_color = "#808080"
 theme.progressbar_border_width = 1
 
-theme.useless_gap   = dpi(0)
+theme.gap_single_client = true
+theme.useless_gap       = 10
+
 theme.border_width  = dpi(1)
 theme.border_normal = "#b3b3b3"
 theme.border_focus  = "#b3b3b3"
@@ -126,10 +128,10 @@ theme.calendar_focus_border_width      = 1
 
 theme.calendar_year_border_color       = "#b3b3b3"
 theme.calendar_month_border_color      = "#b3b3b3"
-theme.calendar_yearheader_border_color = "#b3b3b3"
-theme.calendar_header_border_color     = "#b3b3b3"
-theme.calendar_weekday_border_color    = "#b3b3b3"
-theme.calendar_normal_border_color     = "#b3b3b3"
+theme.calendar_yearheader_border_color = "#e4e4e4"
+theme.calendar_header_border_color     = "#e4e4e4"
+theme.calendar_weekday_border_color    = "#e4e4e4"
+theme.calendar_normal_border_color     = "#e4e4e4"
 theme.calendar_focus_border_color      = "#b3b3b3"
 
 theme.calendar_focus_markup   = "<b>%s</b>"
@@ -139,9 +141,10 @@ theme.calendar_yearheader_shape = gears.shape.rounded_bar
 theme.calendar_header_shape     = gears.shape.rounded_bar
 theme.calendar_weekday_shape    = gears.shape.rounded_bar
 theme.calendar_normal_shape     = gears.shape.rounded_bar
-theme.calendar_focus_shape      = gears.shape.rounded_bar
+theme.calendar_focus_shape      = gears.shape.rect
 
-theme.calendar_year_padding = dpi(10)
+
+theme.calendar_year_padding  = dpi(10)
 theme.calendar_month_padding = dpi(10)
 -- }}}
 

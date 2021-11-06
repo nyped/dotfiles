@@ -1,5 +1,4 @@
 #!/bin/bash
-# this comment is a waste of bits !
 
 update() {
   pactl set-sink-volume @DEFAULT_SINK@ ${1:-+5}%
@@ -13,6 +12,7 @@ Available commands:
 -t, --toggle     toggle mute
 -i, --inc N      increase the volume of N percentages
 -d, --dec N      decrease the volume of N percentages
+-n, --notify     send a notification
 
 output: percentage muted
 - percentage an integer
@@ -39,6 +39,10 @@ while [[ $# != 0 ]]; do
     -h | --help)
       info
       exit 0
+    ;;
+
+    -n | --notify)
+      NOTIFY=1
     ;;
 
     *) # fallthrough
@@ -68,5 +72,13 @@ is_muted="$(pactl list | awk '/Mute:/{i++}i==1 { print $2; exit }')"
 percentage="$(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed -e s/\ //g -e s/\%//)"
 
 echo $percentage $is_muted
+
+[[ $is_muted == yes ]] && tail=" (muted)"
+
+[[ -n $NOTIFY ]] && \
+  notify-send "Volume" "at ${percentage}%${tail}" \
+    -h string:x-canonical-private-synchronous:anything \
+    -a notif \
+    -h int:value:$percentage
 
 # vim: set ts=2 sts=2 sw=2 et :

@@ -1,5 +1,5 @@
 #!/bin/bash
-# deps: brightnessctl ddccontrol
+# deps: brightnessctl ddccontrol notifysend
 # All my backlight stuff in one script !
 
 info() {
@@ -12,8 +12,11 @@ Usage: ${0##*/} [-i | -d N] [-l | -m | -k | -b] [-h] [-n]
 -k, --keyboard   operate on keyboard backlight
 -b, --blue       operate on monitor blue light
 -h, --help       show help
+-n, --notify     send a notification
 EOF
 }
+
+MESS=brightness
 
 while [[ $# != 0 ]]; do
   case "$1" in
@@ -22,7 +25,7 @@ while [[ $# != 0 ]]; do
     ;;
 
     -m | --monitor)
-      MESS=brightness DEV=monitor
+      DEV=monitor
     ;;
 
     -k | --keyboard)
@@ -46,6 +49,10 @@ while [[ $# != 0 ]]; do
     -h | --help)
       info
       exit 0
+    ;;
+
+    -n | --notify)
+      NOTIFY=1
     ;;
 
     *)
@@ -74,5 +81,11 @@ case "$DEV" in
 esac
 
 echo $RET
+
+[[ -n $NOTIFY ]] && \
+  notify-send ${DEV} "${MESS} at ${RET}%" \
+    -h string:x-canonical-private-synchronous:anything \
+    -a notif \
+    -h int:value:$RET
 
 # vim: set ts=2 sts=2 sw=2 et :

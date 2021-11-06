@@ -86,9 +86,17 @@ popup:buttons {
 }
 
 -- {{{ Volume popup
+local volume_initialized = false
+
 awesome.connect_signal("volume_change",
     function(volume, muted)
+        if not volume_initialized then
+            volume_initialized = true
+            return
+        end
+
         bar.value = volume
+
         if muted then
             if volume < 20 then
                 icon:set_image(beautiful.icon_path.."/volume/volume-variant-off.png")
@@ -139,7 +147,12 @@ awesome.connect_signal("screen_backlight_change",
 awesome.connect_signal("keyboard_backlight_change",
     function(percentage)
         bar.value = percentage
-        icon:set_image(beautiful.icon_path.."backlight/keyboard.png")
+
+        if percentage == 0 then
+            icon:set_image(beautiful.icon_path.."backlight/keyboard-off.png")
+        else
+            icon:set_image(beautiful.icon_path.."backlight/keyboard.png")
+        end
 
         if popup.visible then
             timer:again()

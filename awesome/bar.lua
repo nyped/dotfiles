@@ -257,9 +257,7 @@ local taglist_buttons = gears.table.join(
                               if client.focus then
                                   client.focus:toggle_tag(t)
                               end
-                          end),
-    awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-    awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
+                          end)
 )
 
 -- {{{ textclock with popup calendar
@@ -269,14 +267,11 @@ month_calendar:attach( mytextclock, "tm" )
 -- }}}
 
 -- {{{
-awful.screen.connect_for_each_screen(function(s)
-    -- Wallpaper
-    set_wallpaper(s)
-
+screen.connect_signal("request::desktop_decoration", function(s)
     -- {{{ tags
     awful.tag.add("1", {
         icon               = "/home/lenny/.config/awesome/assets/taglist/web.png",
-        layout             = awful.layout.suit.spiral.dwindle,
+        layout             = awful.layout.suit.tile,
         master_fill_policy = "master_width_factor",
         gap_single_client  = true,
         gap                = 15,
@@ -291,7 +286,7 @@ awful.screen.connect_for_each_screen(function(s)
     } do
         awful.tag.add(tostring(key + 1), {
             icon   = "/home/lenny/.config/awesome/assets/taglist/"..name,
-            layout = awful.layout.suit.spiral.dwindle,
+            layout = awful.layout.suit.tile,
         })
     end
     -- }}}
@@ -374,12 +369,12 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- {{{ Create the wibox
     s.mywibox = awful.wibar({
-        border_color = "#b3b3b3",
+        border_color = "#00000040",
         border_width = 1,
         position = "top",
         screen = s,
         height = 30,
-        bg     = "#e4e4e4"
+        bg     = "#00000017"
     })
 
     -- Add widgets to the wibox

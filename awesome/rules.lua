@@ -1,92 +1,100 @@
-local gears = require("gears")
 local awful = require("awful")
-local beautiful = require("beautiful")
+local ruled = require("ruled")
 
 -- {{{ Rules
--- Rules to apply to new clients (through the "manage" signal).
-awful.rules.rules = {
-    -- All clients will match this rule.
-    { rule = { },
-      properties = { border_width = beautiful.border_width,
-                     border_color = beautiful.border_normal,
-                     focus = awful.client.focus.filter,
-                     raise = true,
-                     keys = clientkeys,
-                     buttons = clientbuttons,
-                     screen = awful.screen.preferred,
-                     placement = awful.placement.no_overlap+awful.placement.no_offscreen
-     }
-    },
+ruled.client.connect_signal("request::rules", function()
+    ruled.client.append_rule {
+        id         = "global",
+        rule       = { },
+        properties = {
+            focus     = awful.client.focus.filter,
+            raise     = true,
+            screen    = awful.screen.preferred,
+            placement = awful.placement.no_overlap+awful.placement.no_offscreen
+        }
+    }
 
     -- Floating clients.
-    { rule_any = {
-        instance = {
-          "DTA",  -- Firefox addon DownThemAll.
-          "copyq",  -- Includes session name in class.
-          "pinentry",
+    ruled.client.append_rule {
+        id       = "floating",
+        rule_any = {
+            instance = { "copyq", "pinentry" },
+            class    = {
+                "Arandr", "Blueman-manager", "Gpick", "Kruler", "Sxiv",
+                "Tor Browser", "Wpa_gui", "veromix", "xtightvncviewer"
+            },
+            -- Note that the name property shown in xprop might be set slightly after creation of the client
+            -- and the name shown there might not match defined rules here.
+            name    = {
+                "Event Tester",  -- xev.
+            },
+            role    = {
+                "AlarmWindow",    -- Thunderbird's calendar.
+                "ConfigManager",  -- Thunderbird's about:config.
+                "pop-up",         -- e.g. Google Chrome's (detached) Developer Tools.
+            }
         },
-        class = {
-          "Arandr",
-          "Blueman-manager",
-          "Gpick",
-          "Kruler",
-          "MessageWin",  -- kalarm.
-          "Sxiv",
-          "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-          "Wpa_gui",
-          "veromix",
-          "xtightvncviewer"},
-
-        -- Note that the name property shown in xprop might be set slightly after creation of the client
-        -- and the name shown there might not match defined rules here.
-        name = {
-          "Event Tester",  -- xev.
-        },
-        role = {
-          "AlarmWindow",  -- Thunderbird's calendar.
-          "ConfigManager",  -- Thunderbird's about:config.
-          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
-        }
-      },
-      properties = { floating = true }
-    },
+        properties = { floating = true }
+    }
 
     -- Add titlebars to normal clients and dialogs
-    { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = false }
+    ruled.client.append_rule {
+        id         = "titlebars",
+        rule_any   = { type = { "normal", "dialog" } },
+        properties = { titlebars_enabled = false      }
+    }
 
-    -- Custom rules
-    },
-    { rule = { instance = "Firefox" },
-      properties = { tag = "1" }
-    },
-    { rule = { class = "kitty" },
-      properties = { tag = "3" }
-    },
-    { rule = { class = "Zathura" },
-      properties = { tag = "4" }
-    },
-    { rule = { class = "discord" },
-      properties = { tag = "5" }
-    },
-    { rule = { class = "qBittorrent" },
-      properties = { tag = "10" }
-    },
-    { rule = { class = "Spotify" },
-      properties = { tag = "9" }
-    },
-    { rule_any = {
-        class = { "Spyder", "java-lang-Thread" }
-      },
-      properties = { tag = "2" }
-    },
-    { rule_any = {
-        class = { "vlc", "Vlc" }
-      },
-      properties = { tag = "7" }
-    },
-}
-
+    ruled.client.append_rule {
+        rule = { instance = "[Ff]irefox" },
+        properties = {
+            tag = "1",
+            maximized = false,
+            floating = false,
+            switch_to_tags = true
+        }
+    }
+    ruled.client.append_rule {
+        rule = { class = "terminal" },
+        properties = { tag = "3", floating = false }
+    }
+    ruled.client.append_rule {
+        rule = { class = "Zathura" },
+        properties = { tag = "4" }
+    }
+    ruled.client.append_rule {
+        rule = { class = "discord" },
+        properties = { tag = "5" }
+    }
+    ruled.client.append_rule {
+        rule = { class = "qBittorrent" },
+        properties = { tag = "10" }
+    }
+    ruled.client.append_rule {
+        rule = { class = "[Ss]potify" },
+        properties = { tag = "9" }
+    }
+    ruled.client.append_rule {
+        rule = { class = "Terminal" },
+        properties = {
+            floating = true,
+            width    = 524,
+            height   = 297,
+            placement  = awful.placement.bottom_right
+        }
+    }
+    ruled.client.append_rule {
+        rule_any = {
+            class = { "Spyder", "java-lang-Thread" }
+        },
+        properties = { tag = "2" }
+    }
+    ruled.client.append_rule {
+        rule_any = {
+            class = { "vlc", "Vlc" }
+        },
+        properties = { tag = "7" }
+    }
+end)
 -- }}}
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
