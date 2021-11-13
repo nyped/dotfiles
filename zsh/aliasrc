@@ -1,0 +1,50 @@
+#!/bin/zsh
+
+# general
+alias b=bat \
+      c=color \
+      center=~/dotfiles/scripts/center \
+      cycle='cat /sys/class/power_supply/BAT0/cycle_count' \
+      dots=~/dotfiles \
+      dl='cd ~/Downloads' \
+      f='~/dotfiles/scripts/fetch' \
+      ff=firefox \
+      grep='grep --color=always' \
+      maison=~/maison/sync/current/ \
+      mt=make\ test \
+      mr=make\ clear \
+      mc=make\ clean \
+      m=make \
+      o=open \
+      pbcopy='xclip -selection clipboard' \
+      pbpaste='xclip -selection clipboard -o' \
+      pbc=pbcopy \
+      pbp=pbpaste \
+      pbs='nc termbin.com 9999|pbcopy && pbpaste' \
+      p=pacman \
+      sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1" \
+      song='playerctl metadata -f "{{ artist }} - {{ title }}"' \
+      tmp=/tmp \
+      vim=nvim \
+      v=nvim \
+      vr='nvim -R' \
+      y=yay \
+      _=sudo
+
+# git
+alias g=git \
+      gaa='git add --all' \
+      gc='git commit -v' \
+      gd='git diff' \
+      gp='git push' \
+      gl='git pull' \
+      gm='git merge' \
+      gst='git status'
+
+# ls
+alias ls='ls --color=tty' \
+      l='ls -lah' \
+      ll='ls -lh' \
+      lA='ls -A'
+
+# vim: set ts=2 sts=2 sw=2 ft=sh et :
