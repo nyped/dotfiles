@@ -2,7 +2,7 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE=~/.zsh_history
 
-setopt autocd extendedglob nomatch interactive_comments
+setopt autocd extendedglob nomatch interactive_comments noflowcontrol
 unsetopt beep
 
 # colors
@@ -14,9 +14,11 @@ bindkey -e
 bindkey "^U" backward-kill-line
 
 # Tab completition
+eval "$(dircolors)"
 autoload -U compinit
 zstyle ':completion:*' menu select
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# 21 31 48
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} "ma=30;1;42;21"
 zmodload zsh/complist
 compinit
 bindkey '^[[Z' reverse-menu-complete
@@ -43,6 +45,38 @@ source ~/dotfiles/zsh/functions.sh
 
 ## Colors, theme stuff
 source ~/.id
+
+# man and pager stuff
+export LESS=-r\ --mouse\ --wheel-lines=2
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 41) green
+export LESS_TERMCAP_md=$(tput bold; tput setaf 6)
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 231; tput setab 241)
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 9)
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+export LESS_TERMCAP_ZN=$(tput ssubm)
+export LESS_TERMCAP_ZV=$(tput rsubm)
+export LESS_TERMCAP_ZO=$(tput ssupm)
+export LESS_TERMCAP_ZW=$(tput rsupm)
+export TERM=xterm-256color
+export EDITOR=nvim
+export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=500" +Man! +"norm M"'
+
+# qt dark theme
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+# hardware acceleration
+export LIBVA_DRIVER_NAME=i965
+export MOZ_X11_EGL=1
+
+# maple
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# cursors
+export XCURSOR_PATH=~/.local/share/icons
 
 # syntax highlight
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh

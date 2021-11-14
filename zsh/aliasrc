@@ -45,6 +45,6 @@ alias g=git \
 alias ls='ls --color=tty' \
       l='ls -lah' \
       ll='ls -lh' \
-      lA='ls -A'
+      la='ls -A'
 
 # vim: set ts=2 sts=2 sw=2 ft=sh et :
