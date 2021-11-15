@@ -126,8 +126,14 @@ rm_orphans() {
   echo $orphans | sudo pacman -Rns -
 }
 
+preexec () {
+    local cmd=$2
+    print -Pn "\e]0;$cmd\a"
+}
+
 precmd() {
   printf "\033[4 q"
+  print -Pn "\e]0;%~\a"
 }
 
 # vim: set ts=2 sts=2 sw=2 ft=sh et :

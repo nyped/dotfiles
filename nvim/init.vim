@@ -12,6 +12,7 @@
 :set nu rnu
 :set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 :set mouse=nv
+:set title
 "
 " exiting terminal
 "
