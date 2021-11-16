@@ -53,6 +53,21 @@ function ssh_connection() {
   fi
 }
 
+function show_path() {
+  if [[ ${#PWD} -gt "$(($COLUMNS/2))" ]]; then
+    if [[ ${#PWD:t} -gt "$(($COLUMNS/2))" ]]; then
+      # fish like wd but with shrinked tail
+      echo \ in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}}//\/~/\~}/${${PWD:t}:0:10}%b...%B${${PWD:t}:$((${#PWD:t}-10)):10}
+    else
+      # fish like wd with expanded tail
+      echo \ in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+    fi
+  else
+    # full size wd (ommit home dir)
+    [[ $PWD = /home/$(whoami) ]] || echo \ in \%B%~
+  fi
+}
+
 ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[magenta]%}▲"
 ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[blue]%}▼"
 ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[blue]%}"

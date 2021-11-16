@@ -126,7 +126,7 @@ rm_orphans() {
   echo $orphans | sudo pacman -Rns -
 }
 
-function show_path() {
+function show_path_shell() {
   if [[ ${#PWD} -gt "$(($COLUMNS/2))" ]]; then
     if [[ ${#PWD:t} -gt "$(($COLUMNS/2))" ]]; then
       # fish like wd but with shrinked tail
@@ -137,7 +137,7 @@ function show_path() {
     fi
   else
     # full size wd (ommit home dir)
-    [[ $PWD = /home/$(whoami) ]] || echo \ in \%B%~
+    echo \ \%B%~
   fi
 }
 
@@ -152,7 +152,7 @@ precmd() {
   # restore window title when command
   # is done
   printf "\033[4 q"
-  print -Pn "\e]0;$(show_path)\a"
+  print -Pn "\e]0;$(show_path_shell)\a"
 }
 
 # vim: set ts=2 sts=2 sw=2 ft=sh et :
