@@ -130,10 +130,10 @@ function show_path_shell() {
   if [[ ${#PWD} -gt "$(($COLUMNS/2))" ]]; then
     if [[ ${#PWD:t} -gt "$(($COLUMNS/2))" ]]; then
       # fish like wd but with shrinked tail
-      echo \ in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}}//\/~/\~}/${${PWD:t}:0:10}%b...%B${${PWD:t}:$((${#PWD:t}-10)):10}
+      echo \ \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}}//\/~/\~}/${${PWD:t}:0:10}%b...%B${${PWD:t}:$((${#PWD:t}-10)):10}
     else
       # fish like wd with expanded tail
-      echo \ in \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
+      echo \ \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
     fi
   else
     # full size wd (ommit home dir)
