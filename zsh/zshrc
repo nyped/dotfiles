@@ -24,10 +24,6 @@ zmodload zsh/complist
 compinit
 bindkey '^[[Z' reverse-menu-complete
 
-# prompt
-source ~/dotfiles/zsh/git.zsh
-source ~/dotfiles/zsh/simple.zsh-theme
-
 # arrow search
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -43,6 +39,13 @@ export WORDCHARS='.-'
 # workflow
 source ~/dotfiles/zsh/aliasrc
 source ~/dotfiles/zsh/functions.sh
+
+# prompt
+source ~/dotfiles/zsh/git.zsh
+source ~/dotfiles/zsh/simple.zsh-theme
+
+# title update when resize
+trap precmd WINCH
 
 ## Colors, theme stuff
 source ~/.id
