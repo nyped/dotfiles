@@ -35,7 +35,7 @@ case "$class" in
     ;;
 
   terminal)
-    echo state=floating rectangle=524x297+900+580
+    echo state=floating rectangle=524x297+900+580 sticky=true
     ;;
 
   Terminal)
@@ -63,7 +63,23 @@ case "$class" in
     ;;
 
   java-lang-Thread) # maple
-    echo desktop=^${_PREF}2 follow=off state=pseudo_tiled
+    echo desktop=^${_PREF}2 follow=off state=floating
+    ;;
+
+  Spotify)
+    echo desktop=^${_PREF}9
+    ;;
+
+  Pdfpc) # Fullscreen presentation on desktop 7
+    case $(xprop WM_ICON_NAME -id $id) in
+      *presenter*)
+        echo desktop=^7 state=fullscreen follow=on focus=on
+      ;;
+
+      *presentation*)
+        echo desktop=^17 state=fullscreen follow=on
+      ;;
+    esac
     ;;
 
   *)
