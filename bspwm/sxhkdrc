@@ -27,6 +27,9 @@ XF86Tools
 XF86Calculator
 	~/dotfiles/scripts/keyboard -e
 
+XF86LaunchB {_,+ shift}
+	~/dotfiles/scripts/keyboard -{e,m}
+
 # toggle polybar
 super + z
 	polybar-msg cmd toggle;                     \
@@ -75,19 +78,36 @@ control + {shift + q,q}
 
 # toggle fullscreen
 alt + Tab
-	if [[ -z `bspc query -N -n focused.fullscreen` ]];\
-	then :;                                           \
+	if bspc query -N -n focused.fullscreen;           \
+	then;                                             \
+	bspc node focused.marked -t floating;             \
+	bspc node focused.\!marked -t tiled;              \
+	else;                                             \
 	bspc node focused.floating -g marked=on;          \
 	bspc node focused.tiled -g marked=off;            \
 	bspc node focused -t fullscreen;                  \
-	else :;                                           \
-	bspc node focused.marked -t floating;             \
-	bspc node focused.\!marked -t tiled;              \
+	fi;
+
+# toggle sticky
+# and restore in fav ws
+super + g
+	if bspc query -N -n focused.sticky; \
+	then;                               \
+	bspc node -g sticky=off;            \
+	bspc node -t tiled;                 \
+	~/dotfiles/scripts/restore.sh;      \
+	else;                               \
+	bspc node -g sticky=on;             \
+	bspc node -t floating;              \
+	~/dotfiles/scripts/resize    1;     \
+	~/dotfiles/scripts/move      1;     \
 	fi;
 
 # pseudo tile a window
 super + f
-	bspc node focused -t pseudo_tiled
+	bspc query -N -n focused.pseudo_tiled       \
+	&& bspc node focused -t tiled               \
+	|| bspc node focused -t pseudo_tiled
 
 # switch workspaces on current monitor
 alt + {1-9,0}
@@ -138,9 +158,9 @@ alt + {m,n}
 
 # toggle floating
 ctrl + shift + space
-	[[ -z `bspc query -N -n focused.floating` ]]\
-	&& bspc node focused -t floating            \
-	|| bspc node focused -t tiled
+	bspc query -N -n focused.floating  \
+	&& bspc node focused -t tiled      \
+	|| bspc node focused -t floating
 
 # grow a win
 ctrl + alt + {Left,Down,Up,Right}
