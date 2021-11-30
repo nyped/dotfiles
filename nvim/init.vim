@@ -73,6 +73,11 @@ endif
 :nnoremap o o<Esc>
 :nnoremap O O<Esc>
 "
+" forward, backward move
+"
+:imap <C-f> <right>
+:imap <C-b> <left>
+"
 " https://vim.fandom.com/wiki/Replace_a_builtin_command_using_cabbrev
 "
 :cabbrev <silent> w <c-r>=(getcmdtype()==':' && getcmdpos()==1 ? 'sil w' : 'w')<CR>
