@@ -2,8 +2,16 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE=~/.zsh_history
 
-setopt autocd extendedglob nomatch \
-  interactive_comments noflowcontrol AUTO_PUSHD
+setopt autocd \
+       extendedglob \
+       nomatch \
+       interactive_comments \
+       noflowcontrol \
+       auto_pushd \
+       complete_in_word \
+       hist_ignore_dups \
+       hist_ignore_space
+
 unsetopt beep
 
 # colors
@@ -18,8 +26,8 @@ bindkey "^U" backward-kill-line
 eval "$(dircolors)"
 autoload -U compinit
 zstyle ':completion:*' menu select
-# 21 31 48
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} "ma=30;1;42;21"
+zstyle ':completion:*' matcher-list 'r:|?=**'
 zmodload zsh/complist
 compinit
 bindkey '^[[Z' reverse-menu-complete
