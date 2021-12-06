@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# bt
+# Sun Dec  5 01:58:02 PM CET 2021
+# https://github.com/polybar/polybar-scripts/blob/master/polybar-scripts/system-bluetooth-bluetoothctl/system-bluetooth-bluetoothctl.sh
+# deps: playerctl blueman bluetoothctl
+
+BT_ON=
+BT_OFF=
+BT_ACTIVE=
+
+log() {
+  bluetoothctl | while read -r; do
+      if ! systemctl is-active "bluetooth.service" >/dev/null; then
+          echo $BT_OFF
+          continue
+      fi
+
+      echo $BT_ON
+      devices_paired=$(bluetoothctl paired-devices | grep Device | cut -d ' ' -f 2)
+      for device in $devices_paired; do
+          if bluetoothctl info "$device" | grep -q "Connected: yes"; then
+            echo $BT_ACTIVE
+          fi
+      done
+  done
+}
+
+toggle() {
+    if bluetoothctl show | grep -q "Powered: no"; then
+        bluetoothctl power on
+        sleep 1
+
+        devices_paired=$(bluetoothctl paired-devices | grep Device | cut -d ' ' -f 2)
+        for device in $devices_paired; do
+            bluetoothctl connect "$device"
+        done
+    else
+        playerctl stop
+        devices_paired=$(bluetoothctl paired-devices | grep Device | cut -d ' ' -f 2)
+        for device in $devices_paired; do
+            bluetoothctl disconnect "$device"
+        done
+
+        bluetoothctl power off
+    fi
+}
+
+case "$1" in
+    -t | --toggle)
+        toggle
+        ;;
+    *)
+        log
+        ;;
+esac
+
+# vim:set ts=8 sts=2 sw=2 et:
