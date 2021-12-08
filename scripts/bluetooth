@@ -9,6 +9,8 @@ BT_OFF=
 BT_ACTIVE=
 
 log() {
+  echo $BT_OFF
+
   bluetoothctl | while read -r; do
       if ! systemctl is-active "bluetooth.service" >/dev/null; then
           echo $BT_OFF
