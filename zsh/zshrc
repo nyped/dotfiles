@@ -10,7 +10,9 @@ setopt autocd \
        auto_pushd \
        complete_in_word \
        hist_ignore_dups \
-       hist_ignore_space
+       hist_ignore_space \
+       incappendhistory \
+       share_history
 
 unsetopt beep
 

@@ -10,6 +10,9 @@ alias b=bat \
       f='~/dotfiles/scripts/fetch' \
       ff=firefox \
       grep='grep --color=always' \
+      h='history' \
+      hh='history 1' \
+      hs='history 1 | grep' \
       maison=~/maison/sync/current/ \
       mt=make\ test \
       mr=make\ clear \
