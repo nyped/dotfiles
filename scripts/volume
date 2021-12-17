@@ -68,8 +68,8 @@ case "$opp" in
   ;;
 esac
 
-is_muted="$(pactl list | awk '/Mute:/{i++}i==1 { print $2; exit }')"
-percentage="$(pactl list sinks | grep -m 1 \%\ \/ | cut -d \/ -f 2 | sed -e s/\ //g -e s/\%//)"
+is_muted="$(pactl get-sink-mute '@DEFAULT_SINK@' | awk '{print $2}')"
+percentage="$(pactl get-sink-volume '@DEFAULT_SINK@' | awk '{gsub("%",""); print $5}')"
 
 echo $percentage $is_muted
 
