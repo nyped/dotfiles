@@ -7,5 +7,5 @@ bg=$(mktemp -u)
 import -window root ${bg}.xwd
 convert ${bg}.xwd -filter Gaussian -thumbnail 20% -sample 500% ${bg}.png
 rm ${bg}.xwd
-i3lock -i ${bg}.png
+i3lock -ui ${bg}.png
 rm ${bg}.png

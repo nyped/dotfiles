@@ -68,7 +68,7 @@ case $ret in
 		;;
 
 	Editor)
-		alacritty -e nvim &
+		kitty --class nvim -e nvim &
 		disown
 		;;
 
