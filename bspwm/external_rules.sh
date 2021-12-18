@@ -70,6 +70,10 @@ case "$class" in
     echo desktop=^${_PREF}9
     ;;
 
+  Network\ Helper)
+    echo state=floating
+    ;;
+
   Pdfpc) # Fullscreen presentation on desktop 7
     case $(xprop WM_ICON_NAME -id $id) in
       *presenter*)

@@ -8,8 +8,12 @@ EOF
 
 if [[ $1 = day || $1 = d ]]; then
 	THEME=day
+	polybar-msg hook light_laptop 1
+	polybar-msg hook light_mon	  1
 elif [[ $1 = night || $1 = n ]]; then
 	THEME=night
+	polybar-msg hook light_laptop 2
+	polybar-msg hook light_mon	  2
 else
 	THEME=$(< ~/.t)
 	[[ $THEME = day ]] && exec $0 n || exec $0 d
