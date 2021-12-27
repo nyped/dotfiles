@@ -1,0 +1,44 @@
+(include "/home/lenny/.config/eww/widgets.yuck")
+
+(defwindow panel_left
+  :monitor 0
+  :stacking "bg"
+  :windowtype "dock"
+  :geometry (geometry :x "20px"
+                      :y "0px"
+                      :width "250px"
+                      :anchor "center left")
+  (panel :monitor 0))
+
+(defwindow panel_right
+  :monitor 1
+  :stacking "bg"
+  :windowtype "dock"
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "250px"
+                      :height "100%"
+                      :anchor "center left")
+  (panel :monitor 1))
+
+(defwindow lock_left
+  :monitor 0
+  :stacking "fg"
+  :windowtype "dock"
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100px"
+                      :height "100px"
+                      :anchor "center")
+  (lock :monitor 0))
+
+(defwindow lock_right
+  :monitor 0
+  :stacking "fg"
+  :windowtype "dock"
+  :geometry (geometry :x "0px"
+                      :y "0px"
+                      :width "100px"
+                      :height "100px"
+                      :anchor "center")
+  (lock :monitor 1))

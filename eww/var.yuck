@@ -1,0 +1,81 @@
+(defpoll date_h
+  :interval "1s"
+  :initial  "00"
+  `date '+%I'`)
+
+(defpoll date_m
+  :interval "1s"
+  :initial  "00"
+  `date '+%M'`)
+
+(defpoll date_s
+  :interval "1s"
+  :initial  "00"
+  `date '+%S'`)
+
+(defpoll date_d
+  :interval "1s"
+  :initial  "00"
+  `date '+%A'`)
+
+(defpoll date_p
+  :interval "1s"
+  :initial  "00"
+  `date '+%p'`)
+
+(defpoll date_M
+  :interval "1s"
+  :initial "00"
+  `date '+%b'`)
+
+(defpoll date_D
+  :interval "1s"
+  :initial "00"
+  `date '+%d'`)
+
+(defvar cover_path "/home/lenny/.config/eww/assets/cover.png")
+
+(defvar player_icon "契")
+
+(defvar current_song "Not playing")
+
+(defvar weather_temperature "-")
+
+(defvar weather_condition "unknown")
+
+(defvar weather_logo "ﭽ")
+
+;poll
+(defpoll dummy_var_weather
+  :interval "10m"
+  :initial ""
+  `/home/lenny/.config/eww/scripts/weather_meta`)
+
+;theme
+(defpoll theme
+  :interval "1s"
+  :run-while false
+  `cat ~/.t`)
+
+;spacing
+(defvar spacing 3)
+
+;volume
+(defvar volume_level 50)
+
+(defvar volume_muted false)
+
+;control
+(defvar control_shown true)
+
+;monitors
+(defvar monitors_child_shown false)
+
+;power menu
+(defvar power_child_shown false)
+
+;player init
+(defpoll dummy_var_player
+  :interval "1s"
+  :run-while false
+  `~/dotfiles/scripts/music_meta init`)

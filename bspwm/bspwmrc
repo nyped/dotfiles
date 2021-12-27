@@ -2,6 +2,7 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 pgrep -x xbindkeys > /dev/null || xbindkeys &
+pgrep -x eww > /dev/null || eww daemon
 
 monitors=($(xrandr --listactivemonitors | awk '{print $4}'))
 

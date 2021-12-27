@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# open_spotify
+# Sat Dec 11 12:28:23 AM CET 2021
+
+if pidof spotify; then
+  xdotool search --class spotify windowactivate
+else
+  spotify --no-zygote --disable-gpu --disable-software-rasterizer &
+  disown
+fi
+
+eww close-all
+
+# vim:set ts=8 sts=2 sw=2 et:

@@ -30,6 +30,9 @@ XF86Calculator
 XF86LaunchB {_,+ shift}
 	~/dotfiles/scripts/keyboard -{e,m}
 
+XF86PowerOff + shift
+	~/dotfiles/scripts/lock
+
 # toggle polybar
 super + z
 	polybar-msg cmd toggle;                     \

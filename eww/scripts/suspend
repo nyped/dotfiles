@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# suspend
+# Fri Dec 17 02:37:33 PM CET 2021
+# lennypeers
+
+if pidof eww; then
+  eww close-all
+else
+  eww daemon
+fi
+
+~/dotfiles/scripts/lock
+
+# vim:set ts=8 sts=2 sw=2 et:

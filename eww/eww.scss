@@ -1,0 +1,118 @@
+* {
+  all: unset;
+}
+
+$day_bg:   #fdf6e3;
+$day_fg:   #485f6a;
+
+$night_bg: #253238;
+$night_fg: #eceff1;
+
+$border:   #9ba2b0;
+
+.control_button, .weather_wrapper,
+.date_wrapper, .time_wrapper,
+.player_wrapper {
+  font-family: "Iosevka Nerd Font";
+  border-radius: 10px;
+  border: 1px solid $border;
+  padding: 10px;
+}
+
+.night {
+  .control_button, .weather_wrapper,
+  .date_wrapper, .time_wrapper,
+  .player_wrapper {
+    background-color: $night_bg;
+    color: $night_fg;
+  }
+  .button:hover,
+  .day_number   { color: #c94c4c; }
+  .hour         { color: #eca1a6; }
+  .minute       { color: #b5e7a0; }
+  .second       { color: #fefbd8; }
+  .weather_cond { color: #dac292; }
+  .weather_temp { color: #f18973; }
+  .meridian     { color: #b2c2bf; }
+  .day_name     { color: #fefbd8; }
+}
+
+.day {
+  .control_button, .weather_wrapper,
+  .date_wrapper, .time_wrapper,
+  .player_wrapper {
+    background-color: $day_bg;
+    color: $day_fg;
+  }
+  .button:hover,
+  .day_number   { color: #c94c4c; }
+  .hour         { color: #c83349; }
+  .minute       { color: #5b9aa0; }
+  .second       { color: #622569; }
+  .weather_cond { color: #bd5734; }
+  .weather_temp { color: #c1502e; }
+  .meridian     { color: #f2ae72; }
+  .day_name     { color: #8b6f47; }
+}
+
+.media_button, .control_button {
+  font-size: 30px;
+  min-height: 250px;
+  min-width: 250px;
+}
+
+.weather_wrapper {
+  font-size: 30px;
+  min-height: 100px;
+  min-width: 250px;
+}
+
+.date_wrapper, .time_wrapper {
+  min-height: 100px;
+  min-width: 250px;
+}
+
+.media_button, .control_button {
+  min-height: 50px;
+  min-width:  50px;
+}
+
+.player_wrapper {
+  font-size: 17px;
+  min-height: 300px;
+  min-width: 250px;
+}
+
+.day_name {
+  font-size: 30;
+}
+
+.day_number, .time_wrapper {
+  font-size: 35;
+}
+
+.month {
+  font-size: 20;
+}
+
+.weather_cond {
+  font-size: 15px;
+}
+
+.weather_logo {
+  font-size: 40px;
+}
+
+.weather_celsius {
+  font-size: 25px;
+}
+
+.panel_left, .panel_right {
+  padding: 2px;
+}
+
+.lock_button {
+  min-width: 100px;
+}
+
+/* vim: set ft=css ts=2 sts=2 sw=2 et: */

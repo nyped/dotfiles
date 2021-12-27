@@ -8,9 +8,12 @@ import -window root ${bg}.xwd
 convert ${bg}.xwd -filter Gaussian -thumbnail 20% -sample 500% ${bg}.png
 rm ${bg}.xwd
 
-i3lock -ui ${bg}.png &
+i3lock -nui ${bg}.png &
 playerctl stop
 systemctl suspend
 
-wait
+eww open-many lock_left lock-right
+wait $!
+eww close-all
+
 rm ${bg}.png
