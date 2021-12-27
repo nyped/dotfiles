@@ -24,12 +24,17 @@ colors
 bindkey -e
 bindkey "^U" backward-kill-line
 
-# Tab completition
+# tab completion
 eval "$(dircolors)"
 autoload -U compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} "ma=30;1;42;21"
-zstyle ':completion:*' matcher-list 'r:|?=**'
+zstyle ':completion:*' matcher-list \
+  '' \
+  'm:{a-zA-Z}={A-Za-z}' \
+  'm:{A-Z}={a-z} r:|[._-/]=* r:|=* l:|=*' \
+  'm:{a-z}={A-Z} r:|[._-/]=* r:|=* l:|=*' \
+  'r:|[._-/]=* r:|=* l:|=*'
 zmodload zsh/complist
 compinit
 bindkey '^[[Z' reverse-menu-complete
@@ -57,7 +62,7 @@ source ~/dotfiles/zsh/simple.zsh-theme
 # title update when resize
 trap precmd WINCH
 
-## Colors, theme stuff
+# Colors, theme stuff
 source ~/.id
 
 # man and pager stuff
@@ -82,9 +87,10 @@ export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststat
 # qt dark theme
 export QT_QPA_PLATFORMTHEME=qt5ct
 
-# hardware acceleration
+# firefox
 export LIBVA_DRIVER_NAME=i965
 export MOZ_X11_EGL=1
+export MOZ_USE_XINPUT2=1
 
 # maple
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -103,12 +109,12 @@ export ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"
 export ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"
 export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 
-#linux: new terminal tabs keep the same wd
-if [ -e /etc/profile.d/vte.sh ]; then
+# new terminal tabs keep the same wd
+if [[ -e /etc/profile.d/vte.sh ]]; then
   . /etc/profile.d/vte.sh
 fi
 
-#auto startx on TTY1
+# auto startx on TTY1
 if [[ $(tty) = /dev/tty1 ]]; then
   exec startx
 fi
