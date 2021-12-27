@@ -9,7 +9,7 @@ payload=None
 [[ -n $names ]] && \
   payload="<b>${names//$'\n'/$'</b> and <b>'}</b>"
 
-notify-send Network "Connected to:\n$payload" \
+notify-send Network "Connected to: $payload" \
   -h string:x-canonical-private-synchronous:anything
 
 
