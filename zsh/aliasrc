@@ -61,4 +61,7 @@ alias ls='ls --color=tty' \
       ll='ls -lh' \
       la='ls -A'
 
+# directories
+alias -g ...='../..'
+
 # vim: set ts=2 sts=2 sw=2 ft=sh et :
