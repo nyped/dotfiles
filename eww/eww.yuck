@@ -6,20 +6,19 @@
   :windowtype "dock"
   :geometry (geometry :x "20px"
                       :y "0px"
-                      :width "250px"
+                      :width "100px"
                       :anchor "center left")
-  (panel :monitor 0))
+  (panel))
 
 (defwindow panel_right
   :monitor 1
   :stacking "bg"
   :windowtype "dock"
-  :geometry (geometry :x "0px"
+  :geometry (geometry :x "20px"
                       :y "0px"
-                      :width "250px"
-                      :height "100%"
+                      :width "100px"
                       :anchor "center left")
-  (panel :monitor 1))
+  (panel))
 
 (defwindow lock_left
   :monitor 0

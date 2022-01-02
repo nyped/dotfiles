@@ -78,13 +78,13 @@ $border:   #9ba2b0;
 }
 
 .player_wrapper {
-  font-size: 17px;
+  font-size: 15px;
   min-height: 300px;
   min-width: 250px;
 }
 
 .day_name {
-  font-size: 30;
+  font-size: 25;
 }
 
 .day_number, .time_wrapper {
@@ -92,7 +92,7 @@ $border:   #9ba2b0;
 }
 
 .month {
-  font-size: 20;
+  font-size: 18;
 }
 
 .weather_cond {
@@ -108,7 +108,7 @@ $border:   #9ba2b0;
 }
 
 .panel_left, .panel_right {
-  padding: 2px;
+  padding: 0px;
 }
 
 .lock_button {

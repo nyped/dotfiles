@@ -22,7 +22,7 @@
   (box
     :class "media_buttons_wrapper"
     :orientation "h"
-    :space-evenly true
+    :halign "center"
     :spacing spacing
     (previous)
     (pause)
@@ -31,6 +31,7 @@
 (defwidget player []
   (box
     :class "player_wrapper"
+    :orientation "h"
     (box
       :orientation "v"
       :space-evenly false
@@ -45,7 +46,7 @@
         :image-width 175
         :image-height 175))
     (label
-      :limit-width 25
+      :limit-width 27
       :wrap false
       :show_truncated true
       :text "${current_song}${dummy_var_player}")
@@ -144,7 +145,7 @@
         :class "weather_cond"
         :text weather_condition))))
 
-(defwidget panel [monitor]
+(defwidget panel []
   (box
     :class theme
     :orientation "v"
@@ -204,21 +205,21 @@
   (box
     :class "control_button"
     (but
-      :left "~/dotfiles/scripts/monitors -l; eww close-all"
+      :left "~/dotfiles/scripts/monitors -l; ~/dotfiles/scripts/keyboard -m; eww close-all"
       :icon "")))
 
 (defwidget dock []
   (box
     :class "control_button"
     (but
-      :left "~/dotfiles/scripts/monitors -d; eww close-all"
+      :left "~/dotfiles/scripts/monitors -d; ~/dotfiles/scripts/keyboard -e; eww close-all"
       :icon "")))
 
 (defwidget multi []
   (box
     :class "control_button"
     (but
-      :left "~/dotfiles/scripts/monitors -m; eww close-all"
+      :left "~/dotfiles/scripts/monitors -m; ~/dotfiles/scripts/keyboard -e; eww close-all"
       :icon "")))
 
 (defwidget power_button []
@@ -247,6 +248,7 @@
     :class "control_button"
     (but
       :left "/home/lenny/.config/eww/scripts/suspend"
+      :right "systemctl suspend >/dev/null"
       :icon "鈴")))
 
 (defwidget shutdown []

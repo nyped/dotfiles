@@ -2,7 +2,8 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 pgrep -x xbindkeys > /dev/null || xbindkeys &
-pgrep -x eww > /dev/null || eww daemon
+killall -q -9 eww; eww daemon
+~/dotfiles/polybar/launch.sh &
 
 monitors=($(xrandr --listactivemonitors | awk '{print $4}'))
 
@@ -28,5 +29,3 @@ bspc monitor "${monitors[1]}" -d 11 12 13 14 15 16 17 18 19 20
 bspc config border_width 1
 bspc config top_padding  32
 bspc config external_rules_command ~/dotfiles/bspwm/external_rules.sh
-
-~/dotfiles/polybar/launch.sh
