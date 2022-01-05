@@ -13,6 +13,7 @@ alias b=bat \
       h='history' \
       hh='history 1' \
       hs='history 1 | grep' \
+      icat="kitty +kitten icat" \
       maison=~/maison/sync/current/ \
       mt=make\ test \
       mr=make\ clear \
