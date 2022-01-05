@@ -141,18 +141,10 @@ function show_path_shell() {
   fi
 }
 
-preexec () {
-  # change the title of the window
-  # when running a command
-  local cmd=$2
-  print -Pn "\e]0;$cmd\a"
-}
-
 precmd() {
   # restore window title when command
   # is done
   printf "\033[4 q"
-  print -Pn "\e]0;$(show_path_shell)\a"
 }
 
 # vim: set ts=2 sts=2 sw=2 ft=sh et :
