@@ -15,7 +15,7 @@ splash
 nmcli monitor | {
   while read -r; do
     case "$REPLY" in
-      "Connectivity is now 'none'" | *connected)
+      "Connectivity is now 'none'" | *connected | *removed)
         splash
       ;;
 
