@@ -2,8 +2,6 @@
 # scripts/music_meta
 # Sat Dec 11 02:23:27 PM CET 2021
 
-set -eo pipefail
-
 key='{{status}}|{{mpris:artUrl}}|{{title}}'
 PAUSE= PLAY=契 PLAYING=ﱘ
 destination=/tmp/spotify_cover.png
@@ -17,16 +15,22 @@ playerctl $arg metadata --format $key | {
     pidof eww &>/dev/null || continue
 
     if [[ $status == Playing ]]; then
-        icon=$PAUSE
+      icon=$PAUSE
     else
-        icon=$PLAY
+      icon=$PLAY
     fi
 
-    curl -sL "$url" -o $destination &>/dev/null
+    if [[ -z $url ]]; then
+      cover=/home/lenny/.config/eww/assets/cover.png
+    else
+      curl -sL "$url" -o $destination &>/dev/null
+      cover=$destination
+    fi
+
     eww update \
-      current_song="$title" \
-      player_icon=$icon \
-      cover_path=$destination &>/dev/null
+      current_song="${title:-Not playing}" \
+      player_icon="$icon" \
+      cover_path="$cover" &>/dev/null
   done
 }
 

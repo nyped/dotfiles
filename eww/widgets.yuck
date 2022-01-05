@@ -160,8 +160,12 @@
         :space-evenly false
         (time)
         (player)
-        (date)
-        (weather)
+        (box
+          :spacing spacing
+          :orientation "v"
+          :space-evenly true
+          (date)
+          (weather))
         (box
           :orientation "v"
           :space-evenly false
