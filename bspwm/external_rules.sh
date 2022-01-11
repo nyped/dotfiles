@@ -10,6 +10,10 @@ instance="$3"
 [[ "$(bspc query -M -m .focused --names)" == "HDMI-1" && "$(bspc query -M --names | wc -l)" > 1 ]] && _PREF=1 || _PREF=""
 
 case "$class" in
+  [rR][sS]tudio)
+    echo desktop=^${_PREF}2
+    ;;
+
   *office*)
     echo desktop=^${_PREF}8
     ;;

@@ -2,7 +2,7 @@
 #
 
 # spawn a term/floating term
-control + {shift +,_} Return
+super + {shift +,_} Return
 	kitty {--class Terminal,--class terminal} -d ~
 
 # rofi
