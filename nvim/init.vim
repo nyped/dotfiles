@@ -149,6 +149,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vimsence/vimsence'
 Plug 'fladson/vim-kitty'
 Plug 'elkowar/yuck.vim'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 "
 " rainbow settings
@@ -296,6 +297,10 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 let g:vimsence_client_id = '783349650148950076'
 let g:vimsence_small_text = 'neovim'
 let g:vimsence_small_image = 'neovim'
+"
+" indentline
+"
+let g:indentLine_char = '▏'
 "
 " vim: set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab :
 "
