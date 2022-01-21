@@ -4,11 +4,13 @@
 # lennypeers
 
 fallback="ﭽ|unknown|-"
-in=$(curl -s 'wttr.in/?format=%c|%C|%t' 2>/dev/null)
+in=$(curl -s 'wttr.in/grenoble?format=%c|%C|%t' 2>/dev/null)
 
-[[ -z $in ]] && {
-  in="$fallback"
-}
+case "$in" in
+  *HTML* | "" | *Unknown*)
+    in="$fallback"
+  ;;
+esac
 
 IFS='|' read -r logo condition temperature <<< $in
 eww update \

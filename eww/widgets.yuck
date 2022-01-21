@@ -143,6 +143,9 @@
             :text "°C ${dummy_var_weather}")))
       (label
         :class "weather_cond"
+        :limit-width 27
+        :wrap false
+        :show_truncated true
         :text weather_condition))))
 
 (defwidget panel []
