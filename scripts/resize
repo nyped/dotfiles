@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # bspwm
 # resize focused floating window to a predifined size

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # bspwm
 # move the focused window to a specific point x,y

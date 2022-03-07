@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 # theme
 color() {
@@ -31,7 +31,7 @@ EOF
     return 1
   }
   var="${1%.*}"
-  pandoc --highlight-style="${HI:-tango}" -so "$var"."${OUT:-pdf}" "$var"."${IN:-md}"
+  pandoc ${PAN_EXTRA} --highlight-style="${HI:-tango}" -so "$var"."${OUT:-pdf}" "$var"."${IN:-md}"
 }
 
 # karaoke stuff lmao

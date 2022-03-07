@@ -1,19 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # https://michaelabrahamsen.com/posts/custom-lockscreen-i3lock/
 # lockscreen with blur
 
 bg=$(mktemp -u)
 import -window root ${bg}.xwd
-convert ${bg}.xwd -filter Gaussian -thumbnail 20% -sample 500% ${bg}.png
+convert \
+	${bg}.xwd \
+	-filter Gaussian \
+	-thumbnail 20% -sample 500% \
+	~/dotfiles/assets/lock.png \
+	-gravity Center -geometry 256x256+0+0 \
+	-composite \
+	${bg}.png
 rm ${bg}.xwd
 
 i3lock -nui ${bg}.png &
 playerctl stop
 systemctl suspend
-
-eww open-many lock_left lock-right
-wait $!
-eww close-all
 
 rm ${bg}.png

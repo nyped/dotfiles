@@ -271,19 +271,3 @@
     (but
       :left "reboot"
       :icon "ﯩ")))
-
-(defwidget lock [monitor]
-  (box
-    :class theme
-    (box
-      :orientation "h"
-      :space-evenly false
-      :spacing spacing
-      (time)
-      (box
-        :class "control_button"
-        (box
-          :class "lock_button"
-          (but
-            :left "true"
-            :icon ""))))))

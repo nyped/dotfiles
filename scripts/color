@@ -8,12 +8,8 @@ EOF
 
 if [[ $1 = day || $1 = d ]]; then
 	THEME=day
-	polybar-msg hook light_laptop 1 &>/dev/null
-	polybar-msg hook light_mon	  1 &>/dev/null
 elif [[ $1 = night || $1 = n ]]; then
 	THEME=night
-	polybar-msg hook light_laptop 2 &>/dev/null
-	polybar-msg hook light_mon	  2 &>/dev/null
 else
 	THEME=$(< ~/.t)
 	[[ $THEME = day ]] && exec $0 n || exec $0 d
@@ -31,8 +27,14 @@ ln -sf ~/dotfiles/wallpaper/${THEME}.png ~/Pictures/wallpaper.png
 {
 	hsetroot -cover ~/Pictures/wallpaper.png
 	killall dunst
-	killall -SIGUSR1 nvim kitty
+	kill -SIGUSR1 $(pidof nvim)
+	kill -SIGUSR1 $(pidof kitty)
 	eww update theme=$THEME &
 } &>/dev/null
+
+polybar-msg hook light_laptop 3 &>/dev/null
+sleep .5 # bruh
+polybar-msg hook light_mon 3 &>/dev/null
+
 
 # vim: set ts=4 sts=4 sw=4 noet :

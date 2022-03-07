@@ -99,15 +99,18 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export XCURSOR_PATH=~/.local/share/icons
 
 # syntax highlight
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+hi=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+if [[ -f $hi ]]; then
+  source $hi
 
-# zle stuff
-export ZSH_HIGHLIGHT_STYLES[arg0]="none"
-export ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
-export ZSH_HIGHLIGHT_STYLES[comment]="fg=blue,bold"
-export ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"
-export ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"
-export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
+  # zle stuff
+  export ZSH_HIGHLIGHT_STYLES[arg0]="none"
+  export ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
+  export ZSH_HIGHLIGHT_STYLES[comment]="fg=blue,bold"
+  export ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"
+  export ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"
+  export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
+fi
 
 # new terminal tabs keep the same wd
 if [[ -e /etc/profile.d/vte.sh ]]; then

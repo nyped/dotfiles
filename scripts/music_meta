@@ -28,7 +28,7 @@ playerctl $arg metadata --format $key | {
     fi
 
     eww update \
-      current_song="${title:-Not playing}" \
+      current_song="${title:-Unknown player}" \
       player_icon="$icon" \
       cover_path="$cover" &>/dev/null
   done

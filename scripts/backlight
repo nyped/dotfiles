@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # deps: brightnessctl ddccontrol notifysend
 # All my backlight stuff in one script !
 

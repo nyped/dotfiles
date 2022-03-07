@@ -19,25 +19,3 @@
                       :width "100px"
                       :anchor "center left")
   (panel))
-
-(defwindow lock_left
-  :monitor 0
-  :stacking "fg"
-  :windowtype "dock"
-  :geometry (geometry :x "0px"
-                      :y "0px"
-                      :width "100px"
-                      :height "100px"
-                      :anchor "center")
-  (lock :monitor 0))
-
-(defwindow lock_right
-  :monitor 0
-  :stacking "fg"
-  :windowtype "dock"
-  :geometry (geometry :x "0px"
-                      :y "0px"
-                      :width "100px"
-                      :height "100px"
-                      :anchor "center")
-  (lock :monitor 1))
