@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# open_panel
+
+monitor=$(bspc query -M -m pointed --names)
+
+case $monitor in
+  HDMI-1)
+    eww windows | grep \* && eww close-all || eww open panel_right || eww open panel_left
+
+  ;;
+
+  eDP-1 | LVDS-1)
+    eww windows | grep \* && eww close-all || eww open panel_left
+  ;;
+esac
+
+# vim:set ts=8 sts=2 sw=2 et:

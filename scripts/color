@@ -32,9 +32,7 @@ ln -sf ~/dotfiles/wallpaper/${THEME}.png ~/Pictures/wallpaper.png
 	eww update theme=$THEME &
 } &>/dev/null
 
-polybar-msg hook light_laptop 3 &>/dev/null
-sleep .5 # bruh
-polybar-msg hook light_mon 3 &>/dev/null
-
+polybar-msg action "#light_laptop.hook.2"
+polybar-msg action "#light_mon.hook.2"
 
 # vim: set ts=4 sts=4 sw=4 noet :

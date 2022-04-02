@@ -2,14 +2,9 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 pgrep -x xbindkeys > /dev/null || xbindkeys &
-killall -q -9 eww; eww daemon
+killall -q -9 eww; eww daemon &
 
 monitors=($(xrandr --listactivemonitors | awk '{print $4}'))
-
-if [ "$(< ~/.t)" = day ]
-  then ~/dotfiles/scripts/color day
-  else ~/dotfiles/scripts/color night
-fi
 
 xsetroot -cursor_name left_ptr
 
@@ -23,14 +18,23 @@ bspc config remove_disabled_monitors  true
 bspc config remove_unplugged_monitors true
 bspc config split_ratio          0.5
 bspc config window_gap           12
-bspc monitor "${monitors[0]}" -d 1 2 3 4 5 6 7 8 9 10
-[[ -n ${monitors[1]} ]] &&
-  bspc monitor "${monitors[1]}" -d 11 12 13 14 15 16 17 18 19 20
 bspc config border_width 1
 bspc config top_padding  32
 bspc config external_rules_command ~/dotfiles/bspwm/external_rules.sh
 
+# Monitors
+bspc monitor "${monitors[0]}" -d 1 2 3 4 5 6 7 8 9 10
+[[ -n ${monitors[1]} ]] &&
+  bspc monitor "${monitors[1]}" -d 11 12 13 14 15 16 17 18 19 20
+
+# Bar
 ~/dotfiles/polybar/launch.sh &
+
+# Current theme
+if [ "$(< ~/.t)" = day ]
+  then ~/dotfiles/scripts/color day
+  else ~/dotfiles/scripts/color night
+fi
 
 disown -a
 
