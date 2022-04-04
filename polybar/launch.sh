@@ -2,18 +2,20 @@
 
 monitors=($(xrandr --listactivemonitors | awk '{print $4}'))
 
-killall -q polybar
+polybar-msg cmd quit
+while pgrep -x polybar; do sleep .5; done
 
-on() { # $1 in monitors?
-  case "${monitors[@]}" in *"$1"*);; *) return 1;; esac
-}
+for mon in ${monitors[@]}; do
+  case $mon in
+    eDP* | LVDS*)
+      target=laptop;;
 
-on HDMI-1 && \
-  MONITOR=HDMI-1 polybar -r -c ~/.config/polybar/config.ini right  &
-on eDP-1 && \
-  MONITOR=eDP-1  polybar -r -c ~/.config/polybar/config.ini laptop &
-on LVDS-1 && \
-  MONITOR=LVDS-1 polybar -r -c ~/.config/polybar/config.ini laptop &
+    HDMI*)
+      target=right;;
+  esac
+
+  MONITOR=$mon polybar -c ~/.config/polybar/config.ini $target  &
+done
 
 disown -a
 

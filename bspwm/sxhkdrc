@@ -114,7 +114,7 @@ super + f
 
 # switch workspaces on current monitor
 alt + {1-9,0}
-	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 \
+	[[ "$(bspc query -M -m .focused --names)" == HDMI* \
 	&& "$(bspc query -M | wc -l)" > 1 ]]                \
 	&& SHIFT=10 || SHIFT=0;                             \
 	TARGET=$(($SHIFT+{1-9,10}));                        \
@@ -122,14 +122,14 @@ alt + {1-9,0}
 
 # move win to current monitor
 ctrl + shift + {1-9,0}
-	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 \
+	[[ "$(bspc query -M -m .focused --names)" == HDMI* \
 	&& "$(bspc query -M | wc -l)" > 1 ]] &&             \
 	_PREF=1 || _PREF="";                                \
 	bspc node -d ^$\{_PREF\}{1-9,0}
 
 # move win to the corresponding workspace of the next monitor
 super + v
-	[[ "$(bspc query -M -m .focused --names)" == HDMI-1 ]] \
+	[[ "$(bspc query -M -m .focused --names)" == HDMI* ]] \
 	&& SHIFT=0 || SHIFT=10;                                \
 	[[ "$(bspc query -M | wc -l)" > 1 ]] || SHIFT=0;       \
 	CURRENT=$(bspc query -D -m -n --names);                \

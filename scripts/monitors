@@ -10,6 +10,19 @@ Usage: ${0##*/} [--help | -h | --dock | -d | --multi | -m | --laptop | -l]
 _HELPTXT
 }
 
+# bruh different names...
+if [[ $HOSTNAME == iron ]]; then
+  external=HDMI-A-0
+  external_scale=1.25x1.25
+  laptop1=eDP
+  laptop2=LVDS
+else
+  external=HDMI1
+  external_scale=1x1
+  laptop1=eDP1
+  laptop2=LVDS1
+fi
+
 case "$1" in
   -h | --help)
     usage
@@ -18,31 +31,32 @@ case "$1" in
 
   -d | --dock) # laptop monitor off (dock)
     xrandr \
-      --output  eDP-1 --off \
-      --output LVDS-1 --off \
-      --output HDMI-1 --auto \
+      --output  $laptop1 --off \
+      --output $laptop2 --off \
+      --output $external --auto \
+      --scale $external_scale \
       &>/dev/null
   ;;
 
   -m | --multi) # multi head
     xrandr \
-      --output LVDS-1 --auto --primary --left-of HDMI-1 \
-      --output  eDP-1 --auto --primary --left-of HDMI-1 \
-      --output HDMI-1 --auto \
+      --output $laptop2 --auto --primary --left-of $external \
+      --output  $laptop1 --auto --primary --left-of $external \
+      --output $external --auto --scale $external_scale \
       &>/dev/null
   ;;
 
   -l | --laptop) # laptop only
     # moving windows
-    for node in $(bspc query -N -m HDMI-1); {
+    for node in $(bspc query -N -m $external); {
       a=$(bspc query -D -n $node --names) a=$((a-10))
       bspc node $node -d $a
     }
 
     xrandr \
-      --output HDMI-1 --off \
-      --output LVDS-1 --auto \
-      --output  eDP-1 --auto \
+      --output $external --off \
+      --output $laptop2 --auto \
+      --output  $laptop1 --auto \
       &>/dev/null
   ;;
 

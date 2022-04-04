@@ -4,12 +4,12 @@
 monitor=$(bspc query -M -m pointed --names)
 
 case $monitor in
-  HDMI-1)
+  HDMI*)
     eww windows | grep \* && eww close-all || eww open panel_right || eww open panel_left
 
   ;;
 
-  eDP-1 | LVDS-1)
+  eDP* | LVDS*)
     eww windows | grep \* && eww close-all || eww open panel_left
   ;;
 esac

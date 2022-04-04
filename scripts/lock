@@ -9,9 +9,6 @@ convert \
 	${bg}.xwd \
 	-filter Gaussian \
 	-thumbnail 20% -sample 500% \
-	~/dotfiles/assets/lock.png \
-	-gravity Center -geometry 256x256+0+0 \
-	-composite \
 	${bg}.png
 rm ${bg}.xwd
 
