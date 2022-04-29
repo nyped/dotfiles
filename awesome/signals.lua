@@ -1,6 +1,8 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
+local gears = require("gears")
 
 -- {{{ Volume signals
 -- https://github.com/JavaCafe01/dotfiles/blob/master/config/awesome/signal/volume.lua
@@ -55,6 +57,88 @@ end)
 
 -- }}}
 
+-- {{{ -- Network
+local function emit_network_info()
+    awful.spawn.easy_async_with_shell(
+        "nmcli con show --active",
+        function(stdout)
+            local wifi = stdout:match("wifi")
+            local ethernet = stdout:match("ethernet")
+            awesome.emit_signal("internet_status", "none")
+            if wifi ~= nil then
+                awesome.emit_signal("internet_status", "wifi")
+            end
+            if ethernet ~= nil then
+                awesome.emit_signal("internet_status", "ethernet")
+            end
+    end)
+end
+
+-- Icon initialization
+emit_network_info()
+
+local network_script = [[
+    bash -c "LANG=C nmcli monitor | {
+      while read -r; do
+        case \"$REPLY\" in
+          \"Connectivity is now 'none'\" | *connected | *removed)
+            echo dummy;;
+        esac
+      done
+    }"
+]]
+
+awful.spawn.easy_async({
+    "pkill", "--full", "--uid", os.getenv("USER"), "^nmcli monitor"
+}, function()
+    awful.spawn.with_line_callback(network_script, {
+        stdout = function(line)
+            emit_network_info()
+        end
+    })
+end)
+-- }}}
+
+-- {{{ Player signals
+local player_script = [[
+    bash -c "
+        key='{{status}}|{{mpris:artUrl}}|{{title}}';
+        destination=/tmp/spotify_cover.png;
+
+        playerctl --follow metadata --format $key | {
+          while IFS='|' read -r status url title; do
+            if [ -z \"$url\" ]; then
+              cover=/home/lenny/dotfiles/awesome/assets/player/cover.png
+            else
+              curl -sL \"$url\" -o $destination &>/dev/null
+              cover=$destination
+            fi
+
+            if [ -z \"$title\" ]; then
+              title=\"Unknown player\"
+            fi
+
+            echo \"player_status_update:$status\"
+            echo \"player_cover_update:$cover\"
+            echo \"player_text_update:$title\"
+          done
+        }
+    "
+]]
+
+awful.spawn.easy_async({
+    "pkill", "--full", "--uid", os.getenv("USER"), "^playerctl"
+}, function()
+    awful.spawn.with_line_callback(player_script, {
+        stdout = function(line)
+            local out = line:gsub("[\n\r]", "")
+            local signal_name, updated_value = out:match("(.+):(.+)")
+            awesome.emit_signal(signal_name, updated_value)
+        end
+    })
+end)
+-- }}}
+
 -- {{{ Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
@@ -88,7 +172,9 @@ tag.connect_signal("request::default_layouts", function()
         awful.layout.suit.tile,
         awful.layout.suit.tile.left,
         awful.layout.suit.tile.bottom,
-        awful.layout.suit.tile.top
+        awful.layout.suit.tile.top,
+        awful.layout.suit.fair.horizontal,
+        awful.layout.suit.fair
     })
 end)
 -- }}}
@@ -105,6 +191,27 @@ screen.connect_signal("request::wallpaper", function(s)
         }
     }
 end)
+-- }}}
+
+-- {{{ Theme change
+local function fetch_theme()
+    awful.spawn.easy_async_with_shell(
+        "cat /home/lenny/.t",
+        function(stdout)
+            -- cleaning up the string
+            local out = stdout:gsub("[\n\r]", "")
+            -- update global variable
+            theme_name = out
+            -- sending the signal
+            awesome.emit_signal("theme_change", out)
+        end)
+end
+
+-- Update all themes
+awesome.connect_signal("request::fetch_theme", fetch_theme)
+
+-- initialisation
+fetch_theme()
 -- }}}
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

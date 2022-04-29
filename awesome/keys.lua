@@ -3,6 +3,8 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 
+local script_path = "/home/lenny/dotfiles/scripts/"
+
 -- {{{
 -- Switch tag, while skipping empty ones
 -- with teleportation !
@@ -10,6 +12,10 @@ local function tag_view_nonempty(step)
     local s = awful.screen.focused()
     local tags = s.tags
     local bound = step > 0 and #tags or 1
+
+    if s.selected_tag == nil then
+        return -- No tag, nothing to do
+    end
 
     for i = s.selected_tag.index + step, bound, step do
         local t = tags[i]
@@ -29,6 +35,11 @@ local function tag_view_nonempty(step)
         end
     end
 end
+
+-- Switch from xbindkeys
+awesome.connect_signal("tag_switch", function(step)
+    tag_view_nonempty(step)
+end)
 -- }}}
 
 -- {{{
@@ -47,20 +58,7 @@ end
 root.buttons(gears.table.join(
     awful.button(
         {}, 3, function() mymainmenu:toggle() end
-    ),
-    awful.button(
-        {}, 10, function() tag_view_nonempty(1) end
-    ),
-    awful.button(
-        {}, 11, function() tag_view_nonempty(-1) end
-    ),
-    awful.button(
-        {}, 9, function() tag_view_nonempty(1) end
-    ),
-    awful.button(
-        {}, 8, function() tag_view_nonempty(-1) end
-    )
-))
+    )))
 -- }}}
 
 -- {{{ Key bindings
@@ -220,35 +218,35 @@ awful.keyboard.append_global_keybindings({
     awful.key(
         { "Shift" }, "XF86AudioRaiseVolume",
         function()
-            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -i 1")
+            awful.util.spawn(script_path.."volume -i 1")
         end,
         {description = "Raise volume", group = "media"}
     ),
     awful.key(
         {}, "XF86AudioRaiseVolume",
         function()
-            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -i 5")
+            awful.util.spawn(script_path.."volume -i 5")
         end,
         {description = "Raise volume", group = "media"}
     ),
     awful.key(
         { "Shift" }, "XF86AudioLowerVolume",
         function()
-            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -d 1")
+            awful.util.spawn(script_path.."volume -d 1")
         end,
         {description = "Lower volume", group = "media"}
     ),
     awful.key(
         {}, "XF86AudioLowerVolume",
         function()
-            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -d 5")
+            awful.util.spawn(script_path.."volume -d 5")
         end,
         {description = "Lower volume", group = "media"}
     ),
     awful.key(
         {}, "XF86AudioMute",
         function()
-            awful.util.spawn("/home/lenny/dotfiles/scripts/volume -t")
+            awful.util.spawn(script_path.."volume -t")
         end,
         {description = "Toggle mute", group = "media"}
     ),
@@ -277,7 +275,7 @@ awful.keyboard.append_global_keybindings({
         {}, "XF86MonBrightnessUp",
         function()
             update_backlight(
-                "/home/lenny/dotfiles/scripts/backlight -l -i 1%",
+                script_path.."backlight -l -i 1%",
                 "screen_backlight_change"
             )
         end,
@@ -287,7 +285,7 @@ awful.keyboard.append_global_keybindings({
         { "Shift"}, "XF86MonBrightnessUp",
         function()
             update_backlight(
-                "/home/lenny/dotfiles/scripts/backlight -l -i 1",
+                script_path.."backlight -l -i 1",
                 "screen_backlight_change"
             )
         end,
@@ -297,7 +295,7 @@ awful.keyboard.append_global_keybindings({
         {}, "XF86MonBrightnessDown",
         function()
             update_backlight(
-                "/home/lenny/dotfiles/scripts/backlight -l -d 1%",
+                script_path.."backlight -l -d 1%",
                 "screen_backlight_change"
             )
         end,
@@ -307,7 +305,7 @@ awful.keyboard.append_global_keybindings({
         { "Shift"}, "XF86MonBrightnessDown",
         function()
             update_backlight(
-                "/home/lenny/dotfiles/scripts/backlight -l -d 1",
+                script_path.."backlight -l -d 1",
                 "screen_backlight_change"
             )
         end,
@@ -320,7 +318,7 @@ awful.keyboard.append_global_keybindings({
         {}, "XF86KbdBrightnessUp",
         function()
             update_backlight(
-                "/home/lenny/dotfiles/scripts/backlight -k -i 1%",
+                script_path.."backlight -k -i 1%",
                 "keyboard_backlight_change"
             )
         end,
@@ -330,7 +328,7 @@ awful.keyboard.append_global_keybindings({
         {}, "XF86KbdBrightnessDown",
         function()
             update_backlight(
-                "/home/lenny/dotfiles/scripts/backlight -k -d 1%",
+                script_path.."backlight -k -d 1%",
                 "keyboard_backlight_change"
             )
         end,
@@ -354,12 +352,19 @@ awful.keyboard.append_global_keybindings({
         {modkey, "Shift"}, "-",
         function()
             local s        = awful.screen.focused()
-            local padding  = s.padding
+            local t        = s.selected_tag
+            local padding  = t.padding or {
+                left   = 1,
+                right  = 1,
+                top    = 1,
+                bottom = 1
+            }
             padding.left   = padding.left   - 1
             padding.right  = padding.right  - 1
             padding.top    = padding.top    - 1
             padding.bottom = padding.bottom - 1
             s.padding      = padding
+            t.padding      = padding
         end,
         {description = "Decrease outter gap", group = "visual"}
     ),
@@ -367,17 +372,38 @@ awful.keyboard.append_global_keybindings({
         {modkey, "Shift"}, "=",
         function()
             local s        = awful.screen.focused()
-            local padding  = s.padding
+            local t        = s.selected_tag
+            local padding  = t.padding or {
+                left   = 0,
+                right  = 0,
+                top    = 0,
+                bottom = 0
+            }
             padding.left   = padding.left   + 1
             padding.right  = padding.right  + 1
             padding.top    = padding.top    + 1
             padding.bottom = padding.bottom + 1
             s.padding      = padding
+            t.padding      = padding
         end,
         {description = "Increase outter gap", group = "visual"}
     )
     -- }}}
 })
+
+-- Resize
+for i = 1, 4 do
+    awful.keyboard.append_client_keybinding(
+        awful.key(
+            {modkey, "Shift"}, "#" .. i + 9,
+            function(c)
+                local geo  = awful.screen.focused().geometry
+                c:geometry {
+                    width  = geo.width/(i + 1),
+                    height = geo.height/(i + 1)
+                }
+            end))
+end
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
@@ -438,26 +464,10 @@ client.connect_signal("request::default_mousebindings", function()
             end
         ),
         awful.button(
-            {modkey}, 3,
+            {modkey, "Shift"}, 1,
             function (c)
                 c:activate { context = "mouse_click", action = "mouse_resize" }
             end
-        ),
-        awful.button(
-            {}, 9,
-            function(_) tag_view_nonempty(1) end
-        ),
-        awful.button(
-            {}, 8,
-            function(_) tag_view_nonempty(-1) end
-        ),
-        awful.button(
-            {}, 10,
-            function(_) tag_view_nonempty(1) end
-        ),
-        awful.button(
-            {}, 11,
-            function(_) tag_view_nonempty(-1) end
         )
     })
 end)
@@ -467,6 +477,7 @@ client.connect_signal("request::default_keybindings", function()
         awful.key(
             {"Mod1"}, "Tab",
             function(c)
+                c.floating = not c.floating -- HACK hynn
                 c.fullscreen = not c.fullscreen
                 c:raise()
             end,
@@ -479,7 +490,19 @@ client.connect_signal("request::default_keybindings", function()
         ),
         awful.key(
             {"Control", "Shift"}, "space",
-            awful.client.floating.toggle,
+            function(c)
+                c.floating = not c.floating
+                if c.floating then
+                    local geo  = awful.screen.focused().geometry
+                    local w, h = geo.width/2, geo.height/2
+                    c:geometry {
+                        x      = geo.x + w,
+                        y      = geo.y + h,
+                        width  = w,
+                        height = h
+                    }
+                end
+            end,
             {description = "toggle floating", group = "client"}
         ),
         awful.key(
@@ -493,6 +516,15 @@ client.connect_signal("request::default_keybindings", function()
             {description = "move to screen", group = "client"}
         ),
         awful.key(
+            {modkey}, "v",
+            function (c)
+                local index = c.first_tag.index
+                c:move_to_screen()
+                c:move_to_tag(c.screen.tags[index])
+            end,
+            {description = "move to screen (keeping the tag)", group = "client"}
+        ),
+        awful.key(
             {modkey}, "t",
             function(c) c.ontop = not c.ontop end,
             {description = "toggle keep on top", group = "client"}
@@ -504,10 +536,9 @@ client.connect_signal("request::default_keybindings", function()
         ),
         awful.key({ modkey,           }, "g",
             function (c)
-                c.maximized = not c.maximized
-                c:raise()
+                c.sticky = not c.sticky
             end ,
-            {description = "(un)maximize", group = "client"}),
+            {description = "toggle sticky window", group = "client"}),
         awful.key(
             {modkey, "Shift"}, "s",
             function()

@@ -7,7 +7,37 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font = "JetBrains Mono Regular 9"
+theme.font = "JetBrains Mono Regular 8"
+theme.icon_font = "Symbols Nerd Font"
+
+-- wibar stuff
+theme.icon_v_padding = dpi(5)
+theme.icon_h_padding = dpi(5)
+theme.wibar_spacing  = dpi(25)
+theme.wibar_height   = dpi(25)
+theme.wibar_border_width = 0
+
+theme.transparent   = "#00000000"
+
+theme.bg_systray  = "#e4e4e4"
+
+-- time widget
+theme.hour_widget_fg     = "#c83349"
+theme.minute_widget_fg   = "#5b9aa0"
+theme.second_widget_fg   = "#622569"
+theme.meridiem_widget_fg = "#f2ae72"
+
+-- calendar widget
+theme.day_name_widget_fg   = "#8b6f47"
+theme.day_number_widget_fg = "#c94c4c"
+theme.month_name_widget_fg = "#485f6a"
+
+-- weather widget
+theme.weather_temperature_fg = "#c1502e"
+theme.weather_text_fg = "#bd5734"
+
+-- buttons and default
+theme.button_hover_fg  = "#c94c4c"
 
 theme.bg_normal   = "#00000000"
 theme.bg_focus    = "#00000018"
@@ -40,8 +70,9 @@ theme.border_normal = "#b3b3b3"
 theme.border_focus  = "#b3b3b3"
 theme.border_marked = "#e53935"
 
+theme.titlebar_size = dpi(20)
 theme.titlebar_fg = theme.fg_normal
-theme.titlebar_bg = "#f2f2f2"
+theme.titlebar_bg = "#00000000"
 theme.titlebar_fg_focus  = theme.fg_normal
 theme.titlebar_bg_focus  = "#e4e4e4"
 theme.titlebar_fg_normal = theme.fg_normal
@@ -56,21 +87,59 @@ theme.taglist_bg_urgent = "#e53935"
 
 theme.icon_path = "/home/lenny/.config/awesome/assets/"
 
-theme.popup_bg     = "#e4e4e4"
-theme.popup_border = "#b3b3b3"
+theme.theme = {
+    day = {
+        bg         = "#e0e2e4",
+        fg         = "#3e515b",
+        hour       = "#c83349",
+        minute     = "#5b9aa0",
+        second     = "#622569",
+        meridiem   = "#f2ae72",
+        day_number = "#c94c4c",
+        weather_cond = "#bd5734",
+        weather_temp = "#c1502e",
+        meridian     = "#f2ae72",
+        day_name     = "#8b6f47",
+        month_name   = "#485f6a",
+        hover        = "#c94c4c",
+        progressbar_bg = "#e0e2e4",
+        progressbar_fg = "#3e515b",
+        bar_bg         = "#e0e2e4",
+        bar_fg         = "#263238",
+    },
+    night = {
+        bg         = "#282b30",
+        fg         = "#e3e6e8",
+        hour       = "#eca1a6",
+        minute     = "#b5e7a0",
+        second     = "#fefbd8",
+        meridiem   = "#b2c2bf",
+        day_number = "#c94c4c",
+        weather_cond = "#dac292",
+        weather_temp = "#f18973",
+        meridian     = "#b2c2bf",
+        day_name     = "#fefbd8",
+        month_name   = "#eceff1",
+        hover        = "#c94c4c",
+        progressbar_bg = "#282b30",
+        progressbar_fg = "#e3e6e8",
+        bar_bg         = "#282b30",
+        bar_fg         = "#e3e6e8",
+    }
+}
 
 theme.snap_shape = gears.shape.rectangle
 theme.snap_border_width = 1
 
 -- Variables set for theming notifications:
+theme.notification_margin = dpi(10)
 theme.notification_font = theme.font
-theme.notification_bg   = "#e4e4e4"
-theme.notification_fg   = theme.fg_normal
-theme.notification_border_width = 1
+-- theme.notification_bg   = "#e4e4e4"
+-- theme.notification_fg   = theme.fg_normal
+theme.notification_border_width = 0
 theme.notification_border_color = theme.border_normal
-theme.notification_width      = 400
-theme.notification_max_width  = 400
-theme.notification_icon_size  = 128
+theme.notification_icon_size  = dpi(100)
+theme.notification_icon_resize_strategy = "center"
 
 -- Variables set for theming the menu
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
@@ -80,8 +149,6 @@ theme.menu_fg_normal = "#223238"
 theme.menu_bg_normal = "#e4e4e4"
 theme.menu_height = dpi(15)
 theme.menu_width  = dpi(100)
-
-
 
 -- titlebar stuff
 theme.titlebar_button_size = 20
@@ -107,7 +174,7 @@ theme.overline_color = "#808080"
 
 theme.wallpaper = "/home/lenny/Pictures/wallpaper.png"
 
-local layout_path = "/home/lenny/.config/awesome/layouts/"
+local layout_path = "/home/lenny/dotfiles/awesome/assets/layouts/"
 
 -- {{{ Calendar stuff
 theme.calendar_year_bg_color       = "#e4e4e4"
@@ -170,8 +237,7 @@ theme.layout_cornerse   = layout_path .. "cornerse.png"
 
 -- Generate Awesome icon:
 theme.awesome_icon = theme_assets.awesome_icon(
-    theme.menu_height, theme.bg_normal, theme.fg_normal
-)
+    theme.menu_height, theme.bg_normal, theme.fg_normal)
 
 -- Define the icon theme for application icons. If not set then the icons
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.

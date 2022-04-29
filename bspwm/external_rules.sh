@@ -27,7 +27,7 @@ case "$class" in
     ;;
 
   firefox)
-    echo desktop=^${_PREF}1 follow=off state=pseudo_tiled
+    echo desktop=^${_PREF}1 follow=off#state=pseudo_tiled
     ;;
 
   Gimp)
@@ -103,7 +103,7 @@ owner="$(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null)"
 
 case "$owner" in
   spotify)
-    echo desktop=^${_PREF}9 follow=off state=pseudo_tiled
+    echo desktop=^${_PREF}9 follow=off#state=pseudo_tiled
     ;;
 
   python)

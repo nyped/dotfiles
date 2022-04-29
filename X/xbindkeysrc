@@ -1,15 +1,15 @@
 # swipe 4 left -> switch to previous workspace
-"bspc desktop -f prev.occupied.local"
+"awesome-client awesome.emit_signal\(\'tag_switch\',-1\)"
 	b:11
 
 # same but with mouse
-"bspc desktop -f prev.occupied.local"
+"awesome-client awesome.emit_signal\(\'tag_switch\',-1\)"
 	b:8
 
 # swipe 4 right -> switch to next workspace
-"bspc desktop -f next.occupied.local"
+"awesome-client awesome.emit_signal\(\'tag_switch\',1\)"
 	b:10
 
 # same but with mouse
-"bspc desktop -f next.occupied.local"
+"awesome-client awesome.emit_signal\(\'tag_switch\',1\)"
 	b:9

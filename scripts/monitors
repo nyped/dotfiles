@@ -40,8 +40,8 @@ case "$1" in
 
   -m | --multi) # multi head
     xrandr \
-      --output $laptop2 --auto --primary --left-of $external \
-      --output  $laptop1 --auto --primary --left-of $external \
+      --output $laptop2 --auto --scale 1x1 --primary --left-of $external \
+      --output  $laptop1 --auto --scale 1x1 --primary --left-of $external \
       --output $external --auto --scale $external_scale \
       &>/dev/null
   ;;

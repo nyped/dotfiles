@@ -6,6 +6,9 @@ local awful = require("awful")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
 
+-- Auto start
+require("autostart")
+
 -- Theme handling library
 local beautiful = require("beautiful")
 beautiful.init("~/.config/awesome/theme.lua")
@@ -33,5 +36,16 @@ require("keys")
 
 -- Rules
 require("rules")
+
+-- Preview
+require("preview")
+
+-- Garbage collector
+local gears = require("gears")
+gears.timer.start_new(10,
+    function()
+        collectgarbage("step", 20000)
+        return true
+    end)
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

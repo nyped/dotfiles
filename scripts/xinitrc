@@ -6,6 +6,7 @@ systemctl --user import-environment DISPLAY XAUTHORITY
 xrdb -merge ~/.Xresources
 xset s off
 xset s noblank
+xbindkeys &
 
 # setting keyboard layout
 if [[ $HOST == iron ]]; then
@@ -14,4 +15,4 @@ else
 	~/dotfiles/scripts/keyboard -m
 fi
 
-exec bspwm
+exec awesome

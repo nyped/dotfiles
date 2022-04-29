@@ -10,7 +10,8 @@ payload=None
   payload="<b>${names//$'\n'/$'</b> and <b>'}</b>"
 
 notify-send Network "Connected to: $payload" \
-  -h string:x-canonical-private-synchronous:anything
+  -h string:x-canonical-private-synchronous:anything \
+  -a network
 
 
 # vim:set ts=8 sts=2 sw=2 et:

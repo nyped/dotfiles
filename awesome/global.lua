@@ -9,12 +9,16 @@ modkey     = "Mod4"
 terminal   = "kitty"
 editor     = "nvim"
 editor_cmd = terminal .. " -e " .. editor
+script_path = "/home/lenny/dotfiles/scripts/"
 -- }}}
+
+theme_name = "night"
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {
-   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
+   { "hotkeys", function() hotkeys_popup.show_help(
+							nil, awful.screen.focused()) end },
    { "manual", terminal .. " -e man awesome" },
    { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },

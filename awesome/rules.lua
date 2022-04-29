@@ -6,11 +6,18 @@ ruled.client.connect_signal("request::rules", function()
     ruled.client.append_rule {
         id         = "global",
         rule       = { },
+        callback   = function(c)
+            c:to_secondary_section() -- new windows placement
+        end,
         properties = {
             focus     = awful.client.focus.filter,
             raise     = true,
             screen    = awful.screen.preferred,
-            placement = awful.placement.no_overlap+awful.placement.no_offscreen
+            placement = awful.placement.no_overlap
+                + awful.placement.no_offscreen,
+            maximized_horizontal = false,
+            maximized_vertical = false,
+            maximized = false
         }
     }
 
@@ -41,17 +48,24 @@ ruled.client.connect_signal("request::rules", function()
     ruled.client.append_rule {
         id         = "titlebars",
         rule_any   = { type = { "normal", "dialog" } },
-        properties = { titlebars_enabled = false      }
+        properties = { titlebars_enabled = true     }
+    }
+
+    -- Floating dialog
+    ruled.client.append_rule {
+        rule_any   = { type = { "dialog" } },
+        properties = {
+            floating = true,
+            placement  = awful.placement.centered
+}
     }
 
     ruled.client.append_rule {
-        rule = { instance = "[Ff]irefox" },
-        properties = {
-            tag = "1",
-            maximized = false,
-            floating = false,
-            switch_to_tags = true
-        }
+        rule = {
+            instance = "[Ff]irefox",
+            type = "normal"
+        },
+        properties = { tag = "1", floating = false }
     }
     ruled.client.append_rule {
         rule = { class = "terminal" },
@@ -90,10 +104,18 @@ ruled.client.connect_signal("request::rules", function()
     }
     ruled.client.append_rule {
         rule_any = {
-            class = { "vlc", "Vlc" }
+            class = { "[Vv]lc" }
         },
-        properties = { tag = "7" }
+        properties = { tag = "6" }
     }
+end)
+-- }}}
+
+-- {{{ Padding for each tag
+awful.tag.attached_connect_signal(nil, "property::selected", function(t)
+    local s = t.screen or awful.screen.focused()
+    local padding = t.padding or { left = 0, right = 0, top = 0, bottom = 0 }
+    s.padding = padding
 end)
 -- }}}
 

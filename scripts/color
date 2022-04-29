@@ -30,6 +30,7 @@ ln -sf ~/dotfiles/wallpaper/${THEME}.png ~/Pictures/wallpaper.png
 	kill -SIGUSR1 $(pidof nvim)
 	kill -SIGUSR1 $(pidof kitty)
 	eww update theme=$THEME &
+	awesome-client "awesome.emit_signal('request::fetch_theme')"
 } &>/dev/null
 
 # vim: set ts=4 sts=4 sw=4 noet :
