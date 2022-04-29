@@ -1,0 +1,78 @@
+#!/usr/bin/env zsh
+
+# general
+alias b=bat \
+      bp='bat -p' \
+      c=color \
+      center=~/bin/center \
+      cycle='cat /sys/class/power_supply/BAT0/cycle_count' \
+      dots=~/dotfiles \
+      dl='cd ~/Downloads' \
+      f='~/bin/fetch' \
+      ff=firefox \
+      grep='grep --color=always' \
+      h='history' \
+      hh='history 1' \
+      hs='history 1 | grep' \
+      icat="kitty +kitten icat" \
+      maison=~/maison/sync/current/ \
+      mt=make\ test \
+      mr=make\ clear \
+      mc=make\ clean \
+      m=make \
+      o=open \
+      pbcopy='xclip -selection clipboard' \
+      pbpaste='xclip -selection clipboard -o' \
+      pbc=pbcopy \
+      pbp=pbpaste \
+      pbs='nc termbin.com 9999|pbcopy && pbpaste' \
+      p=pacman \
+      rg2="rg -C2" \
+      rg3="rg -C3" \
+      rg4="rg -C4" \
+      rg5="rg -C5" \
+      rgi="rg -i"  \
+      rgi2="rg -iC3" \
+      rgi3="rg -iC3" \
+      rgi4="rg -iC4" \
+      rgi5="rg -iC5" \
+      sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1" \
+      song='playerctl metadata -f "{{ artist }} - {{ title }}"' \
+      tmp=/tmp \
+      vim=nvim \
+      v=nvim \
+      vr='nvim -R' \
+      y=yay \
+      _='sudo ' \
+      -='cd -' \
+      0='cd -10' \
+      1='cd -1' \
+      2='cd -2' \
+      3='cd -3' \
+      4='cd -4' \
+      5='cd -5' \
+      6='cd -6' \
+      7='cd -7' \
+      8='cd -8' \
+      9='cd -9'
+
+# git
+alias g=git \
+      gaa='git add --all' \
+      gc='git commit -v' \
+      gd='git diff' \
+      gp='git push' \
+      gl='git pull' \
+      gm='git merge' \
+      gst='git status'
+
+# ls
+alias ls='ls --color=tty' \
+      l='ls -lah' \
+      ll='ls -lh' \
+      la='ls -A'
+
+# directories
+alias -g ...='../..'
+
+# vim: set ts=2 sts=2 sw=2 ft=sh et :

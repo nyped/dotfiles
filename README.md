@@ -1,3 +1,8 @@
-# my dotfiles
+# lenny's dotfiles
 
-c:
+## Installation
+
+```bash
+# Using GNU Stow
+./install.sh
+```

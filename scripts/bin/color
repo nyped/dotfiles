@@ -1,0 +1,36 @@
+#!/usr/bin/env zsh
+
+[[ $1 = -h || $1 == --help ]] && exec cat >&2 <<EOF
+usage: ${0%%*/} [-h | --help | THEME]
+Switch themes: update configuration file with symlinks and load them.
+THEME can be day (or d), or night (or night)
+EOF
+
+if [[ $1 = day || $1 = d ]]; then
+	THEME=day
+elif [[ $1 = night || $1 = n ]]; then
+	THEME=night
+else
+	THEME=$(< ~/.t)
+	[[ $THEME = day ]] && exec $0 n || exec $0 d
+fi
+
+echo $THEME > ~/.t
+
+ln -sf ~/.config/bat/${THEME}_bat.conf ~/.config/bat/config
+ln -sf ~/.config/dunst/${THEME}_dunstrc ~/.config/dunst/dunstrc
+ln -sf ~/.config/rofi/${THEME}_rofi.rasi ~/.config/rofi/config.rasi
+ln -sf ~/.config/zathura/${THEME}_zathurarc ~/.config/zathura/zathurarc
+ln -sf ~/.config/kitty/kitty-${THEME}-scheme.conf ~/.config/kitty/color-scheme.conf
+ln -sf ~/Pictures/${THEME}.png ~/Pictures/wallpaper.png
+
+{
+	hsetroot -cover ~/Pictures/wallpaper.png
+	killall dunst
+	kill -SIGUSR1 $(pidof nvim)
+	kill -SIGUSR1 $(pidof kitty)
+	eww update theme=$THEME &
+	awesome-client "awesome.emit_signal('request::fetch_theme')"
+} &>/dev/null
+
+# vim: set ts=4 sts=4 sw=4 noet :

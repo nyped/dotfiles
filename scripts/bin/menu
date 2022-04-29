@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+
+ret=$(
+cat <<EOF | rofi -dmenu -i -p Do: -l 7
+Lock
+Reboot
+Shutdown
+Suspend
+Screen
+Record
+Theme
+Music
+Dock
+Multihead
+Monohead
+Editor
+VPN
+Maple
+EOF
+)
+case $ret in
+	Lock)
+		~/bin/lock
+		;;
+
+	Reboot)
+		shutdown -r now
+		;;
+
+	Shutdown)
+		shutdown now
+		;;
+
+	Record)
+		~/bin/screencast -d &
+		;;
+
+	Theme)
+		~/bin/color
+		;;
+
+	Screen | Screenshoot)
+		~/bin/screenshot -s
+		;;
+
+	Suspend)
+		systemctl suspend
+		;;
+
+	Music)
+		spotify  --no-zygote --disable-gpu --disable-software-rasterizer &
+		disown
+		;;
+
+	Dock)
+		~/bin/monitors -d
+		~/bin/keyboard -e
+		;;
+
+	Multihead)
+		~/bin/monitors -m
+		~/bin/keyboard -e
+		;;
+
+	Monohead)
+		~/bin/monitors -l
+		~/bin/keyboard -m
+		;;
+
+	Editor)
+		kitty --class nvim -e nvim &
+		disown
+		;;
+
+	VPN)
+		/opt/cisco/anyconnect/bin/vpnui &
+		disown
+	    ;;
+
+	Maple)
+		/home/lenny/maple2020/bin/xmaple &
+		disown
+		;;
+
+	"") # pass
+		;;
+
+	*)
+		notify-send Error "Couldn't parse the command"
+		;;
+esac
