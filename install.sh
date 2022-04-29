@@ -13,6 +13,7 @@ target=(
   nvim
   picom
   polybar
+  rofi
   scripts
   sxhkd
   wallpaper
