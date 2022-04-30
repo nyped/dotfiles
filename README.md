@@ -1,8 +1,11 @@
 # lenny's dotfiles
 
-## Installation
+## Usage
 
 ```bash
-# Using GNU Stow
-./install.sh
+# installation
+./manage.sh
+
+# uninstallation :c
+./manage.sh --uninstall
 ```
