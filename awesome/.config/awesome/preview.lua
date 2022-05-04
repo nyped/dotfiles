@@ -22,11 +22,16 @@ local function preview(c, scale)
     cr:paint()
 
     return wibox.widget {
-        image = gears.surface.load(img),
-        resize = true,
-        forced_height = math.floor(c.height * scale),
-        forced_width  = math.floor(c.width * scale),
-        widget = wibox.widget.imagebox
+        {
+            image = gears.surface.load(img),
+            resize = true,
+            forced_height = math.floor(c.height * scale),
+            forced_width  = math.floor(c.width * scale),
+            widget = wibox.widget.imagebox
+        },
+        margins = 1,
+        color   = beautiful.border_normal,
+        layout  = wibox.container.margin
     }
 end
 
@@ -74,14 +79,16 @@ function popup:update(tag)
     local clients = tag:clients()
     for i = 1, #clients do
         local c = clients[i]
-        local prev = preview(c, scale)
-        -- Position of the widget
-        prev.point = {
-            x = math.floor((c.x - geo.x)*scale),
-            y = math.floor((c.y - geo.y)*scale),
-        }
-        -- Add it to the preview
-        inner_widget:add(prev)
+        if not c.minimized then
+            local prev = preview(c, scale)
+            -- Position of the widget
+            prev.point = {
+                x = math.floor((c.x - geo.x)*scale),
+                y = math.floor((c.y - geo.y)*scale),
+            }
+            -- Add it to the preview
+            inner_widget:add(prev)
+        end
     end
 end
 

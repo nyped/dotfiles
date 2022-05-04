@@ -7,7 +7,8 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font = "JetBrains Mono Regular 8"
+theme.font_family = "JetBrains Mono Regular"
+theme.font      = theme.font_family.." 8"
 theme.icon_font = "Symbols Nerd Font"
 
 -- wibar stuff
@@ -19,7 +20,9 @@ theme.wibar_border_width = 0
 
 theme.transparent   = "#00000000"
 
-theme.bg_systray  = "#e4e4e4"
+-- systray
+theme.bg_systray  = "#788cb1"
+theme.systray_icon_spacing = dpi(5)
 
 -- time widget
 theme.hour_widget_fg     = "#c83349"
@@ -134,8 +137,6 @@ theme.snap_border_width = 1
 -- Variables set for theming notifications:
 theme.notification_margin = dpi(10)
 theme.notification_font = theme.font
--- theme.notification_bg   = "#e4e4e4"
--- theme.notification_fg   = theme.fg_normal
 theme.notification_border_width = 0
 theme.notification_border_color = theme.border_normal
 theme.notification_icon_size  = dpi(100)

@@ -224,7 +224,7 @@ local weather = helpers.themed(
 
 -- {{{ Monitor configuration popup
 local monitor_popup_height = dpi(100)
-local monitor_popup_width  = dpi(300)
+local monitor_popup_width  = dpi(400)
 
 local monitor_popup = wibox {
     screen  = screen,
@@ -244,11 +244,14 @@ local external  = helpers.create_button_widget("",
                         helpers.spawner(script_path.."monitors -d"))
 local multihead = helpers.create_button_widget("",
                         helpers.spawner(script_path.."monitors -m"))
+local replicate = helpers.create_button_widget("",
+                        helpers.spawner(script_path.."monitors -r"))
 
 local monitors_line = {
     monohead,
     external,
     multihead,
+    replicate,
     spacing = dpi(5),
     layout = wibox.layout.flex.horizontal
 }

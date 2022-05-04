@@ -142,12 +142,12 @@ awful.keyboard.append_global_keybindings({
 
     -- {{{ Standard program
     awful.key(
-        {"Control", "Shift"}, "Return",
+        {modkey, "Shift"}, "Return",
         function() awful.spawn(terminal.." --class terminal") end,
         {description = "open a terminal", group = "launcher"}
     ),
     awful.key(
-        {"Control"}, "Return",
+        {modkey}, "Return",
         function() awful.spawn(terminal.." --class Terminal") end,
         {description = "open a terminal (floating)", group = "launcher"}
     ),
@@ -181,12 +181,6 @@ awful.keyboard.append_global_keybindings({
 
     -- {{{ Prompt
     awful.key(
-        {modkey}, "r",
-        function() awful.screen.focused().mypromptbox:run() end,
-        {description = "run prompt", group = "launcher"}
-    ),
-
-    awful.key(
         {modkey}, "x",
         function()
             awful.prompt.run {
@@ -207,11 +201,13 @@ awful.keyboard.append_global_keybindings({
         {description = "show the menubar", group = "launcher"}
     ),
 
-    -- Rofi
+    -- Launcher
     awful.key(
         {"Control"}, "space",
-        function() awful.util.spawn("rofi -show run") end,
-        {description = "Open rofi", group = "launcher"}
+        function()
+            spotlight:run()
+        end,
+        {description = "run spotlight", group = "launcher"}
     ),
 
     -- {{{ Volume

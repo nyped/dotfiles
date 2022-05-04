@@ -38,7 +38,7 @@ end)
 
 local window_class = {
     class,
-    right  = dpi(20),
+    right  = dpi(10),
     layout = wibox.layout.margin
 }
 -- }}}
@@ -67,7 +67,7 @@ local bat = wibox.widget {
     },
     top    = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
-    right  = beautiful.wibar_spacing,
+    right  = dpi(20),
     layout = wibox.container.margin
 }
 
@@ -366,13 +366,30 @@ local hwmon = {
 -- }}}
 
 -- {{{ systray
-local systray = {
-    wibox.widget.systray(),
+local systray = wibox.widget {
+    {
+        {
+            wibox.widget.systray(),
+            top    = dpi(1),
+            bottom = dpi(1),
+            left   = dpi(6),
+            right  = dpi(6),
+            color  = beautiful.bg_systray,
+            layout = wibox.container.margin
+        },
+        shape  = gears.shape.rounded_rect,
+        layout = wibox.container.background
+    },
     top    = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
     right  = beautiful.wibar_spacing,
     layout = wibox.container.margin
 }
+
+-- Hide systray when empty
+systray:connect_signal("widget::layout_changed", function()
+    systray.visible = #systray.all_children > 0
+end)
 -- }}}
 
 -- Create a wibox for each screen and add it
@@ -392,6 +409,9 @@ local taglist_buttons = gears.table.join(
 
 -- {{{
 screen.connect_signal("request::desktop_decoration", function(s)
+    -- keyboard
+    awful.util.spawn(script_path.."keyboard -e")
+
     -- {{{ tags
     awful.tag.add("1", {
         icon               = "web.svg",
@@ -415,11 +435,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
     -- }}}
 
     -- {{{ textclock
-    s.mytextclock = wibox.widget.textclock("%r", 1)
+    s.mytextclock = wibox.widget.textclock("%A %d %b, %r", 1)
     -- }}}
-
-    -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
 
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
@@ -434,6 +451,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         s.mylayoutbox,
         top    = beautiful.icon_v_padding,
         bottom = beautiful.icon_v_padding,
+        right  = beautiful.wibar_spacing,
         widget = wibox.layout.margin
     }
 
@@ -486,8 +504,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
         -- Theme change support
         awesome.connect_signal("theme_change", function(theme)
-            icon.stylesheet = "*{fill:"..beautiful.theme[theme].bar_fg..";}"
-            underline.bg = beautiful.theme[theme_name].bar_bg
+            update_tag(widget, tag, index, tags)
         end)
 
         -- Update the tag
@@ -574,9 +591,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 { -- Left widgets
                     {
                         s.mytaglist,
-                        s.mytasklist,
                         window_class,
-                        s.mypromptbox,
+                        s.mytasklist,
                         spacing = dpi(20),
                         layout = wibox.layout.fixed.horizontal
                     },
@@ -590,12 +606,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 {
                     { -- Right widgets
                         systray,
+                        layoutbox,
                         hwmon,
                         internet,
                         brightness,
                         volume,
                         battery,
-                        layoutbox,
                         layout = wibox.layout.fixed.horizontal,
                     },
                     right = dpi(20),

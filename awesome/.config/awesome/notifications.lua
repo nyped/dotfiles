@@ -111,10 +111,10 @@ local function notification_template(notif)
     local icon
     if notif.icon == nil then
         local icon_name
-        if notif.app_name == "Network" then
-            icon_name = "notification/bell.svg"
-        else
+        if notif.app_name == "network" or notif.app_name == "NetworkManager" then
             icon_name = "notification/network.svg"
+        else
+            icon_name = "notification/bell.svg"
         end
         icon = wibox.widget {
             widget = wibox.widget.imagebox,
@@ -174,6 +174,7 @@ local function notification_template(notif)
                     widget  = wibox.container.margin
                 },
                 strategy = "min",
+                height   = dpi(110),
                 width    = beautiful.xresources.apply_dpi(400),
                 widget   = wibox.container.constraint
             },

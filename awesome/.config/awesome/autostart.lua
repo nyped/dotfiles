@@ -1,7 +1,8 @@
 local awful = require("awful")
 
 local autostart_app = {
-    "blueman-applet"
+    "blueman-applet",
+    "nm-applet"
 }
 
 for app = 1, #autostart_app do
