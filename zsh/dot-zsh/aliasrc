@@ -39,7 +39,6 @@ alias b=bat \
       sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1" \
       song='playerctl metadata -f "{{ artist }} - {{ title }}"' \
       tmp=/tmp \
-      vim=nvim \
       v=nvim \
       vr='nvim -R' \
       y=yay \

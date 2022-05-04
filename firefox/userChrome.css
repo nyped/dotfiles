@@ -54,7 +54,8 @@ toolbarbutton[id^="scrollbutton"] {
 /* change font */
 
 * {
-	font-family: "Fantasque Sans Mono";
+	font-family: "JetBrains Mono";
+	font-size: 12px;
 }
 
 /* panelui button on the lhs
