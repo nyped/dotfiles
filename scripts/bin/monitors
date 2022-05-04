@@ -3,10 +3,11 @@
 usage() {
     cat << _HELPTXT
 Usage: ${0##*/} [--help | -h | --dock | -d | --multi | -m | --laptop | -l]
--d, --dock     output on external monitor only
--l, --laptop   output on laptop screen only
--m, --multi    output on external monitor and laptop screen
--h, --help     show this message
+-d, --dock      output on external monitor only
+-l, --laptop    output on laptop screen only
+-m, --multi     output on external monitor and laptop screen
+-r, --replicate output the same image on laptop and external monitor
+-h, --help      show this message
 _HELPTXT
 }
 
@@ -41,9 +42,13 @@ case "$1" in
   -m | --multi) # multi head
     xrandr \
       --output $laptop2 --auto --scale 1x1 --primary --left-of $external \
-      --output  $laptop1 --auto --scale 1x1 --primary --left-of $external \
+      --output $laptop1 --auto --scale 1x1 --primary --left-of $external \
       --output $external --auto --scale $external_scale \
       &>/dev/null
+    # cursor flickering fix
+    for output in $laptop1 $laptop2; do
+      xrandr --output $output --set TearFree on &>/dev/null
+    done
   ;;
 
   -l | --laptop) # laptop only
@@ -57,6 +62,13 @@ case "$1" in
       --output $external --off \
       --output $laptop2 --auto \
       --output  $laptop1 --auto \
+      &>/dev/null
+  ;;
+
+  -r | --replicate) # Duplicate
+  xrandr \
+      --output eDP --mode 1920x1080 --primary \
+      --output HDMI-A-0 --mode 1920x1080 --same-as eDP --scale-from 1920x1080 \
       &>/dev/null
   ;;
 
