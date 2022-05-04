@@ -13,6 +13,7 @@
 :set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
 :set mouse=nv
 :set title
+:set autoindent smartindent
 :let &titlestring="nvim \033[1m%t%m "
 "
 " exiting terminal
@@ -146,7 +147,7 @@ Plug 'preservim/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'chrisbra/Colorizer'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vimsence/vimsence'
+"Plug 'vimsence/vimsence'
 Plug 'fladson/vim-kitty'
 Plug 'elkowar/yuck.vim'
 Plug 'Yggdroot/indentLine'
@@ -189,19 +190,19 @@ call plug#end()
 	\     },
 	\      'default.light': {
 	\        'override' : {
-	\          'color00' : ['#fdf6e3', ''],
+	\          'color00' : ['#f3ecd8', ''],
 	\	       'cursorlinenr_fg' : ['', '25'],
-	\          'cursorlinenr_bg' : ['#fdf6e3', ''],
-	\          'linenumber_bg' : ['#fdf6e3', ''],
+	\          'cursorlinenr_bg' : ['#f3ecd8', ''],
+	\          'linenumber_bg' : ['#f3ecd8', ''],
 	\          'linenumber_fg' : ['', '110'],
 	\          'tabline_bg' : ['#e4e4e4', ''],
 	\		   'tabline_inactive_bg' : ['#e4e4e4', ''],
 	\	       'tabline_inactive_fg' : ['#263238', ''],
 	\	       'tabline_active_bg' : ['#666666', ''],
-	\	       'tabline_active_fg' : ['#fdf6e3', ''],
-	\          'vertsplit_bg' : ['#fdf6e3', ''],
-	\	       'statusline_inactive_bg' : ['#fdf6e3', ''],
-	\	       'statusline_active_bg' : ['#fdf6e3', ''],
+	\	       'tabline_active_fg' : ['#f3ecd8', ''],
+	\          'vertsplit_bg' : ['#f3ecd8', ''],
+	\	       'statusline_inactive_bg' : ['#f3ecd8', ''],
+	\	       'statusline_active_bg' : ['#f3ecd8', ''],
 	\       }
 	\     },
 	\   }
