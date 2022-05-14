@@ -21,8 +21,7 @@ theme.wibar_border_width = 0
 theme.transparent   = "#00000000"
 
 -- systray
-theme.bg_systray  = "#788cb1"
-theme.systray_icon_spacing = dpi(5)
+theme.systray_icon_spacing = theme.wibar_spacing
 
 -- time widget
 theme.hour_widget_fg     = "#c83349"

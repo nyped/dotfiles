@@ -135,19 +135,18 @@ function popup:on_volume_update(volume, muted)
 
     bar.value = volume
 
-    -- PATH HACK. I want to reload them
     if muted then
         icon:load_image(beautiful.icon_path
-            .."/volume/../volume/volume-off.svg")
+            .."/volume/volume-off.svg")
     elseif volume < 10 then
         icon:load_image(beautiful.icon_path
-            .."/volume/../volume/volume-low.svg")
+            .."/volume/volume-low.svg")
     elseif volume < 60 then
         icon:load_image(beautiful.icon_path
-            .."/volume/../volume/volume-medium.svg")
+            .."/volume/volume-medium.svg")
     else
         icon:load_image(beautiful.icon_path
-            .."/volume/../volume/volume-high.svg")
+            .."/volume/volume-high.svg")
     end
 
     popup:show()

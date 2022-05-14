@@ -134,7 +134,7 @@ function helpers.spawner(cmd)
 end
 
 -- Create a button
-function helpers.create_button(symbol, func)
+function helpers.create_button(symbol, left_func, right_func)
     local icon = wibox.widget {
         markup  = helpers.markup_format(symbol, beautiful.icon_font, 20),
         align   = "center",
@@ -144,7 +144,10 @@ function helpers.create_button(symbol, func)
 
     local button_widget = wibox.widget {
         icon,
-        buttons = { awful.button({}, 1, nil, func) },
+        buttons = {
+            awful.button({}, 1, nil, left_func),
+            awful.button({}, 3, nil, right_func)
+        },
         widget = wibox.container.background
     }
 
@@ -155,8 +158,8 @@ function helpers.create_button(symbol, func)
 end
 
 -- Button widget
-function helpers.create_button_widget(symbol, func)
-    local inner_button = helpers.create_button(symbol, func)
+function helpers.create_button_widget(symbol, left_func, right_func)
+    local inner_button = helpers.create_button(symbol, left_func, right_func)
 
     local ret = helpers.themed(
         helpers.equal_padded(inner_button, dpi(20)), "bg", nil,

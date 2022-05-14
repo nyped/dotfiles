@@ -287,52 +287,6 @@ local brightness = {
 }
 -- }}}
 
--- {{{ internet
-local internet_icon = wibox.widget {
-    image = beautiful.icon_path.."network/off.svg",
-    widget  = wibox.widget.imagebox,
-    stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
-}
-
-connect_theme(internet_icon)
-
-awesome.connect_signal("internet_status",
-    function(interface_type)
-        local tail
-        if interface_type == "wifi" then
-            tail = "network/wifi.svg"
-        elseif interface_type == "ethernet" then
-            tail = "network/ethernet.svg"
-        else
-            tail = "network/off.svg"
-        end
-        internet_icon.image = beautiful.icon_path..tail
-    end)
-
-local internet = {
-    internet_icon,
-    top    = beautiful.icon_v_padding,
-    bottom = beautiful.icon_v_padding,
-    right  = beautiful.wibar_spacing,
-    layout = wibox.container.margin
-}
-
-internet_icon:buttons {
-    awful.button {
-        button = 3,
-        on_press = function()
-            awful.util.spawn(terminal.." -e nmtui")
-        end
-    },
-    awful.button{
-        button = 1,
-        on_press = function()
-            awful.util.spawn(script_path.."network_notification")
-        end
-    }
-}
--- }}}
-
 -- {{{ hwmon
 local hwmon_widget = awful.widget.watch(
     'cat /sys/devices/platform/applesmc.768/temp13_input'
@@ -366,29 +320,20 @@ local hwmon = {
 -- }}}
 
 -- {{{ systray
+local systray_widget = wibox.widget.systray()
+
 local systray = wibox.widget {
-    {
-        {
-            wibox.widget.systray(),
-            top    = dpi(1),
-            bottom = dpi(1),
-            left   = dpi(6),
-            right  = dpi(6),
-            color  = beautiful.bg_systray,
-            layout = wibox.container.margin
-        },
-        shape  = gears.shape.rounded_rect,
-        layout = wibox.container.background
-    },
+    systray_widget,
+    draw_empty = false,
     top    = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
     right  = beautiful.wibar_spacing,
     layout = wibox.container.margin
 }
 
--- Hide systray when empty
-systray:connect_signal("widget::layout_changed", function()
-    systray.visible = #systray.all_children > 0
+-- Themed colors
+awesome.connect_signal("theme_change", function(theme)
+    beautiful.bg_systray = beautiful.theme[theme].bg
 end)
 -- }}}
 
@@ -548,6 +493,26 @@ screen.connect_signal("request::desktop_decoration", function(s)
     -- }}}
 
     -- {{{ Create a tasklist widget
+    local init_task = function(widget, c, i, o)
+        -- Add a tooltip
+        widget.tooltip = awful.tooltip {
+            objects = { widget },
+            fg      = beautiful.theme[theme_name].fg,
+            bg      = beautiful.theme[theme_name].bg,
+            timer_function = function()
+                local class = c.class == nil and "" or c.class.." - "
+                local name  = c.name or "No name"
+                return class..name
+            end
+        }
+        -- Change colors
+        awesome.connect_signal("theme_change", function(theme)
+            -- HYN?
+            widget.tooltip.widget.fg = beautiful.theme[theme].fg
+            widget.tooltip.widget.bg = beautiful.theme[theme].bg
+        end)
+    end
+
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.minimizedcurrenttags,
@@ -574,6 +539,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             },
             id     = 'background_role',
             widget = wibox.container.background,
+            create_callback = init_task
         },
     }
     -- }}}
@@ -605,10 +571,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 },
                 {
                     { -- Right widgets
-                        systray,
                         layoutbox,
                         hwmon,
-                        internet,
+                        systray,
                         brightness,
                         volume,
                         battery,

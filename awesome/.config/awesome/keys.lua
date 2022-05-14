@@ -4,7 +4,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 
 local script_path = "/home/lenny/bin/"
-
 -- {{{
 -- Switch tag, while skipping empty ones
 -- with teleportation !
@@ -248,6 +247,30 @@ awful.keyboard.append_global_keybindings({
     ),
     -- }}}
 
+    -- {{{ Screenshots
+    awful.key(
+        {}, "Print",
+        function()
+            awful.util.spawn(script_path.."screenshot -a")
+        end,
+        {description = "Screenshot the whole screens", group = "media"}
+    ),
+    awful.key(
+        {"Shift"}, "Print",
+        function()
+            awful.util.spawn(script_path.."screenshot -w -S")
+        end,
+        {description = "Screenshot the focused window", group = "media"}
+    ),
+    awful.key(
+        {}, "F10",
+        function()
+            awful.util.spawn(script_path.."screenshot -s -S")
+        end,
+        {description = "Screenshot the selected content", group = "media"}
+    ),
+    -- }}}
+
     -- {{{ Media keys
     awful.key(
         {}, "XF86AudioPlay",
@@ -473,7 +496,15 @@ client.connect_signal("request::default_keybindings", function()
         awful.key(
             {"Mod1"}, "Tab",
             function(c)
-                c.floating = not c.floating -- HACK hynn
+                if c.fullscreen then
+                    -- Restore old floating state
+                    c.floating = c.old_floating or false
+                else
+                    -- Saving floating state
+                    c.old_floating = c.floating
+                    c.floating = true
+                end
+                -- Toggling fullscreen
                 c.fullscreen = not c.fullscreen
                 c:raise()
             end,

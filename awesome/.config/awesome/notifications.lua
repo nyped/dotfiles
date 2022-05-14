@@ -68,23 +68,26 @@ local function notification_template(notif)
     local action_template = {
         {
             {
+                nil,
                 {
                     id     = "text_role",
-                    widget = wibox.widget.textbox
+                    widget = wibox.widget.textbox,
                 },
-                top     = dpi(5),
-                bottom  = dpi(5),
-                left    = dpi(10),
-                right   = dpi(10),
-                widget  = wibox.container.margin
+                nil,
+                expand = "outside",
+                widget = wibox.layout.align.horizontal
             },
-            shape        = gears.shape.rounded_rect,
-            border_width = 1,
-            border_color = beautiful.border_normal,
-            widget       = wibox.container.background,
+            top     = dpi(5),
+            bottom  = dpi(5),
+            left    = dpi(10),
+            right   = dpi(10),
+            widget  = wibox.container.margin,
+            forced_width = dpi(150)
         },
-        margins = 4,
-        widget  = wibox.container.margin
+        shape        = gears.shape.rounded_rect,
+        border_width = 1,
+        border_color = beautiful.border_normal,
+        widget       = wibox.container.background,
     }
 
     local actions
@@ -97,8 +100,8 @@ local function notification_template(notif)
             notification    = notif,
             widget_template = action_template,
             base_layout     = wibox.widget {
-                spacing = dpi(10),
-                layout  = wibox.layout.flex.horizontal
+                spacing = dpi(3),
+                layout  = wibox.layout.flex.vertical
             },
             style  = {
                 underline_normal = false,
@@ -137,49 +140,44 @@ local function notification_template(notif)
             {
                 {
                     {
-                        {
-                            { -- icon
-                                icon,
-                                shape  = gears.shape.rounded_rect,
-                                widget = wibox.container.background,
-                            },
-                            valign = "center",
-                            widget = wibox.container.place,
+                        { -- icon
+                            icon,
+                            shape  = gears.shape.rounded_rect,
+                            widget = wibox.container.background,
                         },
-                        {
-                            { -- title
-                                nil,
-                                helpers.themed(naughty.widget.title, nil, "fg"),
-                                nil,
-                                expand = "outside",
-                                layout  = wibox.layout.align.horizontal
-                            },
-                            { -- message
-                                nil,
-                                helpers.themed(naughty.widget.message, nil, "fg"),
-                                nil,
-                                expand = "outside",
-                                layout  = wibox.layout.align.horizontal
-                            }, -- actions
-                            helpers.centered(actions),
-                            spacing = 4,
-                            expand = "inside",
-                            layout  = wibox.layout.align.vertical
-                        },
-                        fill_space = true,
-                        spacing    = dpi(10),
-                        layout     = wibox.layout.fixed.horizontal
+                        valign = "center",
+                        widget = wibox.container.place,
                     },
-                    margins = beautiful.notification_margin,
-                    widget  = wibox.container.margin
+                    {
+                        { -- title
+                            nil,
+                            helpers.themed(naughty.widget.title, nil, "fg"),
+                            nil,
+                            expand = "outside",
+                            layout  = wibox.layout.align.horizontal
+                        },
+                        { -- message
+                            nil,
+                            helpers.themed(naughty.widget.message, nil, "fg"),
+                            nil,
+                            expand = "outside",
+                            layout  = wibox.layout.align.horizontal
+                        }, -- actions
+                        helpers.centered(actions),
+                        spacing = 4,
+                        expand = "inside",
+                        layout  = wibox.layout.align.vertical
+                    },
+                    fill_space = true,
+                    spacing    = dpi(10),
+                    layout     = wibox.layout.fixed.horizontal
                 },
-                strategy = "min",
-                height   = dpi(110),
-                width    = beautiful.xresources.apply_dpi(400),
-                widget   = wibox.container.constraint
+                margins = beautiful.notification_margin,
+                widget  = wibox.container.margin,
+                forced_width = dpi(400)
             },
-            strategy = "max",
-            width    = beautiful.xresources.apply_dpi(400),
+            strategy = "min",
+            height   = dpi(110),
             widget   = wibox.container.constraint
         }, -- antialiasing
         shape  = gears.shape.rounded_rect,

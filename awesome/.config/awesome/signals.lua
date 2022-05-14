@@ -57,48 +57,6 @@ end)
 
 -- }}}
 
--- {{{ -- Network
-local function emit_network_info()
-    awful.spawn.easy_async_with_shell(
-        "nmcli con show --active",
-        function(stdout)
-            local wifi = stdout:match("wifi")
-            local ethernet = stdout:match("ethernet")
-            awesome.emit_signal("internet_status", "none")
-            if wifi ~= nil then
-                awesome.emit_signal("internet_status", "wifi")
-            end
-            if ethernet ~= nil then
-                awesome.emit_signal("internet_status", "ethernet")
-            end
-    end)
-end
-
--- Icon initialization
-emit_network_info()
-
-local network_script = [[
-    bash -c "LANG=C nmcli monitor | {
-      while read -r; do
-        case \"$REPLY\" in
-          \"Connectivity is now 'none'\" | *connected | *removed)
-            echo dummy;;
-        esac
-      done
-    }"
-]]
-
-awful.spawn.easy_async({
-    "pkill", "--full", "--uid", os.getenv("USER"), "^nmcli monitor"
-}, function()
-    awful.spawn.with_line_callback(network_script, {
-        stdout = function(line)
-            emit_network_info()
-        end
-    })
-end)
--- }}}
-
 -- {{{ Player signals
 local player_script = [[
     bash -c "

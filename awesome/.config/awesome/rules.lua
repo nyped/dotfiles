@@ -14,7 +14,7 @@ ruled.client.connect_signal("request::rules", function()
             raise     = true,
             screen    = awful.screen.preferred,
             placement = awful.placement.no_overlap
-                + awful.placement.no_offscreen,
+                + awful.placement.no_offscreen + awful.placement.centered,
             maximized_horizontal = false,
             maximized_vertical = false,
             maximized = false
@@ -107,6 +107,12 @@ ruled.client.connect_signal("request::rules", function()
             class = { "[Vv]lc" }
         },
         properties = { tag = "6" }
+    }
+    ruled.client.append_rule {
+        rule_any = {
+            class = { "[Aa]gdbentures" }
+        },
+        properties = { floating = true }
     }
 end)
 -- }}}

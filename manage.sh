@@ -18,29 +18,38 @@ target=(
   sxhkd
   wallpaper
   Xsession
+  xsettingsd
   zathura
   zsh
 )
 
 function usage() {
   cat << EOF
-Usage: ${0##*/} [-u | --uninstall | -h | --help]
-If no argument is given, installs the targets.
+Usage: ${0##*/} <cmd>
+with cmd in:
+-i --install
+-u --uninstall
+-h --help
 EOF
-  exit 0
 }
 
 case "$1" in
+  -i | --install)
+    cmd=-S
+    ;;
+
   -u | --uninstall)
     cmd=-D
     ;;
 
   -h | --help)
     usage
+    exit 0
     ;;
 
   *)
-    cmd=-S
+    usage
+    exit 255
     ;;
 esac
 
