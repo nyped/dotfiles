@@ -64,12 +64,12 @@ root.buttons(gears.table.join(
 awful.keyboard.append_global_keybindings({
     -- {{{ tag switch
     awful.key(
-        {"Control", "Shift"}, "Tab",
+        {"Mod1", "Shift"}, "Tab",
         function() tag_view_nonempty(-1) end,
         {description = "view previous", group = "tag"}
     ),
     awful.key(
-        {"Control"}, "Tab",
+        {"Mod1"}, "Tab",
         function() tag_view_nonempty(1) end,
         {description = "view next", group = "tag"}
     ),
@@ -87,28 +87,28 @@ awful.keyboard.append_global_keybindings({
         {description = "focus previous by index", group = "client"}
     ),
     awful.key(
-        {"Mod1"}, "h",
+        {modkey}, "h",
         function()
             awful.client.focus.global_bydirection("left", client.focus)
         end,
         {description = "focus left window", group = "client"}
     ),
     awful.key(
-        {"Mod1"}, "j",
+        {modkey}, "j",
         function()
             awful.client.focus.global_bydirection("down", client.focus)
         end,
         {description = "focus underneath window", group = "client"}
     ),
     awful.key(
-        {"Mod1"}, "k",
+        {modkey}, "k",
         function()
             awful.client.focus.global_bydirection("up", client.focus)
         end,
         {description = "focus top window", group = "client"}
     ),
     awful.key(
-        {"Mod1"}, "l",
+        {modkey}, "l",
         function()
             awful.client.focus.global_bydirection("right", client.focus)
         end,
@@ -202,7 +202,7 @@ awful.keyboard.append_global_keybindings({
 
     -- Launcher
     awful.key(
-        {"Control"}, "space",
+        {modkey}, "space",
         function()
             spotlight:run()
         end,
@@ -406,7 +406,7 @@ awful.keyboard.append_global_keybindings({
             t.padding      = padding
         end,
         {description = "Increase outter gap", group = "visual"}
-    )
+    ),
     -- }}}
 })
 
@@ -430,7 +430,7 @@ for i = 1, 10 do
     awful.keyboard.append_global_keybindings({
         -- View tag only.
         awful.key(
-            {"Mod1"}, "#" .. i + 9,
+            {modkey}, "#" .. i + 9,
             function()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -442,7 +442,8 @@ for i = 1, 10 do
         ),
         -- Toggle tag display.
         awful.key(
-            {modkey}, "#" .. i + 9,
+            -- TODO find a better keybind. bruh
+            {modkey, "Mod1"}, "#" .. i + 9,
             function()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -454,7 +455,7 @@ for i = 1, 10 do
         ),
         -- Move client to tag.
         awful.key(
-            {"Control", "Shift"}, "#" .. i + 9,
+            {modkey, "Shift"}, "#" .. i + 9,
             function()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -477,13 +478,13 @@ client.connect_signal("request::default_mousebindings", function()
             end
         ),
         awful.button(
-            {modkey}, 1,
+            {"Mod1"}, 1,
             function (c)
                 c:activate { context = "mouse_click", action = "mouse_move" }
             end
         ),
         awful.button(
-            {modkey, "Shift"}, 1,
+            {"Mod1", "Shift"}, 1,
             function (c)
                 c:activate { context = "mouse_click", action = "mouse_resize" }
             end
@@ -494,7 +495,7 @@ end)
 client.connect_signal("request::default_keybindings", function()
     awful.keyboard.append_client_keybindings({
         awful.key(
-            {"Mod1"}, "Tab",
+            {modkey}, "Escape",
             function(c)
                 if c.fullscreen then
                     -- Restore old floating state
@@ -511,12 +512,12 @@ client.connect_signal("request::default_keybindings", function()
             {description = "toggle fullscreen", group = "client"}
         ),
         awful.key(
-            {"Control"}, "q",
+            {modkey}, "q",
             function(c) c:kill() end,
             {description = "close", group = "client"}
         ),
         awful.key(
-            {"Control", "Shift"}, "space",
+            {modkey, "Shift"}, "space",
             function(c)
                 c.floating = not c.floating
                 if c.floating then

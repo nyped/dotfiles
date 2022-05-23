@@ -354,9 +354,6 @@ local taglist_buttons = gears.table.join(
 
 -- {{{
 screen.connect_signal("request::desktop_decoration", function(s)
-    -- keyboard
-    awful.util.spawn(script_path.."keyboard -e")
-
     -- {{{ tags
     awful.tag.add("1", {
         icon               = "web.svg",
