@@ -87,8 +87,12 @@ export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststat
 # qt dark theme
 export QT_QPA_PLATFORMTHEME=qt5ct
 
-# firefox
-export LIBVA_DRIVER_NAME=i965
+# firefo
+if [[ $HOST == iron ]]; then
+  export LIBVA_DRIVER_NAME=radeonsi
+else
+  export LIBVA_DRIVER_NAME=i965
+fi
 export MOZ_X11_EGL=1
 export MOZ_USE_XINPUT2=1
 
