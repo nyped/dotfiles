@@ -56,11 +56,7 @@ source ~/.zsh/aliasrc
 source ~/.zsh/functions.sh
 
 # prompt
-source ~/.zsh/git.zsh
 source ~/.zsh/simple.zsh-theme
-
-# title update when resize
-trap precmd WINCH
 
 # Colors, theme stuff
 source ~/.id
@@ -87,7 +83,7 @@ export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststat
 # qt dark theme
 export QT_QPA_PLATFORMTHEME=qt5ct
 
-# firefo
+# firefox
 if [[ $HOST == iron ]]; then
   export LIBVA_DRIVER_NAME=radeonsi
 else
@@ -126,4 +122,4 @@ if [[ $(tty) = /dev/tty1 ]]; then
   exec startx
 fi
 
-# vim: set ts=2 sts=2 sw=2 et :
+# vim: set ft=zsh ts=2 sts=2 sw=2 et :

@@ -2,7 +2,7 @@
 
 # theme
 color() {
-  (~/bin/color "$1")
+  ~/bin/color $1
 }
 
 # translation
@@ -30,7 +30,7 @@ echo usage: [OUT | HI | IN] pan <file>
 EOF
     return 1
   }
-  var="${1%.*}"
+  local var="${1%.*}"
   pandoc ${PAN_EXTRA} --highlight-style="${HI:-tango}" -so "$var"."${OUT:-pdf}" "$var"."${IN:-md}"
 }
 
@@ -47,6 +47,8 @@ lyrics() {
 }
 
 genius() {
+  local artist title
+
   [[ $# != 2 ]] && {
     song | IFS=- read artist title
   } || {
@@ -58,12 +60,15 @@ genius() {
 }
 
 lyr() {
+  local artist title
+
   song | IFS=- read artist title
   lyrics "$artist" "$title"
 }
 
 open() {
   local opener
+
   while [[ $# != 0 ]]; do
     if [[ ${1##*.} = pdf ]]; then
       opener=zathura
@@ -95,6 +100,8 @@ evomer() {
   echo usage: \[F=pat1\] \[R=pat2\] evomer \<files\> >&2 && \
   return 1
 
+  local tmp
+
   for i in $* ; do
     tmp=${i//${F:= }/${R}}
     [[ "$tmp" == "$i" ]] && continue
@@ -121,38 +128,42 @@ mount_dev() {
 }
 
 rm_orphans() {
-  orphans="$(pacman -Qqtd)"
+  local orphans="$(pacman -Qqtd)"
+
   echo "Removing: $orphans"
   echo $orphans | sudo pacman -Rns -
 }
 
-function show_path_shell() {
-  if [[ ${#PWD} -gt "$(($COLUMNS/2))" ]]; then
-    if [[ ${#PWD:t} -gt "$(($COLUMNS/2))" ]]; then
-      # fish like wd but with shrinked tail
-      echo \ \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}}//\/~/\~}/${${PWD:t}:0:10}%b...%B${${PWD:t}:$((${#PWD:t}-10)):10}
-    else
-      # fish like wd with expanded tail
-      echo \ \%B${${:-/${(j:/:)${(M)${(s:/:)${(D)PWD:h}}#(|.)[^.]}}/${PWD:t}}//\/~/\~}
-    fi
-  else
-    # full size wd (ommit home dir)
-    echo \ \%B%~
-  fi
-}
-
-preexec () {
+function _update_title() {
   # change the title of the window
   # when running a command
-  local cmd=$2
-  print -Pn "\e]0;$cmd\a"
+  local CMD TITLE_BEG TITLE_END BOLD
+
+  CMD="$2"
+  TITLE_BEG="\e]0;"
+  TITLE_END="\a"
+  BOLD="\033[1m"
+
+  print -Pn "$TITLE_BEG$BOLD$CMD\a$TITLE_END"
 }
 
-precmd() {
-  # restore window title when command
-  # is done
-  printf "\033[4 q"
-  print -Pn "\e]0;$(show_path_shell)\a"
+function _restore_title_cursor() {
+  local UNDERSCORE TITLE_BEG TITLE_END _PWD
+
+  UNDERSCORE="\033[4 q"
+  TITLE_BEG="\e]0;"
+  TITLE_END="\a"
+  BOLD="\033[1m"
+  _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
+
+  print -Pn "$UNDERSCORE$TITLE_BEG$BOLD$_PWD$TITLE_END"
 }
 
-# vim: set ts=2 sts=2 sw=2 ft=sh et :
+() {
+  autoload -U add-zsh-hook
+
+  add-zsh-hook preexec _update_title
+  add-zsh-hook precmd _restore_title_cursor
+}
+
+# vim: set ts=2 sts=2 sw=2 ft=zsh et :
