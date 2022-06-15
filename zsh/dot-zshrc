@@ -16,10 +16,6 @@ setopt autocd \
 
 unsetopt beep
 
-# colors
-autoload -U colors
-colors
-
 # keybinds
 bindkey -e
 bindkey "^U" backward-kill-line
@@ -51,8 +47,10 @@ autoload -U select-word-style
 select-word-style bash
 export WORDCHARS='.-'
 
-# workflow
+# aliases
 source ~/.zsh/aliasrc
+
+# functions
 source ~/.zsh/functions.sh
 
 # prompt

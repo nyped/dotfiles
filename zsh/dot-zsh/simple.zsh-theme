@@ -1,9 +1,8 @@
 #!/usr/bin/env zsh
 # Inspired by:
 # github.com/ericfreese/zsh-efgit-prompt/blob/master/prompt_efgit_setup
-# stackoverflow.com/questions/10564314/count-length-of-user-visible-string-for-zsh-prompt
 
-setopt PROMPT_SUBST
+setopt PROMPT_SUBST KSH_GLOB
 
 # git prompt
 () {
@@ -14,21 +13,20 @@ setopt PROMPT_SUBST
 
   # stolen from omz
   function git_current_branch() {
-    local ref=$(__git symbolic-ref --quiet HEAD 2> /dev/null)
-    local ret=$?
-    if [[ $ret != 0 ]]; then
-      [[ $ret == 128 ]] && return
-      ref=$(__git rev-parse --short HEAD 2> /dev/null) || return
-    fi
-    echo ${ref#refs/heads/}
+    local ref
+    ref="$(__git symbolic-ref --quiet HEAD 2>/dev/null)" || {
+      # detached
+      ref=$(__git rev-parse --short HEAD 2>/dev/null) || return
+    }
+    echo -n ${ref#refs/heads/}
   }
 
-  _SYM_AHEAD="%{$fg[magenta]%}▲"
-  _SYM_BEHIND="%{$fg[blue]%}▼"
-  _SYM_STAGED="%{$fg[blue]%}"
-  _SYM_UNSTAGED="%{$fg[red]%}"
-  _SYM_UNTRACKED="%{$fg[cyan]%}"
-  _SYM_UNMERGED="%{$fg[red]%}✕"
+  _SYM_AHEAD="%F{magenta}▲"
+  _SYM_BEHIND="%F{blue}▼"
+  _SYM_STAGED="%F{blue}"
+  _SYM_UNSTAGED="%F{red}"
+  _SYM_UNTRACKED="%F{cyan}"
+  _SYM_UNMERGED="%F{red}✕"
 
   # parse git infos
   function my_git_prompt() {
@@ -67,20 +65,20 @@ setopt PROMPT_SUBST
     [[ -n $unmerged  ]] && STATUS+="$_SYM_UNMERGED"
     [[ -n $STATUS    ]] && STATUS="($STATUS%f)%b"
 
-    echo " on %B$BRANCH$STATUS%f%b"
+    echo -n " on %B$BRANCH$STATUS%f%b"
   }
 }
 
 # ssh connection
 () {
-  [[ -n $SSH_CONNECTION ]] && _SSH="%{$fg_bold[red]%}(SSH) %k%f"
+  [[ -n $SSH_CONNECTION ]] && _SSH="%F{red}(SSH) %k%f"
 }
 
 # path function
 () {
-  _PWD_PATH_COLOR="%{$fg[blue]%}"
-  _PWD_PRE="in %B"
-  _PWD_POST="%b"
+  _PWD_PATH_COLOR="%B%F{blue}"
+  _PWD_PRE="in "
+  _PWD_POST="%b%f"
 
   function show_path() {
     local _PWD
@@ -97,7 +95,6 @@ setopt PROMPT_SUBST
 
 # timer
 () {
-  _TIMER_FG=
   _TIMER_PRECISION=2 # number > 0
   _TIMER_MIN_S=0
   _TIMER_MIN_MS=1
@@ -134,82 +131,122 @@ setopt PROMPT_SUBST
     # Pad time if too short
     (( ${#_prompt_time} < pp1 )) && _prompt_time=${(l:$pp1::0:)_prompt_time}
 
-    # TODO: convert in minute also
     s=${_prompt_time:0:-$_TIMER_PRECISION}
     ms=${_prompt_time#$s}
 
-    (( s > _TIMER_MIN_S || (s == _TIMER_MIN_S && ms > ${(r:$_TIMER_PRECISION::0:)_TIMER_MIN_MS}) )) && \
-      echo -n " took %B${_TIMER_FG}${s}.${ms}%bs"
+    (( s > _TIMER_MIN_S
+      || (s == _TIMER_MIN_S && ms > ${(r:$_TIMER_PRECISION::0:)_TIMER_MIN_MS}) )) && {
+      local -i min mimutes
+      (( min = s / 60 ))
+      (( s = s % 60 ))
+      (( min > 0 )) && minutes="${min}%bmin %B"
+      echo -n " took %B%F{cyan}${minutes}${s}.${ms}%bs%f"
+    }
   }
 }
 
-# prompt with async git
+# Prompt update function
 () {
-  _BAD_RETURN="%(?.. yielded %B%{$fg[red]%}%?%b)"
-  _BG_JOB="%1(j. with %B%{$fg[blue]%}jobs%b.)"
-  _BAD_RETURN="%(?.. yielded %B%{$fg[red]%}%?%b)"
-  _PROMPT_SYM='%B%(?..%{$fg[red]%}>)> %b'
+  _BG_JOB="%1(j. with %B%F{green}jobs%b%f.)"
+  _BAD_RETURN="%(?.. returned %B%F{red}%?%b%f)"
+  _PROMPT_SYM='%B%(?..%F{red}>)> %b%f'
 
-  [[ $USER == root ]] && _USER="%B%{$fg[red]%}root%b "
+  [[ $USER == root ]] && _USER="%B%F{red}root%b "
 
   # update prompt vars
   function _update_prompt() {
-    typeset -g _git_info="$1" _prompt_time
+    typeset -g _async_prompt_part _bad_return _bg_job
+
+    case "$1" in
+      reset)
+        _async_prompt_part=
+        ;;
+
+      update)
+        _async_prompt_part+="$2"
+        ;;
+
+      *)
+        return
+        ;;
+    esac
 
     function _len() {
-      local zero='%([BSUbfksu]|([FK]|){*})'
-      echo ${#${(S%%)1//$~zero/}}
+      echo -n "${#${${(%S)1}//[[:cntrl:]]'['+([[:digit:]])[[:alpha:]]/}}"
     }
 
     local -a _contents=(
       "$_USER"
       "$_prompt_wd"
-      "$_git_info"
-      "$_BAD_RETURN"
-      "$_BG_JOB"
+      "$_async_prompt_part"
+      "$_bad_return"
+      "$_bg_job"
       "$(_timer)"
     )
 
     RPROMPT=
     PROMPT=$'\n'
 
+    local -i lp=0 lc
     for content in ${_contents[@]}; {
-      (( $(_len "$PROMPT") + $(_len "$content") > COLUMNS )) \
-        && RPROMPT+="$content" \
-        || PROMPT+="$content"
+      lc=$(_len "$content")
+      if (( lp + lc <= COLUMNS )); then
+        PROMPT+="$content"
+        (( lp+=lc ))
+      else
+        RPROMPT+="$content"
+      fi
     }
 
     PROMPT+=$'\n'
     PROMPT+="$_SSH"
     PROMPT+="$_PROMPT_SYM"
   }
+}
 
-  # zle prompt worker
-  function _get_git_response() {
-    typeset -g _prompt_git_fd
+# Async tools
+() {
+  typeset -g -a _async_hooks
 
-    _update_prompt "$(<&$1)"
+  function _async_worker() {
+    typeset -g _async_fd
+
+    _update_prompt update "$(<&$1)"
     zle reset-prompt
 
-    zle -F $1
-    exec {1}<&-
-    unset _prompt_git_fd
+    zle -F $_async_fd
+    exec {_async_fd}<&-
+    unset _async_fd
   }
 
-  # prompt update
-  function _prompt_precmd() {
-    typeset -g _prompt_git_fd
+  function _hooks_caller() {
+    for func in ${_async_hooks[@]}; {
+      $func
+    }
+  }
 
-    _update_prompt
+  function _prompt_async_precmd() {
+    typeset -g _async_fd
 
-    [[ -n $_prompt_git_fd ]] && {
-      zle -F $_prompt_git_fd
-      exec {_prompt_git_fd}<&-
+    # Reset the prompt
+    _update_prompt reset
+
+    [[ -n $_async_fd ]] && {
+      zle -F $_async_fd
+      exec {_async_fd}<&-
+      unset _async_fd
     }
 
-    exec {_prompt_git_fd}< <(my_git_prompt)
-    zle -F $_prompt_git_fd _get_git_response
+    # Call all the hooks
+    exec {_async_fd}< <(_hooks_caller)
+    zle -F $_async_fd _async_worker
   }
+
+  function _add_async_hook() {
+    _async_hooks+="$1"
+  }
+
+  _add_async_hook my_git_prompt
 }
 
 # fish pwd update
@@ -220,16 +257,26 @@ function _update_wd() {
 # resize hook
 function _prompt_winch_redraw() {
   _update_wd
-  _update_prompt "$_git_info"
+  _update_prompt update
   zle reset-prompt
 }
 
 # clear hook
 function _clear() {
   unset _prompt_time
-  _prompt_precmd
   zle clear-screen
-  zle reset-prompt
+  # Update git
+  _prompt_async_precmd
+}
+
+# Update zsh conditionnal
+function _update_cond_expr() {
+  typeset -g _bad_return="${(%)_BAD_RETURN}"
+  typeset -g _bg_job="${(%)_BG_JOB}"
+
+  # Adding lenght informations
+  _bad_return="%$(_len "$_bad_return"){${_bad_return}%}"
+  _bg_job="%$(_len "$_bg_job"){${_bg_job}%}"
 }
 
 # init
@@ -237,7 +284,8 @@ function _clear() {
   _update_wd
 
   autoload -U add-zsh-hook
-  add-zsh-hook precmd  _prompt_precmd
+  add-zsh-hook precmd  _prompt_async_precmd
+  add-zsh-hook precmd  _update_cond_expr
   add-zsh-hook chpwd   _update_wd
   add-zsh-hook preexec _timer_start
   add-zsh-hook precmd  _timer_end
