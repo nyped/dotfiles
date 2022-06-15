@@ -9,7 +9,6 @@ local popup_height = dpi(75)
 local popup_width  = dpi(300)
 
 local popup = wibox {
-    screen  = screen.primary,
     x       = 50, -- Junk values
     y       = 50, -- Will be set later
     width   = popup_width,

@@ -495,7 +495,7 @@ end)
 client.connect_signal("request::default_keybindings", function()
     awful.keyboard.append_client_keybindings({
         awful.key(
-            {modkey}, "Escape",
+            {"Mod1"}, "Escape",
             function(c)
                 if c.fullscreen then
                     -- Restore old floating state
@@ -578,6 +578,48 @@ client.connect_signal("request::default_keybindings", function()
             {description = "restore minimized", group = "client"}
         )
     })
+
+    local dir_map = {
+        h = {-10,  0, -0.02},
+        j = {0,  -10, -0.02},
+        k = {0,   10,  0.02},
+        l = {10,   0,  0.02},
+    }
+    for dir, val in pairs(dir_map) do
+        awful.keyboard.append_client_keybinding(
+            awful.key(
+                {modkey, "Shift"}, dir,
+                function(c)
+                    -- Fullscreen
+                    if c.fullscreen then
+                        return
+                    end
+
+                    -- Floating
+                    if c.floating then
+                        c:relative_move(nil, nil, val[1], val[2])
+                        return
+                    end
+
+                    -- Tiled
+                    local layout = awful.layout.get(awful.screen.focused())
+                    local vertical_tiling = (
+                        layout == awful.layout.suit.tile
+                        or layout == awful.layout.suit.tile.left
+                    )
+                    -- Swapped branched when tiled horizontally
+                    if vertical_tiling and (dir == "h" or dir == "l")
+                        or not vertical_tiling and (dir == "j" or dir == "k")
+                    then
+                        awful.tag.incmwfact(val[3])
+                    else
+                        awful.client.incwfact(val[3])
+                    end
+                end,
+                {description = "resize window "..dir, group = "client"}
+            )
+        )
+    end
 end)
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
