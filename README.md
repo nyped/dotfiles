@@ -3,9 +3,5 @@
 ## Usage
 
 ```bash
-# installation
-./manage.sh
-
-# uninstallation :c
-./manage.sh --uninstall
+./manage.sh -h
 ```
