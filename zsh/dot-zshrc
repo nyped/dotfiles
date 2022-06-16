@@ -19,6 +19,13 @@ unsetopt beep
 # keybinds
 bindkey -e
 bindkey "^U" backward-kill-line
+function _zle_ls() {
+  zle push-line
+  BUFFER=ls
+  zle accept-line
+}
+zle -N _zle_ls
+bindkey '^[l' _zle_ls
 
 # tab completion
 eval "$(dircolors)"
