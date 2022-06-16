@@ -377,7 +377,22 @@ screen.connect_signal("request::desktop_decoration", function(s)
     -- }}}
 
     -- {{{ textclock
-    s.mytextclock = wibox.widget.textclock("%A %d %b, %r", 1)
+    local clock = wibox.widget {
+        refresh = 1,
+        format_normal = '%r',
+        format_alt = '%A %d %b, %r',
+        widget = wibox.widget.textclock
+    }
+    clock.next_state = function()
+        if clock.format == clock.format_normal then
+            clock.format = clock.format_alt
+        else
+            clock.format = clock.format_normal
+        end
+    end
+    clock:next_state()  -- init
+    clock:add_button(awful.button({ }, 1, clock.next_state))
+    s.mytextclock = clock
     -- }}}
 
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
