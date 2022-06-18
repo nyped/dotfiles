@@ -150,8 +150,7 @@ setopt PROMPT_SUBST KSH_GLOB
   _BG_JOB="%1(j. with %B%F{green}jobs%b%f.)"
   _BAD_RETURN="%(?.. returned %B%F{red}%?%b%f)"
   _PROMPT_SYM='%B%(?..%F{red}>)> %b%f'
-
-  [[ $USER == root ]] && _USER="%B%F{red}root%b "
+  _USER="%(!.%B%F{red}root%b .)"
 
   # update prompt vars
   function _update_prompt() {
@@ -258,7 +257,7 @@ function _update_wd() {
 function _prompt_winch_redraw() {
   _update_wd
   _update_prompt update
-  zle reset-prompt
+  zle && zle reset-prompt  # Only if active
 }
 
 # clear hook

@@ -54,17 +54,16 @@ autoload -U select-word-style
 select-word-style bash
 export WORDCHARS='.-'
 
-# aliases
-source ~/.zsh/aliasrc
+to_source=(
+  ~/.zsh/aliasrc
+  ~/.zsh/functions.sh
+  ~/.zsh/simple.zsh-theme
+  ~/.id
+)
 
-# functions
-source ~/.zsh/functions.sh
-
-# prompt
-source ~/.zsh/simple.zsh-theme
-
-# Colors, theme stuff
-source ~/.id
+for i in ${to_source[@]}; {
+  [[ -e $i ]] && source "$i"
+}
 
 # man and pager stuff
 export LESS=-r\ --mouse\ --wheel-lines=2
@@ -123,7 +122,7 @@ if [[ -e /etc/profile.d/vte.sh ]]; then
 fi
 
 # auto startx on TTY1
-if [[ $(tty) = /dev/tty1 ]]; then
+if [[ $(tty) = /dev/tty1 && "$(whoami)" != root ]]; then
   exec startx
 fi
 
