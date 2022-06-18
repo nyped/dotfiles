@@ -150,7 +150,7 @@ setopt PROMPT_SUBST KSH_GLOB
   _BG_JOB="%1(j. with %B%F{green}jobs%b%f.)"
   _BAD_RETURN="%(?.. returned %B%F{red}%?%b%f)"
   _PROMPT_SYM='%B%(?..%F{red}>)> %b%f'
-  _USER="%(!.%B%F{red}root%b .)"
+  _USER="%(!.%B%F{red}root%b%f .)"
 
   # update prompt vars
   function _update_prompt() {
