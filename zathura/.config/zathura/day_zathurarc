@@ -18,6 +18,6 @@ set recolor
 set recolor-keephue
 set recolor-lightcolor "rgba(253,246,227,0)"
 set recolor-darkcolor "#000000"
-set default-bg "rgba(253,246,227,0.95)"
-map b set default-bg\ "rgba(255,255,255,1)"
-map B set default-bg\ "rgba(253,246,227,0.95)"
+set default-bg "rgba(253,246,227,255)"
+map b set default-bg\ "rgba(255,255,255,255)"
+map B set default-bg\ "rgba(253,246,227,255)"
