@@ -1,76 +1,128 @@
 #!/usr/bin/env bash
+# Two monitor setup script
 
 usage() {
     cat << _HELPTXT
-Usage: ${0##*/} [--help | -h | --dock | -d | --multi | -m | --laptop | -l]
+Usage: ${0##*/} cmd [args]
+
+available commands:
 -d, --dock      output on external monitor only
 -l, --laptop    output on laptop screen only
 -m, --multi     output on external monitor and laptop screen
 -r, --replicate output the same image on laptop and external monitor
 -h, --help      show this message
+
+available arguments:
+-s, --scale S   scale of the external monitor
+-1, --output1 O
+-2, --output2 O
 _HELPTXT
 }
 
-# bruh different names...
-if [[ $HOSTNAME == iron ]]; then
-  external=HDMI-A-0
-  external_scale=1.25x1.25
-  laptop1=eDP
-  laptop2=LVDS
-else
-  external=HDMI1
-  external_scale=1x1
-  laptop1=eDP1
-  laptop2=LVDS1
-fi
+check_non_empty() {
+  [[ -z $1 ]] && {
+    usage >&2
+    exit 1
+  }
+}
 
-case "$1" in
-  -h | --help)
-    usage
-    exit 0
-  ;;
+# Default values
+monitors=($(xrandr --query | awk '{if ($2 == "connected") print $1}'))
+laptop="${monitors[0]}" external="${monitors[1]}"
+case "$laptop" in
+  *DP*) external_scale=1.25x1.25;;
+  *)    external_scale=1x1;;
+esac
 
-  -d | --dock) # laptop monitor off (dock)
+# Parsing arguments
+while [[ -n $1 ]]; do
+  case "$1" in
+    -d | --dock) # laptop monitor off (dock)
+      cmd=dock
+      ;;
+
+    -m | --multi) # multi head
+      cmd=multi
+      ;;
+
+    -l | --laptop) # laptop only
+      cmd=laptop
+      ;;
+
+    -r | --replicate) # Duplicate
+      cmd=replicate
+      ;;
+
+    -s | --scale)
+      shift
+      check_non_empty "$1"
+      external_scale="$1"
+      ;;
+
+    -1 | --output1)
+      shift
+      check_non_empty "$1"
+      laptop="$1"
+      ;;
+
+    -2 | --output2)
+      shift
+      check_non_empty "$1"
+      external="$1"
+      ;;
+
+    -h | --help)
+      usage
+      exit 0
+      ;;
+
+    *) # Command not found
+      usage >&2
+      exit 3
+      ;;
+  esac
+
+  shift
+done
+
+# Action
+case "$cmd" in
+  dock) # laptop monitor off (dock)
     xrandr \
-      --output  $laptop1 --off \
-      --output $laptop2 --off \
+      --output $laptop --off \
       --output $external --auto \
       --scale $external_scale \
       &>/dev/null
-  ;;
+    ;;
 
-  -m | --multi) # multi head
+  multi) # multi head
     xrandr \
-      --output $laptop2 --auto --scale 1x1 --primary --left-of $external \
-      --output $laptop1 --auto --scale 1x1 --primary --left-of $external \
+      --output $laptop --auto --scale 1x1 --primary --left-of $external \
       --output $external --auto --scale $external_scale \
       &>/dev/null
     # cursor flickering fix
-    for output in $laptop1 $laptop2; do
-      xrandr --output $output --set TearFree on &>/dev/null
-    done
-  ;;
+    xrandr --output $laptop --set TearFree on &>/dev/null
+    ;;
 
-  -l | --laptop) # laptop only
+  laptop) # laptop only
     # moving windows
     xrandr \
       --output $external --off \
-      --output $laptop2 --auto \
-      --output  $laptop1 --auto \
+      --output $laptop --auto \
       &>/dev/null
-  ;;
+    ;;
 
-  -r | --replicate) # Duplicate
-  xrandr \
+  replicate) # Duplicate
+    xrandr \
       --output eDP --mode 1920x1080 --primary \
       --output HDMI-A-0 --mode 1920x1080 --same-as eDP --scale-from 1920x1080 \
       &>/dev/null
-  ;;
+    ;;
 
   *)
-    usage
-    exit 255
-  ;;
+    usage >&2
+    exit 2
+    ;;
 esac
 
 # vim:set ts=8 sts=2 sw=2 et:

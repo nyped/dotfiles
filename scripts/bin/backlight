@@ -76,7 +76,21 @@ case "$DEV" in
   ;;
 
   monitor)
-    RET=$(ddccontrol dev:/dev/i2c-5 -r $ADDRESS -W $DDC_VAL 2>/dev/null | awk -F'/' 'END {print $2}')
+    # Finding the device. Monkey guess since ddccontrol -p takes 2s to find the dev
+    case "$(xrandr --query | awk '{if ($2 == "connected") print $1}')" in
+      *HDMI*)
+        DEVICE=dev:/dev/i2c-5
+        ;;
+
+      *DisplayPort*)
+        DEVICE=dev:/dev/i2c-8
+        ;;
+
+      *) # Bruh, take a coffee
+        DEVICE=-p
+        ;;
+    esac
+    RET=$(ddccontrol $DEVICE -r $ADDRESS -W $DDC_VAL 2>/dev/null | awk -F'/' 'END {print $2}')
   ;;
 esac
 
