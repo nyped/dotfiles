@@ -134,10 +134,15 @@ rm_orphans() {
   echo $orphans | sudo pacman -Rns -
 }
 
+function _in_tty() [[ $(tty) == *tty* ]]
+function _in_vim() [[ -n $VIMRUNTIME ]]
+
 function _update_title() {
   # change the title of the window
   # when running a command
   local CMD TITLE_BEG TITLE_END BOLD
+
+  {_in_tty || _in_vim} && return
 
   CMD="$2"
   TITLE_BEG="\e]0;"
@@ -149,6 +154,8 @@ function _update_title() {
 
 function _restore_title_cursor() {
   local UNDERSCORE TITLE_BEG TITLE_END _PWD
+
+  {_in_tty || _in_vim} && return
 
   UNDERSCORE="\033[4 q"
   TITLE_BEG="\e]0;"
