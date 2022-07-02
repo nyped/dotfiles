@@ -194,12 +194,17 @@ local function update_bluelevel_laptop(percentage_inc)
     awesome.emit_signal("screen_bluelight_change", bluelevel_laptop)
 end
 
+-- Monitor test
+local function is_builtin_output()
+    local out = awful.screen.focused().outputs
+    return out["LVDS"] or out["LVDS1"] or out["eDP"]
+end
+
 local brightness_buttons = {
     awful.button {
         button = 5,
         on_press = function()
-            local out = awful.screen.focused().outputs
-            if out["HDMI1"] or out["HDMI-A-0"] then
+            if not is_builtin_output() then
                 update_backlight(
                     script_path.."backlight -m -d 5%",
                     "screen_backlight_change")
@@ -213,8 +218,7 @@ local brightness_buttons = {
     awful.button {
         button = 4,
         on_press = function()
-            local out = awful.screen.focused().outputs
-            if out["HDMI1"] or out["HDMI-A-0"] then
+            if not is_builtin_output() then
                 update_backlight(
                     script_path.."backlight -m -i 5%",
                     "screen_backlight_change")
@@ -228,8 +232,7 @@ local brightness_buttons = {
     awful.button {
         button = 3,
         on_press = function()
-            local out = awful.screen.focused().outputs
-            if out["HDMI1"] or out["HDMI-A-0"] then
+            if not is_builtin_output() then
                 update_backlight(
                     script_path.."backlight -b -i 5%",
                     "screen_bluelight_change")
@@ -247,8 +250,7 @@ local brightness_buttons = {
     awful.button {
         button = 1,
         on_press = function()
-            local out = awful.screen.focused().outputs
-            if out["HDMI1"] or out["HDMI-A-0"] then
+            if not is_builtin_output() then
                 update_backlight(
                     script_path.."backlight -b -d 5%",
                     "screen_bluelight_change")
