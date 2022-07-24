@@ -37,7 +37,6 @@ end
 
 -- The popup itself
 local popup = wibox {
-    screen  = screen,
     x       = dpi(10),
     y       = beautiful.wibar_height + dpi(10),
     bg      = "#00000000", -- for anti-aliasing

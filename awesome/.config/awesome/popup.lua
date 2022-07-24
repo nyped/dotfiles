@@ -52,7 +52,6 @@ end)
 
 -- The popup itself
 local popup = wibox {
-    screen  = screen,
     x       = screen.geometry.width/2  - box_width/2,
     y       = 8*screen.geometry.height/10 - box_height/2,
     width   = box_width,

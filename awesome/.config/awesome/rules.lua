@@ -77,7 +77,7 @@ ruled.client.connect_signal("request::rules", function()
     }
     ruled.client.append_rule {
         rule = { class = "libreoffice*" },
-        properties = { tag = "7" }
+        properties = { tag = "7", floating = false }
     }
     ruled.client.append_rule {
         rule = { class = "discord" },

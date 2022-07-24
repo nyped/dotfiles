@@ -255,7 +255,6 @@ local panel_width = dpi(250)
 local panel_heigth = dpi(750)
 
 local panel = wibox {
-    screen  = screen,
     x       = 50, -- Junk values
     y       = 50, -- Will be set later mebbe
     width   = panel_width,
