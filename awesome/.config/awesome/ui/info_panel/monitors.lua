@@ -1,4 +1,4 @@
-local helpers = require("helpers")
+local helpers = require("ui.helpers")
 local wibox   = require("wibox")
 local awful   = require("awful")
 local beautiful = require("beautiful")

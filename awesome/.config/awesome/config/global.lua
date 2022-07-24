@@ -48,7 +48,4 @@ mylauncher = awful.widget.launcher({
 menubar.utils.terminal = terminal
 -- }}}
 
--- Spotlight
-spotlight = require("spotlight")
-
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

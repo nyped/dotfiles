@@ -87,7 +87,7 @@ theme.taglist_fg_focus  = "#808080"
 theme.taglist_bg_focus  = "#223238"
 theme.taglist_bg_urgent = "#e53935"
 
-theme.icon_path = "/home/lenny/.config/awesome/assets/"
+theme.icon_path = "/home/lenny/.config/awesome/theme/assets/"
 
 theme.theme = {
     day = {
@@ -174,7 +174,7 @@ theme.overline_color = "#808080"
 
 theme.wallpaper = "/home/lenny/Pictures/wallpaper.png"
 
-local layout_path = "/home/lenny/.config/awesome/assets/layouts/"
+local layout_path = "/home/lenny/.config/awesome/theme/assets/layouts/"
 
 -- {{{ Calendar stuff
 theme.calendar_year_bg_color       = "#e4e4e4"

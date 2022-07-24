@@ -66,7 +66,7 @@ local player_script = [[
         playerctl --follow metadata --format $key | {
           while IFS='|' read -r status url title; do
             if [ -z \"$url\" ]; then
-              cover=/home/lenny/dotfiles/awesome/assets/player/cover.png
+              cover=/home/lenny/dotfiles/awesome/theme/assets/player/cover.png
             else
               curl -sL \"$url\" -o $destination &>/dev/null
               cover=$destination

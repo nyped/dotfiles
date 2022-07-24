@@ -1,7 +1,7 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
-local helpers   = require("helpers")
+local helpers   = require("ui.helpers")
 local beautiful = require("beautiful")
 local dpi       = beautiful.xresources.apply_dpi
 
@@ -82,6 +82,6 @@ function popup:run()
     myprompt:run()
 end
 
-return popup
+awesome.connect_signal("spotlight_show", popup.run)
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

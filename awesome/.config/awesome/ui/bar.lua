@@ -3,7 +3,7 @@ local awful     = require("awful")
 local wibox     = require("wibox")
 local dpi       = require("beautiful.xresources").apply_dpi
 local beautiful = require("beautiful")
-local helpers   = require("helpers")
+local helpers   = require("ui.helpers")
 
 -- Connect an imagebox to theme_change signal
 local function connect_theme(imagebox_wdg)
@@ -17,13 +17,10 @@ end
 -- {{{
 local class = wibox.widget.textbox()
 
--- opens panel when clicked
-local panel = require("panel")
-
 class.buttons = {
     awful.button {
         button = 1,
-        on_press = function () panel:toggle() end
+        on_press = function () awesome.emit_signal("panel_toggle") end
     }
 }
 

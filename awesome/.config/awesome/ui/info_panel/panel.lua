@@ -2,7 +2,7 @@ local beautiful = require("beautiful")
 local wibox     = require("wibox")
 local gears     = require("gears")
 local awful     = require("awful")
-local helpers   = require("helpers")
+local helpers   = require("ui.helpers")
 local screen    = screen.primary
 local dpi       = beautiful.xresources.apply_dpi
 local centered  = helpers.centered
@@ -223,7 +223,7 @@ local weather = helpers.themed(
 -- }}}
 
 -- {{{ Button line
-local monitor_popup = require("monitors")
+local monitor_popup = require("ui.info_panel.monitors")
 
 local suspend  = helpers.create_button_widget("鈴",
                         helpers.spawner("systemctl suspend"),
@@ -315,6 +315,6 @@ tag.connect_signal("property::selected", function(_)
 end)
 -- }}}
 
-return panel
+awesome.connect_signal("panel_toggle", panel.toggle)
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
