@@ -116,11 +116,6 @@ if [[ -f $hi ]]; then
   export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
 fi
 
-# new terminal tabs keep the same wd
-if [[ -e /etc/profile.d/vte.sh ]]; then
-  . /etc/profile.d/vte.sh
-fi
-
 # auto startx on TTY1
 if [[ $(tty) = /dev/tty1 && "$(whoami)" != root ]]; then
   exec startx
