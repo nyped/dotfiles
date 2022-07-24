@@ -8,11 +8,4 @@ xset s off
 xset s noblank
 xbindkeys &
 
-# setting keyboard layout
-internal_kb="AT Translated Set 2 keyboard"
-setxkbmap \
-	-option caps:backspace \
-	-device $(xinput --list --id-only "$internal_kb")
-setxkbmap -option compose:menu
-
 exec awesome
