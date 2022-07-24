@@ -146,11 +146,16 @@ Plug 'unblevable/quick-scope'
 Plug 'preservim/nerdtree'
 Plug 'airblade/vim-gitgutter'
 Plug 'chrisbra/Colorizer'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'vimsence/vimsence'
 Plug 'fladson/vim-kitty'
 Plug 'elkowar/yuck.vim'
 Plug 'Yggdroot/indentLine'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'hrsh7th/nvim-cmp'         " Autocompletion plugin
+Plug 'hrsh7th/cmp-nvim-lsp'     " LSP source for nvim-cmp
+Plug 'saadparwaiz1/cmp_luasnip' " Snippets source for nvim-cmp
+Plug 'L3MON4D3/LuaSnip'         " Snippets plugin
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 call plug#end()
 "
 " rainbow settings
@@ -279,25 +284,11 @@ augroup end
 "
 :set fillchars=stl:―,stlnc:―
 "
-" coc vim
+" lua stuff
 "
-" use <tab> for trigger completion and navigate to the next complete item
-function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-inoremap <silent><expr> <Tab>
-	\ pumvisible() ? "\<C-n>" :
-	\ <SID>check_back_space() ? "\<Tab>" :
-	\ coc#refresh()
-" use shift tab navigate backwards
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"
-" vimsence
-"
-let g:vimsence_client_id = '783349650148950076'
-let g:vimsence_small_text = 'neovim'
-let g:vimsence_small_image = 'neovim'
+:lua require("complete_conf")
+:lua require("lsp_conf")
+:lua require("ts_conf")
 "
 " indentline
 "
