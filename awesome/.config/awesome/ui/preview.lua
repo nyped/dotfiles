@@ -1,11 +1,11 @@
 local beautiful = require("beautiful")
-local wibox     = require("wibox")
-local awful     = require("awful")
-local gears     = require("gears")
-local helpers   = require("ui.helpers")
-local dpi       = beautiful.xresources.apply_dpi
-local screen    = screen.primary
-local cairo     = require("lgi").cairo
+local wibox = require("wibox")
+local awful = require("awful")
+local gears = require("gears")
+local helpers = require("ui.helpers")
+local dpi = beautiful.xresources.apply_dpi
+local screen = screen.primary
+local cairo = require("lgi").cairo
 
 -- Preview of a client a one scale
 local function preview(c, scale)
@@ -15,35 +15,35 @@ local function preview(c, scale)
     else
         content = gears.surface(c.old_content)
     end
-    local img = cairo.ImageSurface.create(
-                    cairo.Format.ARGB32, c.width, c.height)
+    local img =
+        cairo.ImageSurface.create(cairo.Format.ARGB32, c.width, c.height)
     cr = cairo.Context(img)
     cr:set_source_surface(content)
     cr:paint()
 
-    return wibox.widget {
+    return wibox.widget({
         {
             image = gears.surface.load(img),
             resize = true,
             forced_height = math.floor(c.height * scale),
-            forced_width  = math.floor(c.width * scale),
-            widget = wibox.widget.imagebox
+            forced_width = math.floor(c.width * scale),
+            widget = wibox.widget.imagebox,
         },
         margins = 1,
-        color   = beautiful.border_normal,
-        layout  = wibox.container.margin
-    }
+        color = beautiful.border_normal,
+        layout = wibox.container.margin,
+    })
 end
 
 -- The popup itself
-local popup = wibox {
-    x       = dpi(10),
-    y       = beautiful.wibar_height + dpi(10),
-    bg      = "#00000000", -- for anti-aliasing
-    type    = "tooltip",
+local popup = wibox({
+    x = dpi(10),
+    y = beautiful.wibar_height + dpi(10),
+    bg = "#00000000", -- for anti-aliasing
+    type = "tooltip",
     visible = false,
-    ontop   = true,
-}
+    ontop = true,
+})
 
 -- Support drag
 --  popup:buttons(gears.table.join(
@@ -59,21 +59,21 @@ function popup:update(tag)
     collectgarbage("collect")
     -- Screen size
     local fallback_padding = {
-        left   = 0,
-        right  = 0,
-        top    = 0,
-        bottom = 0
+        left = 0,
+        right = 0,
+        top = 0,
+        bottom = 0,
     }
     tag.padding = tag.padding or fallback_padding
-    local geo = tag.screen:get_bounding_geometry {
-        honor_padding  = false,
-        honor_workarea = false
-    }
+    local geo = tag.screen:get_bounding_geometry({
+        honor_padding = false,
+        honor_workarea = false,
+    })
     -- Update the preview size
-    popup:geometry {
-        width  = geo.width*scale,
-        height = geo.height*scale,
-    }
+    popup:geometry({
+        width = geo.width * scale,
+        height = geo.height * scale,
+    })
     -- Create the preview
     local clients = tag:clients()
     for i = 1, #clients do
@@ -82,8 +82,8 @@ function popup:update(tag)
             local prev = preview(c, scale)
             -- Position of the widget
             prev.point = {
-                x = math.floor((c.x - geo.x)*scale),
-                y = math.floor((c.y - geo.y)*scale),
+                x = math.floor((c.x - geo.x) * scale),
+                y = math.floor((c.y - geo.y) * scale),
             }
             -- Add it to the preview
             inner_widget:add(prev)
@@ -93,12 +93,12 @@ end
 
 -- Show on a given screen
 function popup:show(screen, do_show)
-   -- show on the correct screen
+    -- show on the correct screen
     local geometry = screen.geometry
-    popup:geometry {
+    popup:geometry({
         x = geometry.x + dpi(10),
-        y = geometry.y + dpi(10) + beautiful.wibar_height
-    }
+        y = geometry.y + dpi(10) + beautiful.wibar_height,
+    })
     -- show the popup widget
     popup.visible = do_show
 end
@@ -134,12 +134,12 @@ end)
 -- }}}
 
 -- {{{ Wallpaper of the preview
-local bg_widget = wibox.widget {
+local bg_widget = wibox.widget({
     image = beautiful.wallpaper,
     horizontal_fit_policy = "fit",
-    vertical_fit_policy   = "fit",
-    widget = wibox.widget.imagebox
-}
+    vertical_fit_policy = "fit",
+    widget = wibox.widget.imagebox,
+})
 
 -- Update bg image when theme changes
 awesome.connect_signal("theme_change", function(_)
@@ -148,16 +148,16 @@ end)
 -- }}}
 
 -- Add anti-aliased rounded corners and borders
-popup:setup {
+popup:setup({
     {
         bg_widget,
         inner_widget,
-        layout = wibox.layout.stack
+        layout = wibox.layout.stack,
     },
-    shape  = gears.shape.rounded_rect,
+    shape = gears.shape.rounded_rect,
     widget = wibox.container.background,
     border_width = beautiful.border_width,
-    border_color = beautiful.border_normal
-}
+    border_color = beautiful.border_normal,
+})
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

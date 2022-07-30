@@ -8,7 +8,7 @@ local gears = require("gears")
 -- https://github.com/JavaCafe01/dotfiles/blob/master/config/awesome/signal/volume.lua
 
 local volume_old = -1
-local muted_old  = -1
+local muted_old = -1
 local function emit_volume_info()
     -- Get volume info of the currently active sink
     -- The currently active sink has a star `*` in front of its index
@@ -18,9 +18,9 @@ local function emit_volume_info()
     awful.spawn.easy_async_with_shell(
         "pacmd list-sinks | awk '/\\* index: /{nr[NR+7];nr[NR+11]}; NR in nr'",
         function(stdout)
-            local volume = stdout:match('(%d+)%% /')
-            local muted  = stdout:match('muted:(%s+)[yes]')
-            local muted_int  = muted and 1 or 0
+            local volume = stdout:match("(%d+)%% /")
+            local muted = stdout:match("muted:(%s+)[yes]")
+            local muted_int = muted and 1 or 0
             local volume_int = tonumber(volume)
             -- Only send signal if there was a change
             -- We need this since we use `pactl subscribe` to detect
@@ -31,9 +31,10 @@ local function emit_volume_info()
             if volume_int ~= volume_old or muted_int ~= muted_old then
                 awesome.emit_signal("volume_change", volume_int, muted)
                 volume_old = volume_int
-                muted_old  = muted_int
+                muted_old = muted_int
             end
-        end)
+        end
+    )
 end
 
 -- Run once to initialize widgets
@@ -47,11 +48,17 @@ local volume_script = [[
 
 -- Kill old pactl subscribe processes
 awful.spawn.easy_async({
-    "pkill", "--full", "--uid", os.getenv("USER"), "^pactl subscribe"
+    "pkill",
+    "--full",
+    "--uid",
+    os.getenv("USER"),
+    "^pactl subscribe",
 }, function()
     -- Run emit_volume_info() with each line printed
     awful.spawn.with_line_callback(volume_script, {
-        stdout = function(line) emit_volume_info() end
+        stdout = function(line)
+            emit_volume_info()
+        end,
     })
 end)
 
@@ -85,27 +92,33 @@ local player_script = [[
 ]]
 
 awful.spawn.easy_async({
-    "pkill", "--full", "--uid", os.getenv("USER"), "^playerctl"
+    "pkill",
+    "--full",
+    "--uid",
+    os.getenv("USER"),
+    "^playerctl",
 }, function()
     awful.spawn.with_line_callback(player_script, {
         stdout = function(line)
             local out = line:gsub("[\n\r]", "")
             local signal_name, updated_value = out:match("(.+):(.+)")
             awesome.emit_signal(signal_name, updated_value)
-        end
+        end,
     })
 end)
 -- }}}
 
 -- {{{ Signal function to execute when a new client appears.
-client.connect_signal("manage", function (c)
+client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
     -- if not awesome.startup then awful.client.setslave(c) end
 
-    if awesome.startup
-      and not c.size_hints.user_position
-      and not c.size_hints.program_position then
+    if
+        awesome.startup
+        and not c.size_hints.user_position
+        and not c.size_hints.program_position
+    then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
@@ -114,7 +127,7 @@ end)
 
 -- {{{ Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    c:activate { context = "mouse_enter", raise = false }
+    c:activate({ context = "mouse_enter", raise = false })
 end)
 -- }}}
 
@@ -132,37 +145,35 @@ tag.connect_signal("request::default_layouts", function()
         awful.layout.suit.tile.bottom,
         awful.layout.suit.tile.top,
         awful.layout.suit.fair.horizontal,
-        awful.layout.suit.fair
+        awful.layout.suit.fair,
     })
 end)
 -- }}}
 
 -- {{{ Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-    awful.wallpaper {
+    awful.wallpaper({
         screen = s,
         widget = {
             horizontal_fit_policy = "fit",
-            vertical_fit_policy   = "fit",
-            image     = beautiful.wallpaper,
-            widget    = wibox.widget.imagebox
-        }
-    }
+            vertical_fit_policy = "fit",
+            image = beautiful.wallpaper,
+            widget = wibox.widget.imagebox,
+        },
+    })
 end)
 -- }}}
 
 -- {{{ Theme change
 local function fetch_theme()
-    awful.spawn.easy_async_with_shell(
-        "cat /home/lenny/.t",
-        function(stdout)
-            -- cleaning up the string
-            local out = stdout:gsub("[\n\r]", "")
-            -- update global variable
-            theme_name = out
-            -- sending the signal
-            awesome.emit_signal("theme_change", out)
-        end)
+    awful.spawn.easy_async_with_shell("cat /home/lenny/.t", function(stdout)
+        -- cleaning up the string
+        local out = stdout:gsub("[\n\r]", "")
+        -- update global variable
+        theme_name = out
+        -- sending the signal
+        awesome.emit_signal("theme_change", out)
+    end)
 end
 
 -- Update all themes

@@ -2,12 +2,11 @@ local awful = require("awful")
 
 local autostart_app = {
     "blueman-applet",
-    "nm-applet"
+    "nm-applet",
 }
 
 for app = 1, #autostart_app do
-    awful.spawn.single_instance(autostart_app[app],
-        awful.rules.rules)
+    awful.spawn.single_instance(autostart_app[app], awful.rules.rules)
 end
 
 -- Setting the cursor

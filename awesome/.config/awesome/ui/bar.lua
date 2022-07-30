@@ -1,34 +1,36 @@
-local gears     = require("gears")
-local awful     = require("awful")
-local wibox     = require("wibox")
-local dpi       = require("beautiful.xresources").apply_dpi
+local gears = require("gears")
+local awful = require("awful")
+local wibox = require("wibox")
+local dpi = require("beautiful.xresources").apply_dpi
 local beautiful = require("beautiful")
-local helpers   = require("ui.helpers")
+local helpers = require("ui.helpers")
 
 -- WMCLASS widget
 -- {{{
 local class = wibox.widget.textbox()
 
 class.buttons = {
-    awful.button {
+    awful.button({
         button = 1,
-        on_press = function () awesome.emit_signal("panel_toggle") end
-    }
+        on_press = function()
+            awesome.emit_signal("panel_toggle")
+        end,
+    }),
 }
 
-client.connect_signal("unfocus", function (c)
+client.connect_signal("unfocus", function(c)
     class:set_markup_silently("")
 end)
 
-client.connect_signal("focus", function (c)
+client.connect_signal("focus", function(c)
     name = c.class == nil and "" or c.class:gsub("^%l", string.upper)
     class:set_markup_silently(name)
 end)
 
 local window_class = {
     class,
-    right  = dpi(10),
-    layout = wibox.layout.margin
+    right = dpi(10),
+    layout = wibox.layout.margin,
 }
 -- }}}
 
@@ -36,92 +38,98 @@ local window_class = {
 local battery_icon = helpers.svg(nil, nil, nil, "bar_fg")
 battery_icon.current_icon = 10
 
-local battery_level = wibox.widget {
-    markup = '50<b>%</b>',
+local battery_level = wibox.widget({
+    markup = "50<b>%</b>",
     widget = wibox.widget.textbox,
-}
+})
 
-local bat = wibox.widget {
+local bat = wibox.widget({
     {
         battery_icon,
         battery_level,
         spacing = dpi(5),
         layout = wibox.layout.fixed.horizontal,
     },
-    top    = beautiful.icon_v_padding,
+    top = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
-    right  = dpi(20),
-    layout = wibox.container.margin
-}
+    right = dpi(20),
+    layout = wibox.container.margin,
+})
 
 function bat:update_meta(charging, capacity_str)
     local capacity = tonumber(capacity_str), image
 
-    battery_level:set_markup_silently(capacity_str.."%")
+    battery_level:set_markup_silently(capacity_str .. "%")
 
     if capacity == 100 then
         -- Full
-        image = beautiful.icon_path.."battery/battery-100.svg"
+        image = beautiful.icon_path .. "battery/battery-100.svg"
         battery_level:set_markup_silently("")
     elseif charging then
         -- Charging
-        image = beautiful.icon_path.."battery/battery-charging-"
-            ..tostring(battery_icon.current_icon)..".svg"
-        battery_icon.current_icon = battery_icon.current_icon > 90
-            and 10 or (battery_icon.current_icon + 10)
+        image = beautiful.icon_path
+            .. "battery/battery-charging-"
+            .. tostring(battery_icon.current_icon)
+            .. ".svg"
+        battery_icon.current_icon = battery_icon.current_icon > 90 and 10
+            or (battery_icon.current_icon + 10)
     else
         -- Discharging
-        image = beautiful.icon_path.."battery/battery-"
-            ..tostring(math.ceil(capacity/10)*10)..".svg"
+        image = beautiful.icon_path
+            .. "battery/battery-"
+            .. tostring(math.ceil(capacity / 10) * 10)
+            .. ".svg"
     end
 
     battery_icon.image = image
 end
 
 local battery = awful.widget.watch(
-    'cat /sys/class/power_supply/BAT0/capacity '
-    ..'/sys/class/power_supply/BAT0/status',
+    "cat /sys/class/power_supply/BAT0/capacity "
+        .. "/sys/class/power_supply/BAT0/status",
     1,
     function(widget, stdout)
         local capacity_str, status, charging
 
         capacity_str = stdout:match("(%d+)")
-        status       = stdout:match("([a-zA-Z]+)")
-        charging     = status == "Charging" and true or false
+        status = stdout:match("([a-zA-Z]+)")
+        charging = status == "Charging" and true or false
         widget:update_meta(charging, capacity_str)
     end,
-    bat)
+    bat
+)
 -- }}}
 
 -- {{{ Volume widget
 local volume_buttons = {
-    awful.button {
+    awful.button({
         button = 1,
-        on_press = function ()
-            awful.util.spawn(script_path.."volume -t")
-        end
-    },
-    awful.button {
+        on_press = function()
+            awful.util.spawn(script_path .. "volume -t")
+        end,
+    }),
+    awful.button({
         button = 4,
-        on_press = function ()
-            awful.util.spawn(script_path.."volume -d 5")
-        end
-    },
-    awful.button {
+        on_press = function()
+            awful.util.spawn(script_path .. "volume -d 5")
+        end,
+    }),
+    awful.button({
         button = 5,
-        on_press = function ()
-            awful.util.spawn(script_path.."volume -i 5")
-        end
-    }
+        on_press = function()
+            awful.util.spawn(script_path .. "volume -i 5")
+        end,
+    }),
 }
 
-local icon_path = beautiful.icon_path.."volume/volume-low.svg"
-local volume_icon = helpers.svg(icon_path, nil, nil, "bar_fg", volume_buttons, nil)
+local icon_path = beautiful.icon_path .. "volume/volume-low.svg"
+local volume_icon =
+    helpers.svg(icon_path, nil, nil, "bar_fg", volume_buttons, nil)
 volume_icon.level = 0
 volume_icon.muted = true
 local tooltip_func = function()
     local muted = volume_icon.muted and " (muted)" or ""
-    return "Volume at "..tostring(volume_icon.level).."%"..muted
+    return "Volume at " .. tostring(volume_icon.level) .. "%" .. muted
 end
 volume_icon.tooltip = helpers.tooltip(volume_icon, tooltip_func)
 
@@ -133,46 +141,45 @@ function volume_icon:update_volume(volume_level, muted)
     volume_icon.muted = muted
 
     if muted then
-        volume_icon.image = beautiful.icon_path.."/volume/volume-off.svg"
+        volume_icon.image = beautiful.icon_path .. "/volume/volume-off.svg"
     elseif volume_level < 10 then
-        volume_icon.image = beautiful.icon_path.."/volume/volume-low.svg"
+        volume_icon.image = beautiful.icon_path .. "/volume/volume-low.svg"
     elseif volume_level < 60 then
-        volume_icon.image = beautiful.icon_path.."/volume/volume-medium.svg"
+        volume_icon.image = beautiful.icon_path .. "/volume/volume-medium.svg"
     else
-        volume_icon.image = beautiful.icon_path.."/volume/volume-high.svg"
+        volume_icon.image = beautiful.icon_path .. "/volume/volume-high.svg"
     end
 end
 
 local volume = {
     volume_icon,
-    top    = beautiful.icon_v_padding,
+    top = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
-    right  = beautiful.wibar_spacing,
-    layout = wibox.container.margin
+    right = beautiful.wibar_spacing,
+    layout = wibox.container.margin,
 }
 
-awesome.connect_signal("volume_change",
-    function (volume_level, muted)
-        volume_icon:update_volume(volume_level, muted)
-    end)
+awesome.connect_signal("volume_change", function(volume_level, muted)
+    volume_icon:update_volume(volume_level, muted)
+end)
 -- }}}
 
 -- {{{ Brightness widget
 
 -- Blue light on laptop
-local bluelevel_laptop   = 100        -- init
+local bluelevel_laptop = 100 -- init
 local temp_min, temp_max = 4500, 6500 --
 
 local function update_bluelevel_laptop(percentage_inc)
     -- Update the percentage
-    bluelevel_laptop = math.min(100,
-                            math.max(0, bluelevel_laptop + percentage_inc))
+    bluelevel_laptop =
+        math.min(100, math.max(0, bluelevel_laptop + percentage_inc))
 
-    local inc = (temp_max - temp_min)/100
-    local val = tostring(4500 + bluelevel_laptop*inc)
+    local inc = (temp_max - temp_min) / 100
+    local val = tostring(4500 + bluelevel_laptop * inc)
 
     -- Update + events
-    awful.util.spawn("redshift -m randr:crtc=0 -P -O "..val)
+    awful.util.spawn("redshift -m randr:crtc=0 -P -O " .. val)
     awesome.emit_signal("screen_bluelight_change", bluelevel_laptop)
 end
 
@@ -183,87 +190,94 @@ local function is_builtin_output()
 end
 
 local brightness_buttons = {
-    awful.button {
+    awful.button({
         button = 5,
         on_press = function()
             if not is_builtin_output() then
                 update_backlight(
-                    script_path.."backlight -m -d 5%",
-                    "screen_backlight_change")
+                    script_path .. "backlight -m -d 5%",
+                    "screen_backlight_change"
+                )
             else
                 update_backlight(
-                    script_path.."backlight -l -d 1%",
-                    "screen_backlight_change")
+                    script_path .. "backlight -l -d 1%",
+                    "screen_backlight_change"
+                )
             end
-        end
-    },
-    awful.button {
+        end,
+    }),
+    awful.button({
         button = 4,
         on_press = function()
             if not is_builtin_output() then
                 update_backlight(
-                    script_path.."backlight -m -i 5%",
-                    "screen_backlight_change")
+                    script_path .. "backlight -m -i 5%",
+                    "screen_backlight_change"
+                )
             else
                 update_backlight(
-                    script_path.."backlight -l -i 1%",
-                    "screen_backlight_change")
+                    script_path .. "backlight -l -i 1%",
+                    "screen_backlight_change"
+                )
             end
-        end
-    },
-    awful.button {
+        end,
+    }),
+    awful.button({
         button = 3,
         on_press = function()
             if not is_builtin_output() then
                 update_backlight(
-                    script_path.."backlight -b -i 5%",
-                    "screen_bluelight_change")
+                    script_path .. "backlight -b -i 5%",
+                    "screen_bluelight_change"
+                )
             else -- Laptop blue light
                 update_bluelevel_laptop(5)
             end
-        end
-    },
-    awful.button {
+        end,
+    }),
+    awful.button({
         button = 2,
         on_press = function()
-            awful.util.spawn(script_path.."color")
-        end
-    },
-    awful.button {
+            awful.util.spawn(script_path .. "color")
+        end,
+    }),
+    awful.button({
         button = 1,
         on_press = function()
             if not is_builtin_output() then
                 update_backlight(
-                    script_path.."backlight -b -d 5%",
-                    "screen_bluelight_change")
+                    script_path .. "backlight -b -d 5%",
+                    "screen_bluelight_change"
+                )
             else -- Laptop blue light
                 update_bluelevel_laptop(-5)
             end
-        end
-    }
+        end,
+    }),
 }
 
 local pre_update = function(self, theme, svg)
     local tail = theme == "day" and ".svg" or "-night.svg"
-    self.svg_path = beautiful.icon_path.."backlight/screen"..tail
+    self.svg_path = beautiful.icon_path .. "backlight/screen" .. tail
 end
-local brightness_icon = helpers.svg(nil, nil, nil, "bar_fg", brightness_buttons, pre_update)
+local brightness_icon =
+    helpers.svg(nil, nil, nil, "bar_fg", brightness_buttons, pre_update)
 
 local brightness = {
     brightness_icon,
-    top    = beautiful.icon_v_padding,
+    top = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
-    right  = beautiful.wibar_spacing,
-    layout = wibox.container.margin
+    right = beautiful.wibar_spacing,
+    layout = wibox.container.margin,
 }
 -- }}}
 
 -- {{{ hwmon
 local hwmon_widget = awful.widget.watch(
-    'cat /sys/devices/platform/applesmc.768/temp13_input'
-    ..' /sys/bus/platform/drivers/dell_smm_hwmon/dell_smm_hwmon/hwmon/hwmon5/temp2_input'
-    ..' /sys/devices/platform/applesmc.768/fan1_input'
-    ..' /sys/bus/platform/drivers/dell_smm_hwmon/dell_smm_hwmon/hwmon/hwmon5/fan1_input',
+    "cat /sys/devices/platform/applesmc.768/temp13_input"
+        .. " /sys/bus/platform/drivers/dell_smm_hwmon/dell_smm_hwmon/hwmon/hwmon5/temp2_input"
+        .. " /sys/devices/platform/applesmc.768/fan1_input"
+        .. " /sys/bus/platform/drivers/dell_smm_hwmon/dell_smm_hwmon/hwmon/hwmon5/fan1_input",
     5,
     function(widget, stdout)
         local out = stdout:gsub("[\n\r]", " ")
@@ -271,36 +285,38 @@ local hwmon_widget = awful.widget.watch(
         local temp_str, fan_str
 
         if fan ~= "0 " then
-            fan_str = "   "..fan.."<span weight='bold'>rpm</span>"
+            fan_str = "   " .. fan .. "<span weight='bold'>rpm</span>"
         else
             fan_str = ""
         end
-        temp_str = tostring(math.floor(tonumber(temp)/1000)).."<span weight='bold'>°c</span>"
+        temp_str = tostring(math.floor(tonumber(temp) / 1000))
+            .. "<span weight='bold'>°c</span>"
 
-        widget:set_markup_silently(temp_str..fan_str)
+        widget:set_markup_silently(temp_str .. fan_str)
     end,
-    wibox.widget.textbox())
+    wibox.widget.textbox()
+)
 
 local hwmon = {
     hwmon_widget,
-    top    = beautiful.icon_v_padding,
+    top = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
-    right  = beautiful.wibar_spacing,
-    layout = wibox.container.margin
+    right = beautiful.wibar_spacing,
+    layout = wibox.container.margin,
 }
 -- }}}
 
 -- {{{ systray
 local systray_widget = wibox.widget.systray()
 
-local systray = wibox.widget {
+local systray = wibox.widget({
     systray_widget,
     draw_empty = false,
-    top    = beautiful.icon_v_padding,
+    top = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
-    right  = beautiful.wibar_spacing,
-    layout = wibox.container.margin
-}
+    right = beautiful.wibar_spacing,
+    layout = wibox.container.margin,
+})
 
 -- Themed colors
 awesome.connect_signal("theme_change", function(theme)
@@ -310,50 +326,59 @@ end)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
-    awful.button({ }, 1, function(t) t:view_only() end),
+    awful.button({}, 1, function(t)
+        t:view_only()
+    end),
     awful.button({ modkey }, 1, function(t)
-                              if client.focus then
-                                  client.focus:move_to_tag(t)
-                              end
-                          end),
-    awful.button({ }, 3, awful.tag.viewtoggle),
+        if client.focus then
+            client.focus:move_to_tag(t)
+        end
+    end),
+    awful.button({}, 3, awful.tag.viewtoggle),
     awful.button({ modkey }, 3, function(t)
-                              if client.focus then
-                                  client.focus:toggle_tag(t)
-                              end
-                          end))
+        if client.focus then
+            client.focus:toggle_tag(t)
+        end
+    end)
+)
 
 -- {{{
 screen.connect_signal("request::desktop_decoration", function(s)
     -- {{{ tags
     awful.tag.add("1", {
-        icon               = "web.svg",
-        layout             = awful.layout.suit.tile,
---      master_fill_policy = "masterwidthfactor",
-        screen             = s,
-        selected           = true
+        icon = "web.svg",
+        layout = awful.layout.suit.tile,
+        --      master_fill_policy = "masterwidthfactor",
+        screen = s,
+        selected = true,
     })
 
-    for key, name in ipairs {
-        "search.svg", "console.svg", "doc.svg",
-        "chat.svg", "video.svg", "misc.svg",
-        "office.svg", "music.svg", "download.svg"
-    } do
+    for key, name in ipairs({
+        "search.svg",
+        "console.svg",
+        "doc.svg",
+        "chat.svg",
+        "video.svg",
+        "misc.svg",
+        "office.svg",
+        "music.svg",
+        "download.svg",
+    }) do
         awful.tag.add(tostring(key + 1), {
-            icon   = name,
+            icon = name,
             layout = awful.layout.suit.tile,
-            screen = s
+            screen = s,
         })
     end
     -- }}}
 
     -- {{{ textclock
-    local clock = wibox.widget {
+    local clock = wibox.widget({
         refresh = 1,
-        format_normal = '%r',
-        format_alt = '%A %d %b, %r',
-        widget = wibox.widget.textclock
-    }
+        format_normal = "%r",
+        format_alt = "%A %d %b, %r",
+        widget = wibox.widget.textclock,
+    })
     clock.next_state = function()
         if clock.format == clock.format_normal then
             clock.format = clock.format_alt
@@ -361,8 +386,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
             clock.format = clock.format_normal
         end
     end
-    clock:next_state()  -- init
-    clock:add_button(awful.button({ }, 1, clock.next_state))
+    clock:next_state() -- init
+    clock:add_button(awful.button({}, 1, clock.next_state))
     s.mytextclock = clock
     -- }}}
 
@@ -370,17 +395,26 @@ screen.connect_signal("request::desktop_decoration", function(s)
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
     s.mylayoutbox:buttons(gears.table.join(
-       awful.button({ }, 1, function () awful.layout.inc( 1) end),
-       awful.button({ }, 3, function () awful.layout.inc(-1) end),
-       awful.button({ }, 4, function () awful.layout.inc( 1) end),
-       awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+        awful.button({}, 1, function()
+            awful.layout.inc(1)
+        end),
+        awful.button({}, 3, function()
+            awful.layout.inc(-1)
+        end),
+        awful.button({}, 4, function()
+            awful.layout.inc(1)
+        end),
+        awful.button({}, 5, function()
+            awful.layout.inc(-1)
+        end)
+    ))
 
     local layoutbox = {
         s.mylayoutbox,
-        top    = beautiful.icon_v_padding,
+        top = beautiful.icon_v_padding,
         bottom = beautiful.icon_v_padding,
-        right  = beautiful.wibar_spacing,
-        widget = wibox.layout.margin
+        right = beautiful.wibar_spacing,
+        widget = wibox.layout.margin,
     }
 
     local update_tag = function(widget, tag, index, tags)
@@ -388,19 +422,25 @@ screen.connect_signal("request::desktop_decoration", function(s)
         local underline = widget:get_children_by_id("underline_role")[1]
 
         -- Reinit for new items
-        icon.image = beautiful.icon_path.."taglist/"..tag.icon
-        icon.stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
+        icon.image = beautiful.icon_path .. "taglist/" .. tag.icon
+        icon.stylesheet = "*{fill:"
+            .. beautiful.theme[theme_name].bar_fg
+            .. ";}"
 
         if tag.urgent then
-            icon.stylesheet = "*{fill:"..beautiful.theme[theme_name].hover..";}"
+            icon.stylesheet = "*{fill:"
+                .. beautiful.theme[theme_name].hover
+                .. ";}"
             underline.bg = beautiful.theme[theme_name].hover
         else
-            icon.stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
+            icon.stylesheet = "*{fill:"
+                .. beautiful.theme[theme_name].bar_fg
+                .. ";}"
             underline.bg = beautiful.theme[theme_name].bar_bg
         end
 
         if tag.selected then
-            underline.bg =  beautiful.theme[theme_name].bar_fg
+            underline.bg = beautiful.theme[theme_name].bar_fg
         end
     end
 
@@ -408,8 +448,10 @@ screen.connect_signal("request::desktop_decoration", function(s)
         local icon = widget:get_children_by_id("svg_role")[1]
 
         -- Icon init
-        icon.image = beautiful.icon_path.."taglist/"..tag.icon
-        icon.stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
+        icon.image = beautiful.icon_path .. "taglist/" .. tag.icon
+        icon.stylesheet = "*{fill:"
+            .. beautiful.theme[theme_name].bar_fg
+            .. ";}"
 
         -- Underline init
         local underline = widget:get_children_by_id("underline_role")[1]
@@ -417,7 +459,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
         widget:connect_signal("mouse::enter", function()
             -- Hover support pt.1
-            icon.stylesheet = "*{fill:"..beautiful.theme[theme_name].hover..";}"
+            icon.stylesheet = "*{fill:"
+                .. beautiful.theme[theme_name].hover
+                .. ";}"
             -- Tag preview
             awesome.emit_signal("preview_update", tag)
             awesome.emit_signal("preview_show", s, true)
@@ -425,7 +469,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
         widget:connect_signal("mouse::leave", function()
             -- Hover support pt.2
-            icon.stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
+            icon.stylesheet = "*{fill:"
+                .. beautiful.theme[theme_name].bar_fg
+                .. ";}"
             -- Tag preview
             awesome.emit_signal("preview_show", s, false)
         end)
@@ -440,102 +486,96 @@ screen.connect_signal("request::desktop_decoration", function(s)
     end
 
     -- {{{ Create a taglist widget
-    s.mytaglist = awful.widget.taglist {
-        screen  = s,
-        filter  = awful.widget.taglist.filter.noempty,
+    s.mytaglist = awful.widget.taglist({
+        screen = s,
+        filter = awful.widget.taglist.filter.noempty,
         buttons = taglist_buttons,
         widget_template = {
             {
                 {
-                    id     = 'svg_role',
-                    widget = wibox.widget.imagebox
+                    id = "svg_role",
+                    widget = wibox.widget.imagebox,
                 },
-                left   = 2*beautiful.icon_h_padding,
-                right  = 2*beautiful.icon_h_padding,
-                top    = beautiful.icon_v_padding,
+                left = 2 * beautiful.icon_h_padding,
+                right = 2 * beautiful.icon_h_padding,
+                top = beautiful.icon_v_padding,
                 bottom = beautiful.icon_v_padding,
-                widget = wibox.container.margin
+                widget = wibox.container.margin,
             },
             {
                 {
                     wibox.widget.base.make_widget(),
-                    id     = 'underline_role',
-                    shape  = gears.shape.rounded_rect,
-                    widget = wibox.container.background
+                    id = "underline_role",
+                    shape = gears.shape.rounded_rect,
+                    widget = wibox.container.background,
                 },
-                top    = dpi(22),
-                left   = dpi(1),
-                right  = dpi(1),
-                widget = wibox.container.margin
+                top = dpi(22),
+                left = dpi(1),
+                right = dpi(1),
+                widget = wibox.container.margin,
             },
             layout = wibox.layout.stack,
             create_callback = init_tag,
-            update_callback = update_tag
-        }
-    }
+            update_callback = update_tag,
+        },
+    })
     -- }}}
 
     -- {{{ Create a tasklist widget
     local init_task = function(widget, c, i, o)
         local class = c.class or "None"
-        local name  = c.name or "None"
+        local name = c.name or "None"
         -- Add a tooltip
         widget.tooltip = helpers.tooltip(widget, function()
-            return class.." - "..name
+            return class .. " - " .. name
         end)
         -- Updating the text
         widget:get_children_by_id("custom_text_role")[1].text = class
     end
 
-    s.mytasklist = awful.widget.tasklist {
-        screen  = s,
-        filter  = awful.widget.tasklist.filter.minimizedcurrenttags,
-        buttons = gears.table.join(
-            awful.button({ }, 1, function (c)
-                c:emit_signal(
-                    "request::activate",
-                    "tasklist",
-                    {raise = true}
-                )
-            end)
-        ),
+    s.mytasklist = awful.widget.tasklist({
+        screen = s,
+        filter = awful.widget.tasklist.filter.minimizedcurrenttags,
+        buttons = gears.table.join(awful.button({}, 1, function(c)
+            c:emit_signal("request::activate", "tasklist", { raise = true })
+        end)),
         layout = {
             spacing = dpi(20),
-            layout  = wibox.layout.flex.horizontal
+            layout = wibox.layout.flex.horizontal,
         },
         widget_template = {
             {
                 {
                     {
-                        id     = 'icon_role',
+                        id = "icon_role",
                         widget = wibox.widget.imagebox,
                     },
-                    left   = beautiful.icon_h_padding,
-                    right  = beautiful.icon_h_padding*2,
-                    top    = dpi(4),
+                    left = beautiful.icon_h_padding,
+                    right = beautiful.icon_h_padding * 2,
+                    top = dpi(4),
                     bottom = dpi(4),
-                    widget = wibox.container.margin
+                    widget = wibox.container.margin,
                 },
                 {
-                    id     = "custom_text_role",
-                    widget = wibox.widget.textbox
+                    id = "custom_text_role",
+                    widget = wibox.widget.textbox,
                 },
-                layout  = wibox.layout.fixed.horizontal,
+                layout = wibox.layout.fixed.horizontal,
             },
             widget = helpers.custom_container_bg("bar_bg", "bar_fg", true),
-            create_callback = init_task
-        }
-    }
+            create_callback = init_task,
+        },
+    })
     -- }}}
 
     -- {{{ Create the wibox
     s.mywibox = awful.wibar({
         position = "top",
-        screen = s
+        screen = s,
     })
 
     -- Add widgets to the wibox
-    s.mywibox:setup {
+    s.mywibox:setup({
         {
             {
                 { -- Left widgets
@@ -544,14 +584,14 @@ screen.connect_signal("request::desktop_decoration", function(s)
                         window_class,
                         s.mytasklist,
                         spacing = dpi(20),
-                        layout = wibox.layout.fixed.horizontal
+                        layout = wibox.layout.fixed.horizontal,
                     },
                     left = dpi(20),
-                    layout = wibox.layout.margin
+                    layout = wibox.layout.margin,
                 },
                 { -- Middle widget
                     s.mytextclock,
-                    layout = wibox.layout.fixed.horizontal
+                    layout = wibox.layout.fixed.horizontal,
                 },
                 {
                     { -- Right widgets
@@ -564,18 +604,18 @@ screen.connect_signal("request::desktop_decoration", function(s)
                         layout = wibox.layout.fixed.horizontal,
                     },
                     right = dpi(20),
-                    layout = wibox.layout.margin
+                    layout = wibox.layout.margin,
                 },
                 layout = wibox.layout.align.horizontal,
-                expand = "none"
+                expand = "none",
             },
             -- Dynamic theme wrapper
-            widget = helpers.custom_container_bg("bar_bg", "bar_fg")
+            widget = helpers.custom_container_bg("bar_bg", "bar_fg"),
         },
-        color  = beautiful.border_normal,
+        color = beautiful.border_normal,
         bottom = beautiful.border_width,
-        widget = wibox.container.margin
-    }
+        widget = wibox.container.margin,
+    })
     -- }}}
 end)
 
