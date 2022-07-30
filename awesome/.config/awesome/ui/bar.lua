@@ -5,14 +5,6 @@ local dpi       = require("beautiful.xresources").apply_dpi
 local beautiful = require("beautiful")
 local helpers   = require("ui.helpers")
 
--- Connect an imagebox to theme_change signal
-local function connect_theme(imagebox_wdg)
-    awesome.connect_signal("theme_change", function(theme)
-        imagebox_wdg.stylesheet = "*{fill:"
-                            ..beautiful.theme[theme].bar_fg..";}"
-    end)
-end
-
 -- WMCLASS widget
 -- {{{
 local class = wibox.widget.textbox()
@@ -41,14 +33,8 @@ local window_class = {
 -- }}}
 
 -- {{{ Battery widget
-local battery_icon = wibox.widget {
-    current_icon = 10,
-    image   = beautiful.icon_path.."battery/battery-10.svg",
-    widget  = wibox.widget.imagebox,
-    stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
-}
-
-connect_theme(battery_icon)
+local battery_icon = helpers.svg(nil, nil, nil, "bar_fg")
+battery_icon.current_icon = 10
 
 local battery_level = wibox.widget {
     markup = '50<b>%</b>',
@@ -129,32 +115,31 @@ local volume_buttons = {
     }
 }
 
-local volume_icon = wibox.widget {
-    image   = beautiful.icon_path.."volume/volume-low.svg",
-    widget  = wibox.widget.imagebox,
-    buttons = volume_buttons,
-    stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
-}
-
-connect_theme(volume_icon)
+local icon_path = beautiful.icon_path.."volume/volume-low.svg"
+local volume_icon = helpers.svg(icon_path, nil, nil, "bar_fg", volume_buttons, nil)
+volume_icon.level = 0
+volume_icon.muted = true
+local tooltip_func = function()
+    local muted = volume_icon.muted and " (muted)" or ""
+    return "Volume at "..tostring(volume_icon.level).."%"..muted
+end
+volume_icon.tooltip = helpers.tooltip(volume_icon, tooltip_func)
 
 function volume_icon:update_volume(volume_level, muted)
     if volume_level == nil then
         return -- bad initialization
     end
+    volume_icon.level = volume_level
+    volume_icon.muted = muted
 
     if muted then
-        volume_icon.image = beautiful.icon_path
-                                .."/volume/volume-off.svg"
+        volume_icon.image = beautiful.icon_path.."/volume/volume-off.svg"
     elseif volume_level < 10 then
-        volume_icon.image = beautiful.icon_path
-                                .."/volume/volume-low.svg"
+        volume_icon.image = beautiful.icon_path.."/volume/volume-low.svg"
     elseif volume_level < 60 then
-        volume_icon.image = beautiful.icon_path
-                                .."/volume/volume-medium.svg"
+        volume_icon.image = beautiful.icon_path.."/volume/volume-medium.svg"
     else
-        volume_icon.image = beautiful.icon_path
-                                .."/volume/volume-high.svg"
+        volume_icon.image = beautiful.icon_path.."/volume/volume-high.svg"
     end
 end
 
@@ -258,24 +243,11 @@ local brightness_buttons = {
     }
 }
 
-local brightness_icon = wibox.widget {
-    image   = beautiful.icon_path.."backlight/screen.svg",
-    widget  = wibox.widget.imagebox,
-    buttons = brightness_buttons,
-    stylesheet = "*{fill:"..beautiful.theme[theme_name].bar_fg..";}"
-}
-
-connect_theme(brightness_icon)
-
-awesome.connect_signal("theme_change",
-    function(theme)
-        if theme == "day" then
-            tail  = "backlight/screen.svg"
-        else
-            tail  = "backlight/screen-night.svg"
-        end
-        brightness_icon.image = beautiful.icon_path..tail
-    end)
+local pre_update = function(self, theme, svg)
+    local tail = theme == "day" and ".svg" or "-night.svg"
+    self.svg_path = beautiful.icon_path.."backlight/screen"..tail
+end
+local brightness_icon = helpers.svg(nil, nil, nil, "bar_fg", brightness_buttons, pre_update)
 
 local brightness = {
     brightness_icon,
@@ -505,23 +477,14 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
     -- {{{ Create a tasklist widget
     local init_task = function(widget, c, i, o)
+        local class = c.class or "None"
+        local name  = c.name or "None"
         -- Add a tooltip
-        widget.tooltip = awful.tooltip {
-            objects = { widget },
-            fg      = beautiful.theme[theme_name].fg,
-            bg      = beautiful.theme[theme_name].bg,
-            timer_function = function()
-                local class = c.class == nil and "" or c.class.." - "
-                local name  = c.name or "No name"
-                return class..name
-            end
-        }
-        -- Change colors
-        awesome.connect_signal("theme_change", function(theme)
-            -- HYN?
-            widget.tooltip.widget.fg = beautiful.theme[theme].fg
-            widget.tooltip.widget.bg = beautiful.theme[theme].bg
+        widget.tooltip = helpers.tooltip(widget, function()
+            return class.." - "..name
         end)
+        -- Updating the text
+        widget:get_children_by_id("custom_text_role")[1].text = class
     end
 
     s.mytasklist = awful.widget.tasklist {
@@ -536,22 +499,32 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 )
             end)
         ),
+        layout = {
+            spacing = dpi(20),
+            layout  = wibox.layout.flex.horizontal
+        },
         widget_template = {
             {
                 {
-                    id     = 'icon_role',
-                    widget = wibox.widget.imagebox,
+                    {
+                        id     = 'icon_role',
+                        widget = wibox.widget.imagebox,
+                    },
+                    left   = beautiful.icon_h_padding,
+                    right  = beautiful.icon_h_padding*2,
+                    top    = dpi(4),
+                    bottom = dpi(4),
+                    widget = wibox.container.margin
                 },
-                left   = beautiful.icon_h_padding,
-                right  = beautiful.icon_h_padding,
-                top    = beautiful.icon_v_padding,
-                bottom = beautiful.icon_v_padding,
-                widget = wibox.container.margin
+                {
+                    id     = "custom_text_role",
+                    widget = wibox.widget.textbox
+                },
+                layout  = wibox.layout.fixed.horizontal,
             },
-            id     = 'background_role',
-            widget = wibox.container.background,
+            widget = helpers.custom_container_bg("bar_bg", "bar_fg", true),
             create_callback = init_task
-        },
+        }
     }
     -- }}}
 

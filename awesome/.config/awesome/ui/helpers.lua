@@ -5,6 +5,70 @@ local gears     = require("gears")
 local dpi       = beautiful.xresources.apply_dpi
 local helpers   = {}
 
+-- Partially rounded rectangle
+function helpers.prrect(tl, tr, br, bl)
+    return function(cr, w, h, rad)
+        return gears.shape.partially_rounded_rect(cr, w, h, tl, tr, br, bl, rad)
+    end
+end
+
+-- {{{ Svg icon
+function helpers.svg(svg, heigth, width, theme_var, buttons, pre_update)
+    local ret = wibox.widget {
+        forced_height = heigth,
+        forced_width  = width,
+        pre_update    = pre_update,
+        buttons  = buttons,
+        svg_path = svg,
+        widget   = wibox.widget.imagebox
+    }
+
+    -- New svg or recolor method
+    function ret:update(theme, new_svg)
+        if ret.pre_update then
+            ret:pre_update(theme, target)
+        end
+        local theme = theme or theme_name
+        local target = new_svg or ret.svg_path
+        ret.stylesheet = "*{fill:"..beautiful.theme[theme][theme_var or "fg"]..";}"
+        ret.svg_path = target
+        ret.image = target
+    end
+
+    -- Init
+    ret:update(theme_name, svg)
+    awesome.connect_signal("theme_change", function(theme) ret:update(theme) end)
+
+    return ret
+end
+-- }}}
+
+-- {{{ Tooltip
+function helpers.tooltip(widget, func, theme_fg, theme_bg)
+    local ret = awful.tooltip {
+        objects  = { widget },
+        timer_function = func
+    }
+    ret.theme_bg = theme_bg or "bg"
+    ret.theme_fg = theme_fg or "fg"
+
+    -- Theme sync
+    function ret:on_theme_change(theme)
+        ret.widget.fg = beautiful.theme[theme][ret.theme_fg]
+        ret.widget.bg = beautiful.theme[theme][ret.theme_bg]
+    end
+
+    awesome.connect_signal("theme_change", function(theme)
+        ret:on_theme_change(theme)
+    end)
+
+    -- Init
+    ret:on_theme_change(theme_name)
+
+    return ret
+end
+-- }}}
+
 -- Change the background according to the theme {{{
 function helpers.themed(widget, bg_name, fg_name, shape, border_width, hover_name)
     local ret = wibox.container.background(widget)
@@ -61,27 +125,33 @@ end
 -- }}}
 
 -- {{{ Container connected to theme_change signal
-function helpers.custom_container_bg(bg_name, fg_name)
-    local bg_name = bg_name or nil
-    local fg_name = fg_name or nil
+function helpers.custom_container_bg(bg_name, fg_name, constructor)
+    local function create_instance()
+        local bg_name = bg_name or nil
+        local fg_name = fg_name or nil
+        local ret     = wibox.container.background()
 
-    local ret = wibox.container.background()
+        -- initialisation and connection
+        if bg_name ~= nil then
+            ret.bg = beautiful.theme[theme_name][bg_name]
+            awesome.connect_signal("theme_change", function(theme)
+                ret.bg = beautiful.theme[theme][bg_name]
+            end)
+        end
+        if fg_name ~= nil then
+            ret.fg = beautiful.theme[theme_name][fg_name]
+            awesome.connect_signal("theme_change", function(theme)
+                ret.fg = beautiful.theme[theme][fg_name]
+            end)
+        end
 
-    -- initialisation and connection
-    if bg_name ~= nil then
-        ret.bg = beautiful.theme[theme_name][bg_name]
-        awesome.connect_signal("theme_change", function(theme)
-            ret.bg = beautiful.theme[theme][bg_name]
-        end)
+        return ret
     end
-    if fg_name ~= nil then
-        ret.fg = beautiful.theme[theme_name][fg_name]
-        awesome.connect_signal("theme_change", function(theme)
-            ret.fg = beautiful.theme[theme][fg_name]
-        end)
-    end
 
-    return ret
+    if constructor == nil then -- return an instance
+        return create_instance()
+    end
+    return create_instance -- return a constructor
 end
 -- }}}
 
@@ -136,10 +206,10 @@ end
 -- Create a button
 function helpers.create_button(symbol, left_func, right_func)
     local icon = wibox.widget {
-        markup  = helpers.markup_format(symbol, beautiful.icon_font, 20),
-        align   = "center",
-        valigin = "center",
-        widget  = wibox.widget.textbox
+        markup = helpers.markup_format(symbol, beautiful.icon_font, 20),
+        align  = "center",
+        valign = "center",
+        widget = wibox.widget.textbox
     }
 
     local button_widget = wibox.widget {

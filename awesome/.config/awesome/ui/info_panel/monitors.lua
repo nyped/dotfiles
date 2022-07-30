@@ -1,8 +1,7 @@
 local helpers = require("ui.helpers")
 local wibox   = require("wibox")
 local awful   = require("awful")
-local beautiful = require("beautiful")
-local dpi       = beautiful.xresources.apply_dpi
+local dpi     = require("beautiful.xresources").apply_dpi
 
 -- {{{ Monitor configuration popup
 local monitor_popup_height = dpi(100)
@@ -13,7 +12,7 @@ local monitor_popup = wibox {
     y       = 50, -- Will be set later
     width   = monitor_popup_width,
     height  = monitor_popup_height,
-    bg      = "#00000000", -- for anti-aliasing
+    bg      = "transparent", -- for anti-aliasing
     type    = "notification",
     visible = false,
     ontop   = true
@@ -39,7 +38,7 @@ local monitors_line = {
 
 monitor_popup:setup {
     monitors_line,
-    bg     = beautiful.transparent,
+    bg     = "transparent",
     widget = wibox.container.background,
     border_width = 0 -- we just want the compositor shadow
 }

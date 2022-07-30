@@ -80,19 +80,13 @@ theme.titlebar_bg_focus  = "#e4e4e4"
 theme.titlebar_fg_normal = theme.fg_normal
 theme.titlebar_bg_normal = "#e4e4e4"
 
-theme.tasklist_bg_focus = "#e4e4e4"
-theme.tasklist_plain_task_name = true
-
-theme.taglist_fg_focus  = "#808080"
-theme.taglist_bg_focus  = "#223238"
-theme.taglist_bg_urgent = "#e53935"
-
 theme.icon_path = "/home/lenny/.config/awesome/theme/assets/"
 
 theme.theme = {
     day = {
-        bg         = "#e0e2e4",
+        bg         = "#e0e2e4ee",
         fg         = "#3e515b",
+        bg_alt     = "#c8ccd0cc",
         hour       = "#c83349",
         minute     = "#5b9aa0",
         second     = "#622569",
@@ -110,8 +104,9 @@ theme.theme = {
         bar_fg         = "#263238",
     },
     night = {
-        bg         = "#282b30",
+        bg         = "#282b30ee",
         fg         = "#e3e6e8",
+        bg_alt     = "#282b30aa",
         hour       = "#eca1a6",
         minute     = "#b5e7a0",
         second     = "#fefbd8",

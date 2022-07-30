@@ -12,25 +12,8 @@ local box_width  = dpi(128)
 local box_height = dpi(128)
 
 -- Icon of the widget {{{
-local icon = wibox.widget {
-    widget = wibox.widget.imagebox,
-    stylesheet = "*{fill:"..beautiful.theme[theme_name].progressbar_fg..";}",
-    backlight_path_tail = "backlight/screen.svg",
-}
-
--- Load the icon with the correct theme
-function icon:load_image(path, theme)
-    local theme = theme or theme_name
-    -- we store the path so we can recolor at any time
-    icon.current_image = path
-    icon.stylesheet = "*{fill:"..beautiful.theme[theme].progressbar_fg..";}"
-    icon.image = path
-end
-
--- Live recolor :-)
-awesome.connect_signal("theme_change", function(theme)
-    icon:load_image(icon.current_image, theme)
-end)
+local icon = helpers.svg(nil, nil, nil, "progressbar_fg")
+icon.backlight_path_tail = "backlight/screen.svg"
 -- }}}
 
 -- Progress bar of the widget {{{
@@ -111,14 +94,14 @@ end
 -- Screen update
 function popup:on_screen_update(percentage)
     bar.value = percentage
-    icon:load_image(beautiful.icon_path..icon.backlight_path_tail)
+    icon:update(nil, beautiful.icon_path..icon.backlight_path_tail)
     popup:show()
 end
 
 -- Blue light update
 function popup:on_bluelight_update(percentage)
     bar.value = percentage
-    icon:load_image(beautiful.icon_path.."backlight/blue.svg")
+    icon:update(nil, beautiful.icon_path.."backlight/blue.svg")
     popup:show()
 end
 
@@ -135,17 +118,13 @@ function popup:on_volume_update(volume, muted)
     bar.value = volume
 
     if muted then
-        icon:load_image(beautiful.icon_path
-            .."/volume/volume-off.svg")
+        icon:update(nil, beautiful.icon_path.."/volume/volume-off.svg")
     elseif volume < 10 then
-        icon:load_image(beautiful.icon_path
-            .."/volume/volume-low.svg")
+        icon:update(nil, beautiful.icon_path.."/volume/volume-low.svg")
     elseif volume < 60 then
-        icon:load_image(beautiful.icon_path
-            .."/volume/volume-medium.svg")
+        icon:update(nil, beautiful.icon_path.."/volume/volume-medium.svg")
     else
-        icon:load_image(beautiful.icon_path
-            .."/volume/volume-high.svg")
+        icon:update(nil, beautiful.icon_path.."/volume/volume-high.svg")
     end
 
     popup:show()

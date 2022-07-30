@@ -119,18 +119,8 @@ local function notification_template(notif)
         else
             icon_name = "notification/bell.svg"
         end
-        icon = wibox.widget {
-            widget = wibox.widget.imagebox,
-            resize = true,
-            image  = beautiful.icon_path..icon_name,
-            forced_height = beautiful.notification_icon_size/2,
-            forced_width  = beautiful.notification_icon_size/2,
-            stylesheet    = "*{fill:"..beautiful.theme[theme_name].fg..";}"
-        }
-        -- Update on theme change
-        awesome.connect_signal("theme_change", function(theme)
-            icon.stylesheet = "*{fill:"..beautiful.theme[theme].fg..";}"
-        end)
+        local dim = beautiful.notification_icon_size/2
+        icon = helpers.svg(beautiful.icon_path..icon_name, dim, dim)
     else
         icon = naughty.widget.icon
     end
@@ -195,7 +185,7 @@ naughty.connect_signal("request::display", function(n)
         type = "notification",
         screen = awful.screen.focused(),
         shape = gears.shape.rectangle,
-        bg = beautiful.transparent,
+        bg = "transparent",
         widget_template = notification_template(n)
     }
 
@@ -204,6 +194,9 @@ naughty.connect_signal("request::display", function(n)
         awful.button({}, 1, function() end),
         awful.button({}, 3, function() naughty.destroy(n) end)
     ))
+
+    -- Disable timeout on hover
+    notif:connect_signal("mouse::enter", function() n:reset_timeout(1000) end)
 end)
 -- }}}
 

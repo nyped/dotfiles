@@ -178,6 +178,19 @@ awful.keyboard.append_global_keybindings({
     ),
     -- }}}
 
+    -- {{{ Restore minimize
+    awful.key(
+        {modkey, "Shift"}, "s",
+        function()
+            local c = awful.client.restore()
+            if c then
+                c:emit_signal( "request::activate", "key.unminimize", {raise = true})
+            end
+        end,
+        {description = "restore minimized", group = "client"}
+    ),
+    -- }}}
+
     -- Menubar
     awful.key(
         {modkey}, "p",
@@ -551,17 +564,7 @@ client.connect_signal("request::default_keybindings", function()
             function (c)
                 c.sticky = not c.sticky
             end ,
-            {description = "toggle sticky window", group = "client"}),
-        awful.key(
-            {modkey, "Shift"}, "s",
-            function()
-                local c = awful.client.restore()
-                if c then
-                    c:emit_signal( "request::activate", "key.unminimize", {raise = true})
-                end
-            end,
-            {description = "restore minimized", group = "client"}
-        )
+            {description = "toggle sticky window", group = "client"})
     })
 
     local dir_map = {

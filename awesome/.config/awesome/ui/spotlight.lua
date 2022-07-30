@@ -42,16 +42,8 @@ end)
 -- }}}
 
 -- {{{ Search icon
-local icon = wibox.widget {
-    image  = beautiful.icon_path.."taglist/search.svg",
-    widget = wibox.widget.imagebox,
-    stylesheet = "*{fill:"..beautiful.theme[theme_name].progressbar_fg..";}",
-}
-
--- Live recolor :-)
-awesome.connect_signal("theme_change", function(theme)
-    icon.stylesheet = "*{fill:"..beautiful.theme[theme].progressbar_fg..";}"
-end)
+local icon_path = beautiful.icon_path.."taglist/search.svg"
+local icon = helpers.svg(icon_path, nil, nil, "progressbar_fg")
 -- }}}
 
 -- {{{ Setup
