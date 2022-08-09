@@ -1,5 +1,4 @@
 local awful = require("awful")
-local wibox = require("wibox")
 local menubar = require("menubar")
 local beautiful = require("beautiful")
 local hotkeys_popup = require("awful.hotkeys_popup")
@@ -12,7 +11,12 @@ editor_cmd = terminal .. " -e " .. editor
 script_path = "/home/lenny/bin/"
 -- }}}
 
+-- {{{ Global states
 theme_name = "night"
+player_title = ""
+player_info = "Not playing"
+player_cover = beautiful.icon_path .. "player/cover.png"
+-- }}}
 
 -- {{{ Menu
 -- Create a launcher widget and a main menu
@@ -46,11 +50,6 @@ mymainmenu = awful.menu({
             terminal,
         },
     },
-})
-
-mylauncher = awful.widget.launcher({
-    image = beautiful.awesome_icon,
-    menu = mymainmenu,
 })
 
 -- Menubar configuration

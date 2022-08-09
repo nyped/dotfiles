@@ -2,6 +2,7 @@ local gears = require("gears")
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
+local spawn_media = require("tools.media").spawn_media
 
 local script_path = "/home/lenny/bin/"
 -- {{{
@@ -24,7 +25,7 @@ local function tag_view_nonempty(step)
         end
     end
 
-    start = step > 0 and 0 or #tags + 1
+    local start = step > 0 and 0 or #tags + 1
 
     for i = start + step, bound, step do
         local t = tags[i]
@@ -39,15 +40,6 @@ end
 awesome.connect_signal("tag_switch", function(step)
     tag_view_nonempty(step)
 end)
--- }}}
-
--- {{{
-function update_backlight(cmd, signal)
-    awful.spawn.easy_async_with_shell(cmd, function(stdout)
-        local percentage = tonumber(stdout:match("(%d+)"))
-        awesome.emit_signal(signal, percentage)
-    end)
-end
 -- }}}
 
 -- {{{ Mouse bindings
@@ -86,6 +78,15 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey }, "l", function()
         awful.client.focus.global_bydirection("right", client.focus)
     end, { description = "focus right window", group = "client" }),
+    -- }}}
+
+    -- {{{ Notifications
+    awful.key({ modkey }, "b", function()
+        awesome.emit_signal("notification::mode_toggle")
+    end, { description = "Toggle silent mode", group = "notification" }),
+    awful.key({ modkey }, "v", function()
+        awesome.emit_signal("control_center::toggle")
+    end, { description = "Show the control center", group = "notification" }),
     -- }}}
 
     -- {{{ Layout manipulation
@@ -218,25 +219,25 @@ awful.keyboard.append_global_keybindings({
 
     -- {{{ Brightness
     awful.key({}, "XF86MonBrightnessUp", function()
-        update_backlight(
+        spawn_media(
             script_path .. "backlight -l -i 1%",
             "screen_backlight_change"
         )
     end, { description = "Increase brightness (1%)", group = "media" }),
     awful.key({ "Shift" }, "XF86MonBrightnessUp", function()
-        update_backlight(
+        spawn_media(
             script_path .. "backlight -l -i 1",
             "screen_backlight_change"
         )
     end, { description = "Increase brightness", group = "media" }),
     awful.key({}, "XF86MonBrightnessDown", function()
-        update_backlight(
+        spawn_media(
             script_path .. "backlight -l -d 1%",
             "screen_backlight_change"
         )
     end, { description = "Decrease brightness (1%)", group = "media" }),
     awful.key({ "Shift" }, "XF86MonBrightnessDown", function()
-        update_backlight(
+        spawn_media(
             script_path .. "backlight -l -d 1",
             "screen_backlight_change"
         )
@@ -244,34 +245,24 @@ awful.keyboard.append_global_keybindings({
     -- }}}
 
     -- {{{ Kb backlight
-    awful.key(
-        {},
-        "XF86KbdBrightnessUp",
-        function()
-            update_backlight(
-                script_path .. "backlight -k -i 1%",
-                "keyboard_backlight_change"
-            )
-        end,
-        {
-            description = "Increase keyboard backlight brightness",
-            group = "media",
-        }
-    ),
-    awful.key(
-        {},
-        "XF86KbdBrightnessDown",
-        function()
-            update_backlight(
-                script_path .. "backlight -k -d 1%",
-                "keyboard_backlight_change"
-            )
-        end,
-        {
-            description = "Decrease keyboard backlight brightness",
-            group = "media",
-        }
-    ),
+    awful.key({}, "XF86KbdBrightnessUp", function()
+        spawn_media(
+            script_path .. "backlight -k -i 1%",
+            "keyboard_backlight_change"
+        )
+    end, {
+        description = "Increase keyboard backlight brightness",
+        group = "media",
+    }),
+    awful.key({}, "XF86KbdBrightnessDown", function()
+        spawn_media(
+            script_path .. "backlight -k -d 1%",
+            "keyboard_backlight_change"
+        )
+    end, {
+        description = "Decrease keyboard backlight brightness",
+        group = "media",
+    }),
     -- }}}
 
     -- {{{ Gaps and borders
@@ -426,19 +417,14 @@ client.connect_signal("request::default_keybindings", function()
         awful.key({ modkey }, "c", function(c)
             c:move_to_screen()
         end, { description = "move to screen", group = "client" }),
-        awful.key(
-            { modkey },
-            "v",
-            function(c)
-                local index = c.first_tag.index
-                c:move_to_screen()
-                c:move_to_tag(c.screen.tags[index])
-            end,
-            {
-                description = "move to screen (keeping the tag)",
-                group = "client",
-            }
-        ),
+        awful.key({ modkey }, "v", function(c)
+            local index = c.first_tag.index
+            c:move_to_screen()
+            c:move_to_tag(c.screen.tags[index])
+        end, {
+            description = "move to screen (keeping the tag)",
+            group = "client",
+        }),
         awful.key({ modkey }, "t", function(c)
             c.ontop = not c.ontop
         end, { description = "toggle keep on top", group = "client" }),

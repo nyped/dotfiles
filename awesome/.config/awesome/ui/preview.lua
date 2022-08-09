@@ -1,10 +1,8 @@
 local beautiful = require("beautiful")
 local wibox = require("wibox")
-local awful = require("awful")
 local gears = require("gears")
 local helpers = require("ui.helpers")
 local dpi = beautiful.xresources.apply_dpi
-local screen = screen.primary
 local cairo = require("lgi").cairo
 
 -- Preview of a client a one scale
@@ -17,7 +15,7 @@ local function preview(c, scale)
     end
     local img =
         cairo.ImageSurface.create(cairo.Format.ARGB32, c.width, c.height)
-    cr = cairo.Context(img)
+    local cr = cairo.Context(img)
     cr:set_source_surface(content)
     cr:paint()
 
@@ -44,10 +42,6 @@ local popup = wibox({
     visible = false,
     ontop = true,
 })
-
--- Support drag
---  popup:buttons(gears.table.join(
---    awful.button({}, 1, function() awful.mouse.wibox.move(popup) end)))
 
 local inner_widget = wibox.layout.manual()
 local scale = 0.2
@@ -96,8 +90,8 @@ function popup:show(screen, do_show)
     -- show on the correct screen
     local geometry = screen.geometry
     popup:geometry({
-        x = geometry.x + dpi(10),
-        y = geometry.y + dpi(10) + beautiful.wibar_height,
+        x = geometry.x + dpi(2.5),
+        y = geometry.y + dpi(2.5) + beautiful.wibar_height,
     })
     -- show the popup widget
     popup.visible = do_show

@@ -1,8 +1,7 @@
+local gears = require("gears")
 local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local dpi = beautiful.xresources.apply_dpi
-local gears = require("gears")
 
 -- {{{ Volume signals
 -- https://github.com/JavaCafe01/dotfiles/blob/master/config/awesome/signal/volume.lua
@@ -56,7 +55,7 @@ awful.spawn.easy_async({
 }, function()
     -- Run emit_volume_info() with each line printed
     awful.spawn.with_line_callback(volume_script, {
-        stdout = function(line)
+        stdout = function(_)
             emit_volume_info()
         end,
     })
@@ -67,11 +66,14 @@ end)
 -- {{{ Player signals
 local player_script = [[
     bash -c "
-        key='{{status}}|{{mpris:artUrl}}|{{title}}';
+        key='{{playerName}}|{{status}}|{{mpris:artUrl}}|{{title}}|{{artist}} - {{album}}';
         destination=/tmp/spotify_cover.png;
 
-        playerctl --follow metadata --format $key | {
-          while IFS='|' read -r status url title; do
+        playerctl --follow metadata --format \"$key\" | {
+          while IFS='|' read -r player status url title info; do
+            if [ \"$player\" != spotify ]; then
+                continue
+            fi
             if [ -z \"$url\" ]; then
               cover=/home/lenny/dotfiles/awesome/theme/assets/player/cover.png
             else
@@ -80,12 +82,17 @@ local player_script = [[
             fi
 
             if [ -z \"$title\" ]; then
-              title=\"Unknown player\"
+              title=\"-\"
+            fi
+
+            if [ -z \"$info\" ]; then
+              info=\"Not playing\"
             fi
 
             echo \"player_status_update:$status\"
             echo \"player_cover_update:$cover\"
             echo \"player_text_update:$title\"
+            echo \"player_info_update:$info\"
           done
         }
     "
@@ -105,6 +112,18 @@ awful.spawn.easy_async({
             awesome.emit_signal(signal_name, updated_value)
         end,
     })
+end)
+
+awesome.connect_signal("player_text_update", function(val)
+    player_title = val
+end)
+
+awesome.connect_signal("player_info_update", function(val)
+    player_info = val
+end)
+
+awesome.connect_signal("player_cover_update", function(path)
+    player_cover = gears.surface.load_uncached(path)
 end)
 -- }}}
 

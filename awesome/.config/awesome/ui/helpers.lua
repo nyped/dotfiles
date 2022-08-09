@@ -12,10 +12,22 @@ function helpers.prrect(tl, tr, br, bl)
     end
 end
 
+-- Sizer
+function helpers.constraint(widget, height, width, strategy)
+    strategy = strategy or "min"
+    return wibox.widget({
+        widget,
+        strategy = strategy,
+        width = width,
+        height = height,
+        widget = wibox.container.constraint,
+    })
+end
+
 -- {{{ Svg icon
-function helpers.svg(svg, heigth, width, theme_var, buttons, pre_update)
+function helpers.svg(svg, height, width, theme_var, buttons, pre_update)
     local ret = wibox.widget({
-        forced_height = heigth,
+        forced_height = height,
         forced_width = width,
         pre_update = pre_update,
         buttons = buttons,
@@ -26,10 +38,10 @@ function helpers.svg(svg, heigth, width, theme_var, buttons, pre_update)
     -- New svg or recolor method
     function ret:update(theme, new_svg)
         if ret.pre_update then
-            ret:pre_update(theme, target)
+            ret:pre_update(theme, new_svg)
         end
-        local theme = theme or theme_name
         local target = new_svg or ret.svg_path
+        theme = theme or theme_name
         ret.stylesheet = "*{fill:"
             .. beautiful.theme[theme][theme_var or "fg"]
             .. ";}"
@@ -138,9 +150,9 @@ end
 -- {{{ Container connected to theme_change signal
 function helpers.custom_container_bg(bg_name, fg_name, constructor)
     local function create_instance()
-        local bg_name = bg_name or nil
-        local fg_name = fg_name or nil
         local ret = wibox.container.background()
+        bg_name = bg_name or nil
+        fg_name = fg_name or nil
 
         -- initialisation and connection
         if bg_name ~= nil then
@@ -202,10 +214,10 @@ end
 
 -- Pad a widget
 function helpers.padded(widget, top, bottom, left, right)
-    local top = top or dpi(10)
-    local bottom = bottom or dpi(10)
-    local left = left or dpi(10)
-    local right = right or dpi(10)
+    top = top or dpi(10)
+    bottom = bottom or dpi(10)
+    left = left or dpi(10)
+    right = right or dpi(10)
 
     return wibox.container.margin(widget, left, right, top, bottom)
 end
@@ -223,11 +235,13 @@ function helpers.spawner(cmd)
 end
 
 -- Create a button
-function helpers.create_button(symbol, left_func, right_func)
+function helpers.create_button(symbol, left_func, right_func, font_size)
+    font_size = font_size or 15
     local icon = wibox.widget({
-        markup = helpers.markup_format(symbol, beautiful.icon_font, 20),
+        markup = helpers.markup_format(symbol, beautiful.icon_font, font_size),
         align = "center",
         valign = "center",
+        font_size = font_size,
         widget = wibox.widget.textbox,
     })
 
@@ -247,8 +261,9 @@ function helpers.create_button(symbol, left_func, right_func)
 end
 
 -- Button widget
-function helpers.create_button_widget(symbol, left_func, right_func)
-    local inner_button = helpers.create_button(symbol, left_func, right_func)
+function helpers.create_button_widget(symbol, left_func, right_func, font_size)
+    local inner_button =
+        helpers.create_button(symbol, left_func, right_func, font_size)
 
     local ret = helpers.themed(
         helpers.equal_padded(inner_button, dpi(20)),
@@ -266,7 +281,7 @@ end
 
 -- {{{ delay a call
 function helpers.delay(func, timeout)
-    local timeout = timeout or 0.1
+    timeout = timeout or 0.1
     gears.timer({
         timeout = timeout,
         call_now = false,

@@ -20,19 +20,27 @@ local monitor_popup = wibox({
 
 local monohead = helpers.create_button_widget(
     "",
-    helpers.spawner(script_path .. "monitors -l")
+    helpers.spawner(script_path .. "monitors -l"),
+    nil,
+    20
 )
 local external = helpers.create_button_widget(
     "",
-    helpers.spawner(script_path .. "monitors -d")
+    helpers.spawner(script_path .. "monitors -d"),
+    nil,
+    20
 )
 local multihead = helpers.create_button_widget(
     "",
-    helpers.spawner(script_path .. "monitors -m")
+    helpers.spawner(script_path .. "monitors -m"),
+    nil,
+    20
 )
 local replicate = helpers.create_button_widget(
     "",
-    helpers.spawner(script_path .. "monitors -r")
+    helpers.spawner(script_path .. "monitors -r"),
+    nil,
+    20
 )
 
 local monitors_line = {
@@ -70,6 +78,8 @@ function monitor_popup:toggle()
 end
 -- }}}
 
-return monitor_popup
+awesome.connect_signal("monitors_show", function()
+    monitor_popup:toggle()
+end)
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

@@ -4,35 +4,112 @@ local wibox = require("wibox")
 local dpi = require("beautiful.xresources").apply_dpi
 local beautiful = require("beautiful")
 local helpers = require("ui.helpers")
+local spawn_media = require("tools.media").spawn_media
 
 -- WMCLASS widget
 -- {{{
-local class = wibox.widget.textbox()
+local class_txt = wibox.widget({
+    widget = wibox.widget.textbox,
+    buttons = {
+        awful.button({
+            button = 1,
+            on_press = function()
+                awesome.emit_signal("control_center::toggle")
+            end,
+        }),
+    },
+})
 
-class.buttons = {
-    awful.button({
-        button = 1,
-        on_press = function()
-            awesome.emit_signal("panel_toggle")
-        end,
-    }),
-}
+local window_class = wibox.widget({
+    class_txt,
+    right = dpi(10),
+    layout = wibox.layout.margin,
+    -- user defined
+    class = "No name",
+    name = nil,
+})
 
-client.connect_signal("unfocus", function(c)
-    class:set_markup_silently("")
+client.connect_signal("unfocus", function(_)
+    class_txt.visible = false
 end)
 
 client.connect_signal("focus", function(c)
-    name = c.class == nil and "" or c.class:gsub("^%l", string.upper)
-    class:set_markup_silently(name)
+    local class = c.class and c.class:gsub("^%l", string.upper) or "No name"
+    class_txt:set_markup_silently(class)
+    class_txt.visible = true
+    window_class.class = class
+    window_class.name = c.name
 end)
 
-local window_class = {
-    class,
-    right = dpi(10),
-    layout = wibox.layout.margin,
-}
+window_class.tooltip = helpers.tooltip(window_class, function()
+    local tail = window_class.name and " - " .. window_class.name or ""
+    return window_class.class .. tail
+end)
 -- }}}
+
+-- {{{ Notifications
+local notif_svg = beautiful.icon_path .. "notification/bell_thick.svg"
+local notif_buttons = {
+    awful.button({
+        button = 1,
+        on_press = function()
+            awesome.emit_signal("notification::mode_toggle")
+        end,
+    }),
+}
+local notif_icon = helpers.svg(notif_svg, nil, nil, "bar_fg", notif_buttons)
+local notifications = wibox.widget({
+    notif_icon,
+    top = beautiful.icon_v_padding,
+    bottom = beautiful.icon_v_padding,
+    right = beautiful.wibar_spacing,
+    layout = wibox.container.margin,
+    visible = false,
+    silent = false,
+    new = 0,
+})
+-- Tooltip
+notifications.tooltip = helpers.tooltip(notifications, function()
+    local mode = notifications.silent and "silent" or "normal"
+    local number = notifications.new > 0
+            and " (" .. tostring(notifications.new) .. " new)"
+        or ""
+    return "In " .. mode .. " mode" .. number
+end)
+-- Update symbols
+awesome.connect_signal("notification::new", function(silent)
+    if not silent then
+        notif_icon:update(
+            nil,
+            beautiful.icon_path .. "notification/bell_thick_new.svg"
+        )
+    end
+end)
+
+awesome.connect_signal("notification::mode", function(silent, new)
+    local status = new > 0 and "_new" or ""
+    local mode = silent and "_off" or "_on"
+    -- Update visibility
+    if not silent and new <= 0 then
+        notifications.visible = false
+        return
+    else
+        notifications.visible = true
+    end
+    -- Updating tooltip data
+    notifications.silent = silent
+    notifications.new = new
+    -- Changing icons
+    notif_icon:update(
+        nil,
+        beautiful.icon_path
+            .. "notification/notification"
+            .. mode
+            .. status
+            .. ".svg"
+    )
+end)
+-- }}
 
 -- {{{ Battery widget
 local battery_icon = helpers.svg(nil, nil, nil, "bar_fg")
@@ -57,7 +134,8 @@ local bat = wibox.widget({
 })
 
 function bat:update_meta(charging, capacity_str)
-    local capacity = tonumber(capacity_str), image
+    local capacity = tonumber(capacity_str)
+    local image
 
     battery_level:set_markup_silently(capacity_str .. "%")
 
@@ -141,13 +219,19 @@ function volume_icon:update_volume(volume_level, muted)
     volume_icon.muted = muted
 
     if muted then
-        volume_icon.image = beautiful.icon_path .. "/volume/volume-off.svg"
+        volume_icon:update(nil, beautiful.icon_path .. "/volume/volume-off.svg")
     elseif volume_level < 10 then
-        volume_icon.image = beautiful.icon_path .. "/volume/volume-low.svg"
+        volume_icon:update(nil, beautiful.icon_path .. "/volume/volume-low.svg")
     elseif volume_level < 60 then
-        volume_icon.image = beautiful.icon_path .. "/volume/volume-medium.svg"
+        volume_icon:update(
+            nil,
+            beautiful.icon_path .. "/volume/volume-medium.svg"
+        )
     else
-        volume_icon.image = beautiful.icon_path .. "/volume/volume-high.svg"
+        volume_icon:update(
+            nil,
+            beautiful.icon_path .. "/volume/volume-high.svg"
+        )
     end
 end
 
@@ -194,12 +278,12 @@ local brightness_buttons = {
         button = 5,
         on_press = function()
             if not is_builtin_output() then
-                update_backlight(
+                spawn_media(
                     script_path .. "backlight -m -d 5%",
                     "screen_backlight_change"
                 )
             else
-                update_backlight(
+                spawn_media(
                     script_path .. "backlight -l -d 1%",
                     "screen_backlight_change"
                 )
@@ -210,12 +294,12 @@ local brightness_buttons = {
         button = 4,
         on_press = function()
             if not is_builtin_output() then
-                update_backlight(
+                spawn_media(
                     script_path .. "backlight -m -i 5%",
                     "screen_backlight_change"
                 )
             else
-                update_backlight(
+                spawn_media(
                     script_path .. "backlight -l -i 1%",
                     "screen_backlight_change"
                 )
@@ -226,7 +310,7 @@ local brightness_buttons = {
         button = 3,
         on_press = function()
             if not is_builtin_output() then
-                update_backlight(
+                spawn_media(
                     script_path .. "backlight -b -i 5%",
                     "screen_bluelight_change"
                 )
@@ -245,7 +329,7 @@ local brightness_buttons = {
         button = 1,
         on_press = function()
             if not is_builtin_output() then
-                update_backlight(
+                spawn_media(
                     script_path .. "backlight -b -d 5%",
                     "screen_bluelight_change"
                 )
@@ -256,20 +340,24 @@ local brightness_buttons = {
     }),
 }
 
-local pre_update = function(self, theme, svg)
+local pre_update = function(self, theme, _)
     local tail = theme == "day" and ".svg" or "-night.svg"
     self.svg_path = beautiful.icon_path .. "backlight/screen" .. tail
 end
 local brightness_icon =
     helpers.svg(nil, nil, nil, "bar_fg", brightness_buttons, pre_update)
 
-local brightness = {
+local brightness = wibox.widget({
     brightness_icon,
     top = beautiful.icon_v_padding,
     bottom = beautiful.icon_v_padding,
     right = beautiful.wibar_spacing,
     layout = wibox.container.margin,
-}
+})
+
+brightness.tooltip = helpers.tooltip(brightness, function()
+    return "Using " .. theme_name .. " theme"
+end)
 -- }}}
 
 -- {{{ hwmon
@@ -417,6 +505,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         widget = wibox.layout.margin,
     }
 
+    -- luacheck: push ignore index tags
     local update_tag = function(widget, tag, index, tags)
         local icon = widget:get_children_by_id("svg_role")[1]
         local underline = widget:get_children_by_id("underline_role")[1]
@@ -442,7 +531,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         if tag.selected then
             underline.bg = beautiful.theme[theme_name].bar_fg
         end
-    end
+    end -- luacheck: pop
 
     local init_tag = function(widget, tag, index, tags)
         local icon = widget:get_children_by_id("svg_role")[1]
@@ -463,8 +552,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 .. beautiful.theme[theme_name].hover
                 .. ";}"
             -- Tag preview
-            awesome.emit_signal("preview_update", tag)
-            awesome.emit_signal("preview_show", s, true)
+            -- awesome.emit_signal("preview_update", tag)
+            -- awesome.emit_signal("preview_show", s, true)
         end)
 
         widget:connect_signal("mouse::leave", function()
@@ -473,11 +562,11 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 .. beautiful.theme[theme_name].bar_fg
                 .. ";}"
             -- Tag preview
-            awesome.emit_signal("preview_show", s, false)
+            -- awesome.emit_signal("preview_show", s, false)
         end)
 
         -- Theme change support
-        awesome.connect_signal("theme_change", function(theme)
+        awesome.connect_signal("theme_change", function(_)
             update_tag(widget, tag, index, tags)
         end)
 
@@ -522,6 +611,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
     -- }}}
 
     -- {{{ Create a tasklist widget
+    -- luacheck: push ignore i o
     local init_task = function(widget, c, i, o)
         local class = c.class or "None"
         local name = c.name or "None"
@@ -531,7 +621,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         end)
         -- Updating the text
         widget:get_children_by_id("custom_text_role")[1].text = class
-    end
+    end -- luacheck: pop
 
     s.mytasklist = awful.widget.tasklist({
         screen = s,
@@ -597,6 +687,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     { -- Right widgets
                         layoutbox,
                         hwmon,
+                        notifications,
                         systray,
                         brightness,
                         volume,
