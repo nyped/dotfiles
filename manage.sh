@@ -8,7 +8,6 @@ target=(
   bat
   bspwm
   dunst
-  eww
   kitty
   nvim
   picom
