@@ -12,7 +12,7 @@ script_path = "/home/lenny/bin/"
 -- }}}
 
 -- {{{ Global states
-theme_name = "night"
+theme_name = "dark"
 player_title = ""
 player_info = "Not playing"
 player_cover = beautiful.icon_path .. "player/cover.png"

@@ -1,13 +1,33 @@
 local awful = require("awful")
 local ruled = require("ruled")
 
+local function no_class_handle(c)
+    local cmd = "ps -p " .. tostring(c.pid) .. " -o comm= 2>/dev/null"
+    -- Getting the caller name
+    awful.spawn.easy_async_with_shell(cmd, function(stdout)
+        local screen = client.focus.screen
+        local owner = stdout:gsub("[\r\n]", "")
+        local target
+        c.class = owner
+        if owner == "spotify" then
+            target = awful.tag.find_by_name(screen, "music")
+            c:move_to_tag(target)
+        end
+    end)
+end
+
 -- {{{ Rules
 ruled.client.connect_signal("request::rules", function()
     ruled.client.append_rule({
         id = "global",
         rule = {},
         callback = function(c)
-            c:to_secondary_section() -- new windows placement
+            -- new windows placement
+            c:to_secondary_section()
+            -- Check for missing class
+            if c.class == nil or c.class == "" then
+                no_class_handle(c)
+            end
         end,
         properties = {
             focus = awful.client.focus.filter,
@@ -19,6 +39,7 @@ ruled.client.connect_signal("request::rules", function()
             maximized_horizontal = false,
             maximized_vertical = false,
             maximized = false,
+            floating = false,
         },
     })
 
@@ -38,16 +59,13 @@ ruled.client.connect_signal("request::rules", function()
                 "veromix",
                 "xtightvncviewer",
             },
-            -- Note that the name property shown in xprop might be set slightly after creation of the client
-            -- and the name shown there might not match defined rules here.
-            name = {
-                "Event Tester", -- xev.
-            },
+            name = { "Event Tester" }, -- xev
             role = {
                 "AlarmWindow", -- Thunderbird's calendar.
                 "ConfigManager", -- Thunderbird's about:config.
                 "pop-up", -- e.g. Google Chrome's (detached) Developer Tools.
             },
+            type = { "utility" },
         },
         properties = { floating = true },
     })
@@ -69,35 +87,28 @@ ruled.client.connect_signal("request::rules", function()
     })
 
     ruled.client.append_rule({
-        rule = {
-            instance = "[Ff]irefox",
-            type = "normal",
-        },
-        properties = { tag = "1", floating = false },
+        rule = { class = "firefox" },
+        properties = { tag = "web" },
     })
     ruled.client.append_rule({
         rule = { class = "terminal" },
-        properties = { tag = "3", floating = false },
+        properties = { tag = "console" },
     })
     ruled.client.append_rule({
         rule = { class = "Zathura" },
-        properties = { tag = "4" },
+        properties = { tag = "doc" },
     })
     ruled.client.append_rule({
         rule = { class = "libreoffice*" },
-        properties = { tag = "7", floating = false },
+        properties = { tag = "office" },
     })
     ruled.client.append_rule({
         rule = { class = "discord" },
-        properties = { tag = "5" },
+        properties = { tag = "chat" },
     })
     ruled.client.append_rule({
         rule = { class = "qBittorrent" },
-        properties = { tag = "10" },
-    })
-    ruled.client.append_rule({
-        rule = { class = "[Ss]potify" },
-        properties = { tag = "9" },
+        properties = { tag = "download" },
     })
     ruled.client.append_rule({
         rule = { class = "Terminal" },
@@ -109,22 +120,20 @@ ruled.client.connect_signal("request::rules", function()
         },
     })
     ruled.client.append_rule({
-        rule_any = {
-            class = { "Spyder", "java-lang-Thread" },
-        },
-        properties = { tag = "2" },
+        rule_any = { class = { "Spyder", "java-lang-Thread" } },
+        properties = { tag = "search" },
     })
     ruled.client.append_rule({
-        rule_any = {
-            class = { "[Vv]lc" },
-        },
-        properties = { tag = "6" },
+        rule_any = { class = { "Vlc", "vlc" } },
+        properties = { tag = "video" },
     })
     ruled.client.append_rule({
-        rule_any = {
-            class = { "[Aa]gdbentures" },
-        },
-        properties = { floating = true },
+        rule = { class = "burp*" },
+        properties = { tag = "search" },
+    })
+    ruled.client.append_rule({
+        rule_any = { class = { "pavucontrol", "Pavucontrol" } },
+        properties = { tag = "music" },
     })
 end)
 -- }}}

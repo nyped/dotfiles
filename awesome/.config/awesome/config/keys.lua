@@ -8,37 +8,45 @@ local script_path = "/home/lenny/bin/"
 -- {{{
 -- Switch tag, while skipping empty ones
 -- with teleportation !
-local function tag_view_nonempty(step)
+local function tag_view_nonempty(step, pinned_only)
     local s = awful.screen.focused()
     local tags = s.tags
-    local bound = step > 0 and #tags or 1
+    local start = 1
 
-    if s.selected_tag == nil then
-        return -- No tag, nothing to do
-    end
+    if s.selected_tag == nil then return end
+    start = s.selected_tag.index
 
-    for i = s.selected_tag.index + step, bound, step do
-        local t = tags[i]
-        if #t:clients() > 0 then
-            t:view_only()
-            return
+    -- checking if there is enough pinned tabs
+    local pinned_count = 0
+    for i = 1, #tags do
+        if tags[i].pinned then
+            pinned_count = pinned_count + 1
         end
     end
+    pinned_only = pinned_only and pinned_count > 1
 
-    local start = step > 0 and 0 or #tags + 1
+    -- sliding through all the tabs
+    local i = start + step
+    while i ~= start do
+        if i < 1 or #tags < i then
+            i = step > 0 and 1 or #tags
+        end
 
-    for i = start + step, bound, step do
-        local t = tags[i]
-        if #t:clients() > 0 then
-            t:view_only()
+        if #tags[i]:clients() > 0 and not pinned_only or tags[i].pinned then
+            tags[i]:view_only()
             return
         end
+
+        -- Nothing to do bru
+        if i == start then return end
+
+        i = i + step
     end
 end
 
 -- Switch from xbindkeys
 awesome.connect_signal("tag_switch", function(step)
-    tag_view_nonempty(step)
+    tag_view_nonempty(step, true)
 end)
 -- }}}
 
@@ -50,13 +58,24 @@ end)))
 
 -- {{{ Key bindings
 awful.keyboard.append_global_keybindings({
-    -- {{{ tag switch
-    awful.key({ "Mod1", "Shift" }, "Tab", function()
+    -- {{{ tags
+    awful.key({ modkey }, "[", function()
         tag_view_nonempty(-1)
     end, { description = "view previous", group = "tag" }),
-    awful.key({ "Mod1" }, "Tab", function()
+    awful.key({ modkey }, "]", function()
         tag_view_nonempty(1)
     end, { description = "view next", group = "tag" }),
+    awful.key({ "Mod1", "Shift" }, "Tab", function()
+        tag_view_nonempty(-1, true)
+    end, { description = "view previous pinned", group = "tag" }),
+    awful.key({ "Mod1" }, "Tab", function()
+        tag_view_nonempty(1, true)
+    end, { description = "view next pinned", group = "tag" }),
+    awful.key({ modkey }, ".", function()
+        local tag = awful.screen.focused().selected_tag
+        tag.pinned = not tag.pinned
+        tag.update()
+    end, { description = "toggle pin", group = "tag" }),
     -- }}}
 
     -- {{{ focus switch
@@ -84,9 +103,9 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey }, "b", function()
         awesome.emit_signal("notification::mode_toggle")
     end, { description = "Toggle silent mode", group = "notification" }),
-    awful.key({ modkey }, "v", function()
-        awesome.emit_signal("control_center::toggle")
-    end, { description = "Show the control center", group = "notification" }),
+--  awful.key({ modkey }, "v", function()
+--      awesome.emit_signal("control_center::toggle")
+--  end, { description = "Show the control center", group = "notification" }),
     -- }}}
 
     -- {{{ Layout manipulation
@@ -142,7 +161,7 @@ awful.keyboard.append_global_keybindings({
     ),
     awful.key({ modkey }, "z", function()
         local s = awful.screen.focused()
-        s.mywibox.visible = not s.mywibox.visible
+        s.bar.visible = not s.bar.visible
     end, {
         description = "Toggle bar on focused screen",
         group = "awesome",
@@ -174,31 +193,31 @@ awful.keyboard.append_global_keybindings({
 
     -- {{{ Volume
     awful.key({ "Shift" }, "XF86AudioRaiseVolume", function()
-        awful.util.spawn(script_path .. "volume -i 1")
+        awful.spawn(script_path .. "volume -i 1")
     end, { description = "Raise volume", group = "media" }),
     awful.key({}, "XF86AudioRaiseVolume", function()
-        awful.util.spawn(script_path .. "volume -i 5")
+        awful.spawn(script_path .. "volume -i 5")
     end, { description = "Raise volume", group = "media" }),
     awful.key({ "Shift" }, "XF86AudioLowerVolume", function()
-        awful.util.spawn(script_path .. "volume -d 1")
+        awful.spawn(script_path .. "volume -d 1")
     end, { description = "Lower volume", group = "media" }),
     awful.key({}, "XF86AudioLowerVolume", function()
-        awful.util.spawn(script_path .. "volume -d 5")
+        awful.spawn(script_path .. "volume -d 5")
     end, { description = "Lower volume", group = "media" }),
     awful.key({}, "XF86AudioMute", function()
-        awful.util.spawn(script_path .. "volume -t")
+        awful.spawn(script_path .. "volume -t")
     end, { description = "Toggle mute", group = "media" }),
     -- }}}
 
     -- {{{ Screenshots
     awful.key({}, "Print", function()
-        awful.util.spawn(script_path .. "screenshot -a")
+        awful.spawn(script_path .. "screenshot -a")
     end, { description = "Screenshot the whole screens", group = "media" }),
     awful.key({ "Shift" }, "Print", function()
-        awful.util.spawn(script_path .. "screenshot -w -S")
+        awful.spawn(script_path .. "screenshot -w -S")
     end, { description = "Screenshot the focused window", group = "media" }),
     awful.key({}, "F10", function()
-        awful.util.spawn(script_path .. "screenshot -s -S")
+        awful.spawn(script_path .. "screenshot -s -S")
     end, {
         description = "Screenshot the selected content",
         group = "media",
@@ -207,13 +226,13 @@ awful.keyboard.append_global_keybindings({
 
     -- {{{ Media keys
     awful.key({}, "XF86AudioPlay", function()
-        awful.util.spawn("playerctl play-pause")
+        awful.spawn("playerctl play-pause")
     end, { description = "Pause media", group = "media" }),
     awful.key({}, "XF86AudioNext", function()
-        awful.util.spawn("playerctl next")
+        awful.spawn("playerctl next")
     end, { description = "Next media", group = "media" }),
     awful.key({}, "XF86AudioPrev", function()
-        awful.util.spawn("playerctl previous")
+        awful.spawn("playerctl previous")
     end, { description = "Previous media", group = "media" }),
     -- }}}
 

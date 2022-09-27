@@ -12,7 +12,7 @@ local box_width = dpi(128)
 local box_height = dpi(128)
 
 -- Icon of the widget {{{
-local icon = helpers.svg(nil, nil, nil, "progressbar_fg")
+local icon = helpers.svg({ theme_var = "progressbar_fg" })
 icon.backlight_path_tail = "backlight/screen.svg"
 -- }}}
 
@@ -70,7 +70,7 @@ end
 
 -- Theme change
 function popup:on_theme_change(state)
-    if state == "day" then
+    if state == "light" then
         icon.backlight_path_tail = "backlight/screen.svg"
     else
         icon.backlight_path_tail = "backlight/screen-night.svg"

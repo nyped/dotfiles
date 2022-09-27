@@ -185,7 +185,7 @@ end)
 
 -- {{{ Theme change
 local function fetch_theme()
-    awful.spawn.easy_async_with_shell("cat /home/lenny/.t", function(stdout)
+    awful.spawn.easy_async_with_shell("cat /home/lenny/.theme", function(stdout)
         -- cleaning up the string
         local out = stdout:gsub("[\n\r]", "")
         -- update global variable

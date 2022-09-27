@@ -84,7 +84,7 @@ function self.player_template(notif)
             }),
             strategy = "min",
             height = dpi(275),
-            widget = wibox.layout.constraint,
+            widget = wibox.container.constraint,
         },
         shape = gears.shape.rounded_rect,
         widget = helpers.custom_container_bg("bg", "fg"),
@@ -152,7 +152,11 @@ function self.notification_template(notif)
             icon_name = "notification/bell.svg"
         end
         local dim = beautiful.notification_icon_size / 2
-        icon = helpers.svg(beautiful.icon_path .. icon_name, dim, dim)
+        icon = helpers.svg({
+            icon = beautiful.icon_path .. icon_name,
+            height = dim,
+            width = dim,
+        })
     else
         icon = naughty.widget.icon({ notification = notif })
     end

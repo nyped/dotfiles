@@ -43,7 +43,10 @@ end)
 
 -- {{{ Search icon
 local icon_path = beautiful.icon_path .. "taglist/search.svg"
-local icon = helpers.svg(icon_path, nil, nil, "progressbar_fg")
+local icon = helpers.svg({
+    icon = icon_path,
+    theme_var = "progressbar_fg",
+})
 -- }}}
 
 -- {{{ Setup

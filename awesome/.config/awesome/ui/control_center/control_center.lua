@@ -100,10 +100,7 @@ function ret:add(notif)
             ret.unseen = math.max(0, ret.unseen - 1)
             ret.emit_state()
             -- Adjusting the anchor
-            if
-                center_widget.scroll_factor == 1
-                and #center_widget.children == 4
-            then
+            if #center_widget.children == 4 then
                 center_widget.scroll_factor = 0
             end
         end

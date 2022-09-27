@@ -12,16 +12,17 @@ theme.font = theme.font_family .. " 8"
 theme.icon_font = "Symbols Nerd Font"
 
 -- wibar stuff
+theme.icon_h_padding = dpi(10)
 theme.icon_v_padding = dpi(5)
-theme.icon_h_padding = dpi(5)
-theme.wibar_spacing = dpi(25)
-theme.wibar_height = dpi(25)
 theme.wibar_border_width = 0
+theme.wibar_height = dpi(25)
+theme.wibar_item_spacing = dpi(25)
+theme.wibar_padding = dpi(20)
 
 theme.transparent = "#00000000"
 
 -- systray
-theme.systray_icon_spacing = theme.wibar_spacing
+theme.systray_icon_spacing = theme.wibar_item_spacing
 
 -- time widget
 theme.hour_widget_fg = "#c83349"
@@ -83,7 +84,7 @@ theme.titlebar_bg_normal = "#e4e4e4"
 theme.icon_path = "/home/lenny/.config/awesome/theme/assets/"
 
 theme.theme = {
-    day = {
+    light = {
         bg = "#e0e2e4ee",
         fg = "#3e515b",
         bg_alt = "#c8ccd0cc",
@@ -103,7 +104,7 @@ theme.theme = {
         bar_bg = "#e0e2e4",
         bar_fg = "#263238",
     },
-    night = {
+    dark = {
         bg = "#282b30ee",
         fg = "#e3e6e8",
         bg_alt = "#282b30aa",

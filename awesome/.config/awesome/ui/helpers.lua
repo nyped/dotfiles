@@ -25,32 +25,34 @@ function helpers.constraint(widget, height, width, strategy)
 end
 
 -- {{{ Svg icon
-function helpers.svg(svg, height, width, theme_var, buttons, pre_update)
+
+-- params: icon, height, width, theme_var, buttons, update_hook
+function helpers.svg(params)
     local ret = wibox.widget({
-        forced_height = height,
-        forced_width = width,
-        pre_update = pre_update,
-        buttons = buttons,
-        svg_path = svg,
+        forced_height = params.height,
+        forced_width = params.width,
+        update_hook = params.update_hook,
+        buttons = params.buttons,
+        icon = params.icon,
         widget = wibox.widget.imagebox,
     })
 
-    -- New svg or recolor method
-    function ret:update(theme, new_svg)
-        if ret.pre_update then
-            ret:pre_update(theme, new_svg)
+    -- New icon or recolor method
+    function ret:update(theme, icon)
+        if ret.update_hook then
+            ret:update_hook(theme, icon)
         end
-        local target = new_svg or ret.svg_path
+        icon = icon or ret.icon
         theme = theme or theme_name
         ret.stylesheet = "*{fill:"
-            .. beautiful.theme[theme][theme_var or "fg"]
+            .. beautiful.theme[theme][params.theme_var or "fg"]
             .. ";}"
-        ret.svg_path = target
-        ret.image = target
+        ret.icon = icon
+        ret.image = icon
     end
 
     -- Init
-    ret:update(theme_name, svg)
+    ret:update(theme_name, params.icon)
     awesome.connect_signal("theme_change", function(theme)
         ret:update(theme)
     end)
@@ -230,7 +232,7 @@ end
 -- What to say hyn
 function helpers.spawner(cmd)
     return function()
-        awful.util.spawn(cmd)
+        awful.spawn(cmd)
     end
 end
 
