@@ -8,7 +8,6 @@ alias b=bat \
       cycle='cat /sys/class/power_supply/BAT0/cycle_count' \
       dots=~/dotfiles \
       dl='cd ~/Downloads' \
-      f='~/bin/fetch' \
       ff=firefox \
       grep='grep --color=always' \
       h='history' \

@@ -112,21 +112,6 @@ evomer() {
   done
 }
 
-mount_dev() {
-  [[ $# == 0 ]] && \
-    echo usage: mmount \<device\> \[destination\] >&2 && \
-    return 255
-
-  [[ "${1:h2}" != "/dev" ]] && \
-    echo Select a device >&2 && \
-    return 254
-
-  echo Mounting the device:
-  sudo mount -o gid=users,fmask=113,dmask=002 "$1" "${2:-/mnt}" \
-    && echo mounted successfully \
-    || echo error
-}
-
 rm_orphans() {
   local orphans="$(pacman -Qqtd)"
 
