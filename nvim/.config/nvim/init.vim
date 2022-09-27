@@ -234,7 +234,7 @@ call plug#end()
 " Setting the theme
 "
 function! UpdateBg()
-	if system("cat ~/.t")  =~ "day\n"
+	if system("cat ~/.theme")  =~ "light\n"
 		set background=light
 	else
 		set background=dark

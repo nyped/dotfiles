@@ -2,7 +2,6 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 pgrep -x xbindkeys > /dev/null || xbindkeys &
-killall -q -9 eww; eww daemon &
 
 monitors=($(xrandr --listactivemonitors | awk '{print $4}'))
 
@@ -31,9 +30,9 @@ bspc monitor "${monitors[0]}" -d 1 2 3 4 5 6 7 8 9 10
 ~/.config/polybar/launch.sh &
 
 # Current theme
-if [ "$(< ~/.t)" = day ]
-  then ~/bin/color day
-  else ~/bin/color night
+if [ "$(< ~/.theme)" = light ]
+  then ~/bin/color light
+  else ~/bin/color dark
 fi
 
 disown -a
