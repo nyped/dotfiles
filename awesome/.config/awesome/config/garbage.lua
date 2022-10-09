@@ -3,7 +3,7 @@
 local gears = require("gears")
 
 gears.timer.start_new(10, function()
-    collectgarbage("step")--, 20000)
+    collectgarbage("step") --, 20000)
     return true
 end)
 

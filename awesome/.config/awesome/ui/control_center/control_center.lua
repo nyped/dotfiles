@@ -8,7 +8,6 @@ local widgets = require("ui.control_center.widgets")
 local naughty = require("naughty")
 local utils = require("ui.notifications.utils")
 local template = utils.notification_template
-local player_template = utils.player_template
 
 -- accessible state
 local ret = {
@@ -24,7 +23,7 @@ end
 -- }}}
 
 -- dimensions
-local center_height = dpi(600)
+local center_height = dpi(575)
 local center_width = dpi(300)
 
 local center = wibox({
@@ -46,29 +45,12 @@ local center_widget = wibox.widget({
     spacing = dpi(5),
 })
 
--- {{{ Default widgets
-local last_spotify_widget = nil
-local day_infos = wibox.widget({
-    widgets.calendar,
-    widgets.weather,
-    spacing = dpi(5),
-    widget = wibox.layout.flex.horizontal,
-})
-local center_txt_widget = helpers.create_button("Control center", function()
-    center:toggle()
-end, function()
-    center:clean()
-end, 15)
-local center_txt = helpers.padded(center_txt_widget, dpi(10), dpi(10))
-
 function center:clean()
-    last_spotify_widget = wibox.widget(player_template(nil))
-
     center_widget:reset()
-    center_widget:add(center_txt)
-    center_widget:add(day_infos)
+    center_widget:add(widgets.cover)
+    center_widget:add(widgets.player_infos)
+    center_widget:add(widgets.day_infos)
     center_widget:add(widgets.param)
-    center_widget:insert(2, last_spotify_widget)
     ret.unseen = 0
     ret.emit_state()
 end
@@ -80,41 +62,40 @@ center:clean()
 -- {{{ Add/remove a notification
 function ret:add(notif)
     local notif_box
+
     if notif.app_name == "Spotify" then
-        -- Replacing the existing widget
-        -- TODO: changing the information instead of instanciation
-        notif_box = wibox.widget(player_template(notif))
-        center_widget:replace_widget(last_spotify_widget, notif_box)
-        last_spotify_widget = notif_box
-    else
-        notif_box = wibox.widget(template(notif))
-        if not ret.visible then
-            ret.unseen = ret.unseen + 1
-            ret.emit_state()
-        end
-
-        -- Adding close button
-        notif_box.close_func = function()
-            local index = center_widget:index(notif_box)
-            center_widget:remove(index)
-            ret.unseen = math.max(0, ret.unseen - 1)
-            ret.emit_state()
-            -- Adjusting the anchor
-            if #center_widget.children == 4 then
-                center_widget.scroll_factor = 0
-            end
-        end
-
-        notif_box:buttons({
-            awful.button({
-                button = 3,
-                on_press = notif_box.close_func,
-            }),
-        })
-
-        -- Insertion
-        center_widget:insert(2, notif_box)
+        return
     end
+
+    notif_box = wibox.widget(template(notif))
+
+    if not ret.visible then
+        ret.unseen = ret.unseen + 1
+        ret.emit_state()
+    end
+
+    -- Adding close button
+    notif_box.close_func = function()
+        local index = center_widget:index(notif_box)
+        center_widget:remove(index)
+        ret.unseen = math.max(0, ret.unseen - 1)
+        ret.emit_state()
+        -- Adjusting the anchor
+        if #center_widget.children == 4 then
+            center_widget.scroll_factor = 0
+        end
+    end
+
+    notif_box:buttons({
+        awful.button({
+            button = 3,
+            on_press = notif_box.close_func,
+        }),
+    })
+
+    -- Insertion
+    center_widget:insert(1, notif_box)
+
     notif.notif_box = notif_box
 end
 
@@ -126,7 +107,7 @@ end
 -- }}}
 
 local frame = wibox.widget({
-    helpers.padded(center_widget, nil, nil, dpi(5), dpi(5)),
+    helpers.padded(center_widget, nil, nil, dpi(10), dpi(10)),
     widget = helpers.custom_container_bg("bg_alt", "fg"),
     shape = gears.shape.rounded_rect,
     border_width = beautiful.border_width,

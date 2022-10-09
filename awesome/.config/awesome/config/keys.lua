@@ -11,9 +11,11 @@ local script_path = "/home/lenny/bin/"
 local function tag_view_nonempty(step, pinned_only)
     local s = awful.screen.focused()
     local tags = s.tags
-    local start = 1
+    local start
 
-    if s.selected_tag == nil then return end
+    if s.selected_tag == nil then
+        return
+    end
     start = s.selected_tag.index
 
     -- checking if there is enough pinned tabs
@@ -38,7 +40,9 @@ local function tag_view_nonempty(step, pinned_only)
         end
 
         -- Nothing to do bru
-        if i == start then return end
+        if i == start then
+            return
+        end
 
         i = i + step
     end
@@ -103,9 +107,9 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey }, "b", function()
         awesome.emit_signal("notification::mode_toggle")
     end, { description = "Toggle silent mode", group = "notification" }),
---  awful.key({ modkey }, "v", function()
---      awesome.emit_signal("control_center::toggle")
---  end, { description = "Show the control center", group = "notification" }),
+    --  awful.key({ modkey }, "v", function()
+    --      awesome.emit_signal("control_center::toggle")
+    --  end, { description = "Show the control center", group = "notification" }),
     -- }}}
 
     -- {{{ Layout manipulation

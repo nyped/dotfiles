@@ -111,6 +111,10 @@ ruled.client.connect_signal("request::rules", function()
         properties = { tag = "download" },
     })
     ruled.client.append_rule({
+        rule = { class = "matplotlib" },
+        properties = { floating = true },
+    })
+    ruled.client.append_rule({
         rule = { class = "Terminal" },
         properties = {
             floating = true,

@@ -17,7 +17,7 @@ local button_stop_play = helpers.create_button(
     helpers.spawner("playerctl play-pause -p spotify")
 )
 
-local icons_player = {
+self.icons_player = {
     helpers.padded(button_previous),
     helpers.padded(button_stop_play),
     helpers.padded(button_next),
@@ -35,63 +35,6 @@ awesome.connect_signal("player_status_update", function(status)
     )
 end)
 --
-
-function self.player_template(notif)
-    local image = notif == nil and player_cover or notif.image
-    local title = notif == nil and player_title or notif.title
-    local message = notif == nil and player_info or notif.text
-    return {
-        {
-            helpers.centered({
-                helpers.centered({
-                    {
-                        { -- album art
-                            image = image,
-                            notification = notif,
-                            resize = true,
-                            forced_width = dpi(150),
-                            forced_height = dpi(150),
-                            widget = naughty.widget.icon,
-                        },
-                        border_width = 0,
-                        shape = gears.shape.rounded_rect,
-                        widget = wibox.container.background,
-                    },
-                    top = dpi(15),
-                    widget = wibox.container.margin,
-                }),
-                helpers.centered({ -- song title
-                    align = "center",
-                    valign = "center",
-                    ellipsize = "end",
-                    forced_height = dpi(15),
-                    text = title,
-                    notification = notif,
-                    widget = naughty.widget.title,
-                }),
-                helpers.centered({ -- album
-                    align = "center",
-                    valign = "center",
-                    ellipsize = "end",
-                    forced_height = dpi(15),
-                    text = message,
-                    notification = notif,
-                    widget = naughty.widget.message,
-                }),
-                helpers.centered(icons_player), -- buttons
-                spacing = dpi(5),
-                widget = wibox.layout.fixed.vertical,
-            }),
-            strategy = "min",
-            height = dpi(275),
-            widget = wibox.container.constraint,
-        },
-        shape = gears.shape.rounded_rect,
-        widget = helpers.custom_container_bg("bg", "fg"),
-        border_width = beautiful.border_width,
-        border_color = beautiful.border_normal,
-    }
-end
 
 function self.notification_template(notif)
     local action_template = {
@@ -122,7 +65,7 @@ function self.notification_template(notif)
     local actions
     if notif.app_name == "Spotify" then
         -- Force custom action for spotify
-        actions = icons_player
+        actions = self.icons_player
     else
         -- Other apps actions
         actions = wibox.widget({

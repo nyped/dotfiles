@@ -1,6 +1,5 @@
 local beautiful = require("beautiful")
 local wibox = require("wibox")
-local instanciated = false
 
 local systray = wibox.widget({
     wibox.widget.systray(),

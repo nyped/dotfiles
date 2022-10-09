@@ -6,6 +6,7 @@ local helpers = require("ui.helpers")
 local dpi = beautiful.xresources.apply_dpi
 local centered = helpers.centered
 local padded = helpers.padded
+local utils = require("ui.notifications.utils")
 local widgets = {}
 
 -- {{{ Create a date widget using a format
@@ -138,6 +139,14 @@ function widgets.weather:fetch_weather()
 end
 -- }}}
 
+-- {{{ Default widgets
+widgets.day_infos = wibox.widget({
+    widgets.calendar,
+    widgets.weather,
+    spacing = dpi(5),
+    widget = wibox.layout.flex.horizontal,
+})
+
 -- {{{ Param line
 local suspend_button = helpers.create_button_widget(
     "鈴",
@@ -187,6 +196,75 @@ widgets.param = wibox.widget({
     spacing = dpi(5),
     layout = wibox.layout.flex.horizontal,
 })
+-- }}}
+
+-- Player cover {{{
+local cover = wibox.widget({
+    id = "cover",
+    image = player_cover,
+    resize = true,
+    widget = wibox.widget.imagebox,
+})
+
+awesome.connect_signal("player_cover_update", function(_)
+    cover.image = player_cover
+end)
+
+widgets.cover = helpers.themed(
+    cover,
+    "bg",
+    nil,
+    gears.shape.rounded_rect,
+    beautiful.border_width
+)
+-- }}}
+
+-- Player infos {{{
+local infos = wibox.widget({
+    {
+        helpers.centered({ -- song title
+            id = "title",
+            align = "center",
+            valign = "center",
+            ellipsize = "end",
+            forced_height = dpi(15),
+            text = player_title,
+            widget = wibox.widget.textbox,
+        }),
+        helpers.centered({ -- album
+            id = "album",
+            align = "center",
+            valign = "center",
+            ellipsize = "end",
+            forced_height = dpi(15),
+            text = player_info,
+            widget = wibox.widget.textbox,
+        }),
+        helpers.centered(utils.icons_player), -- buttons
+        spacing = dpi(5),
+        widget = wibox.layout.align.vertical,
+    },
+    top = dpi(15),
+    left = dpi(5),
+    right = dpi(5),
+    widget = wibox.container.margin,
+})
+
+awesome.connect_signal("player_text_update", function(v)
+    infos:get_children_by_id("title")[1].text = v
+end)
+
+awesome.connect_signal("player_info_update", function(v)
+    infos:get_children_by_id("album")[1].text = v
+end)
+
+widgets.player_infos = helpers.themed(
+    infos,
+    "bg",
+    nil,
+    gears.shape.rounded_rect,
+    beautiful.border_width
+)
 -- }}}
 
 return widgets
