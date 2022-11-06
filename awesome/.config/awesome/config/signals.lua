@@ -165,6 +165,7 @@ tag.connect_signal("request::default_layouts", function()
         awful.layout.suit.tile.top,
         awful.layout.suit.fair.horizontal,
         awful.layout.suit.fair,
+        awful.layout.suit.floating,
     })
 end)
 -- }}}
