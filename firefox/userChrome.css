@@ -4,9 +4,9 @@ toolbarbutton[id^="scrollbutton"] {
 	display: none !important;
 }
 
-/* invisible overflow button */
+/* invisible buttons */
 
-#nav-bar-overflow-button{
+#PanelUI-menu-button, #nav-bar-overflow-button, #unified-extensions-button {
 	list-style-image: url() !important;
 	margin-right: 7px !important;
 }
@@ -64,13 +64,6 @@ toolbarbutton[id^="scrollbutton"] {
 
 #PanelUI-button {
 	-moz-box-ordinal-group: 0 !important;
-	color: blue;
 	border-left: none !important;
 	position: absolute;
-}
-
-/* invisible panel ui button */
-
-#PanelUI-menu-button {
-	list-style-image: url() !important;
 }
