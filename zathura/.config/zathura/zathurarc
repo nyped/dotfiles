@@ -1,23 +1,41 @@
-set statusbar-h-padding 0
-set statusbar-v-padding 0
+# gruvbox themed zathura
+#
+set statusbar-h-padding 10
+set statusbar-v-padding 10
 set page-padding 0
+
 map i recolor
 map r reload
 map f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
-set inputbar-bg "rgba(255,255,255,0)"
-set inputbar-fg "#ffffff"
-set statusbar-bg "rgba(255,255,255,0)"
-set statusbar-fg "#ffffff"
-set selection-clipboard clipboard
-set guioptions none
-set notification-bg "rgba(0,0,0,0)"
-set notification-fg "#ffffff"
 map <C-h> toggle_statusbar
-# bg stuff
+
+set font "JetBrains Mono Bold 11"
+set guioptions svh
+set selection-clipboard clipboard
+
+set completion-bg  "#3c3836"
+set completion-fg  "#a89984"
+set completion-highlight-bg "#665c54"
+set completion-highlight-fg "#fbf1c7"
+set inputbar-bg  "#3c3836"
+set inputbar-fg  "#a89984"
+set notification-bg "#665c54"
+set notification-fg "#fbf1c7"
+set notification-error-bg "#885c54"
+set notification-error-fg "#fbf1c7"
+set notification-warning-bg "#775c54"
+set notification-warning-fg "#fbf1c7"
+set statusbar-bg "#3c3836"
+set statusbar-fg "#a89984"
+set default-fg   "#ebdbb2"
+set default-bg   "#282828"
+
 set recolor
 set recolor-keephue
-set recolor-lightcolor "rgba(38,50,56,0)"
-set default-bg "rgba(38,50,56,255)"
-map b set default-bg\ "rgba(255,255,255,255)"
-map B set default-bg\ "rgba(38,50,56,255)"
+set recolor-lightcolor "#282828"
+
+map b set  "default-bg \#ffffff"
+map B set  "default-bg \#282828"
+
+# vim:ft=sh:
