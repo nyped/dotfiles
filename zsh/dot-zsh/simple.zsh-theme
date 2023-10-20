@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 # Inspired by:
-# github.com/ericfreese/zsh-efgit-prompt/blob/master/prompt_efgit_setup
+# https://github.com/ericfreese/zsh-efgit-prompt/blob/master/prompt_efgit_setup
 
 setopt PROMPT_SUBST KSH_GLOB
 
-# git prompt
+# GIT stuff
 () {
   # stolen from omz
   function __git() {
@@ -35,7 +35,8 @@ setopt PROMPT_SUBST KSH_GLOB
     [[ -z $BRANCH ]] && return
 
     local staged unstaged untracked unmerged ahead behind STATUS
-    __git status --porcelain --branch 2>/dev/null | while IFS= read; do
+    __git status --porcelain --branch 2>/dev/null | while IFS= read
+    do
       case "$REPLY" in
         (D[ M]|[MARC][ MD])' '*)
           staged=1 ;|
@@ -69,12 +70,13 @@ setopt PROMPT_SUBST KSH_GLOB
   }
 }
 
-# ssh connection
-() {
-  [[ -n $SSH_CONNECTION ]] && _SSH="%F{red}(SSH) %k%f"
+# SSH stuff
+[[ -n $SSH_CONNECTION ]] && {
+  _SSH="%B%F{red}(SSH) %k%b%f"
+  _SSH_TITLE_PREF="$USER@$HOST: "
 }
 
-# path function
+# PATH stuff
 () {
   _PWD_PATH_COLOR="%B%F{blue}"
   _PWD_PRE="in "
@@ -83,17 +85,25 @@ setopt PROMPT_SUBST KSH_GLOB
   function show_path() {
     local _PWD
 
-    if ((${#PWD} > 4*COLUMNS/5)); then
-      _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
+    if [[ $USER == root ]]; then
+      if ((${#PWD} > 4*COLUMNS/5)); then
+        _PWD="${${PWD}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
+      else
+        _PWD="%/"
+      fi
     else
-      _PWD="%~"
+      if ((${#PWD} > 4*COLUMNS/5)); then
+        _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
+      else
+        _PWD="%~"
+      fi
     fi
 
     echo -n "$_PWD_PRE$_PWD_PATH_COLOR$_PWD$_PWD_POST"
   }
 }
 
-# timer
+# timer stuff
 () {
   _TIMER_PRECISION=2 # number > 0
   _TIMER_MIN_S=0
@@ -145,17 +155,20 @@ setopt PROMPT_SUBST KSH_GLOB
   }
 }
 
-_vim_prompt() {
-  _in_vim && \
-    echo -n " inside %B%F{green}vim%b%f"
-}
-
 # Prompt update function
 () {
   _BG_JOB="%1(j. with %B%F{green}jobs%b%f.)"
   _BAD_RETURN="%(?.. returned %B%F{red}%?%b%f)"
   _PROMPT_SYM='%B%(?..%F{red}%(!.#.>))%(!.#.>) %b%f'
-  _USER="%(!.%B%F{red}root%b%f .)"
+  _USER="%(!.%B%F{red}%n%b%f@%B%F{green}%M%b%f .)"
+  [[ $USER != root && -n $_SSH ]] && \
+    _USER="%B%F{yellow}%n%b%f@%B%F{green}%M%b%f "
+
+  function _len() {
+    echo -n "${#${${(%S)1}//[[:cntrl:]]'['+([[:digit:]])[[:alpha:]]/}}"
+  }
+
+  _AWAIT_GIT=' %B...%b'
 
   # update prompt vars
   function _update_prompt() {
@@ -163,10 +176,11 @@ _vim_prompt() {
 
     case "$1" in
       reset)
-        _async_prompt_part=
+        _async_prompt_part="$_AWAIT_GIT"
         ;;
 
       update)
+        [[ $_async_prompt_part == "$_AWAIT_GIT" ]] && _async_prompt_part=
         _async_prompt_part+="$2"
         ;;
 
@@ -175,10 +189,6 @@ _vim_prompt() {
         ;;
     esac
 
-    function _len() {
-      echo -n "${#${${(%S)1}//[[:cntrl:]]'['+([[:digit:]])[[:alpha:]]/}}"
-    }
-
     local -a _contents=(
       "$_USER"
       "$_prompt_wd"
@@ -186,7 +196,6 @@ _vim_prompt() {
       "$_bad_return"
       "$_bg_job"
       "$(_timer)"
-      "$(_vim_prompt)"
     )
 
     RPROMPT=
@@ -206,13 +215,14 @@ _vim_prompt() {
     PROMPT+=$'\n'
     PROMPT+="$_SSH"
     PROMPT+="$_PROMPT_SYM"
+
+    # add time if RPROMPT is empty
+    # [[ -z $RPROMPT ]] && RPROMPT="%b%F{black}%@"
   }
 }
 
 # Async tools
 () {
-  typeset -g -a _async_hooks
-
   function _async_worker() {
     typeset -g _async_fd
 
@@ -225,9 +235,7 @@ _vim_prompt() {
   }
 
   function _hooks_caller() {
-    for func in ${_async_hooks[@]}; {
-      $func
-    }
+    my_git_prompt
   }
 
   function _prompt_async_precmd() {
@@ -246,12 +254,6 @@ _vim_prompt() {
     exec {_async_fd}< <(_hooks_caller)
     zle -F $_async_fd _async_worker
   }
-
-  function _add_async_hook() {
-    _async_hooks+="$1"
-  }
-
-  _add_async_hook my_git_prompt
 }
 
 # fish pwd update
@@ -289,11 +291,11 @@ function _update_cond_expr() {
   _update_wd
 
   autoload -U add-zsh-hook
-  add-zsh-hook precmd  _prompt_async_precmd
+  add-zsh-hook precmd  _timer_end
   add-zsh-hook precmd  _update_cond_expr
+  add-zsh-hook precmd  _prompt_async_precmd
   add-zsh-hook chpwd   _update_wd
   add-zsh-hook preexec _timer_start
-  add-zsh-hook precmd  _timer_end
 
   zle -N _clear
   bindkey '^l' _clear

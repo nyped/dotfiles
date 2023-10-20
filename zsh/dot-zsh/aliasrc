@@ -1,76 +1,105 @@
 #!/usr/bin/env zsh
 
 # general
-alias b=bat \
-      bp='bat -p' \
-      c=color \
-      center=~/bin/center \
-      cycle='cat /sys/class/power_supply/BAT0/cycle_count' \
-      dots=~/dotfiles \
-      dl='cd ~/Downloads' \
-      ff=firefox \
-      grep='grep --color=always' \
-      h='history' \
-      hh='history 1' \
-      hs='history 1 | grep' \
-      icat="kitty +kitten icat" \
-      maison=~/maison/sync/current/ \
-      mt=make\ test \
-      mr=make\ clear \
-      mc=make\ clean \
-      m=make \
-      o=open \
-      pbcopy='xclip -selection clipboard' \
-      pbpaste='xclip -selection clipboard -o' \
-      pbc=pbcopy \
-      pbp=pbpaste \
-      pbs='nc termbin.com 9999|pbcopy && pbpaste' \
-      p=pacman \
-      rg2="rg -C2" \
-      rg3="rg -C3" \
-      rg4="rg -C4" \
-      rg5="rg -C5" \
-      rgi="rg -i"  \
-      rgi2="rg -iC3" \
-      rgi3="rg -iC3" \
-      rgi4="rg -iC4" \
-      rgi5="rg -iC5" \
-      sensors="sensors | grep --color=never 'high\|RPM' | cut -d '(' -f 1" \
-      song='playerctl metadata -f "{{ artist }} - {{ title }}"' \
-      tmp=/tmp \
-      v=nvim \
-      vr='nvim -R' \
-      y=yay \
-      _='sudo ' \
-      -='cd -' \
-      0='cd -10' \
-      1='cd -1' \
-      2='cd -2' \
-      3='cd -3' \
-      4='cd -4' \
-      5='cd -5' \
-      6='cd -6' \
-      7='cd -7' \
-      8='cd -8' \
-      9='cd -9'
+alias _='sudo '
+alias ff='firefox'
+alias grep='grep --color=always'
+alias ip='ip -c'
+alias lorem='curl -s http://metaphorpsum.com/sentences/3'
+alias o='open'
+alias p='pacman'
+alias pan='pandoc'
+alias prmo='pacman -Qqtd | sudo pacman -Rns -'
+alias song='playerctl metadata -f "{{ artist }} - {{ title }}"'
+alias y='yay'
+
+# translation stuff
+alias t="trans"
+alias tb="trans -brief"
+
+# neovim
+alias v='TERM=xterm-kitty nvim -p'
+alias vr='v -R'
+
+# fzf
+alias fzv='fzf -m --preview "bat {} -p --color=always" | xargs nvim'
+alias fzd='fzf-cd'
+
+# TODO: add scripts to PATH
+alias c='~/bin/color'
+
+# bat
+alias b='bat'
+alias bp='bat -p'
+
+# ip
+alias myip='curl ifconfig.me'
+
+# clipboard
+if [[ -n $WAYLAND_DISPLAY ]]; then
+  alias pbcopy="wl-copy"
+  alias pbpaste="wl-paste"
+else
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+fi
+alias pbc='pbcopy'
+alias pbk='pbcopy < /dev/null'
+alias pbp='pbpaste'
+alias pbs='nc termbin.com 9999'
+
+# history
+alias h='history'
+alias hh='history 1'
+alias hs='history 1 | grep'
+
+# make
+alias m='make'
+alias mb='make -B'
+alias mc='make clean'
+alias mr='make clear'
+alias mt='make test'
+
+# quick cd
+alias -- -='cd -'
+alias 0='cd -10'
+alias 1='cd -1'
+alias 2='cd -2'
+alias 3='cd -3'
+alias 4='cd -4'
+alias 5='cd -5'
+alias 6='cd -6'
+alias 7='cd -7'
+alias 8='cd -8'
+alias 9='cd -9'
+alias dl='cd ~/Downloads'
+alias tmp='cd /tmp'
+
+# ripgrep
+alias rg2='rg -C2'
+alias rg3='rg -C3'
+alias rg4='rg -C4'
+alias rg5='rg -C5'
+alias rgi2='rg -iC3'
+alias rgi3='rg -iC3'
+alias rgi4='rg -iC4'
+alias rgi5='rg -iC5'
+alias rgi='rg -i'
 
 # git
-alias g=git \
-      gaa='git add --all' \
-      gc='git commit -v' \
-      gd='git diff' \
-      gp='git push' \
-      gl='git pull' \
-      gm='git merge' \
-      gst='git status'
+alias g='git'
+alias gaa='git add --all'
+alias gc='git commit -v'
+alias gd='git diff'
+alias gl='git pull'
+alias gm='git merge'
+alias gp='git push'
+alias gst='git status'
 
 # ls
-alias ls='ls --color=tty' \
-      l='ls -lah' \
-      ll='ls -lh' \
-      la='ls -A'
-
-# directories
-alias -g ...='../..'
+alias l='ls -lah'
+alias la='ls -A'
+alias ll='ls -lh'
+alias ls='ls --color=tty'
 
 # vim: set ts=2 sts=2 sw=2 ft=sh et :

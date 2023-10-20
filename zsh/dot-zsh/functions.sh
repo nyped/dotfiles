@@ -1,161 +1,95 @@
 #!/usr/bin/env zsh
 
-# theme
-color() {
-  ~/bin/color $1
-}
-
-# translation
-t() {
-  echo $@ >> ~/maison/mots.txt
-  if [[ $1 = f ]]; then
-    shift && echo $@ | trans -shell -b :fr | grep -v "^>$"
-  else
-    echo $@ | trans -shell -b | grep -v "^>$"
-  fi
-}
-
-# dictionary
-def() {
-  [[ $# -lt 1 ]] && echo usage: def \<stuff\> && return 1
-  echo $@ >> ~/maison/def.txt
-  echo $@ | trans | less -FX
-}
-
-# pandoc
-pan() {
-  [[ $# != 1 ]] && {
-    cat <<EOF >&2
-echo usage: [OUT | HI | IN] pan <file>
-EOF
-    return 1
-  }
-  local var="${1%.*}"
-  pandoc ${PAN_EXTRA} --highlight-style="${HI:-tango}" -so "$var"."${OUT:-pdf}" "$var"."${IN:-md}"
-}
-
-# karaoke stuff lmao
-lyrics() {
-# receives 2 arguments : artist and title
-# fork of https://gist.github.com/febuiles/1549991
-  [[ $# != 2 ]] && echo usage: lyrics \<artist\> \<title\> && return 1
-  {
-  echo -e $1 - $2 "\n"
-  curl -s --get "https://makeitpersonal.co/lyrics" --data-urlencode \
-    "artist=$1" --data-urlencode "title=$2"
-  } | ~/bin/center | less -FX
-}
-
-genius() {
-  local artist title
-
-  [[ $# != 2 ]] && {
-    song | IFS=- read artist title
-  } || {
-    artist="$1" title="$2"
-  }
-
-  ff duckduckgo "\!genius $artist - $title"
-  notify-send Lyrics "Firefox tab opened for $artist - $title"
-}
-
-lyr() {
-  local artist title
-
-  song | IFS=- read artist title
-  lyrics "$artist" "$title"
-}
-
 open() {
-  local opener
-
-  while [[ $# != 0 ]]; do
-    if [[ ${1##*.} = pdf ]]; then
-      opener=zathura
-    else
-      opener=xdg-open
-    fi
-    $opener $1 >/dev/null 2>&1 &!
-    notify-send "${1##*/}" "Opened by $opener" -a notif
-    shift
+  for file
+  do
+    xdg-open "$file" || return 1
+    notify-send "File '${file##*/}' opened" -a notif
   done
-}
-
-# random text
-lorem() {
-  curl -s http://metaphorpsum.com/sentences/3 | pbcopy
 }
 
 share() {
   [[ $# != 1 ]] && echo usage: share \<file\> && return 1
   [[ ! -f $1 ]] && echo File non readable 1>&2 && return 2
-  curl -F file=@$1 http://0x0.st 2>/dev/null | pbcopy && pbpaste
+  curl -F file=@"$1" http://0x0.st 2>/dev/null
 }
 
-# replace patterns in file name
-# by default:
-# F=' ' R= evomer stuff
+# replace patterns in filename
 evomer() {
-  [[ $# = 0 ]] && \
-  echo usage: \[F=pat1\] \[R=pat2\] evomer \<files\> >&2 && \
-  return 1
+  [[ $# = 0 ]] && {
+    echo 'usage: [F=pat1] [R=pat2] evomer <files>' >&2
+    return 1
+  }
 
   local tmp
-
-  for i in $* ; do
-    tmp=${i//${F:= }/${R}}
-    [[ "$tmp" == "$i" ]] && continue
-    if [[ -f $tmp ]];
-      then echo $tmp exists >&2
-      else mv $i $tmp
+  for file
+  do
+    tmp="${file//${F:= }/${R:=_}}"
+    [[ "$tmp" == "$file" ]] && continue
+    if [[ -f $tmp ]]
+      then echo "$tmp" exists >&2
+      else mv "$file" "$tmp"
     fi
   done
 }
 
-rm_orphans() {
-  local orphans="$(pacman -Qqtd)"
+# set cpu governor, frequency
+gset() sudo cpupower frequency-set --governor "${1:-performace}"
+fset() sudo cpupower frequency-set --min "${1:=1G}" --max "$1"
 
-  echo "Removing: $orphans"
-  echo $orphans | sudo pacman -Rns -
+function drop_caches() {
+  sudo sync
+  echo 3 | sudo tee /proc/sys/vm/drop_caches
 }
 
-function _in_tty() [[ $(tty) == *tty* ]]
-function _in_vim() [[ -n $VIMRUNTIME ]]
+# fzf
+function fzf-cd() {
+  local target="$(fd --type d | fzf +m --preview "tree -C {}")"
+  
+  [[ -d $target ]] && cd "$target"
+}
 
-function _update_title() {
-  # change the title of the window
-  # when running a command
+# we may wanna avoid fancy stuff in old school terminals
+function __in_restricted_term() {
+  [[ $(tty) == *tty* || -n $VIMRUNTIME || -n $TMUX ]]
+}
+
+function __update_title() {
   local CMD TITLE_BEG TITLE_END BOLD
 
-  {_in_tty || _in_vim} && return
+  __in_restricted_term && return
 
   CMD="$2"
   TITLE_BEG="\e]0;"
-  TITLE_END="\a"
+  TITLE_END="\007"
   BOLD="\033[1m"
 
-  print -Pn "$TITLE_BEG$BOLD$CMD\a$TITLE_END"
+  # Print the title without expanding the command
+  print -Pn "$TITLE_BEG$BOLD"
+  print -n  "$_SSH_TITLE_PREF$CMD"
+  print -Pn "$TITLE_END"
 }
 
-function _restore_title_cursor() {
+function __restore_title_cursor() {
   local UNDERSCORE TITLE_BEG TITLE_END _PWD
 
-  {_in_tty || _in_vim} && return
+  __in_restricted_term && return
 
   UNDERSCORE="\033[4 q"
   TITLE_BEG="\e]0;"
-  TITLE_END="\a"
+  TITLE_END="\007"
   BOLD="\033[1m"
   _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
 
-  print -Pn "$UNDERSCORE$TITLE_BEG$BOLD$_PWD$TITLE_END"
+  print -Pn "$UNDERSCORE"
+  print -Pn "$TITLE_BEG$BOLD$_SSH_TITLE_PREF$_PWD$TITLE_END"
 }
 
 () {
   autoload -U add-zsh-hook
 
-  add-zsh-hook preexec _update_title
-  add-zsh-hook precmd _restore_title_cursor
+  add-zsh-hook preexec __update_title
+  add-zsh-hook precmd __restore_title_cursor
 }
 
 # vim: set ts=2 sts=2 sw=2 ft=zsh et :
