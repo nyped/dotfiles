@@ -13,9 +13,10 @@ available commands:
 -h, --help      show this message
 
 available arguments:
--s, --scale S   scale of the external monitor
--1, --output1 O
--2, --output2 O
+-s, --scale S        scale of the external monitor
+-1, --output1 O      choose the internal monitor
+-2, --output2 O      choose the external monitor
+-p, --position p     position of the monitor (multi mode)
 _HELPTXT
 }
 
@@ -27,8 +28,10 @@ check_non_empty() {
 }
 
 # Default values
+# shellcheck disable=SC2207
 monitors=($(xrandr --query | awk '{if ($2 == "connected") print $1}'))
 laptop="${monitors[0]}" external="${monitors[1]}"
+position=right
 case "$laptop" in
   *DP*) external_scale=1.25x1.25 mode=1920x1080;;
   *)    external_scale=1x1       mode=1280x800;;
@@ -51,6 +54,11 @@ while [[ -n $1 ]]; do
 
     -r | --replicate) # Duplicate
       cmd=replicate
+      ;;
+
+    -p | --position) # Monitor position
+      shift
+      position="$1"
       ;;
 
     -s | --scale)
@@ -85,37 +93,46 @@ while [[ -n $1 ]]; do
   shift
 done
 
+# disable panning
+for m in "$laptop" "$external"; do
+  xrandr --output "$m" --auto --panning 0x0 &>/dev/null
+done
+
 # Action
 case "$cmd" in
   dock) # laptop monitor off (dock)
     xrandr \
-      --output $laptop --off \
-      --output $external --auto \
-      --scale $external_scale \
+      --output "$laptop" --off \
+      --output "$external" --auto \
+      --scale "$external_scale" \
       &>/dev/null
     ;;
 
   multi) # multi head
-    xrandr \
-      --output $laptop --auto --scale 1x1 --primary \
-      --output $external --auto --scale $external_scale --right-of $laptop \
-      &>/dev/null
+    if [[ $position = left ]]; then
+      xrandr \
+        --output "$laptop" --auto --scale 1x1 --primary \
+        --output "$external" --auto --scale "$external_scale" --right-of "$laptop"
+    else # right
+      xrandr \
+        --output "$laptop" --auto --scale 1x1 --primary --pos 2400x270 \
+        --output "$external" --auto --scale "$external_scale" --pos 0x0
+    fi
+
     # cursor flickering fix
-    xrandr --output $laptop --set TearFree on &>/dev/null
+    xrandr --output "$laptop" --set TearFree on &>/dev/null
     ;;
 
   laptop) # laptop only
     xrandr \
-      --output $external --off \
-      --output $laptop --auto \
-      &>/dev/null
+      --output "$external" --off \
+      --output "$laptop" --auto
     ;;
 
   replicate) # Duplicate
     xrandr \
-      --output $laptop --mode $mode --primary \
-      --output $external --mode $mode --same-as eDP --scale-from $mode \
-      &>/dev/null
+      --output "$laptop" --mode $mode --primary \
+      --output "$external" --mode $mode --same-as eDP --scale-from $mode
     ;;
 
   *)

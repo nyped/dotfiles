@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # deps: brightnessctl ddccontrol notifysend
-# All my backlight stuff in one script !
 
 info() {
   cat << EOF
@@ -64,15 +63,15 @@ while [[ $# != 0 ]]; do
   shift
 done
 
-: ${BCTL_VAL:=1%+} ${DDC_VAL:=+1} ${DEV:=laptop} ${ADDRESS:=0x10}
+: "${BCTL_VAL:=1%+}" "${DDC_VAL:=+1}" "${DEV:=laptop}" "${ADDRESS:=0x10}"
 
 case "$DEV" in
   laptop)
-    RET=$(brightnessctl s $BCTL_VAL | awk 'NR==3 {gsub("[()%]",""); print $4}')
+    RET=$(brightnessctl s "$BCTL_VAL" | awk 'NR==3 {gsub("[()%]",""); print $4}')
   ;;
 
   keyboard)
-    RET=$(brightnessctl -d smc::kbd_backlight s $BCTL_VAL | awk 'NR==3 {gsub("[()%]",""); print $4}')
+    RET=$(brightnessctl -d smc::kbd_backlight s "$BCTL_VAL" | awk 'NR==3 {gsub("[()%]",""); print $4}')
   ;;
 
   monitor)
@@ -82,7 +81,7 @@ case "$DEV" in
         DEVICE=dev:/dev/i2c-5
         ;;
 
-      *DisplayPort*)
+      *DisplayPort* | *DP*)
         DEVICE=dev:/dev/i2c-8
         ;;
 
@@ -90,16 +89,17 @@ case "$DEV" in
         DEVICE=-p
         ;;
     esac
-    RET=$(ddccontrol $DEVICE -r $ADDRESS -W $DDC_VAL 2>/dev/null | awk -F'/' 'END {print $2}')
+    RET=$(ddccontrol "$DEVICE" -r "$ADDRESS" -W "$DDC_VAL" 2>/dev/null | awk -F'/' 'END {print $2}')
   ;;
 esac
 
-echo $RET
+echo "$RET"
 
 [[ -n $NOTIFY ]] && \
-  notify-send ${DEV} "${MESS} at ${RET}%" \
+  notify-send "${DEV}" "${MESS} at ${RET}%" \
     -h string:x-canonical-private-synchronous:anything \
     -a notif \
-    -h int:value:$RET
+    -i display-brightness \
+    -h int:value:"$RET"
 
 # vim: set ts=2 sts=2 sw=2 et :

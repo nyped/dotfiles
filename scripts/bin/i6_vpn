@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Disable ipv6 on vpn
+
+set -euo pipefail
+
+# Only on a "VPN connection"
+case "$1" in
+  *-vpn) ;; # OK
+  *) exit 0 ;; # KO
+esac
+
+set6() {
+  for interface in $(nmcli -c no -g device device)
+  do
+    nmcli device modify "$interface" ipv6.method "$1" || true
+  done
+}
+
+case "$2" in
+  up)
+    set6 disabled
+    ;;
+
+  down)
+    set6 auto
+    ;;
+esac
+
+# vim: set ts=2 sts=2 sw=2 et :

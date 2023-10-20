@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 #
-# quick scrots
+# quick scrots on sway or X
 # https://thurlow.io/linux/2017/11/10/replicating-macos-screenshot-utility-on-linux.html
+
+set -euo pipefail
 
 usage() {
   cat <<EOF
@@ -12,27 +14,41 @@ Available commands:
 -s, --select      capture the selected part (default)
 -c, --clipboard   save to the clipboard
 -S, --shadows     add macos like shadows
--n, --dry-run     perform a trial run with no changes
 -h, --help        show help
 EOF
 }
 
 name="${HOME}/Screenshots/$(date +%F-%Hh%Mm%Ss-screenshot)"
-flags="-border -quality 0 "
+xflags="-border -quality 0 "
+wflags=""
 payload="saved as ${name##*/}.png"
+shad=
+clip=
 
 while [[ $# != 0 ]]; do
   case "$1" in
     -w | --windows)
-      flags+="-windows $(xdotool getactivewindow)"
+      if [[ -n $WAYLAND_DISPLAY ]]; then
+        wflags+="-g \"$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')\""
+      else
+        xflags+="-windows $(xdotool getactivewindow)"
+      fi
       ;;
 
     -a | --all)
-      flags+="-windows root"
+      if [[ -n $WAYLAND_DISPLAY ]]; then
+        :
+      else
+        xflags+="-windows root"
+      fi
       ;;
 
     -s | --select)
-      :
+      if [[ -n $WAYLAND_DISPLAY ]]; then
+        wflags+="-g \"$(slurp)\""
+      else
+        :
+      fi
       ;;
 
     -S | --shadows)
@@ -42,10 +58,6 @@ while [[ $# != 0 ]]; do
     -h | --help)
       usage
       exit 0
-      ;;
-
-    -n | --dry-run)
-      dry=1
       ;;
 
     -c | --clipboard)
@@ -61,10 +73,14 @@ while [[ $# != 0 ]]; do
   shift
 done
 
-[[ -n $dry ]] && set -nv
-
-# dumping the pixels from ram
-import $flags "${name}.xwd"
+# Wayland or X?
+if [[ -n $WAYLAND_DISPLAY ]]; then
+  # shellcheck disable=SC2086
+  eval grim $wflags "${name}".xwd
+else
+  # shellcheck disable=SC2086
+  import $xflags "${name}.xwd"
+fi
 
 # shadows
 if [[ "${shad}" == 1 ]]; then
@@ -88,9 +104,15 @@ notify-send                  \
   "$payload"                 \
   --icon "${name}.png"
 
-[[ -n $clip ]] && {
-  xclip -selection clipboard -t image/png -i "${name}.png"
+[[ $clip == 1 ]] && {
+  if [[ -n $WAYLAND_DISPLAY ]]; then
+    wl-copy < "${name}".png
+  else
+    xclip -selection clipboard -t image/png -i "${name}.png"
+  fi
   rm "${name}.png"
 }
+
+exit 0
 
 # vim: set ts=2 sts=2 sw=2 et :
