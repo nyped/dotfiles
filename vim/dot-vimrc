@@ -1,0 +1,84 @@
+" https://github.com/nyped/dotfiles
+
+" basic stuff
+let &titlestring="nvim \033[1m%t%m "
+set autoindent smartindent
+set foldmethod=marker
+set guicursor=
+set mouse=nv
+set number relativenumber
+set scrolloff=5
+set shortmess=FWSsa
+set splitright splitbelow
+set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+set termguicolors
+set title
+syntax enable
+tab all
+
+" leader as space
+let mapleader = " "
+
+" escape in terminal mode
+tnoremap <Esc> <C-\><C-n>
+
+" Quick move in terminal mode
+tnoremap <C-w>w <C-\><C-n><C-w>w
+
+" scrolling
+noremap <C-j> <C-e>
+noremap <C-k> <C-y>
+
+" don't paste in normal mode
+nmap <MiddleMouse> <Nop>
+
+" bad habits
+nmap <BS> <Nop>
+
+" arrow keys like hjkl feature
+map <C-h> <C-left>
+map <C-l> <C-right>
+
+" add lines
+nnoremap o o<Esc>
+nnoremap O O<Esc>
+
+" forward, backward move
+imap <C-b> <left>
+imap <C-f> <right>
+
+" to work faster
+command E   edit
+command Nt  tabnew
+command Q   q
+command Qa  qa
+command W   :sil w
+command WQ  wq
+command Wq  wq
+command Wqa wqa
+
+" switching tabs with <Tab> while keeping <C-I>
+nnoremap <S-Tab> gT
+nnoremap <Tab>   gt
+nnoremap <C-I> <C-I>
+
+" switch windows
+map <Leader>1 1gt
+map <Leader>2 2gt
+map <Leader>3 3gt
+map <Leader>4 4gt
+map <Leader>5 5gt
+map <Leader>6 6gt
+map <Leader>7 7gt
+map <Leader>8 8gt
+map <Leader>9 9gt
+
+" paste in trash register
+xnoremap <leader>p "_dP
+
+" remove trailing spaces
+function! Rms ()
+	%s/\s\+$//e
+endfunction
+
+" vim: set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab :

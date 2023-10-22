@@ -1,0 +1,332 @@
+# Variables {{{
+
+set $alt Mod1
+set $mod Mod4
+
+set $left  h
+set $down  j
+set $up    k
+set $right l
+
+set $term kitty
+
+set $menu ~/.config/sway/menu.sh
+
+set $ws1   "1: www"
+set $ws2   "2: tmp"
+set $ws3   "3: sh"
+set $ws4   "4: doc"
+set $ws5   "5: msg"
+set $ws6   "6: mov"
+set $ws7   "7: misc"
+set $ws8   "8: off"
+set $ws9   "9: wav"
+set $ws10 "10: dl"
+
+# }}}
+
+# Output configuration {{{
+
+# output *        background "#888888" solid_color
+output DP-1     resolution 1920x1080 position 0,0 scale 0.9
+output HDMI-A-1 resolution 1920x1080 position 0,0 scale 0.9
+output eDP-1    resolution 1920x1080 position 2133,0
+
+# NOTE: 1920. / .9 ~= 2133
+
+# }}}
+
+# Window rules {{{
+
+for_window [class=".*"]            urgent enable
+for_window [app_id="python3"]      floating enable
+for_window [app_id="Terminal"]     floating enable
+for_window [window_type="dialog"]  floating enable
+for_window [window_role="dialog"]  floating enable
+
+assign [app_id=".*zathura"]      workspace number $ws4
+assign [app_id="[Pp]avucontrol"] workspace number $ws9
+assign [app_id="[fF]irefox"]     workspace number $ws1
+assign [app_id="gdb"]            workspace number $ws2
+assign [app_id="libreoffice*"]   workspace number $ws4
+assign [app_id="terminal"]       workspace number $ws3
+assign [class="Spotify"]         workspace number $ws9
+assign [class="[Vv]lc"]          workspace number $ws6
+assign [class="burp*"]           workspace number $ws2
+assign [class="discord"]         workspace number $ws5
+assign [class="zoom"]            workspace number $ws2
+
+# }}}
+
+# Daemons {{{
+
+exec swayidle -w \
+    timeout 150  'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    timeout 300  'swaylock -f -c "#282828"  --font "JetBrains Mono" --font-size 12'  \
+    before-sleep 'swaylock -f -c "#282828"  --font "JetBrains Mono" --font-size 12'
+exec gammastep-indicator -l 48.856:2.352
+exec nm-applet
+exec blueman-applet
+
+# }}}
+
+# Input configuration {{{
+
+input "type:touchpad" tap enabled
+input "type:keyboard" {
+    xkb_layout us
+    xkb_options caps:backspace,compose:menu
+}
+input * {
+    natural_scroll enabled
+    accel_profile adaptive
+    drag disabled
+}
+
+# }}}
+
+# Gestures {{{
+
+bindgesture hold:4 workspace back_and_forth
+
+# }}}
+
+# Key bindings {{{
+
+## Basic stuff
+    # Open a terminal
+    bindsym $mod+Return       exec $term --class Terminal
+    bindsym $mod+Shift+Return exec $term --class terminal
+
+    # Kill focused window
+    bindsym $mod+q kill
+
+    # Rename a workspace
+    bindsym $mod+p exec true | $menu 'Rename workspace to: ' | xargs swaymsg rename workspace to --
+
+    # Start your launcher
+    bindsym $mod+space exec dmenu_path | $menu "~>" | xargs swaymsg exec --
+
+    # Mark a window
+    # bindsym $mod+m exec ~/.config/sway/mark.sh toggle "Mark to add: "
+
+    # Focus a marked window window
+    # bindsym $mod+f exec ~/.config/sway/mark.sh focus "Window to focus: "
+
+    # Mod a floating window
+    floating_modifier $alt normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+r reload
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+q exec swaynag -t warning -m 'Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'
+
+## Moving around:
+    # Cycle workspaces
+    bindsym $alt+Backspace workspace back_and_forth
+    bindsym $alt+Tab       workspace next_on_output
+    bindsym $alt+Shift+Tab workspace prev_on_output
+
+    # Move your focus around
+    bindsym $mod+$left  focus left  sibling
+    bindsym $mod+$down  focus down  sibling
+    bindsym $mod+$up    focus up    sibling
+    bindsym $mod+$right focus right sibling
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left  move left
+    bindsym $mod+Shift+$down  move down
+    bindsym $mod+Shift+$up    move up
+    bindsym $mod+Shift+$right move right
+
+    # Switch between floating and tiling
+    bindsym $mod+Semicolon focus mode_toggle
+
+# Workspaces:
+    # Switch to workspace
+    bindsym $mod+1 workspace number $ws1
+    bindsym $mod+2 workspace number $ws2
+    bindsym $mod+3 workspace number $ws3
+    bindsym $mod+4 workspace number $ws4
+    bindsym $mod+5 workspace number $ws5
+    bindsym $mod+6 workspace number $ws6
+    bindsym $mod+7 workspace number $ws7
+    bindsym $mod+8 workspace number $ws8
+    bindsym $mod+9 workspace number $ws9
+    bindsym $mod+0 workspace number $ws10
+
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number $ws1
+    bindsym $mod+Shift+2 move container to workspace number $ws2
+    bindsym $mod+Shift+3 move container to workspace number $ws3
+    bindsym $mod+Shift+4 move container to workspace number $ws4
+    bindsym $mod+Shift+5 move container to workspace number $ws5
+    bindsym $mod+Shift+6 move container to workspace number $ws6
+    bindsym $mod+Shift+7 move container to workspace number $ws7
+    bindsym $mod+Shift+8 move container to workspace number $ws8
+    bindsym $mod+Shift+9 move container to workspace number $ws9
+    bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Layout stuff:
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $alt+Escape fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+
+    # Set sticky bit
+    bindsym $mod+Period sticky toggle
+
+# Scratchpad:
+    # Sway has a "scratchpad", which is a bag of holding for windows.
+    # You can send windows there and get them back later.
+
+    # Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+
+# Resizing containers:
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left  resize shrink width  10px
+    bindsym $down  resize grow   height 10px
+    bindsym $up    resize shrink height 10px
+    bindsym $right resize grow   width  10px
+
+    # Ditto, with arrow keys
+    bindsym Left  resize shrink width  10px
+    bindsym Down  resize grow   height 10px
+    bindsym Up    resize shrink height 10px
+    bindsym Right resize grow   width  10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Swap containers:
+mode "swap" {
+    # Move your focus around
+    bindsym $mod+$left  focus left  sibling
+    bindsym $mod+$down  focus down  sibling
+    bindsym $mod+$up    focus up    sibling
+    bindsym $mod+$right focus right sibling
+    bindsym Semicolon focus mode_toggle
+    bindsym $mod+Tab       workspace next_on_output
+    bindsym $mod+Shift+Tab workspace prev_on_output
+    bindsym $mod+a focus parent
+
+    # Show marks on boders
+    set $reset unmark swap; [tiling] border pixel; [con_mark=".*"] border normal
+
+    # Mark and swap
+    bindsym m mark --toggle swap; [tiling] border pixel; [con_mark=".*"] border normal                                            
+    bindsym s swap container with mark swap
+
+    # Quick swap
+    bindsym Shift+$left  mark --add swap, focus left,  swap container with mark swap, focus left,  unmark swap
+    bindsym Shift+$down  mark --add swap, focus down,  swap container with mark swap, focus down,  unmark swap
+    bindsym Shift+$up    mark --add swap, focus up,    swap container with mark swap, focus up,    unmark swap
+    bindsym Shift+$right mark --add swap, focus right, swap container with mark swap, focus right, unmark swap
+
+    # Return to default mode
+    bindsym Return     $reset; mode "default"
+    bindsym Escape     $reset; mode "default"
+    bindsym $mod+Slash $reset; mode "default"
+}
+bindsym $mod+Slash mode "swap"
+
+# move to monitors
+    bindsym $mod+$alt+$left  move workspace to left
+    bindsym $mod+$alt+$right move workspace to right
+    bindsym $mod+$alt+$up    move workspace to up
+    bindsym $mod+$alt+$down  move workspace to down
+
+# Raw mode
+    mode "raw" bindsym $mod+Insert mode "default"
+    bindsym $mod+Insert mode "raw"
+
+# Volume
+    bindsym XF86AudioRaiseVolume exec ~/bin/volume -n -i 5
+    bindsym XF86AudioLowerVolume exec ~/bin/volume -n -d 5
+    bindsym XF86AudioMute        exec ~/bin/volume -n -t
+
+# Brightness
+    bindsym XF86MonBrightnessDown exec ~/bin/backlight -n -l -d 5
+    bindsym XF86MonBrightnessUp   exec ~/bin/backlight -n -l -i 5
+
+# Media
+    bindsym XF86AudioPlay exec playerctl play-pause
+    bindsym --locked XF86AudioPrev exec playerctl previous
+    bindsym --locked XF86AudioPlay exec playerctl play-pause --all-players
+    bindsym --locked XF86AudioNext exec playerctl next
+
+# Screenshots
+    bindsym Print       exec ~/bin/screenshot -w -S
+    bindsym Shift+Print exec ~/bin/screenshot -a -S
+    bindsym $mod+Print  exec ~/bin/screenshot -s -S
+
+# }}}
+
+# Status Bar {{{
+
+bar swaybar_command waybar
+
+# }}}
+
+# Theme {{{
+
+font JetBrains Mono Bold 10
+
+gaps inner 10
+gaps outer 10
+
+smart_borders on
+smart_gaps    on
+
+default_border pixel 3
+
+titlebar_border_thickness 1
+titlebar_padding 10 1
+
+client.focused           #323232 #b3b3b3 #323232 #00ffff #6899bf
+client.focused_inactive  #323232 #b3b3b3 #323232 #808080 #808080
+client.unfocused         #323232 #323232 #b3b3b3 #808080 #808080
+client.urgent            #ff0000 #323232 #b3b3b3 #808080 #ff0000
+
+seat seat0 xcursor_theme "Adwaita" 24
+
+# }}}
+
+# Stuff {{{
+
+workspace_auto_back_and_forth yes
+mouse_warping container
+include /etc/sway/config.d/*
+
+# }}}
+
+# vim: set foldmethod=marker :

@@ -1,0 +1,123 @@
+{
+    "position": "top",
+    "height": 30,
+
+    "modules-left": [
+        "sway/workspaces",
+        "sway/window",
+        "sway/mode"
+    ],
+    "modules-center": [
+        "clock",
+        "idle_inhibitor"
+    ],
+    "modules-right": [
+        "custom/notification",
+        "temperature",
+        "custom/fan",
+        "tray",
+        "custom/brightness",
+        "pulseaudio",
+        "battery"
+    ],
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "deactivated": "⭘",
+            "activated": "●"
+        },
+        "on-click-middle": "dunstctl set-paused toggle && pkill -RTMIN+10 waybar"
+    },
+
+    "battery": {
+        "interval": 10,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "<span font='11'>{icon}</span> {capacity}%",
+        "format-discharging": "<span font='11'>{icon}</span> {capacity}%",
+        "format-icons": {
+            "default": [ "󰢟", "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰢝", "󰢞", "󰢞", "󰂋", "󰂅" ],
+            "discharging": [ "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" ]
+        }
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": "{:%r}",
+        "format-alt": "{:%A %d %b, %r}"
+    },
+
+    "sway/workspaces": {
+        "all-outputs": false,
+        "disable-scroll": true,
+        "format": "{icon}"
+    },
+
+    "sway/mode": {
+        "format": "{}",
+        "max-length": 50
+    },
+
+    "sway/window": {
+        "format": "{title}",
+        "max-length": 50,
+        "rewrite": {
+           "(.*) — Mozilla Firefox": "Firefox",
+           "(.*) - Chromium": "Chromium",
+           "(.*) - Discord": "Discord",
+           "((~|/).*).pdf": "pdf",
+           "(~.*|/.*)": "Terminal"
+        }
+    },
+
+    "pulseaudio": {
+        "scroll-step": 0.1,
+        "format": "<span font='12'>{icon}</span> {volume}%",
+        "format-bluetooth": "<span font='12'>{icon}</span> {volume}%",
+        "format-muted": "<span font='12'>󰖁</span>",
+        "format-icons": [ "󰖀", "󰕾", "" ],
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-middle": "pavucontrol",
+        "on-click-right": "pavucontrol"
+    },
+
+    "temperature": {
+      "interval": 5,
+      "format": "{temperatureC}<b>°c</b>",
+      "hwmon-path": "/sys/class/hwmon/hwmon5/temp2_input"
+    },
+
+    "tray": {
+        "icon-size": 15,
+        "spacing": 20
+    },
+
+    "custom/fan": {
+        "exec": "s=$(cat /sys/class/hwmon/hwmon5/fan1_input); [[ $s -gt 0 ]] && echo ${s}'<b>rpm</b>'|| echo",
+        "format": "{}",
+        "interval": 5
+    },
+
+    "custom/brightness": {
+        "format": "<span font='12'>󰃞</span>",
+        "on-click":       "~/.config/waybar/brightness.sh blue '-d 5'",
+        "on-click-right": "~/.config/waybar/brightness.sh blue '-i 5'",
+        "on-scroll-up":   "~/.config/waybar/brightness.sh backlight '-i 5'",
+        "on-scroll-down": "~/.config/waybar/brightness.sh backlight '-d 5'",
+        "on-click-middle": "~/bin/color",
+        "smooth-scrolling-threshold": 3
+    },
+
+    "custom/notification": {
+        "exec": "[[ $(dunstctl is-paused) == true ]] && echo ",
+        "on-click": "dunstctl set-paused false && echo",
+        "format": "<span font='12'>{}</span>",
+        "interval": 60,
+        "signal": 10
+    }
+}
+
+// vim: set ft=json ts=4 sts=4 tw=4 conceallevel=0 et :
