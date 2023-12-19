@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
 vim.api.nvim_create_autocmd("TermEnter", {
   pattern = { "*" },
   callback = function()
+    vim.opt.spell = false
     vim.opt.cursorcolumn = false
     vim.opt.cursorline = false
     vim.opt.number = false
@@ -15,6 +16,7 @@ vim.api.nvim_create_autocmd("TermEnter", {
 vim.api.nvim_create_autocmd("TermLeave", {
   pattern = { "*" },
   callback = function()
+    vim.opt.spell = true
     vim.opt.cursorcolumn = true
     vim.opt.cursorline = true
     vim.opt.number = true

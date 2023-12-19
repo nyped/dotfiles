@@ -118,6 +118,7 @@ return {
         "pyright",
         "rust_analyzer",
         "tsserver",
+        "gopls",
       })
 
       -- clangd
@@ -130,23 +131,47 @@ return {
       -- Mason stuff
       require("mason").setup({})
       require("mason-lspconfig").setup({
-        ensure_installed = {},
+        ensure_installed = {
+          "golangci_lint_ls",
+          "efm",
+          "typst_lsp",
+        },
         handlers = {
           lsp_zero.default_setup,
           lua_ls = function()
             local lua_opts = lsp_zero.nvim_lua_ls()
             require("lspconfig").lua_ls.setup(lua_opts)
           end,
+          typst_lsp = function()
+            require("lspconfig").typst_lsp.setup({
+              settings = {
+                exportPdf = "onSave",
+              },
+            })
+          end,
+          efm = function()
+            require("lspconfig").efm.setup({
+              filetypes = { "tiger" },
+              settings = {
+                rootMarkers = { ".git/" },
+                languages = {
+                  tiger = {
+                    {
+                      prefix = "lint",
+                      lintCommand = "/opt/tiger/dtiger -o /dev/null ${INPUT}",
+                      lintFormats = { "%l.%c-%*\\d:%m", "%l.%c:%m" },
+                      lintIgnoreExitCode = true,
+                      lintStdin = false,
+                    },
+                  },
+                },
+              },
+            })
+          end,
         },
       })
 
       lsp_zero.setup()
-      -- }}}
-
-      -- {{{ ccls for cuda
-      require("lspconfig").ccls.setup({
-        filetypes = { "cuda" },
-      })
       -- }}}
 
       -- cmp {{{
@@ -191,6 +216,7 @@ return {
   },
   { -- https://github.com/barreiroleo/ltex_extra.nvim
     "barreiroleo/ltex_extra.nvim",
+    enabled = true,
     ft = { "markdown" },
     dependencies = { "VonHeikemen/lsp-zero.nvim" },
     config = function()

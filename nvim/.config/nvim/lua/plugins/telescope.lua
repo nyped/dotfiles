@@ -41,9 +41,24 @@ return {
         desc = "Telescope help_tags",
       },
       {
+        "<Leader>fH",
+        "<cmd>Telescope command_history<CR>",
+        desc = "Telescope command_history",
+      },
+      {
+        "<Leader>fm",
+        "<cmd>Telescope man_pages<CR>",
+        desc = "Telescope man_pages",
+      },
+      {
         "<Leader>fk",
         "<cmd>Telescope keymaps<CR>",
         desc = "Telescope keymaps",
+      },
+      {
+        "<Leader>fs",
+        "<cmd>Telescope spell_suggest<CR>",
+        desc = "Telescope spell_suggest",
       },
       {
         "<Leader>fn",

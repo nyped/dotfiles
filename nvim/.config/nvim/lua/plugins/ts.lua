@@ -8,7 +8,6 @@ return {
           "bash", -- parsers {{{
           "bibtex",
           "c",
-          "comment",
           "cpp",
           "css",
           "cuda",
@@ -35,6 +34,7 @@ return {
           "regex",
           "rust",
           "toml",
+          "tiger",
           "typescript",
           "vim",
           "vimdoc", -- }}}

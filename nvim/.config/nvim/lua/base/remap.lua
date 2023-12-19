@@ -55,11 +55,14 @@ vim.keymap.set("n", "<Leader>k", "<cmd>Man<CR>")
 vim.keymap.set("v", "<C-J>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<C-K>", ":m '<-2<CR>gv=gv")
 
--- nohl
-vim.keymap.set("n", "<Leader> ", "<cmd>noh<CR>")
-
 -- remove trailing spaces
 vim.api.nvim_create_user_command("RmTrailing", [[%s/\s\+$//e]], {})
+
+-- step into file directory
+vim.api.nvim_create_user_command("Step", function()
+  local path = vim.fn.expand("%:p:h")
+  vim.fn.chdir(path)
+end, {})
 
 -- wrap toggle
 vim.keymap.set("n", "<Leader>gw", "<cmd>set wrap!<CR>")

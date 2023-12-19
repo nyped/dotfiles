@@ -41,3 +41,6 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
+
+vim.opt.spell = true
+vim.opt.spelllang = "en_us"
