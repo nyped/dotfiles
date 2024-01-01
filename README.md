@@ -1,4 +1,4 @@
-# lenny's dotfiles
+# nyped's dotfiles
 
 ## Usage
 

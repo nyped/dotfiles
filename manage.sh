@@ -1,23 +1,24 @@
 #!/usr/bin/env bash
 # install
-# Fri Apr 29 02:20:49 PM CEST 2022
-# lennypeers
 
-target=(
-  awesome
+set -euo pipefail
+
+# Stepping into the directory
+cd "$(dirname "$0")"
+
+targets=(
   bat
-  bspwm
   dunst
+  gammastep
   kitty
   nvim
-  picom
-  polybar
-  rofi
   scripts
-  sxhkd
-  wallpaper
-  Xsession
-  xsettingsd
+  sway
+  tmux
+  tpl
+  vim
+  waybar
+  xsession
   zathura
   zsh
 )
@@ -32,7 +33,7 @@ with cmd in:
 EOF
 }
 
-case "$1" in
+case "${1:-}" in
   -i | --install)
     cmd=-S
     ;;
@@ -52,9 +53,9 @@ case "$1" in
     ;;
 esac
 
-for package in ${target[@]}; do
-  mkdir -p ~/.config/$package
-  stow --ignore="^config" $cmd $package --dotfiles
+for package in "${targets[@]}"; do
+  mkdir -p ~/.config/"$package"
+  stow --ignore="^config" "$cmd" "$package" --dotfiles
 done
 
 # vim:set ts=8 sts=2 sw=2 et:

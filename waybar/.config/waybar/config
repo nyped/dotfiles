@@ -8,16 +8,18 @@
         "sway/mode"
     ],
     "modules-center": [
-        "clock",
+        "group/date",
         "idle_inhibitor"
     ],
     "modules-right": [
-        "custom/notification",
-        "temperature",
+        "memory",
+        "custom/temperature",
         "custom/fan",
+        "custom/notification",
+        "network#vpn",
         "tray",
-        "custom/brightness",
-        "pulseaudio",
+        "group/backlight",
+        "group/media",
         "battery"
     ],
 
@@ -27,6 +29,7 @@
             "deactivated": "⭘",
             "activated": "●"
         },
+        "start-activated": true,
         "on-click-middle": "dunstctl set-paused toggle && pkill -RTMIN+10 waybar"
     },
 
@@ -44,10 +47,24 @@
         }
     },
 
-    "clock": {
+    "group/date": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 250,
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "clock#hour",
+            "clock#day",
+        ]
+    },
+    "clock#hour": {
         "interval": 1,
         "format": "{:%r}",
-        "format-alt": "{:%A %d %b, %r}"
+    },
+    "clock#day": {
+        "interval": 1,
+        "format": "{:%A %d %b, }",
     },
 
     "sway/workspaces": {
@@ -67,9 +84,7 @@
         "rewrite": {
            "(.*) — Mozilla Firefox": "Firefox",
            "(.*) - Chromium": "Chromium",
-           "(.*) - Discord": "Discord",
-           "((~|/).*).pdf": "pdf",
-           "(~.*|/.*)": "Terminal"
+           "(.*) - Discord": "Discord"
         }
     },
 
@@ -84,10 +99,15 @@
         "on-click-right": "pavucontrol"
     },
 
-    "temperature": {
-      "interval": 5,
-      "format": "{temperatureC}<b>°c</b>",
-      "hwmon-path": "/sys/class/hwmon/hwmon5/temp2_input"
+    "memory": {
+        "interval": 30,
+        "format": "RAM: {used:0.1f} GiB"
+    },
+
+    "custom/temperature": {
+      "format": "{}",
+      "exec": "s=$(cat /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon?/temp2_input); echo $(( s / 1000 ))'<b>°c</b>'",
+      "interval": 5
     },
 
     "tray": {
@@ -96,19 +116,42 @@
     },
 
     "custom/fan": {
-        "exec": "s=$(cat /sys/class/hwmon/hwmon5/fan1_input); [[ $s -gt 0 ]] && echo ${s}'<b>rpm</b>'|| echo",
+        "exec": "s=$(cat /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon6/fan1_input); [[ $s -gt 0 ]] && echo ${s}'<b>rpm</b>'|| echo",
         "format": "{}",
         "interval": 5
     },
 
     "custom/brightness": {
         "format": "<span font='12'>󰃞</span>",
-        "on-click":       "~/.config/waybar/brightness.sh blue '-d 5'",
-        "on-click-right": "~/.config/waybar/brightness.sh blue '-i 5'",
-        "on-scroll-up":   "~/.config/waybar/brightness.sh backlight '-i 5'",
-        "on-scroll-down": "~/.config/waybar/brightness.sh backlight '-d 5'",
+        "on-scroll-up":   "~/bin/backlight -l -n -i 5",
+        "on-scroll-down": "~/bin/backlight -l -n -d 5",
         "on-click-middle": "~/bin/color",
-        "smooth-scrolling-threshold": 3
+        "smooth-scrolling-threshold": 3,
+        "tooltip": false,
+    },
+    "group/backlight": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 250,
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "custom/brightness",
+            "custom/monitor",
+            "custom/monitor_blue",
+        ]
+    },
+    "custom/monitor_blue": {
+        "format": "<span font='12'>󰃟</span>",
+        "on-click":       "~/bin/backlight -m -n -b -d 5",
+        "on-click-right": "~/bin/backlight -m -n -b -i 5",
+        "tooltip": false,
+    },
+    "custom/monitor": {
+        "format": "<span font='12'>󰃠</span>",
+        "on-click":       "~/bin/backlight -m -n -d 5",
+        "on-click-right": "~/bin/backlight -m -n -i 5",
+        "tooltip": false,
     },
 
     "custom/notification": {
@@ -117,6 +160,42 @@
         "format": "<span font='12'>{}</span>",
         "interval": 60,
         "signal": 10
+    },
+
+    "network#vpn": {
+        "interface": "*-vpn",
+        "format": "",
+        "format-disconnected": "<span font='11'></span>",
+        "tooltip-format-disconnected": "no vpn, mind your stuff",
+    },
+
+    "group/media": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 250,
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "pulseaudio",
+            "custom/previous",
+            "custom/play",
+            "custom/next",
+        ]
+    },
+    "custom/previous": {
+        "format": "<span font='14'>󰒮</span>",
+        "tooltip": false,
+        "on-click": "playerctl previous"
+    },
+    "custom/play": {
+        "format": "<span font='14'>󰏤</span>",
+        "tooltip": false,
+        "on-click": "playerctl play-pause"
+    },
+    "custom/next": {
+        "format": "<span font='14'>󰒭</span>",
+        "tooltip": false,
+        "on-click": "playerctl next"
     }
 }
 

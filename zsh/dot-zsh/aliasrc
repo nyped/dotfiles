@@ -10,7 +10,6 @@ alias o='open'
 alias p='pacman'
 alias pan='pandoc'
 alias prmo='pacman -Qqtd | sudo pacman -Rns -'
-alias song='playerctl metadata -f "{{ artist }} - {{ title }}"'
 alias y='yay'
 
 # translation stuff
@@ -100,6 +99,6 @@ alias gst='git status'
 alias l='ls -lah'
 alias la='ls -A'
 alias ll='ls -lh'
-alias ls='ls --color=tty'
+alias ls='exa'
 
 # vim: set ts=2 sts=2 sw=2 ft=sh et :

@@ -35,7 +35,7 @@ set recolor
 set recolor-keephue
 set recolor-lightcolor "#282828"
 
-map b set  "default-bg \#ffffff"
-map B set  "default-bg \#282828"
+map B set  "default-bg \#ffffff"
+map b set  "default-bg \#282828"
 
 # vim:ft=sh:

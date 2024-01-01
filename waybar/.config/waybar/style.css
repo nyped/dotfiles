@@ -1,7 +1,4 @@
 * {
-    border: 0;
-    border-radius: 0;
-    min-height: 0;
     margin: 0;
     padding: 0;
 }
@@ -14,19 +11,38 @@
 }
 
 #battery,
-#clock,
-#custom-notification,
 #custom-brightness,
 #custom-fan,
+#custom-notification,
+#custom-temperature,
+#date,
+#memory,
 #mode,
+#network,
 #pulseaudio,
-#temperature,
 #tray,
 #window,
 #workspaces
 {
     padding-left: 10px;
     padding-right: 10px;
+}
+
+#custom-temperature,
+#custom-fan,
+#memory
+{
+    color: #888888;
+}
+
+#custom-monitor,
+#custom-monitor_blue,
+#custom-previous,
+#custom-pause,
+#custom-next
+{
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 /* Left and right paddings */
@@ -51,6 +67,9 @@
 }
 
 #workspaces button {
+    border: 0;
+    border-radius: 0;
+    min-height: 0;
     border-bottom: 2px solid transparent;
     padding-top: 2px;
     padding-left: 10px;
@@ -63,7 +82,12 @@
     box-shadow: inherit;
 }
 
+#workspaces button.visible {
+    background: rgba(0, 0, 0, 0.2);
+}
+
 #workspaces button.focused {
+    background: rgba(0, 0, 0, 0.2);
     border-color: white;
     font-weight: bold;
 }

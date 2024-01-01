@@ -3,7 +3,7 @@
 open() {
   for file
   do
-    xdg-open "$file" || return 1
+    handlr open "$file" || return 1
     notify-send "File '${file##*/}' opened" -a notif
   done
 }
@@ -12,6 +12,13 @@ share() {
   [[ $# != 1 ]] && echo usage: share \<file\> && return 1
   [[ ! -f $1 ]] && echo File non readable 1>&2 && return 2
   curl -F file=@"$1" http://0x0.st 2>/dev/null
+}
+
+# backup
+bak() {
+  [[ $# != 1 ]] && echo usage: bak \<file\> && return 1
+  [[ -f "$1".bak ]] && echo File "$1".bak exists && return 2
+  mv "$1"{,.bak}
 }
 
 # replace patterns in filename

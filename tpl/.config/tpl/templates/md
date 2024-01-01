@@ -1,0 +1,16 @@
+---
+<!-- ltex: enabled=false -->
+title: ${TITLE}
+author: ${AUTHOR}
+date: \today
+numbersections: false
+geometry: margin=1in
+documentclass: article
+toc: false
+lang: fr
+header-includes:
+    - \usepackage{lipsum}
+    - \everymath{\displaystyle}
+...
+
+${MD_MODELINE}

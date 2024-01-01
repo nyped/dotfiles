@@ -1,0 +1,19 @@
+CC := pandoc
+FLAGS := --highlight-style=tango --filter pandoc-plot --filter pandoc-crossref
+EXE := 1.pdf
+SLEEP_TIME := 1
+
+.PHONY: all loop clean
+
+all: $(EXE)
+
+loop:
+	while :; do make --silent; sleep $(SLEEP_TIME); done
+
+clean:
+	rm -f $(EXE)
+
+%.pdf: %.md
+	$(CC) $(FLAGS) -so $@ $<
+
+# vim: ft=make :

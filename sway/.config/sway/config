@@ -31,6 +31,7 @@ set $ws10 "10: dl"
 output DP-1     resolution 1920x1080 position 0,0 scale 0.9
 output HDMI-A-1 resolution 1920x1080 position 0,0 scale 0.9
 output eDP-1    resolution 1920x1080 position 2133,0
+# output eDP-1    resolution 1920x1080 position 0,0
 
 # NOTE: 1920. / .9 ~= 2133
 
@@ -40,11 +41,12 @@ output eDP-1    resolution 1920x1080 position 2133,0
 
 for_window [class=".*"]            urgent enable
 for_window [app_id="python3"]      floating enable
-for_window [app_id="Terminal"]     floating enable
+for_window [app_id="Terminal"]     floating enable; \
+                                   resize set height 300px
 for_window [window_type="dialog"]  floating enable
 for_window [window_role="dialog"]  floating enable
 
-assign [app_id=".*zathura"]      workspace number $ws4
+# assign [app_id=".*zathura"]      workspace number $ws4
 assign [app_id="[Pp]avucontrol"] workspace number $ws9
 assign [app_id="[fF]irefox"]     workspace number $ws1
 assign [app_id="gdb"]            workspace number $ws2
@@ -61,10 +63,10 @@ assign [class="zoom"]            workspace number $ws2
 # Daemons {{{
 
 exec swayidle -w \
-    timeout 150  'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+    timeout 60   'systemctl suspend' \
     timeout 300  'swaylock -f -c "#282828"  --font "JetBrains Mono" --font-size 12'  \
     before-sleep 'swaylock -f -c "#282828"  --font "JetBrains Mono" --font-size 12'
-exec gammastep-indicator -l 48.856:2.352
+exec gammastep-indicator &
 exec nm-applet
 exec blueman-applet
 
@@ -107,12 +109,6 @@ bindgesture hold:4 workspace back_and_forth
     # Start your launcher
     bindsym $mod+space exec dmenu_path | $menu "~>" | xargs swaymsg exec --
 
-    # Mark a window
-    # bindsym $mod+m exec ~/.config/sway/mark.sh toggle "Mark to add: "
-
-    # Focus a marked window window
-    # bindsym $mod+f exec ~/.config/sway/mark.sh focus "Window to focus: "
-
     # Mod a floating window
     floating_modifier $alt normal
 
@@ -120,7 +116,7 @@ bindgesture hold:4 workspace back_and_forth
     bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+q exec swaynag -t warning -m 'Do you really want to exit sway?' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
 
 ## Moving around:
     # Cycle workspaces
@@ -133,6 +129,12 @@ bindgesture hold:4 workspace back_and_forth
     bindsym $mod+$down  focus down  sibling
     bindsym $mod+$up    focus up    sibling
     bindsym $mod+$right focus right sibling
+
+    # Move your focus around monitors
+    bindsym $mod+$alt+$left  focus output left
+    bindsym $mod+$alt+$down  focus output down
+    bindsym $mod+$alt+$up    focus output up
+    bindsym $mod+$alt+$right focus output right
 
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left  move left
@@ -209,16 +211,17 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left  resize shrink width  10px
-    bindsym $down  resize grow   height 10px
-    bindsym $up    resize shrink height 10px
-    bindsym $right resize grow   width  10px
+    set $amount 100px
+    bindsym $left  resize shrink width  $amount
+    bindsym $down  resize grow   height $amount
+    bindsym $up    resize shrink height $amount
+    bindsym $right resize grow   width  $amount
 
     # Ditto, with arrow keys
-    bindsym Left  resize shrink width  10px
-    bindsym Down  resize grow   height 10px
-    bindsym Up    resize shrink height 10px
-    bindsym Right resize grow   width  10px
+    bindsym Left  resize shrink width  $amount
+    bindsym Down  resize grow   height $amount
+    bindsym Up    resize shrink height $amount
+    bindsym Right resize grow   width  $amount
 
     # Return to default mode
     bindsym Return mode "default"
@@ -243,7 +246,7 @@ mode "swap" {
     set $reset unmark swap; [tiling] border pixel; [con_mark=".*"] border normal
 
     # Mark and swap
-    bindsym m mark --toggle swap; [tiling] border pixel; [con_mark=".*"] border normal                                            
+    bindsym m mark --toggle swap; [tiling] border pixel; [con_mark=".*"] border normal
     bindsym s swap container with mark swap
 
     # Quick swap
@@ -260,10 +263,10 @@ mode "swap" {
 bindsym $mod+Slash mode "swap"
 
 # move to monitors
-    bindsym $mod+$alt+$left  move workspace to left
-    bindsym $mod+$alt+$right move workspace to right
-    bindsym $mod+$alt+$up    move workspace to up
-    bindsym $mod+$alt+$down  move workspace to down
+    bindsym $mod+Shift+$alt+$left  move workspace to left
+    bindsym $mod+Shift+$alt+$right move workspace to right
+    bindsym $mod+Shift+$alt+$up    move workspace to up
+    bindsym $mod+Shift+$alt+$down  move workspace to down
 
 # Raw mode
     mode "raw" bindsym $mod+Insert mode "default"
@@ -312,9 +315,10 @@ default_border pixel 3
 titlebar_border_thickness 1
 titlebar_padding 10 1
 
+# class                  border  bg      text    indic.  child_border
 client.focused           #323232 #b3b3b3 #323232 #00ffff #6899bf
 client.focused_inactive  #323232 #b3b3b3 #323232 #808080 #808080
-client.unfocused         #323232 #323232 #b3b3b3 #808080 #808080
+client.unfocused         #404040 #323232 #b3b3b3 #808080 #808080
 client.urgent            #ff0000 #323232 #b3b3b3 #808080 #ff0000
 
 seat seat0 xcursor_theme "Adwaita" 24

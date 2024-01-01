@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # deps: brightnessctl ddccontrol notifysend
 
+set -euo pipefail
+
 info() {
   cat << EOF
 Usage: ${0##*/} [-i | -d N] [-l | -m | -k | -b] [-h] [-n]
@@ -75,21 +77,35 @@ case "$DEV" in
   ;;
 
   monitor)
-    # Finding the device. Monkey guess since ddccontrol -p takes 2s to find the dev
-    case "$(xrandr --query | awk '{if ($2 == "connected") print $1}')" in
-      *HDMI*)
-        DEVICE=dev:/dev/i2c-5
-        ;;
+    readonly dev_file=/tmp/ddcc_i2c
 
-      *DisplayPort* | *DP*)
-        DEVICE=dev:/dev/i2c-8
-        ;;
+    # Probing the device
+    if [[ ! -f $dev_file ]]; then
+      path=$(ddccontrol -p 2>/dev/null | awk -F: '/at bus dev:/ {gsub("[.]",""); print $2}')
+      echo "dev:$path" > $dev_file
+    fi
+    IFS= read -r DEVICE < $dev_file
 
-      *) # Bruh, take a coffee
+    # Sanity check
+    case "$DEVICE" in
+      dev:/dev/i2c-?)
+        ;;
+      *)
         DEVICE=-p
+        rm -f $dev_file
         ;;
     esac
+
     RET=$(ddccontrol "$DEVICE" -r "$ADDRESS" -W "$DDC_VAL" 2>/dev/null | awk -F'/' 'END {print $2}')
+
+    # Error check
+    case "$RET" in
+      ''|*[!0-9]*)
+        rm -f $dev_file
+        killall -9 ddccontrol &>/dev/null
+        exit 255
+        ;;
+    esac
   ;;
 esac
 
