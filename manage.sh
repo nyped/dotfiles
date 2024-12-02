@@ -14,6 +14,7 @@ targets=(
   nvim
   scripts
   sway
+  swaylock
   tmux
   tpl
   vim

@@ -27,7 +27,7 @@ set $ws10 "10: dl"
 
 # Output configuration {{{
 
-# output *        background "#888888" solid_color
+output *        background "#474747" solid_color
 output DP-1     resolution 1920x1080 position 0,0 scale 0.9
 output HDMI-A-1 resolution 1920x1080 position 0,0 scale 0.9
 output eDP-1    resolution 1920x1080 position 2133,0
@@ -64,8 +64,8 @@ assign [class="zoom"]            workspace number $ws2
 
 exec swayidle -w \
     timeout 60   'systemctl suspend' \
-    timeout 300  'swaylock -f -c "#282828"  --font "JetBrains Mono" --font-size 12'  \
-    before-sleep 'swaylock -f -c "#282828"  --font "JetBrains Mono" --font-size 12'
+    timeout 300  'swaylock'  \
+    before-sleep 'swaylock'
 exec gammastep-indicator &
 exec nm-applet
 exec blueman-applet
