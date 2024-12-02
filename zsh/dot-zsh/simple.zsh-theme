@@ -232,6 +232,8 @@ setopt PROMPT_SUBST KSH_GLOB
     zle -F $_async_fd
     exec {_async_fd}<&-
     unset _async_fd
+
+    typeset -g init=1
   }
 
   function _hooks_caller() {
@@ -263,6 +265,9 @@ function _update_wd() {
 
 # resize hook
 function _prompt_winch_redraw() {
+  typeset -g init
+  [[ -z $init ]] && return  # Only if init
+
   _update_wd
   _update_prompt update
   zle && zle reset-prompt  # Only if active

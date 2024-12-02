@@ -73,8 +73,8 @@ for i in ${to_source[@]}; {
 }
 
 # man and pager stuff
-export LESS=-r\ --mouse\ --wheel-lines=2
-export LESS_TERMCAP_mb=$(tput bold; tput setaf 41) green
+export LESS="-r --mouse --wheel-lines=2"
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 41)
 export LESS_TERMCAP_md=$(tput bold; tput setaf 6)
 export LESS_TERMCAP_me=$(tput sgr0)
 export LESS_TERMCAP_so=$(tput bold; tput setaf 231; tput setab 241)
@@ -88,7 +88,8 @@ export LESS_TERMCAP_ZV=$(tput rsubm)
 export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 export EDITOR=nvim
-export MANPAGER='nvim -u NORC +"set ft=man noshowcmd noruler noshowmode laststatus=0 scrolloff=500" +Man! +"norm M"'
+export MANROFFOPT="-c"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # theme env
 export QT_QPA_PLATFORMTHEME=qt5ct
