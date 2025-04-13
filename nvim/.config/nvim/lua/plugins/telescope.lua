@@ -11,7 +11,7 @@ return {
         desc = "Telescope find_files",
       },
       {
-        "<Leader>fi",
+        "<Leader>fF",
         "<cmd>Telescope find_files hidden=true<CR>",
         desc = "Telescope find_files (hidden)",
       },

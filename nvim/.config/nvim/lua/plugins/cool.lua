@@ -32,18 +32,6 @@ return {
       })
     end,
   },
-  { -- https://github.com/jbyuki/nabla.nvim
-    "jbyuki/nabla.nvim",
-    keys = {
-      {
-        "<Leader>ve",
-        function()
-          require("nabla").popup()
-        end,
-        desc = "view equation",
-      },
-    },
-  },
   { -- https://github.com/NvChad/nvim-colorizer.lua
     "NvChad/nvim-colorizer.lua",
     keys = {

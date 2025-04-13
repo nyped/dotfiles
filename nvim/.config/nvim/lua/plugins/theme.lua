@@ -15,6 +15,10 @@ return {
   { -- https://github.com/rcarriga/nvim-notify
     "rcarriga/nvim-notify",
     event = "VeryLazy",
+    cmd = "Notifications",
+    keys = {
+      { "<Leader>fN", desc = "Dismiss notifications" },
+    },
     config = function()
       local notify = require("notify")
 
@@ -22,6 +26,13 @@ return {
         background_colour = "#000000",
       })
       vim.notify = notify
+
+      vim.keymap.set(
+        "n",
+        "<Leader>fN",
+        notify.dismiss,
+        { desc = "Dismiss notifications" }
+      )
     end,
   },
 }

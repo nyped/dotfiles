@@ -8,9 +8,12 @@ return {
       { "neovim/nvim-lspconfig" }, -- Required
       { "williamboman/mason.nvim" }, -- Optional
       { "williamboman/mason-lspconfig.nvim" }, -- Optional
-
       -- Autocompletion
-      { "hrsh7th/nvim-cmp" }, -- Required
+      {
+        "hrsh7th/nvim-cmp",
+        -- commit = "b356f2c", -- FIXME: typst
+        pin = true,
+      }, -- Required
       { "hrsh7th/cmp-nvim-lsp" }, -- Required
       { "L3MON4D3/LuaSnip" }, -- Required
       { "ray-x/lsp_signature.nvim" }, -- Required
@@ -114,10 +117,9 @@ return {
       lsp_zero.setup_servers({
         "bashls",
         "lua_ls",
-        "ocamllsp",
         "pyright",
         "rust_analyzer",
-        "tsserver",
+        "ts_ls",
         "gopls",
       })
 
@@ -133,8 +135,8 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "golangci_lint_ls",
-          "efm",
-          "typst_lsp",
+          "jdtls",
+          "tinymist",
         },
         handlers = {
           lsp_zero.default_setup,
@@ -142,29 +144,13 @@ return {
             local lua_opts = lsp_zero.nvim_lua_ls()
             require("lspconfig").lua_ls.setup(lua_opts)
           end,
-          typst_lsp = function()
-            require("lspconfig").typst_lsp.setup({
+          tinymist = function()
+            require("lspconfig").tinymist.setup({
+              root_dir = vim.fn.getcwd(),
+              offset_encoding = "utf-16",
               settings = {
                 exportPdf = "onSave",
-              },
-            })
-          end,
-          efm = function()
-            require("lspconfig").efm.setup({
-              filetypes = { "tiger" },
-              settings = {
-                rootMarkers = { ".git/" },
-                languages = {
-                  tiger = {
-                    {
-                      prefix = "lint",
-                      lintCommand = "/opt/tiger/dtiger -o /dev/null ${INPUT}",
-                      lintFormats = { "%l.%c-%*\\d:%m", "%l.%c:%m" },
-                      lintIgnoreExitCode = true,
-                      lintStdin = false,
-                    },
-                  },
-                },
+                outputPath = "$root/$dir/$name",
               },
             })
           end,

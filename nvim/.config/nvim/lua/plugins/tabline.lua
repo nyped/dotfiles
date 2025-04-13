@@ -49,6 +49,21 @@ return {
         },
         bold = true,
       }
+      local error_table = {
+        fg = {
+          attribute = "fg",
+          highlight = "GruvboxRed",
+        },
+        bg = {
+          attribute = "fg",
+          highlight = "GruvboxBg2",
+        },
+        bold = true,
+      }
+      local warning_table = vim.fn.copy(error_table)
+      if warning_table and warning_table["fg"] then
+        warning_table["fg"]["highlight"] = "GruvboxOrange"
+      end
       -- }}}
 
       require("bufferline").setup({
@@ -67,6 +82,11 @@ return {
           left_trunc_marker = "⟵",
           right_trunc_marker = "⟶",
           always_show_bufferline = false,
+          diagnostics = "nvim_lsp",
+          diagnostics_update_in_insert = false,
+          diagnostics_indicator = function(_, _, _, _)
+            return ""
+          end,
           indicator = {
             style = "none",
           },
@@ -83,6 +103,10 @@ return {
           trunc_marker = norm_table,
           pick = pick_norm_table,
           pick_selected = pick_sel_table,
+          error = error_table,
+          error_selected = sel_table,
+          warning = warning_table,
+          warning_selected = sel_table,
         },
 
         vim.keymap.set("n", "<Leader>j", vim.cmd.BufferLinePick, {

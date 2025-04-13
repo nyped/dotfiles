@@ -1,11 +1,6 @@
 return {
   { -- https://github.com/numToStr/Comment.nvim
     "numToStr/Comment.nvim",
-    keys = {
-      { "gc", mode = { "n", "x" }, desc = "go inline comment" },
-      { "gb", mode = { "n", "x" }, desc = "go block comment" },
-    },
-    config = true,
   },
   { -- https://github.com/echasnovski/mini.surround
     "echasnovski/mini.surround",
@@ -50,6 +45,7 @@ return {
   },
   { -- https://github.com/folke/trouble.nvim
     "folke/trouble.nvim",
+    cmd = "Trouble",
     keys = {
       { "<Leader>xx", vim.cmd.TroubleToggle, desc = "Trouble Toggle" },
     },

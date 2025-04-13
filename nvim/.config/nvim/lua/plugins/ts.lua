@@ -34,8 +34,8 @@ return {
           "regex",
           "rust",
           "toml",
-          "tiger",
           "typescript",
+          "typst",
           "vim",
           "vimdoc", -- }}}
         },

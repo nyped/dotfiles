@@ -23,20 +23,18 @@ vim.keymap.set("n", "<S-Tab>", "gT")
 vim.keymap.set("n", "<Tab>", "gt")
 
 -- switch windows
-vim.keymap.set("n", "<Leader>1", "1gt")
-vim.keymap.set("n", "<Leader>2", "2gt")
-vim.keymap.set("n", "<Leader>3", "3gt")
-vim.keymap.set("n", "<Leader>4", "4gt")
-vim.keymap.set("n", "<Leader>5", "5gt")
-vim.keymap.set("n", "<Leader>6", "6gt")
-vim.keymap.set("n", "<Leader>7", "7gt")
-vim.keymap.set("n", "<Leader>8", "8gt")
-vim.keymap.set("n", "<Leader>9", "9gt")
+for i = 1, 9 do
+  local t = tostring(i)
+  vim.keymap.set("n", "<Leader>" .. t, t .. "gt", { desc = "Focus tab #" .. t })
+end
+vim.keymap.set("n", "<Leader>0", "<cmd>tabl<CR>", { desc = "Focus last tab" })
 
 -- register hacks
-vim.keymap.set("x", "<leader>y", [["+y]])
-vim.keymap.set("x", "<Leader>p", [["_dP]])
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+vim.keymap.set("x", "<leader>y", [["+y]], { desc = "Copy to clipboard" })
+vim.keymap.set("x", "<Leader>p", [["_dP]], { desc = "Paste from clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], {
+  desc = "delete (keep register)",
+})
 
 -- to work faster
 vim.api.nvim_create_user_command("E", "edit", {})
@@ -49,11 +47,11 @@ vim.api.nvim_create_user_command("Wq", "wq", {})
 vim.api.nvim_create_user_command("Wqa", "wqa", {})
 
 -- man
-vim.keymap.set("n", "<Leader>k", "<cmd>Man<CR>")
+vim.keymap.set("n", "<Leader>k", "<cmd>Man<CR>", { desc = "Open manual" })
 
 -- mov
-vim.keymap.set("v", "<C-J>", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "<C-K>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<C-J>", ":m '>+1<CR>gv=gv", { desc = "Move sel. down" })
+vim.keymap.set("v", "<C-K>", ":m '<-2<CR>gv=gv", { desc = "Move sel. up" })
 
 -- remove trailing spaces
 vim.api.nvim_create_user_command("RmTrailing", [[%s/\s\+$//e]], {})
@@ -65,7 +63,7 @@ vim.api.nvim_create_user_command("Step", function()
 end, {})
 
 -- wrap toggle
-vim.keymap.set("n", "<Leader>gw", "<cmd>set wrap!<CR>")
+vim.keymap.set("n", "<Leader>gw", "<cmd>set wrap!<CR>", { desc = "Wrap text" })
 
 -- template {{{
 vim.api.nvim_create_user_command("Tpl", function(opts)
