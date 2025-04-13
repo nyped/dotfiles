@@ -11,6 +11,7 @@
 }
 
 #battery,
+#cpu,
 #custom-brightness,
 #custom-fan,
 #custom-notification,
@@ -30,6 +31,7 @@
 
 #custom-temperature,
 #custom-fan,
+#cpu,
 #memory
 {
     color: #888888;

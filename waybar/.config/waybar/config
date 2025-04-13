@@ -12,6 +12,7 @@
         "idle_inhibitor"
     ],
     "modules-right": [
+        "cpu",
         "memory",
         "custom/temperature",
         "custom/fan",
@@ -61,10 +62,12 @@
     "clock#hour": {
         "interval": 1,
         "format": "{:%r}",
+        "tooltip": false,
     },
     "clock#day": {
         "interval": 1,
         "format": "{:%A %d %b, }",
+        "tooltip": false,
     },
 
     "sway/workspaces": {
@@ -99,6 +102,12 @@
         "on-click-right": "pavucontrol"
     },
 
+    "cpu": {
+        "interval": 10,
+        "format": "{avg_frequency} GHz",
+        "max-length": 10
+    },
+
     "memory": {
         "interval": 30,
         "format": "RAM: {used:0.1f} GiB"
@@ -127,7 +136,7 @@
         "on-scroll-down": "~/bin/backlight -l -n -d 5",
         "on-click-middle": "~/bin/color",
         "smooth-scrolling-threshold": 3,
-        "tooltip": false,
+        "tooltip-format": "Laptop backlight",
     },
     "group/backlight": {
         "orientation": "inherit",
@@ -145,13 +154,13 @@
         "format": "<span font='12'>󰃟</span>",
         "on-click":       "~/bin/backlight -m -n -b -d 5",
         "on-click-right": "~/bin/backlight -m -n -b -i 5",
-        "tooltip": false,
+        "tooltip-format": "Monitor blue light",
     },
     "custom/monitor": {
         "format": "<span font='12'>󰃠</span>",
         "on-click":       "~/bin/backlight -m -n -d 5",
         "on-click-right": "~/bin/backlight -m -n -i 5",
-        "tooltip": false,
+        "tooltip-format": "Monitor backlight",
     },
 
     "custom/notification": {
