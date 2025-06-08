@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Fetch lyrics on lrclib.net
+
+set -euo pipefail
+
+# Artist, Album, Title, Duration
+artist="$(playerctl metadata --format "{{artist}}")"
+album="$(playerctl metadata --format "{{album}}")"
+title="$(playerctl metadata --format "{{title}}")"
+duration="$(playerctl metadata --format "{{duration(mpris:length)}}")"
+
+# Convert duration into seconds
+IFS=: read -r m s <<< "$duration"
+s="${s##0}"
+duration_s="$((m * 60 + s))"
+
+# Send request 
+{
+  curl \
+    -s --get https://lrclib.net/api/get    \
+    --data-urlencode "artist_name=$artist" \
+    --data-urlencode "album_name=$album"   \
+    --data-urlencode "track_name=$title"   \
+    --data-urlencode "duration=$duration_s"
+} | jq ".plainLyrics" --monochrome-output \
+    | xargs printf \
+      | bat --file-name "$artist - $title"

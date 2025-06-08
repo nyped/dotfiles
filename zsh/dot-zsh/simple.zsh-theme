@@ -214,6 +214,7 @@ setopt PROMPT_SUBST KSH_GLOB
 
     PROMPT+=$'\n'
     PROMPT+="$_SSH"
+    PROMPT+="$_VENV_PROMPT"
     PROMPT+="$_PROMPT_SYM"
 
     # add time if RPROMPT is empty
@@ -291,11 +292,25 @@ function _update_cond_expr() {
   _bg_job="%$(_len "$_bg_job"){${_bg_job}%}"
 }
 
+# Check for venv
+function _venv_prompt() {
+  typeset -g _VENV_PROMPT
+
+  if [[ -n $VIRTUAL_ENV_PROMPT ]]; then
+    _VENV_PROMPT="%B%F{green}($VIRTUAL_ENV_PROMPT)%b%f "
+  elif [[ -n $VIRTUAL_ENV ]]; then
+    _VENV_PROMPT="%B%F{green}(venv)%b%f "
+  else
+    _VENV_PROMPT=''
+  fi
+}
+
 # init
 () {
   _update_wd
 
   autoload -U add-zsh-hook
+  add-zsh-hook precmd  _venv_prompt
   add-zsh-hook precmd  _timer_end
   add-zsh-hook precmd  _update_cond_expr
   add-zsh-hook precmd  _prompt_async_precmd

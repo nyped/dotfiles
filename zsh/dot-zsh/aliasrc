@@ -1,51 +1,63 @@
 #!/usr/bin/env zsh
 
+# Create the alias if a binary is in the path:
+# altif foo bar
+# altif foo foo=bar200
+function altif() {
+  type "$1" &>/dev/null || return
+  if [[ -n $3 ]]; then
+    alias "$2=$3"
+  else
+    alias "$2=$1"
+  fi
+}
+
 # general
 alias _='sudo '
-alias ff='firefox'
 alias grep='grep --color=always'
 alias ip='ip -c'
-alias lorem='curl -s http://metaphorpsum.com/sentences/3'
-alias o='open'
-alias p='pacman'
-alias pan='pandoc'
-alias prmo='pacman -Qqtd | sudo pacman -Rns -'
-alias y='yay'
+alias diff='diff --color=always'
+altif curl lorem 'curl -s http://metaphorpsum.com/sentences/3'
+altif firefox ff
+altif open o
+altif pacman p
+altif pacman prmo 'pacman -Qqtd | sudo pacman -Rns -'
+altif yay y
 
 # translation stuff
-alias t="trans"
-alias tb="trans -brief"
+altif trans t
+altif trans tb 'trans -brief'
 
-# neovim
-alias v='TERM=xterm-kitty nvim -p'
-alias vr='v -R'
-
-# fzf
-alias fzv='fzf -m --preview "bat {} -p --color=always" | xargs nvim'
-alias fzd='fzf-cd'
+# vim
+altif vi    v
+altif vim   v
+altif nvim  v
+altif kitty v 'TERM=xterm-kitty nvim -p'
+altif nvim  vr 'v -R'
 
 # TODO: add scripts to PATH
-alias c='~/bin/color'
+altif "$HOME/bin/color" c
 
 # bat
-alias b='bat'
-alias bp='bat -p'
+altif bat    b
+altif batcat b
+altif b      bp 'b -p'
 
 # ip
-alias myip='curl ifconfig.me'
+altif curl myip 'curl ifconfig.me'
 
 # clipboard
 if [[ -n $WAYLAND_DISPLAY ]]; then
-  alias pbcopy="wl-copy"
-  alias pbpaste="wl-paste"
+  altif wl-copy  pbcopy
+  altif wl-paste pbpaste
 else
-  alias pbcopy='xclip -selection clipboard'
-  alias pbpaste='xclip -selection clipboard -o'
+  altif xclip pbcopy 'xclip -selection clipboard'
+  altif xclip pbpaste 'xclip -selection clipboard -o'
 fi
-alias pbc='pbcopy'
-alias pbk='pbcopy < /dev/null'
-alias pbp='pbpaste'
-alias pbs='nc termbin.com 9999'
+altif pbcopy pbc
+altif pbcopy pbk 'pbcopy < /dev/null'
+altif pbpaste pbp
+altif nc      pbs 'nc termbin.com 9999'
 
 # history
 alias h='history'
@@ -53,11 +65,11 @@ alias hh='history 1'
 alias hs='history 1 | grep'
 
 # make
-alias m='make'
-alias mb='make -B'
-alias mc='make clean'
-alias mr='make clear'
-alias mt='make test'
+altif make m
+altif make mc 'make clean'
+altif make mb 'make -B'
+altif make mr 'make clear'
+altif make mt 'make test'
 
 # quick cd
 alias -- -='cd -'
@@ -75,6 +87,8 @@ alias dl='cd ~/Downloads'
 alias tmp='cd /tmp'
 
 # ripgrep
+altif grep rg 'grep -r'
+altif rg   rg 'rg'
 alias rg2='rg -C2'
 alias rg3='rg -C3'
 alias rg4='rg -C4'
@@ -88,17 +102,28 @@ alias rgi='rg -i'
 # git
 alias g='git'
 alias gaa='git add --all'
+alias gb='git branch'
 alias gc='git commit -v'
 alias gd='git diff'
+alias gf='git fetch'
+alias gl='git log'
 alias gl='git pull'
 alias gm='git merge'
 alias gp='git push'
+alias gr='git rebase'
+alias gs='git switch'
+alias gsp='git stash push'
+alias gss='git stash show'
 alias gst='git status'
 
 # ls
 alias l='ls -lah'
 alias la='ls -A'
 alias ll='ls -lh'
-alias ls='exa'
+altif exa ls
+altif eza ls
+
+# Clean up
+unfunction altif
 
 # vim: set ts=2 sts=2 sw=2 ft=sh et :

@@ -26,12 +26,12 @@ vim.api.nvim_create_autocmd("TermLeave", {
 
 -- theme update function
 local update_bg = function()
-  local user = vim.env.USER
-  if not user then
+  local home = vim.env.HOME
+  if not home then
     return
   end
 
-  local theme = vim.fn.system({ "cat", "/home/" .. user .. "/.theme" })
+  local theme = vim.fn.system({ "cat", home .. "/.theme" })
 
   if theme ~= nil then
     theme = theme:gsub("\n", "")

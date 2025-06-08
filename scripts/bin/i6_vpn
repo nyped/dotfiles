@@ -12,6 +12,7 @@ esac
 set6() {
   for interface in $(nmcli -c no -g device device)
   do
+    [[ $interface == lo ]] && continue
     nmcli device modify "$interface" ipv6.method "$1" || true
   done
 }
