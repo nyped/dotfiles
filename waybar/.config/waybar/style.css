@@ -3,6 +3,13 @@
     padding: 0;
 }
 
+/* Left and right padding */
+window#waybar>box {
+    padding-left: 20px;
+    padding-right: 30px;
+}
+
+/* Fonts and colors */
 #waybar {
     background: #282828;
     color: white;
@@ -10,17 +17,15 @@
     font-size: 13px;
 }
 
-#battery,
+/* Module padding */
 #cpu,
-#custom-brightness,
 #custom-fan,
 #custom-notification,
-#custom-temperature,
+#temperature,
 #date,
 #memory,
 #mode,
 #network,
-#pulseaudio,
 #tray,
 #window,
 #workspaces
@@ -29,7 +34,17 @@
     padding-right: 10px;
 }
 
-#custom-temperature,
+/* Group padding */
+#backlight,
+#media,
+#bat
+{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* Text module color */
+#temperature,
 #custom-fan,
 #cpu,
 #memory
@@ -37,22 +52,26 @@
     color: #888888;
 }
 
-#custom-monitor,
-#custom-monitor_blue,
-#custom-previous,
-#custom-pause,
-#custom-next
-{
-    padding-left: 15px;
-    padding-right: 15px;
+/* Text icon size */
+*.icon {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-/* Left and right paddings */
-#workspaces { padding-left:  20px; }
-#battery    { padding-right: 30px; }
+/*
+ * Colors
+ */
 
-#window {
-    font-weight: bold;
+#taskbar button {
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 0;
+    border-radius: 0;
+}
+
+#taskbar button:hover {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: inherit;
 }
 
 #battery.warning {

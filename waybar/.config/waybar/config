@@ -1,3 +1,6 @@
+// https://github.com/Alexays/Waybar/wiki
+// https://docs.gtk.org/Pango/pango_markup.html#pango-markup
+// https://www.nerdfonts.com/cheat-sheet
 {
     "position": "top",
     "height": 30,
@@ -12,16 +15,15 @@
         "idle_inhibitor"
     ],
     "modules-right": [
+        "custom/notification#icon",
         "cpu",
         "memory",
-        "custom/temperature",
-        "custom/fan",
-        "custom/notification",
+        "temperature",
         "network#vpn",
         "tray",
         "group/backlight",
         "group/media",
-        "battery"
+        "group/bat"
     ],
 
     "idle_inhibitor": {
@@ -34,18 +36,36 @@
         "on-click-middle": "dunstctl set-paused toggle && pkill -RTMIN+10 waybar"
     },
 
-    "battery": {
+    "battery#icon": {
+        "on-click": "dunstctl history-pop",
         "interval": 10,
         "states": {
             "warning": 30,
             "critical": 15
         },
-        "format": "<span font='11'>{icon}</span> {capacity}%",
-        "format-discharging": "<span font='11'>{icon}</span> {capacity}%",
+        "format": "<span font='13'>{icon}</span>",
+        "format-discharging": "<span font='13'>{icon}</span>",
         "format-icons": {
             "default": [ "󰢟", "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰢝", "󰢞", "󰢞", "󰂋", "󰂅" ],
             "discharging": [ "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹" ]
         }
+    },
+    "battery#percentage": {
+        "on-click": "dunstctl history-pop",
+        "interval": 10,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}%",
+        "format-discharging": "{capacity}%"
+    },
+    "group/bat": {
+        "orientation": "inherit",
+        "modules": [
+            "battery#icon",
+            "battery#percentage"
+        ]
     },
 
     "group/date": {
@@ -91,15 +111,31 @@
         }
     },
 
-    "pulseaudio": {
+    "pulseaudio#icon": {
         "scroll-step": 0.1,
-        "format": "<span font='12'>{icon}</span> {volume}%",
-        "format-bluetooth": "<span font='12'>{icon}</span> {volume}%",
-        "format-muted": "<span font='12'>󰖁</span>",
-        "format-icons": [ "󰖀", "󰕾", "" ],
+        "format": "<span font='12'>{icon}</span>",
+        "format-bluetooth": "<span font='12'>{icon}</span>",
+        "format-muted": "<span font='12'></span>",
+        "format-icons": [ "", " ", " " ],
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-click-middle": "pavucontrol",
         "on-click-right": "pavucontrol"
+    },
+    "pulseaudio#percentage": {
+        "scroll-step": 0.1,
+        "format": "{volume}%",
+        "format-bluetooth": "{volume}%",
+        "format-muted": "",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-middle": "pavucontrol",
+        "on-click-right": "pavucontrol"
+    },
+    "group/volume": {
+        "orientation": "inherit",
+        "modules": [
+            "pulseaudio#icon",
+            "pulseaudio#percentage"
+        ]
     },
 
     "cpu": {
@@ -110,18 +146,16 @@
 
     "memory": {
         "interval": 30,
-        "format": "RAM: {used:0.1f} GiB"
+        "format": "{used:0.1f} GiB"
     },
 
-    "custom/temperature": {
-      "format": "{}",
-      "exec": "s=$(cat /sys/devices/platform/dell_smm_hwmon/hwmon/hwmon?/temp2_input); echo $(( s / 1000 ))'<b>°c</b>'",
-      "interval": 5
+    "temperature": {
+      "format": "{temperatureC}<b>°c</b>"
     },
 
     "tray": {
         "icon-size": 15,
-        "spacing": 20
+        "spacing": 25
     },
 
     "custom/fan": {
@@ -130,14 +164,6 @@
         "interval": 5
     },
 
-    "custom/brightness": {
-        "format": "<span font='12'>󰃞</span>",
-        "on-scroll-up":   "~/bin/backlight -l -n -i 5",
-        "on-scroll-down": "~/bin/backlight -l -n -d 5",
-        "on-click-middle": "~/bin/color",
-        "smooth-scrolling-threshold": 3,
-        "tooltip-format": "Laptop backlight",
-    },
     "group/backlight": {
         "orientation": "inherit",
         "drawer": {
@@ -145,37 +171,38 @@
             "transition-left-to-right": false,
         },
         "modules": [
-            "custom/brightness",
-            "custom/monitor",
-            "custom/monitor_blue",
+            "custom/brightness#icon",
+            "custom/monitor#icon",
+            "custom/monitor_blue#icon",
         ]
     },
-    "custom/monitor_blue": {
-        "format": "<span font='12'>󰃟</span>",
+    "custom/brightness#icon": {
+        "format": "<span font='12'>󰃞</span>",
+        "on-scroll-up":   "~/bin/backlight -l -n -i 5",
+        "on-scroll-down": "~/bin/backlight -l -n -d 5",
+        "on-click-middle": "~/bin/color",
+        "smooth-scrolling-threshold": 3,
+        "tooltip-format": "Laptop backlight",
+    },
+    "custom/monitor_blue#icon": {
+        "format": "<span font='12'>󰃟<small> </small></span>",
         "on-click":       "~/bin/backlight -m -n -b -d 5",
         "on-click-right": "~/bin/backlight -m -n -b -i 5",
         "tooltip-format": "Monitor blue light",
     },
-    "custom/monitor": {
-        "format": "<span font='12'>󰃠</span>",
+    "custom/monitor#icon": {
+        "format": "<span font='12'>󰃠<small> </small></span>",
         "on-click":       "~/bin/backlight -m -n -d 5",
         "on-click-right": "~/bin/backlight -m -n -i 5",
         "tooltip-format": "Monitor backlight",
     },
 
-    "custom/notification": {
+    "custom/notification#icon": {
         "exec": "[[ $(dunstctl is-paused) == true ]] && echo ",
         "on-click": "dunstctl set-paused false && echo",
         "format": "<span font='12'>{}</span>",
         "interval": 60,
         "signal": 10
-    },
-
-    "network#vpn": {
-        "interface": "*-vpn",
-        "format": "",
-        "format-disconnected": "<span font='11'></span>",
-        "tooltip-format-disconnected": "no vpn, mind your stuff",
     },
 
     "group/media": {
@@ -185,26 +212,33 @@
             "transition-left-to-right": false,
         },
         "modules": [
-            "pulseaudio",
-            "custom/previous",
-            "custom/play",
-            "custom/next",
+            "group/volume",
+            "custom/previous#icon",
+            "custom/play#icon",
+            "custom/next#icon"
         ]
     },
-    "custom/previous": {
+    "custom/previous#icon": {
         "format": "<span font='14'>󰒮</span>",
         "tooltip": false,
         "on-click": "playerctl previous"
     },
-    "custom/play": {
+    "custom/play#icon": {
         "format": "<span font='14'>󰏤</span>",
         "tooltip": false,
         "on-click": "playerctl play-pause"
     },
-    "custom/next": {
+    "custom/next#icon": {
         "format": "<span font='14'>󰒭</span>",
-        "tooltip": false,
-        "on-click": "playerctl next"
+        "on-click": "playerctl next",
+        "tooltip": false
+    },
+
+    "network#vpn": {
+        "interface": "*-vpn",
+        "format": "",
+        "format-disconnected": "<span font='11'></span>",
+        "tooltip-format-disconnected": "no vpn, mind your stuff"
     }
 }
 
