@@ -28,6 +28,7 @@ window#waybar>box {
 #network,
 #tray,
 #window,
+#layout,
 #workspaces
 {
     padding-left: 10px;
@@ -46,6 +47,7 @@ window#waybar>box {
 /* Text module color */
 #temperature,
 #custom-fan,
+#layout,
 #cpu,
 #memory
 {

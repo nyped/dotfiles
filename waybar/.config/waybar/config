@@ -15,6 +15,7 @@
         "idle_inhibitor"
     ],
     "modules-right": [
+        "group/layout",
         "custom/notification#icon",
         "cpu",
         "memory",
@@ -239,6 +240,23 @@
         "format": "",
         "format-disconnected": "<span font='11'></span>",
         "tooltip-format-disconnected": "no vpn, mind your stuff"
+    },
+
+    "group/layout": {
+        "orientation": "inherit",
+        "modules": [
+            "custom/layout#icon",
+            "sway/language"
+        ]
+    },
+    "custom/layout#icon": {
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
+        "format": "<span font='12'>󰘳</span>",
+        "tooltip": false
+    },
+    "sway/language": {
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
+        "format": " {short} {variant}"
     }
 }
 
