@@ -27,11 +27,12 @@ set $ws10 "10: dl"
 
 # Output configuration {{{
 
+set $fw13out "BOE 0x095F Unknown"
 output *        background "#474747" solid_color
-output DP-1     resolution 1920x1080 position 0,0 scale 0.9
-output HDMI-A-1 resolution 1920x1080 position 0,0 scale 0.9
-output eDP-1    resolution 1920x1080 position 2133,0
-# output eDP-1    resolution 1920x1080 position 0,0
+output DP-1     resolution 1920x1080 position 0 0 scale 0.9
+output HDMI-A-1 resolution 1920x1080 position 0 0 scale 0.9
+output eDP-1    resolution 1920x1080 position 2133 0
+output $fw13out resolution 2256x1504 position 2133 0 scale 1.15
 
 # NOTE: 1920. / .9 ~= 2133
 
@@ -40,6 +41,7 @@ output eDP-1    resolution 1920x1080 position 2133,0
 # Window rules {{{
 
 for_window [class=".*"]            urgent enable
+for_window [class=".inentry-gtk"]  floating enable
 for_window [app_id="python3"]      floating enable
 for_window [app_id="Terminal"]     floating enable; \
                                    resize set height 300px
@@ -53,9 +55,11 @@ assign [app_id="gdb"]            workspace number $ws2
 assign [app_id="libreoffice*"]   workspace number $ws4
 assign [app_id="terminal"]       workspace number $ws3
 assign [class="Spotify"]         workspace number $ws9
+assign [app_id="[Ss]potify"]     workspace number $ws9
 assign [class="[Vv]lc"]          workspace number $ws6
 assign [class="burp*"]           workspace number $ws2
 assign [class="discord"]         workspace number $ws5
+assign [app_id="discord"]        workspace number $ws5
 assign [class="zoom"]            workspace number $ws2
 
 # }}}
@@ -63,9 +67,9 @@ assign [class="zoom"]            workspace number $ws2
 # Daemons {{{
 
 exec swayidle -w \
-    timeout 60   'systemctl suspend' \
+    timeout 60   'systemctl suspend-then-hibernate' \
     timeout 300  'swaylock'  \
-    before-sleep 'swaylock'
+    before-sleep 'playerctl pause; swaylock'
 exec gammastep-indicator &
 exec nm-applet
 exec blueman-applet
@@ -278,8 +282,8 @@ bindsym $mod+Slash mode "swap"
     bindsym XF86AudioMute        exec ~/bin/volume -n -t
 
 # Brightness
-    bindsym XF86MonBrightnessDown exec ~/bin/backlight -n -l -d 5
-    bindsym XF86MonBrightnessUp   exec ~/bin/backlight -n -l -i 5
+    bindsym XF86MonBrightnessDown exec ~/bin/backlight -n -l -d 1
+    bindsym XF86MonBrightnessUp   exec ~/bin/backlight -n -l -i 1
 
 # Media
     bindsym XF86AudioPlay exec playerctl play-pause
