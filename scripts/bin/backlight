@@ -18,6 +18,7 @@ EOF
 }
 
 MESS=brightness
+NOTIFY=
 
 while [[ $# != 0 ]]; do
   case "$1" in
@@ -39,12 +40,12 @@ while [[ $# != 0 ]]; do
 
     -i | --inc)
       shift
-      BCTL_VAL="$1+" DDC_VAL="+${1/%/}"
+      BCTL_VAL="+${1/%/}%" DDC_VAL="+${1/%/}"
     ;;
 
     -d | --dec)
       shift
-      BCTL_VAL="$1-" DDC_VAL="-${1/%/}"
+      BCTL_VAL="${1/%/}%-" DDC_VAL="-${1/%/}"
     ;;
 
     -h | --help)
@@ -88,7 +89,7 @@ case "$DEV" in
 
     # Sanity check
     case "$DEVICE" in
-      dev:/dev/i2c-?)
+      dev:/dev/i2c-*)
         ;;
       *)
         DEVICE=-p
