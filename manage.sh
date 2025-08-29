@@ -15,6 +15,7 @@ targets=(
   scripts
   sway
   swaylock
+  theme
   tmux
   tpl
   vim
