@@ -1,7 +1,7 @@
 # see /etc/dunst/dunstrc or dunst.5 for more infos
 [global]
     alignment = center
-    dmenu = ~/dotfiles/sway/config/sway/menu.sh "dunst: "
+    dmenu = ~/.config/sway/menu.sh "dunst: "
     icon_theme = Papirus-Light
     enable_recursive_icon_lookup = true
     follow = mouse
