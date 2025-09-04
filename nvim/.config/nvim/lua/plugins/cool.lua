@@ -15,23 +15,6 @@ return {
     },
     config = false,
   },
-  { -- https://github.com/zbirenbaum/copilot.lua
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          auto_trigger = true,
-        },
-        panel = {
-          auto_refresh = true,
-        },
-        filetypes = {
-          markdown = false,
-        },
-      })
-    end,
-  },
   { -- https://github.com/NvChad/nvim-colorizer.lua
     "NvChad/nvim-colorizer.lua",
     keys = {

@@ -75,7 +75,7 @@ return {
         })
 
         vim.keymap.set("n", "]d", function()
-          vim.diagnostic.goto_next()
+          vim.diagnostic.jump({ count = 1, float = true })
         end, {
           buffer = b,
           remap = false,
@@ -83,7 +83,7 @@ return {
         })
 
         vim.keymap.set("n", "[d", function()
-          vim.diagnostic.goto_prev()
+          vim.diagnostic.jump({ count = -1, float = true })
         end, {
           buffer = b,
           remap = false,
@@ -182,10 +182,15 @@ return {
           ["<C-b>"] = cmp_action.luasnip_jump_backward(),
           ["<A-f>"] = cmp_action.luasnip_jump_forward(),
           ["<A-b>"] = cmp_action.luasnip_jump_backward(),
+          ["<A-y>"] = require("minuet").make_cmp_map(),
         }),
         sources = {
           { name = "nvim_lsp" },
           { name = "luasnip" },
+          { name = "minuet" },
+          performance = {
+            fetching_timeout = 2000,
+          },
         },
         snippet = {
           expand = function(args)
@@ -195,10 +200,6 @@ return {
       })
       -- }}}
     end,
-  },
-  { -- https://github.com/folke/neodev.nvim
-    "folke/neodev.nvim",
-    opts = {},
   },
   { -- https://github.com/barreiroleo/ltex_extra.nvim
     "barreiroleo/ltex_extra.nvim",
