@@ -1,3 +1,10 @@
+@define-color gradient1  #101010;
+@define-color gradient2  #383838;
+@define-color background #282828;
+@define-color foreground #ffffff;
+@define-color altground  #888888;
+@define-color urgent     red;
+
 * {
     margin: 0;
     padding: 0;
@@ -11,8 +18,8 @@ window#waybar>box {
 
 /* Fonts and colors */
 #waybar {
-    background: #282828;
-    color: white;
+    background: linear-gradient(@gradient1, @gradient2);
+    color: @foreground;
     font-family: JetBrains Mono;
     font-size: 13px;
 }
@@ -51,7 +58,7 @@ window#waybar>box {
 #cpu,
 #memory
 {
-    color: #888888;
+    color: @altground;
 }
 
 /* Text icon size */
@@ -97,7 +104,7 @@ window#waybar>box {
     padding-top: 2px;
     padding-left: 10px;
     padding-right: 10px;
-    color: white;
+    color: @foreground;
 }
 
 #workspaces button:hover {
@@ -111,11 +118,13 @@ window#waybar>box {
 
 #workspaces button.focused {
     background: rgba(0, 0, 0, 0.2);
-    border-color: white;
+    border-color: @foreground;
     font-weight: bold;
 }
 
 #workspaces button.urgent {
-    color: red;
+    background: rgba(255, 0, 0, 0.2);
+    color: @foreground;
+    border-color: red;
     font-weight: bold;
 }

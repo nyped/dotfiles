@@ -94,7 +94,20 @@
     "sway/workspaces": {
         "all-outputs": false,
         "disable-scroll": true,
-        "format": "{icon}"
+        "format-icons": {
+            "1: www" : "<span color='grey'>1:</span>",
+            "2: tmp" : "<span color='grey'>2:</span>",
+            "3: sh"  : "<span color='grey'>3:</span>",
+            "4: doc" : "<span color='grey'>4:</span>",
+            "5: msg" : "<span color='grey'>5:</span>",
+            "6: mov" : "<span color='grey'>6:</span>",
+            "7: misc": "<span color='grey'>7:</span>",
+            "8: off" : "<span color='grey'>8:</span>",
+            "9: wav" : "<span color='grey'>9:</span>",
+            "10: dl" : "<span color='grey'>10:</span>",
+            "default": "<span color='grey'>tmp: </span>"
+        },
+        "format": "{icon}{name}"
     },
 
     "sway/mode": {
