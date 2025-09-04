@@ -29,9 +29,9 @@ altif trans t
 altif trans tb 'trans -brief'
 
 # vim
-altif vi    v
-altif vim   v
-altif nvim  v
+altif vi    v 'vi -p'
+altif vim   v 'vim -p'
+altif nvim  v 'nvim -p'
 altif kitty v 'TERM=xterm-kitty nvim -p'
 altif nvim  vr 'v -R'
 
@@ -115,6 +115,8 @@ alias gs='git switch'
 alias gsp='git stash push'
 alias gss='git stash show'
 alias gst='git status'
+alias gw='git worktree'
+alias gwl='git worktree list'
 
 # ls
 alias l='ls -lah'

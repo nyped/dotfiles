@@ -23,9 +23,9 @@ setopt PROMPT_SUBST KSH_GLOB
 
   _SYM_AHEAD="%F{magenta}▲"
   _SYM_BEHIND="%F{blue}▼"
-  _SYM_STAGED="%F{blue}"
-  _SYM_UNSTAGED="%F{red}"
-  _SYM_UNTRACKED="%F{cyan}"
+  _SYM_STAGED="%F{blue}+"
+  _SYM_UNSTAGED="%F{red}~"
+  _SYM_UNTRACKED="%F{cyan}?"
   _SYM_UNMERGED="%F{red}✕"
 
   # parse git infos
@@ -214,7 +214,7 @@ setopt PROMPT_SUBST KSH_GLOB
 
     PROMPT+=$'\n'
     PROMPT+="$_SSH"
-    PROMPT+="$_VENV_PROMPT"
+    PROMPT+="$_EXTRA_PROMPT"
     PROMPT+="$_PROMPT_SYM"
 
     # add time if RPROMPT is empty
@@ -277,7 +277,14 @@ function _prompt_winch_redraw() {
 # clear hook
 function _clear() {
   unset _prompt_time
-  zle clear-screen
+
+  # Clear
+  if [[ $_IN_DUMB_TERM != false ]]; then
+    zle clear-screen
+  else
+    clear
+  fi
+
   # Update git
   _prompt_async_precmd
 }
@@ -292,16 +299,26 @@ function _update_cond_expr() {
   _bg_job="%$(_len "$_bg_job"){${_bg_job}%}"
 }
 
+# Init the prompt
+function _pre_prompt() {
+  typeset -g _EXTRA_PROMPT=
+}
+
+# OneAPI prompt
+function _intel_prompt() {
+  if [[ -n $ONEAPI_ROOT ]]; then
+    _EXTRA_PROMPT+="%B%F{cyan}[oneAPI]%k%b%f "
+  fi
+}
+
 # Check for venv
 function _venv_prompt() {
-  typeset -g _VENV_PROMPT
+  typeset -g _EXTRA_PROMPT
 
   if [[ -n $VIRTUAL_ENV_PROMPT ]]; then
-    _VENV_PROMPT="%B%F{green}($VIRTUAL_ENV_PROMPT)%b%f "
+    _EXTRA_PROMPT+="%B%F{green}($VIRTUAL_ENV_PROMPT)%b%f "
   elif [[ -n $VIRTUAL_ENV ]]; then
-    _VENV_PROMPT="%B%F{green}(venv)%b%f "
-  else
-    _VENV_PROMPT=''
+    _EXTRA_PROMPT+="%B%F{green}(venv)%b%f "
   fi
 }
 
@@ -310,7 +327,9 @@ function _venv_prompt() {
   _update_wd
 
   autoload -U add-zsh-hook
+  add-zsh-hook precmd  _pre_prompt
   add-zsh-hook precmd  _venv_prompt
+  add-zsh-hook precmd  _intel_prompt
   add-zsh-hook precmd  _timer_end
   add-zsh-hook precmd  _update_cond_expr
   add-zsh-hook precmd  _prompt_async_precmd

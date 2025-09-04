@@ -1,6 +1,7 @@
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.zsh_history
+_IN_DUMB_TERM=false  # Not in Windows terminal
 
 setopt autocd               \
        extendedglob         \

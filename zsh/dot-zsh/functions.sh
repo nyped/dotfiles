@@ -25,6 +25,16 @@ function open() {
   done
 }
 
+exists powershell.exe &&
+function code() {
+  [[ $# != 1 ]] && return
+  case "$1" in
+    '.') target="$PWD" ;;
+    *)   target="$1" ;;
+  esac
+  powershell.exe code --remote wsl+Ubuntu-24.04 "$target"
+}
+
 function share() {
   [[ $# != 1 ]] && echo usage: share \<file\> && return 1
   [[ ! -f $1 ]] && echo File non readable 1>&2 && return 2
@@ -116,8 +126,10 @@ function __restore_title() {
 () {
   autoload -U add-zsh-hook
 
-  add-zsh-hook preexec __update_title
-  add-zsh-hook precmd __restore_title
+  if [[ $_IN_DUMB_TERM != false ]]; then
+    add-zsh-hook preexec __update_title
+    add-zsh-hook precmd __restore_title
+  fi
 }
 
 unfunction exists
