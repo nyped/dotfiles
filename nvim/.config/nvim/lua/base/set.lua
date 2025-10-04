@@ -1,8 +1,15 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.opt.title = true
-vim.opt.titlestring = "nvim [1m%t%m "
+-- Pretty title
+if os.getenv("_IN_WSL") then
+  vim.opt.title = true
+  local pref = ""
+  if os.getenv("SSH_CONNECTION") then
+    pref = os.getenv("USER") .. "@" .. vim.fn.hostname() .. ": "
+  end
+  vim.opt.titlestring = pref .. "nvim [1m%t%m "
+end
 
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4

@@ -47,7 +47,11 @@ return {
     "folke/trouble.nvim",
     cmd = "Trouble",
     keys = {
-      { "<Leader>xx", vim.cmd.TroubleToggle, desc = "Trouble Toggle" },
+      {
+        "<Leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Trouble Toggle",
+      },
     },
     config = true,
   },
