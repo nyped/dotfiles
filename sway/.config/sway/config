@@ -123,6 +123,9 @@ bindgesture hold:4 workspace back_and_forth
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+q exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
 
+    # Hide bar
+    bindsym $mod+z exec killall -SIGUSR1 waybar
+
 ## Moving around:
     # Cycle workspaces
     bindsym $alt+Backspace workspace back_and_forth
