@@ -20,7 +20,7 @@
         "cpu",
         "memory",
         "temperature",
-        "network#vpn",
+        "group/vpn",
         "tray",
         "group/backlight",
         "group/media",
@@ -248,7 +248,13 @@
         "tooltip": false
     },
 
-    "network#vpn": {
+    "group/vpn": {
+        "orientation": "inherit",
+        "modules": [
+            "network#icon"
+        ]
+    },
+    "network#icon": {
         "interface": "*-vpn",
         "format": "",
         "format-disconnected": "<span font='11'></span>",
