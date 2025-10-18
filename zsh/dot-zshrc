@@ -1,7 +1,11 @@
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.zsh_history
-_IN_DUMB_TERM=false  # Not in Windows terminal
+
+# WSL check
+if [[ -f /etc/wsl.conf ]]; then
+  export _IN_WSL=true
+fi
 
 setopt autocd               \
        extendedglob         \
@@ -63,10 +67,10 @@ select-word-style bash
 export WORDCHARS='.-'
 
 to_source=(
+  ~/.id
   ~/.zsh/aliasrc
   ~/.zsh/functions.sh
   ~/.zsh/simple.zsh-theme
-  ~/.id
 )
 
 for i in ${to_source[@]}; {

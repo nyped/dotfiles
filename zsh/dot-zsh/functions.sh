@@ -126,7 +126,7 @@ function __restore_title() {
 () {
   autoload -U add-zsh-hook
 
-  if [[ $_IN_DUMB_TERM != false ]]; then
+  if [[ -z $_IN_WSL ]]; then
     add-zsh-hook preexec __update_title
     add-zsh-hook precmd __restore_title
   fi

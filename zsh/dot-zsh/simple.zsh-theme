@@ -279,7 +279,7 @@ function _clear() {
   unset _prompt_time
 
   # Clear
-  if [[ $_IN_DUMB_TERM != false ]]; then
+  if [[ -z $_IN_WSL ]]; then
     zle clear-screen
   else
     clear
