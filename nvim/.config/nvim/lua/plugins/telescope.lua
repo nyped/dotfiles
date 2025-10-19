@@ -1,9 +1,13 @@
 return {
   { -- https://github.com/nvim-telescope/telescope.nvim
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.2",
     dependencies = { "nvim-lua/plenary.nvim" },
     cmd = "Telescope",
+    opts = {
+      defaults = {
+        layout_strategy = "flex",
+      },
+    },
     keys = {
       {
         "<Leader>ff",
@@ -23,6 +27,17 @@ return {
       {
         "<Leader>fg",
         "<cmd>Telescope live_grep<CR>",
+        desc = "Telescope live_grep",
+      },
+      {
+        "<Leader>fw",
+        "<cmd>Telescope grep_string<CR>",
+        mode = { "x", "n" },
+        desc = "Telescope grep_string",
+      },
+      {
+        "<Leader>fG",
+        "<cmd>Telescope git_status<CR>",
         desc = "Telescope live_grep",
       },
       {

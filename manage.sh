@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# install
 
 set -euo pipefail
 
 # Stepping into the directory
 cd "$(dirname "$0")"
 
-targets=(
+readonly VERBOSE_ARGS=--verbose=2
+
+readonly targets=(
   bat
   dunst
   gammastep
@@ -27,37 +28,81 @@ targets=(
 
 function usage() {
   cat << EOF
-Usage: ${0##*/} <cmd>
-with cmd in:
--i --install
--u --uninstall
--h --help
+Usage: ${0} options
+
+with options in:
+-t | --target TARGET
+-i | --install
+-u | --uninstall
+-h | --help
+-v | --verbose
+-l | --list
 EOF
 }
 
-case "${1:-}" in
-  -i | --install)
-    cmd=-S
-    ;;
+function list_target() {
+  echo Available targets: 
+  for package in "${targets[@]}"; do
+    echo "- $package"
+  done
+}
 
-  -u | --uninstall)
-    cmd=-D
-    ;;
+target=all
+cmd=none
 
-  -h | --help)
-    usage
-    exit 0
-    ;;
+while [[ $# != 0 ]]; do
+  case "${1:-}" in
+    -i | --install)
+      cmd=-S
+      ;;
 
-  *)
-    usage
-    exit 255
-    ;;
-esac
+    -u | --uninstall)
+      cmd=-D
+      ;;
 
-for package in "${targets[@]}"; do
-  mkdir -p ~/.config/"$package"
-  stow --ignore="^config" "$cmd" "$package" --dotfiles
+    -h | --help)
+      usage
+      exit 0
+      ;;
+
+    -t | --target)
+      shift
+      target="$1"
+      ;;
+
+    -v | --verbose)
+      set -x
+      ;;
+
+    -l | --list)
+      list_target
+      exit 0
+      ;;
+
+    *)
+      usage
+      exit 255
+      ;;
+  esac
+  shift
 done
+
+if [[ $cmd == none ]]; then
+  echo Flag -i or -u must be specified >&2
+  exit 1
+fi
+
+function install_pkg() {
+  mkdir -p ~/.config/"$1"
+  stow "$VERBOSE_ARGS" --ignore="^config" "$cmd" "$1" --dotfiles
+}
+
+if [[ $target == all ]]; then
+  for package in "${targets[@]}"; do
+    install_pkg "$package"
+  done
+else
+  install_pkg "$target"
+fi
 
 # vim:set ts=8 sts=2 sw=2 et:

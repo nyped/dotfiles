@@ -1,6 +1,7 @@
 return {
   { -- https://github.com/numToStr/Comment.nvim
     "numToStr/Comment.nvim",
+    event = "VeryLazy",
   },
   { -- https://github.com/echasnovski/mini.surround
     "echasnovski/mini.surround",

@@ -1,8 +1,10 @@
 return {
   { -- https://github.com/milanglacier/minuet-ai.nvim
     "milanglacier/minuet-ai.nvim",
+    enabled = false,
     config = function()
       require("minuet").setup({
+        request_timeout = 10,
         provider = "openai_fim_compatible",
         n_completions = 1, -- recommend for local model for resource saving
         -- I recommend beginning with a small context window size and incrementally
@@ -10,7 +12,7 @@ return {
         -- of 512, serves as an good starting point to estimate your computing
         -- power. Once you have a reliable estimate of your local computing power,
         -- you should adjust the context window to a larger value.
-        context_window = 512,
+        context_window = 8192,
         provider_options = {
           openai_fim_compatible = {
             -- For Windows users, TERM may not be present in environment variables.
@@ -20,7 +22,7 @@ return {
             end_point = "http://iron:11434/v1/completions",
             model = "qwen2.5-coder:0.5b",
             optional = {
-              max_tokens = 500,
+              max_tokens = 512,
               top_p = 0.9,
             },
           },
@@ -29,7 +31,6 @@ return {
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
       "Saghen/blink.cmp",
     },
   },

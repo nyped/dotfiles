@@ -1,12 +1,13 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.winborder = "single"
 
 -- Pretty title
-if os.getenv("_IN_WSL") then
+if vim.env._IN_WSL == nil then
   vim.opt.title = true
   local pref = ""
-  if os.getenv("SSH_CONNECTION") then
-    pref = os.getenv("USER") .. "@" .. vim.fn.hostname() .. ": "
+  if vim.env.SSH_CONNECTION then
+    pref = vim.env.USER .. "@" .. vim.fn.hostname() .. ": "
   end
   vim.opt.titlestring = pref .. "nvim [1m%t%m "
 end
@@ -46,7 +47,7 @@ vim.opt.signcolumn = "yes"
 
 vim.opt.backup = false
 vim.opt.swapfile = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = vim.fn.stdpath("state") .. "/undodir"
 vim.opt.undofile = true
 
 vim.opt.spell = true

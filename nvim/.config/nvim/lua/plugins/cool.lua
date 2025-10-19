@@ -6,6 +6,13 @@ return {
     },
     config = true,
   },
+  { -- https://github.com/jinh0/eyeliner.nvim
+    "jinh0/eyeliner.nvim",
+    event = "VeryLazy",
+    opts = {
+      highlight_on_key = true,
+    },
+  },
   { -- https://github.com/mg979/vim-visual-multi
     "mg979/vim-visual-multi",
     keys = {

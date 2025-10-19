@@ -32,7 +32,6 @@ altif trans tb 'trans -brief'
 altif vi    v 'vi -p'
 altif vim   v 'vim -p'
 altif nvim  v 'nvim -p'
-altif kitty v 'TERM=xterm-kitty nvim -p'
 altif nvim  vr 'v -R'
 
 # TODO: add scripts to PATH

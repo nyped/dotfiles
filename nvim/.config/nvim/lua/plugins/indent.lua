@@ -1,19 +1,4 @@
 return {
-  { -- https://github.com/lukas-reineke/indent-blankline.nvim
-    "lukas-reineke/indent-blankline.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("ibl").setup({
-        scope = {
-          highlight = { "GruvboxRed" },
-          enabled = true,
-          show_start = true,
-          show_end = false,
-          priority = 500,
-        },
-      })
-    end,
-  },
   { -- https://github.com/NMAC427/guess-indent.nvim
     "nmac427/guess-indent.nvim",
     event = { "BufReadPre", "BufNewFile" },

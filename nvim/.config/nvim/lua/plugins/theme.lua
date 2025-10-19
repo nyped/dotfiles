@@ -1,20 +1,19 @@
 return {
   { -- https://github.com/ellisonleao/gruvbox.nvim
     "ellisonleao/gruvbox.nvim",
+    dependencies = {
+      "ellisonleao/dotenv.nvim",
+    },
     priority = 1000,
     config = function()
-      require("gruvbox").setup({ transparent_mode = true })
+      local transparent_mode = vim.env._IN_WSL == nil
+      require("gruvbox").setup({ transparent_mode = transparent_mode })
       vim.cmd.colorscheme("gruvbox")
     end,
   },
-  { -- https://github.com/stevearc/dressing.nvim
-    "stevearc/dressing.nvim",
-    event = "VeryLazy",
-    config = true,
-  },
   { -- https://github.com/rcarriga/nvim-notify
     "rcarriga/nvim-notify",
-    event = "VeryLazy",
+    lazy = false,
     cmd = "Notifications",
     keys = {
       { "<Leader>fN", desc = "Dismiss notifications" },
