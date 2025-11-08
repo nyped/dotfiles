@@ -1,9 +1,12 @@
 return {
   { -- https://github.com/milanglacier/minuet-ai.nvim
     "milanglacier/minuet-ai.nvim",
-    enabled = false,
+    enabled = true,
     config = function()
       require("minuet").setup({
+        blink = {
+          enable_auto_complete = true,
+        },
         request_timeout = 10,
         provider = "openai_fim_compatible",
         n_completions = 1, -- recommend for local model for resource saving
@@ -19,7 +22,7 @@ return {
             -- Consider using APPDATA instead.
             api_key = "TERM",
             name = "Ollama",
-            end_point = "http://iron:11434/v1/completions",
+            end_point = "http://halo:11434/v1/completions",
             model = "qwen2.5-coder:0.5b",
             optional = {
               max_tokens = 512,

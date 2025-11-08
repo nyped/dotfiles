@@ -238,7 +238,7 @@
         "on-click": "playerctl previous"
     },
     "custom/play#icon": {
-        "format": "<span font='14'>󰏤</span>",
+        "format": "<span font='14'></span>",
         "tooltip": false,
         "on-click": "playerctl play-pause"
     },

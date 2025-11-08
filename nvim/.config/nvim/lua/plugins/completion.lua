@@ -29,7 +29,7 @@ return {
       -- See :h blink-cmp-config-keymap for defining your own keymap
       keymap = {
         preset = "default",
-        -- ["<A-y>"] = require("minuet").make_blink_map(),
+        ["<A-y>"] = require("minuet").make_blink_map(),
       },
 
       appearance = {
@@ -41,7 +41,7 @@ return {
         -- Display a preview of the selected item on the current line
         ghost_text = { enabled = true, show_with_menu = true },
         -- Recommended to avoid unnecessary request
-        -- trigger = { prefetch_on_insert = false },
+        trigger = { prefetch_on_insert = false },
       },
 
       sources = {
@@ -50,7 +50,7 @@ return {
           "path",
           "buffer",
           "snippets",
-          -- "minuet",
+          "minuet",
         },
         -- For manual completion only, remove 'minuet' from default
         providers = {

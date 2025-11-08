@@ -73,6 +73,8 @@ while [[ $# != 0 ]]; do
   shift
 done
 
+mkdir -p "$HOME"/Screenshots
+
 # Wayland or X?
 if [[ -n $WAYLAND_DISPLAY ]]; then
   # shellcheck disable=SC2086
@@ -84,7 +86,7 @@ fi
 
 # shadows
 if [[ "${shad}" == 1 ]]; then
-  convert                                             \
+  magick \
     "${name}.xwd"                                     \
     \( +clone -background black -shadow 60x10+0+10 \) \
     +swap                                             \
@@ -93,8 +95,8 @@ if [[ "${shad}" == 1 ]]; then
     +repage                                           \
     -quality 0                                        \
     "${name}.png"
-  else
-    convert "${name}.xwd" "${name}.png"
+else
+  magick "${name}.xwd" "${name}.png"
 fi
 
 rm "${name}.xwd"

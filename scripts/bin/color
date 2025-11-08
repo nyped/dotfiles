@@ -28,12 +28,8 @@ ln -sf ~/.config/kitty/kitty-"${THEME}"-scheme.conf ~/.config/kitty/color-scheme
   killall -SIGUSR1 nvim
   killall -SIGUSR1 kitty
   killall -SIGKILL dunst
-  # Gnome stuff
-  for b in true false; do
-    gsettings set org.blueman.general symbolic-status-icons $b
-  done
-  gsettings set org.gnome.desktop.interface color-scheme prefer-"$THEME"
-  # gsettings set org.gnome.desktop.interface icon-theme Papirus-"${THEME^}"
+  dconf write /org/gnome/desktop/interface/color-scheme "'prefer-$THEME'"
+  # dconf write /org/gnome/desktop/interface/icon-theme   "'Papirus-${THEME^}'"
 } &>/dev/null
 
 # vim: set ts=2 sts=2 sw=2 et :

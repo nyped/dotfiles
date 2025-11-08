@@ -71,6 +71,7 @@ to_source=(
   ~/.zsh/aliasrc
   ~/.zsh/functions.sh
   ~/.zsh/simple.zsh-theme
+  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 )
 
 for i in ${to_source[@]}; {
@@ -126,18 +127,10 @@ fi
 
 # auto startx on TTY1
 if [[ $(tty) = /dev/tty1 && "$(whoami)" != root ]]; then
-  if true; then
-    export MOZ_ENABLE_WAYLAND=1
-    export XDG_CURRENT_DESKTOP=sway
-    export ELECTRON_OZONE_PLATFORM_HINT=wayland
-
-    exec sway
-  else
-    export MOZ_X11_EGL=1
-    export MOZ_USE_XINPUT2=1
-
-    exec startx
-  fi
+  export MOZ_ENABLE_WAYLAND=1
+  export XDG_CURRENT_DESKTOP=sway
+  export ELECTRON_OZONE_PLATFORM_HINT=wayland
+  exec sway
 fi
 
 # vim: set ft=zsh ts=2 sts=2 sw=2 et :

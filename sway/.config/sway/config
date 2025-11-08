@@ -32,7 +32,7 @@ output *        background "#474747" solid_color
 output DP-1     resolution 1920x1080 position 0 0 scale 0.9
 output HDMI-A-1 resolution 1920x1080 position 0 0 scale 0.9
 output eDP-1    resolution 1920x1080 position 2133 0
-output $fw13out resolution 2256x1504 position 2133 0 scale 1.15
+output $fw13out resolution 2256x1504 position 2133 0 scale 1.10
 
 # NOTE: 1920. / .9 ~= 2133
 
@@ -94,7 +94,9 @@ input * {
 
 # Gestures {{{
 
-bindgesture hold:4 workspace back_and_forth
+bindgesture hold:4        workspace back_and_forth
+bindgesture swipe:4:left  workspace next_on_output
+bindgesture swipe:4:right workspace prev_on_output
 
 # }}}
 
@@ -236,15 +238,15 @@ mode "resize" {
     bindsym Escape mode "default"
     bindsym $mod+r mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "resize"; exec notify-send "resize mode" "hjkl to resize"
 
 # Swap containers:
 mode "swap" {
     # Move your focus around
-    bindsym $mod+$left  focus left  sibling
-    bindsym $mod+$down  focus down  sibling
-    bindsym $mod+$up    focus up    sibling
-    bindsym $mod+$right focus right sibling
+    bindsym $left  focus left  sibling
+    bindsym $down  focus down  sibling
+    bindsym $up    focus up    sibling
+    bindsym $right focus right sibling
     bindsym Semicolon focus mode_toggle
     bindsym $mod+Tab       workspace next_on_output
     bindsym $mod+Shift+Tab workspace prev_on_output
@@ -255,7 +257,7 @@ mode "swap" {
 
     # Mark and swap
     bindsym m mark --toggle swap; [tiling] border pixel; [con_mark=".*"] border normal
-    bindsym s swap container with mark swap
+    bindsym s swap container with mark swap; mode "default"
 
     # Quick swap
     bindsym Shift+$left  mark --add swap, focus left,  swap container with mark swap, focus left,  unmark swap
@@ -268,7 +270,7 @@ mode "swap" {
     bindsym Escape     $reset; mode "default"
     bindsym $mod+Slash $reset; mode "default"
 }
-bindsym $mod+Slash mode "swap"
+bindsym $mod+Slash mode "swap"; exec notify-send "swap mode" "hjkl to navigate, m mark, s swap"
 
 # move to monitors
     bindsym $mod+Shift+$alt+$left  move workspace to left
@@ -277,23 +279,25 @@ bindsym $mod+Slash mode "swap"
     bindsym $mod+Shift+$alt+$down  move workspace to down
 
 # Raw mode
-    mode "raw" bindsym $mod+Insert mode "default"
-    bindsym $mod+Insert mode "raw"
+    mode "raw" {
+        bindsym Escape mode "default"
+    }
+    bindsym $mod+Insert mode "raw"; exec notify-send "raw mode" "esc to exit"
 
 # Volume
-    bindsym XF86AudioRaiseVolume exec ~/bin/volume -n -i 5
-    bindsym XF86AudioLowerVolume exec ~/bin/volume -n -d 5
-    bindsym XF86AudioMute        exec ~/bin/volume -n -t
+    bindsym --locked XF86AudioRaiseVolume exec ~/bin/volume -n -i 5
+    bindsym --locked XF86AudioLowerVolume exec ~/bin/volume -n -d 5
+    bindsym --locked XF86AudioMute        exec ~/bin/volume -n -t
 
 # Brightness
-    bindsym XF86MonBrightnessDown exec ~/bin/backlight -n -l -d 1
-    bindsym XF86MonBrightnessUp   exec ~/bin/backlight -n -l -i 1
+    bindsym --locked XF86MonBrightnessDown exec ~/bin/backlight -n -l -d 1
+    bindsym --locked XF86MonBrightnessUp   exec ~/bin/backlight -n -l -i 1
 
 # Media
+    bindsym --locked XF86AudioPlay exec playerctl pause
+    bindsym XF86AudioPrev exec playerctl previous
     bindsym XF86AudioPlay exec playerctl play-pause
-    bindsym --locked XF86AudioPrev exec playerctl previous
-    bindsym --locked XF86AudioPlay exec playerctl play-pause --all-players
-    bindsym --locked XF86AudioNext exec playerctl next
+    bindsym XF86AudioNext exec playerctl next
 
 # Screenshots
     bindsym Print       exec ~/bin/screenshot -w -S
@@ -324,10 +328,10 @@ titlebar_border_thickness 1
 titlebar_padding 10 1
 
 # class                  border  bg      text    indic.  child_border
-client.focused           #323232 #b3b3b3 #323232 #00ffff #6899bf
-client.focused_inactive  #323232 #b3b3b3 #323232 #808080 #808080
-client.unfocused         #404040 #323232 #b3b3b3 #808080 #808080
-client.urgent            #ff0000 #323232 #b3b3b3 #808080 #ff0000
+client.focused           #665c54 #665c54 #fbf1c7 #83A598 #458588
+client.focused_inactive  #665c54 #665c54 #fbf1c7 #808080 #808080
+client.unfocused         #665c54 #3c3836 #a89984 #808080 #808080
+client.urgent            #FB4934 #3c3836 #a89984 #808080 #FB4934
 
 seat seat0 xcursor_theme "Adwaita" 24
 
