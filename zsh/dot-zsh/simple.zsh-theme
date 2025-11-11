@@ -316,7 +316,12 @@ function _venv_prompt() {
   typeset -g _EXTRA_PROMPT
 
   if [[ -n $VIRTUAL_ENV_PROMPT ]]; then
-    _EXTRA_PROMPT+="%B%F{green}($VIRTUAL_ENV_PROMPT)%b%f "
+    local var_clean="${VIRTUAL_ENV_PROMPT//[[:space:]]/}"
+    if [[ $VIRTUAL_ENV_PROMPT == \(* ]]; then
+      _EXTRA_PROMPT+="%B%F{green}$var_clean%b%f "
+    else
+      _EXTRA_PROMPT+="%B%F{green}($var_clean)%b%f "
+    fi
   elif [[ -n $VIRTUAL_ENV ]]; then
     _EXTRA_PROMPT+="%B%F{green}(venv)%b%f "
   fi

@@ -3,14 +3,12 @@ vim.opt.relativenumber = true
 vim.opt.winborder = "single"
 
 -- Pretty title
-if vim.env._IN_WSL == nil then
-  vim.opt.title = true
-  local pref = ""
-  if vim.env.SSH_CONNECTION then
-    pref = vim.env.USER .. "@" .. vim.fn.hostname() .. ": "
-  end
-  vim.opt.titlestring = pref .. "nvim [1m%t%m "
+vim.opt.title = true
+local pref = ""
+if vim.env.SSH_CONNECTION then
+  pref = vim.env.USER .. "@" .. vim.fn.hostname() .. ": "
 end
+vim.opt.titlestring = pref .. "nvim %t%m "
 
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4

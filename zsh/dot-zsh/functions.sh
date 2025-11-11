@@ -93,43 +93,30 @@ function __in_restricted_term() {
   [[ $(tty) == *tty* || -n $MYVIMRC || -n $TMUX || $TERM != xterm* ]]
 }
 
+function __set_title() {
+  local TITLE_BEG="\x1b]0;"
+  local TITLE_END="\x1b\\"
+
+  echo -en "${TITLE_BEG}${_SSH_TITLE_PREF}$*${TITLE_END}"
+}
+
 function __update_title() {
-  local CMD TITLE_BEG TITLE_END BOLD
-
-  __in_restricted_term && return
-
-  CMD="$2"
-  TITLE_BEG="\e]0;"
-  TITLE_END="\007"
-  BOLD="\033[1m"
-
-  # Print the title without expanding the command
-  print -Pn "$TITLE_BEG$BOLD"
-  print -n  "$_SSH_TITLE_PREF$CMD"
-  print -Pn "$TITLE_END"
+  __set_title "$2"
 }
 
 function __restore_title() {
-  local TITLE_BEG TITLE_END _PWD
+  local _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
 
-  __in_restricted_term && return
-
-  TITLE_BEG="\e]0;"
-  TITLE_END="\007"
-  BOLD="\033[1m"
-  _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
-
-  print -Pn "$UNDERSCORE"
-  print -Pn "$TITLE_BEG$BOLD$_SSH_TITLE_PREF$_PWD$TITLE_END"
+  __set_title "$_PWD"
 }
 
 () {
   autoload -U add-zsh-hook
 
-  if [[ -z $_IN_WSL ]]; then
-    add-zsh-hook preexec __update_title
-    add-zsh-hook precmd __restore_title
-  fi
+  __in_restricted_term && return
+
+  add-zsh-hook preexec __update_title
+  add-zsh-hook precmd  __restore_title
 }
 
 unfunction exists
