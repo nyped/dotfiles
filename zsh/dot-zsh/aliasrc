@@ -100,6 +100,7 @@ alias rgi='rg -i'
 
 # git
 alias g='git'
+alias ga='git add'
 alias gaa='git add --all'
 alias gb='git branch'
 alias gc='git commit -v'
@@ -114,14 +115,17 @@ alias gr='git rebase'
 alias gs='git switch'
 alias gsp='git stash push'
 alias gss='git stash show'
+alias gsc='git stash clear'
 alias gst='git status'
 alias gw='git worktree'
 alias gwl='git worktree list'
+alias gcp='git cherry-pick'
 
 # ls
 alias l='ls -lah'
 alias la='ls -A'
 alias ll='ls -lh'
+alias ls='ls --color=auto'
 altif exa ls
 altif eza ls
 
