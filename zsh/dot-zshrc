@@ -2,11 +2,6 @@ HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.zsh_history
 
-# WSL check
-if [[ -f /etc/wsl.conf ]]; then
-  export _IN_WSL=true
-fi
-
 setopt autocd               \
        extendedglob         \
        nomatch              \
@@ -68,10 +63,11 @@ export WORDCHARS='.-'
 
 to_source=(
   ~/.id
-  ~/.zsh/aliasrc
+  ~/.zsh/wsl.sh
   ~/.zsh/functions.sh
+  ~/.zsh/aliasrc
   ~/.zsh/simple.zsh-theme
-  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
 )
 
 for i in ${to_source[@]}; {
@@ -96,41 +92,16 @@ export LESS_TERMCAP_ZW=$(tput rsupm)
 export EDITOR=nvim
 export MANROFFOPT="-c"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
-# theme env
-export QT_QPA_PLATFORMTHEME=qt5ct
-export XCURSOR_THEME=Adwaita
-export XCURSOR_SIZE=24
-
-# firefox
-export LIBVA_DRIVER_NAME=radeonsi
-
-# java apps
-export _JAVA_AWT_WM_NONREPARENTING=1
-
-# terminal
-export TERM=xterm-256color
+export TERM="xterm-256color"
 
 # syntax highlight
-hi=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-if [[ -f $hi ]]; then
-  source $hi
-
-  # zle stuff
+if [[ -n $ZSH_HIGHLIGHT_STYLES ]]; then
   export ZSH_HIGHLIGHT_STYLES[arg0]="none"
   export ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
   export ZSH_HIGHLIGHT_STYLES[comment]="fg=blue,bold"
   export ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"
   export ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"
   export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
-fi
-
-# auto startx on TTY1
-if [[ $(tty) = /dev/tty1 && "$(whoami)" != root ]]; then
-  export MOZ_ENABLE_WAYLAND=1
-  export XDG_CURRENT_DESKTOP=sway
-  export ELECTRON_OZONE_PLATFORM_HINT=wayland
-  exec sway
 fi
 
 # vim: set ft=zsh ts=2 sts=2 sw=2 et :
