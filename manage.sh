@@ -10,8 +10,10 @@ readonly VERBOSE_ARGS=--verbose=2
 readonly targets=(
   bat
   dunst
+  fuzzel
   gammastep
   kitty
+  niri
   nvim
   scripts
   sway

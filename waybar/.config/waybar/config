@@ -6,10 +6,9 @@
     "height": 30,
 
     "modules-left": [
-        "sway/workspaces",
-        "sway/window",
-        "sway/mode"
+        "group/wm"
     ],
+
     "modules-center": [
         "group/date",
         "idle_inhibitor"
@@ -26,6 +25,45 @@
         "group/media",
         "group/bat"
     ],
+
+    "group/sway_ws": {
+        "orientation": "inherit",
+        "modules": [
+            "sway/workspaces",
+            "sway/window",
+            "sway/mode"
+        ]
+    },
+
+    "group/niri_ws": {
+        "orientation": "inherit",
+        "modules": [
+            "niri/workspaces",
+            "niri/window",
+        ]
+    },
+
+    "group/wm": {
+        "orientation": "inherit",
+        "modules": [
+            "group/sway_ws",
+            "group/niri_ws",
+        ]
+    },
+
+    "niri/workspaces": {
+        "format": "{index}",
+    },
+
+    "niri/window": {
+        "format": "{title}",
+        "max-length": 50,
+        "rewrite": {
+           "(.*) — Mozilla Firefox": "Firefox",
+           "(.*) - Chromium": "Chromium",
+           "(.*) - Discord": "Discord"
+        }
+    },
 
     "idle_inhibitor": {
         "format": "{icon}",
@@ -265,7 +303,7 @@
         "orientation": "inherit",
         "modules": [
             "custom/layout#icon",
-            "sway/language"
+            "group/language"
         ]
     },
     "custom/layout#icon": {
@@ -273,9 +311,21 @@
         "format": "<span font='12'>󰘳</span>",
         "tooltip": false
     },
+
     "sway/language": {
         "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
         "format": " {short} {variant}"
+    },
+    "niri/language": {
+        "on-click": "niri msg action switch-layout next",
+        "format": " {short} {variant}"
+    },
+    "group/language": {
+        "orientation": "inherit",
+        "modules": [
+            "niri/language",
+            "sway/language"
+        ]
     }
 }
 
