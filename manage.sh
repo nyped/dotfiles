@@ -11,7 +11,6 @@ readonly targets=(
   bat
   dunst
   fuzzel
-  gammastep
   kitty
   niri
   nvim
@@ -20,7 +19,6 @@ readonly targets=(
   swaylock
   theme
   tmux
-  tpl
   vim
   waybar
   xsession

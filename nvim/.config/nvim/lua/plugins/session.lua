@@ -13,7 +13,7 @@ return {
     lazy = false,
     opts = {
       bigfile = { enabled = true },
-      dashboard = { enabled = true },
+      dashboard = { enabled = true, preset = { header = "nvim" } },
       explorer = { enabled = true },
       indent = { enabled = true, animate = { enabled = false } },
       input = { enabled = true },

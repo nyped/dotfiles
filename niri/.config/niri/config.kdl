@@ -37,7 +37,6 @@ cursor {
 gestures {
     hot-corners {
         top-right
-        bottom-right
     }
 }
 
@@ -84,12 +83,6 @@ layout {
         color "#0007"
     }
 }
-
-spawn-sh-at-startup "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal.service"
-spawn-sh-at-startup "killall waybar; waybar"
-spawn-sh-at-startup "killall dunst;  dunst"
-spawn-sh-at-startup "killall gammastep-indicator; gammastep-indicator" 
-spawn-sh-at-startup "swayidle -w timeout 60 'systemctl suspend-then-hibernate' timeout 300  'swaylock' before-sleep 'playerctl pause; swaylock'"
 
 hotkey-overlay {
     skip-at-startup
@@ -139,8 +132,13 @@ window-rule {
     }
 }
 
+spawn-sh-at-startup "swayidle -w timeout 300 'systemctl suspend-then-hibernate' before-sleep 'playerctl pause; swaylock'"
+
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Shift+R {
+        spawn-sh "systemctl restart --user gammastep waybar dunst";
+    }
 
     Mod+z            { spawn-sh "killall -SIGUSR1 waybar"; }
     Mod+Shift+Return { spawn-sh "kitty --class=Terminal"; }
@@ -171,10 +169,10 @@ binds {
     Mod+Alt+J     { move-workspace-down; }
     Mod+Alt+K     { move-workspace-up; }
 
-    Mod+Shift+J     { set-window-height "-10%"; }
-    Mod+Shift+K     { set-window-height "+10%"; }
-    Mod+Shift+H     { set-window-width  "-10%"; }
-    Mod+Shift+L     { set-window-width  "+10%"; }
+    Mod+Shift+J     { set-window-height "-3%"; }
+    Mod+Shift+K     { set-window-height "+3%"; }
+    Mod+Shift+H     { set-window-width  "-3%"; }
+    Mod+Shift+L     { set-window-width  "+3%"; }
 
     Mod+BracketLeft     { focus-monitor-previous; }
     Mod+BracketRight    { focus-monitor-next; }
