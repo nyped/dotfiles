@@ -14,6 +14,7 @@ local servers = { --
   "lua_ls",
   "clangd",
   "pyright",
+  "nil_ls",
   "ruff",
   "bashls",
   "rust_analyzer",
@@ -32,9 +33,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Auto format
     if
-      not c:supports_method("textDocument/willSaveWaitUntil")
-      and c:supports_method("textDocument/formatting")
-      and vim.env._NVIM_NO_AUTOFORMAT == nil
+        not c:supports_method("textDocument/willSaveWaitUntil")
+        and c:supports_method("textDocument/formatting")
+        and vim.env._NVIM_NO_AUTOFORMAT == nil
     then
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),

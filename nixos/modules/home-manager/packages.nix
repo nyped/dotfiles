@@ -1,0 +1,87 @@
+{
+  pkgs,
+  profile,
+  ...
+}:
+{
+  home.packages =
+    with pkgs;
+    [
+      bash-language-server
+      bat
+      btop-rocm
+      cargo
+      cmake
+      dmenu-rs
+      eza
+      fastfetch
+      glib
+      gnumake
+      gnupg
+      gopls
+      handlr
+      imagemagick
+      jq
+      llvmPackages_latest.clang
+      llvmPackages_latest.clang-tools
+      llvmPackages_latest.libcxx
+      llvmPackages_latest.libllvm
+      llvmPackages_latest.lldb
+      lua
+      lua-language-server
+      nil
+      ninja
+      nixfmt
+      nmap
+      pandoc
+      papirus-icon-theme
+      pass
+      pyright
+      python312
+      ruff
+      rust-analyzer
+      rustc
+      rustfmt
+      shellcheck
+      stow
+      tldr
+      translate-shell
+      uv
+      wl-clipboard
+    ]
+    ++ (
+      if profile.desktop then
+        # Desktop only packages
+        [
+          adwaita-icon-theme
+          bemenu
+          brightnessctl
+          chromium
+          discord
+          dunst
+          gammastep
+          kitty
+          libnotify
+          nautilus
+          networkmanagerapplet
+          pavucontrol
+          playerctl
+          pulseaudio
+          remmina
+          slurp
+          spotify
+          swaybg
+          swayidle
+          swaylock
+          vlc
+          wdisplays
+          xournalpp
+          xwayland-satellite
+          zathura
+        ]
+      else
+        # Server only packages
+        [
+        ]
+    );
+}

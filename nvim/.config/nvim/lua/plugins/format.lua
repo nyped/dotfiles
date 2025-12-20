@@ -22,15 +22,16 @@ return {
             "isort",
             "black",
           }
-        or {
-          "ruff_fix",
-          "ruff_format",
-          "ruff_check",
-        }
+          or {
+            "ruff_fix",
+            "ruff_format",
+            "ruff_check",
+          }
 
       require("conform").setup({
         formatters_by_ft = {
           lua = { "stylua" },
+          nix = { "nixfmt" },
           c = { "clang-format" },
           cpp = { "clang-format" },
           python = python_formatter,
