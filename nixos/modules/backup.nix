@@ -41,7 +41,6 @@
       ];
       basicBorgJob = target: {
         environment.BORG_RSH = "ssh -i /home/${profile.user}/.ssh/id_ed25519";
-        environment.BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK = "yes";
         extraCreateArgs = "--verbose --stats --checkpoint-interval 600";
         extraCompactArgs = "--threshold 0";
         repo = "${profile.backupHost}/./${target}";
