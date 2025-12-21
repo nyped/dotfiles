@@ -72,7 +72,7 @@ setopt PROMPT_SUBST KSH_GLOB
 
 # SSH stuff
 [[ -n $SSH_CONNECTION ]] && {
-  _SSH="%B%F{red}(SSH) %k%b%f"
+  _SSH_PROMPT="over %B%F{red}ssh%k%b%f "
   _SSH_TITLE_PREF="$USER@$HOST: "
 }
 
@@ -161,7 +161,7 @@ setopt PROMPT_SUBST KSH_GLOB
   _BAD_RETURN="%(?.. returned %B%F{red}%?%b%f)"
   _PROMPT_SYM='%B%(?..%F{red}%(!.#.>))%(!.#.>) %b%f'
   _USER="%(!.%B%F{red}%n%b%f@%B%F{green}%M%b%f .)"
-  [[ $USER != root && -n $_SSH ]] && \
+  [[ $USER != root && -n $SSH_CONNECTION ]] && \
     _USER="%B%F{yellow}%n%b%f@%B%F{green}%M%b%f "
 
   function _len() {
@@ -191,6 +191,7 @@ setopt PROMPT_SUBST KSH_GLOB
 
     local -a _contents=(
       "$_USER"
+      "$_SSH_PROMPT"
       "$_prompt_wd"
       "$_async_prompt_part"
       "$_bad_return"
@@ -213,7 +214,6 @@ setopt PROMPT_SUBST KSH_GLOB
     }
 
     PROMPT+=$'\n'
-    PROMPT+="$_SSH"
     PROMPT+="$_EXTRA_PROMPT"
     PROMPT+="$_PROMPT_SYM"
 
@@ -307,7 +307,14 @@ function _pre_prompt() {
 # OneAPI prompt
 function _intel_prompt() {
   if [[ -n $ONEAPI_ROOT ]]; then
-    _EXTRA_PROMPT+="%B%F{cyan}[oneAPI]%k%b%f "
+    _EXTRA_PROMPT+="%B%F{cyan}oneAPI%k%b%f "
+  fi
+}
+
+# Nix shell
+function _nix_shell_prompt() {
+  if [[ $name == nix-shell ]]; then
+    _EXTRA_PROMPT+="%B%F{blue}nix%k%b%f "
   fi
 }
 
@@ -317,13 +324,11 @@ function _venv_prompt() {
 
   if [[ -n $VIRTUAL_ENV_PROMPT ]]; then
     local var_clean="${VIRTUAL_ENV_PROMPT//[[:space:]]/}"
-    if [[ $VIRTUAL_ENV_PROMPT == \(* ]]; then
-      _EXTRA_PROMPT+="%B%F{green}$var_clean%b%f "
-    else
-      _EXTRA_PROMPT+="%B%F{green}($var_clean)%b%f "
-    fi
+    var_clean="${var_clean//\(/}"
+    var_clean="${var_clean//\)/}"
+    _EXTRA_PROMPT+="%B%F{green}$var_clean%b%f "
   elif [[ -n $VIRTUAL_ENV ]]; then
-    _EXTRA_PROMPT+="%B%F{green}(venv)%b%f "
+    _EXTRA_PROMPT+="%B%F{green}venv%b%f "
   fi
 }
 
@@ -333,6 +338,7 @@ function _venv_prompt() {
 
   autoload -U add-zsh-hook
   add-zsh-hook precmd  _pre_prompt
+  add-zsh-hook precmd  _nix_shell_prompt
   add-zsh-hook precmd  _venv_prompt
   add-zsh-hook precmd  _intel_prompt
   add-zsh-hook precmd  _timer_end
