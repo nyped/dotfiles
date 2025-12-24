@@ -10,13 +10,13 @@ function with() {
   fi
 }
 
-function exists() {
+function _exists() {
   for var; do
     type "$var" &>/dev/null
   done
 }
 
-exists handlr &&
+_exists handlr &&
 function open() {
   for file
   do
@@ -28,7 +28,8 @@ function open() {
 function share() {
   [[ $# != 1 ]] && echo usage: share \<file\> && return 1
   [[ ! -f $1 ]] && echo File non readable 1>&2 && return 2
-  curl -F file=@"$1" http://0x0.st 2>/dev/null
+  UA="User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:89.0) Gecko/20100101 Firefox/89.0"
+  curl -A "$UA" -F file=@"$1" http://0x0.st 2>/dev/null
 }
 
 # backup
@@ -107,8 +108,10 @@ function __restore_title() {
 
   add-zsh-hook preexec __update_title
   add-zsh-hook precmd  __restore_title
-}
 
-unfunction exists
+  if [[ -n $_IN_WSL ]]; then
+    add-zsh-hook precmd  __vte_wsl
+  fi
+}
 
 # vim: set ts=2 sts=2 sw=2 ft=zsh et :

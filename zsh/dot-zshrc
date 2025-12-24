@@ -1,6 +1,4 @@
-HISTSIZE=100000
-SAVEHIST=100000
-HISTFILE=~/.zsh_history
+#!/usr/bin/env zsh
 
 setopt autocd               \
        extendedglob         \
@@ -14,58 +12,13 @@ setopt autocd               \
        incappendhistory     \
        share_history
 
-unsetopt beep
-
-# keybinds
-bindkey -e
-bindkey "^U" backward-kill-line
-function _zle_ls() {
-  zle push-line
-  BUFFER=" ls"
-  zle accept-line
-}
-zle -N _zle_ls
-bindkey '^[l' _zle_ls
-
-# tab completion
-eval "$(dircolors)"
-autoload -U compinit
-zstyle ':completion:*' menu select
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} "ma=30;1;42;21"
-zstyle ':completion:*' matcher-list \
-  '' \
-  'm:{a-zA-Z}={A-Za-z}' \
-  'm:{A-Z}={a-z} r:|[._-/]=* r:|=* l:|=*' \
-  'm:{a-z}={A-Z} r:|[._-/]=* r:|=* l:|=*' \
-  'r:|[._-/]=* r:|=* l:|=*'
-zmodload zsh/complist
-compinit
-bindkey '^[[Z' reverse-menu-complete
-
-# arrow search
-autoload -U history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^[[A" history-beginning-search-backward-end
-bindkey "^[[B" history-beginning-search-forward-end
-
-# alt n, alt p doing the same thing as arrows
-bindkey "^[p" history-beginning-search-backward-end
-bindkey "^[n" history-beginning-search-forward-end
-# home and end, bruh
-bindkey "\e[H" beginning-of-line
-bindkey "\e[F" end-of-line
-
-# delete word
-autoload -U select-word-style
-select-word-style bash
-export WORDCHARS='.-'
-
 to_source=(
   ~/.id
   ~/.zsh/wsl.sh
   ~/.zsh/functions.sh
-  ~/.zsh/aliasrc
+  ~/.zsh/alias.sh
+  ~/.zsh/env.sh
+  ~/.zsh/binding.sh
   ~/.zsh/simple.zsh-theme
   /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
 )
@@ -73,35 +26,5 @@ to_source=(
 for i in ${to_source[@]}; {
   [[ -e $i ]] && source "$i"
 }
-
-# man and pager stuff
-export LESS="-r --mouse --wheel-lines=2"
-export LESS_TERMCAP_mb=$(tput bold; tput setaf 41)
-export LESS_TERMCAP_md=$(tput bold; tput setaf 6)
-export LESS_TERMCAP_me=$(tput sgr0)
-export LESS_TERMCAP_so=$(tput bold; tput setaf 231; tput setab 241)
-export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
-export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 9)
-export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
-export LESS_TERMCAP_mr=$(tput rev)
-export LESS_TERMCAP_mh=$(tput dim)
-export LESS_TERMCAP_ZN=$(tput ssubm)
-export LESS_TERMCAP_ZV=$(tput rsubm)
-export LESS_TERMCAP_ZO=$(tput ssupm)
-export LESS_TERMCAP_ZW=$(tput rsupm)
-export EDITOR=nvim
-export MANROFFOPT="-c"
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export TERM="xterm-256color"
-
-# syntax highlight
-if [[ -n $ZSH_HIGHLIGHT_STYLES ]]; then
-  export ZSH_HIGHLIGHT_STYLES[arg0]="none"
-  export ZSH_HIGHLIGHT_STYLES[path]="fg=cyan,bold"
-  export ZSH_HIGHLIGHT_STYLES[comment]="fg=blue,bold"
-  export ZSH_HIGHLIGHT_STYLES[redirection]="fg=yellow,bold"
-  export ZSH_HIGHLIGHT_STYLES[autodirectory]="fg=blue,bold"
-  export ZSH_HIGHLIGHT_STYLES[reserved-word]="fg=yellow,bold"
-fi
 
 # vim: set ft=zsh ts=2 sts=2 sw=2 et :

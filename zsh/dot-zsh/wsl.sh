@@ -1,8 +1,12 @@
 #!/usr/bin/env zsh
-#
+
 # WSL check
 if [[ -f /etc/wsl.conf ]]; then
   export _IN_WSL=true
+
+  function __vte_wsl() {
+    printf "\033]7;file://localhost$PWD\033\\"
+  }
 
   function code() {
     [[ $# != 1 ]] && return
