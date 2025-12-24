@@ -22,6 +22,10 @@
         fade = 1;
       };
     };
+    temperature = {
+      night = 4500;
+      day = 6500;
+    };
   };
 
   # Misc programs
