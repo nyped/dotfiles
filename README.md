@@ -6,8 +6,7 @@
 
 ```bash
 # Update lock
-nix flake lock --update-input home-manager
-nix flake lock --update-input nixpkgs
+nix flake update
 
 # Update system
 sudo nixos-rebuild switch --flake
