@@ -1,0 +1,46 @@
+name: "Flake lock auto-update"
+
+on:
+  schedule:
+    - cron: "5 1 * * 0"
+  workflow_dispatch: {}
+
+jobs:
+  update-flake-lock:
+    if: ${{ !startsWith(github.server_url, 'https://github.com') }}
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Update flake.lock
+        run: nix flake update
+
+      - name: Commit updated flake.lock
+        env:
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
+          CI_GIT_URL: ${{ secrets.CI_GIT_URL }}
+          GIT_AUTHOR_NAME: "gitea-ci-bot"
+          GIT_AUTHOR_EMAIL: "ci-bot@${{ github.repository_owner }}.local"
+          GIT_COMMITTER_NAME: "gitea-ci-bot"
+          GIT_COMMITTER_EMAIL: "ci-bot@${{ github.repository_owner }}.local"
+        run: |
+          git config user.name "$GIT_AUTHOR_NAME"
+          git config user.email "$GIT_AUTHOR_EMAIL"
+          if git diff --quiet flake.lock; then
+            echo "No changes in flake.lock - nothing to commit."
+            exit 0
+          fi
+          git add flake.lock
+          git commit -m "ci: auto-update flake.lock"
+          git remote set-url origin http://$CI_TOKEN@$CI_GIT_URL/${{ github.repository }}.git
+          git push origin HEAD:${{ github.ref }}
