@@ -7,14 +7,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1766869925,
-        "narHash": "sha256-JfPKJ3cb25uAfMfkIOKEzoIygraOMSEuKtIX1UFzVLI=",
-        "type": "tarball",
-        "url": "https://github.com/nix-community/home-manager/archive/master.tar.gz"
+        "lastModified": 1766881808,
+        "narHash": "sha256-JR7A2xS3EBPWFeONzhqez5vp7nKEsp7eLj2Ks210Srk=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "d2e0458d6531885600b346e161c38790dc356fa8",
+        "type": "github"
       },
       "original": {
-        "type": "tarball",
-        "url": "https://github.com/nix-community/home-manager/archive/master.tar.gz"
+        "owner": "nix-community",
+        "ref": "master",
+        "repo": "home-manager",
+        "type": "github"
       }
     },
     "nixpkgs": {
