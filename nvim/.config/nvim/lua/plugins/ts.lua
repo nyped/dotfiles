@@ -2,6 +2,7 @@ return {
   { -- https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPre", "BufNewFile" },
+    branch = "master",
     config = function()
       require("nvim-treesitter.configs").setup({
         ensure_installed = {
