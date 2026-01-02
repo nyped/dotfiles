@@ -14,7 +14,7 @@ return {
     opts = {
       bigfile = { enabled = true },
       dashboard = { enabled = true, preset = { header = "nvim" } },
-      explorer = { enabled = true },
+      explorer = { enabled = false },
       indent = { enabled = true, animate = { enabled = false } },
       input = { enabled = true },
       picker = { enabled = true },
@@ -24,15 +24,6 @@ return {
       scroll = { enabled = false },
       statuscolumn = { enabled = true },
       words = { enabled = true },
-    },
-    keys = {
-      {
-        "<Leader>vt",
-        function()
-          Snacks.explorer()
-        end,
-        desc = "open file finder",
-      },
     },
   },
   { -- https://github.com/folke/persistence.nvim

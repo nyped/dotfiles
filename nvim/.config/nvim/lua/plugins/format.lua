@@ -8,8 +8,6 @@ return {
     config = function()
       local format_after_save = nil
       if vim.env._NVIM_NO_AUTOFORMAT == nil then
-        vim.notify("Enabling auto-format plugin with LSP fallback")
-
         format_after_save = {
           lsp_fallback = true,
           async = true,

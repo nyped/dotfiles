@@ -46,6 +46,7 @@
       stow
       tldr
       translate-shell
+      tree-sitter
       uv
       wl-clipboard
     ]
