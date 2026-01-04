@@ -12,6 +12,15 @@
     "flakes"
   ];
 
+  # Automatic garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "daily";
+    options = "--delete-older-than 5d";
+    persistent = true;
+    randomizedDelaySec = "45min";
+  };
+
   # Stuck in the past
   programs.nix-ld.enable = true;
 
