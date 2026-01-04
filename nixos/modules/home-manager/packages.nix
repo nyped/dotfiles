@@ -15,6 +15,7 @@
       dmenu-rs
       eza
       fastfetch
+      file
       glib
       gnumake
       gnupg
