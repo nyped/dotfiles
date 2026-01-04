@@ -23,8 +23,6 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [
     "amd_pstate=passive"
-    # "amd_iommu=off"
-    "amdgpu.cwsr_enable=0"
     "ttm.pages_limit=29360128"
     "ttm.page_pool_size=29360128"
     "kvm.enable_virt_at_load=0"
@@ -32,18 +30,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_17.override {
-  #   argsOverride = rec {
-  #     src = pkgs.fetchurl {
-  #       url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
-  #       sha256 = "010a12296e6fba7597ff36681be2485fd3b1780ac8fd9e6a9f3cfe193f0491db";
-  #     };
-  #     version = "6.17.4";
-  #     modDirVersion = "6.17.4";
-  #   };
-  # });
-
   boot.supportedFilesystems = [ "nfs" ];
 
   # CPU
