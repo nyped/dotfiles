@@ -45,6 +45,7 @@
         extraCompactArgs = "--threshold 0";
         repo = "${profile.backupHost}/./${target}";
         startAt = "daily";
+        persistentTimer = true;
         user = profile.user;
         encryption.mode = "repokey-blake2";
         encryption.passCommand = "cat /home/${profile.user}/.backup_pass.txt";
