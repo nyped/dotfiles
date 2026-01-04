@@ -54,6 +54,7 @@
   boot.swraid.enable = true;
   boot.swraid.mdadmConf = ''
     ARRAY /dev/md/raid level=raid1 num-devices=2 metadata=1.2 UUID=b8664b84:51837323:1ffed847:cca9d5db devices=/dev/nvme0n1p2,/dev/nvme1n1p2
+    PROGRAM ${pkgs.coreutils}/bin/true
   '';
 
   powerManagement.enable = true;
