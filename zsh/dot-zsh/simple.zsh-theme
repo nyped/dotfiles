@@ -85,18 +85,10 @@ setopt PROMPT_SUBST KSH_GLOB
   function show_path() {
     local _PWD
 
-    if [[ $USER == root ]]; then
-      if ((${#PWD} > 4*COLUMNS/5)); then
-        _PWD="${${PWD}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
-      else
-        _PWD="%/"
-      fi
+    if ((${#PWD} > 4*COLUMNS/5)); then
+      _PWD="$(__get_short_pwd)"
     else
-      if ((${#PWD} > 4*COLUMNS/5)); then
-        _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
-      else
-        _PWD="%~"
-      fi
+      _PWD="%~"
     fi
 
     echo -n "$_PWD_PRE$_PWD_PATH_COLOR$_PWD$_PWD_POST"
@@ -216,9 +208,6 @@ setopt PROMPT_SUBST KSH_GLOB
     PROMPT+=$'\n'
     PROMPT+="$_EXTRA_PROMPT"
     PROMPT+="$_PROMPT_SYM"
-
-    # add time if RPROMPT is empty
-    # [[ -z $RPROMPT ]] && RPROMPT="%b%F{black}%@"
   }
 }
 

@@ -72,13 +72,6 @@ function drop_caches() {
   echo 3 | sudo tee /proc/sys/vm/drop_caches
 }
 
-# fzf
-function fzf-cd() {
-  local target="$(fd --type d | fzf +m --preview "tree -C {}")"
-  
-  [[ -d $target ]] && cd "$target"
-}
-
 # we may wanna avoid fancy stuff in old school terminals
 function __in_restricted_term() {
   [[ $(tty) == *tty* || -n $MYVIMRC || -n $TMUX || $TERM != xterm* ]]
@@ -95,10 +88,27 @@ function __update_title() {
   __set_title "$2"
 }
 
-function __restore_title() {
-  local _PWD="${${PWD/#$HOME/~}//(#b)([^\/])[^\/][^\/]#\//$match[1]/}"
+function __get_short_pwd {
+  local _PWD
 
-  __set_title "$_PWD"
+  if [[ $USER == root ]]; then
+    _PWD="$PWD"
+  else
+    _PWD="${PWD/#$HOME/~}"
+  fi
+
+  # .abc -> .a
+  _PWD="${_PWD//(#b)(\.)([^\/\.])[^\/][^\/]#\//$match[1]$match[2]/}"
+  # abc -> a
+  _PWD="${_PWD//(#b)([^\/\.])[^\/][^\/]#\//$match[1]/}"
+  # ..abc -> ...
+  _PWD="${_PWD//(#b)(\.)(\.)([^\/])[^\/][^\/]#\//.../}"
+
+  echo "$_PWD"
+}
+
+function __restore_title() {
+  __set_title "$(__get_short_pwd)"
 }
 
 () {
