@@ -66,6 +66,7 @@
       extra = basicBorgJob profile.backupDir // {
         paths = profile.backupExtraPaths;
         user = "root";
+        startAt = "*-*-* 01:00:00";
       };
     };
 }
