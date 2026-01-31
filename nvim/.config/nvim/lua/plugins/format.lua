@@ -32,6 +32,7 @@ return {
           nix = { "nixfmt" },
           c = { "clang-format" },
           cpp = { "clang-format" },
+          typst = { "typstyle" },
           python = python_formatter,
         },
         format_after_save = format_after_save,

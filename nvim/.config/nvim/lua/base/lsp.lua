@@ -19,6 +19,7 @@ local servers = { --
   "bashls",
   "rust_analyzer",
   "gopls",
+  "tinymist",
 }
 
 vim.lsp.enable(servers)

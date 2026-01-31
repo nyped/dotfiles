@@ -48,6 +48,9 @@
       tldr
       translate-shell
       tree-sitter
+      tinymist
+      typst
+      typstyle
       uv
       wl-clipboard
     ]

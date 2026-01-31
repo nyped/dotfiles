@@ -10,13 +10,7 @@
   home.sessionVariables = {
   };
 
-  programs.opencode = {
-    enable = true;
-    settings = {
-      theme = "system";
-      autoupdate = true;
-    };
-  };
+  programs.opencode.enable = true;
 
   home.stateVersion = "25.05";
 }

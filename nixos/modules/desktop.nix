@@ -44,6 +44,11 @@
     xdgOpenUsePortal = true;
   };
 
+  # Default apps
+  xdg.mime.defaultApplications = {
+    "application/pdf" = "org.pwmt.zathura.desktop";
+  };
+
   # Login
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
