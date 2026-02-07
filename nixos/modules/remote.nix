@@ -1,28 +1,21 @@
 {
-  pkgs,
-  lib,
   ...
 }:
 {
-  services.xrdp.enable = true;
-  services.xrdp.audio.enable = true;
-  services.xrdp.defaultWindowManager = "xfce4-session";
-  services.xrdp.openFirewall = true;
-  services.getty.autologinUser = null;
-  services.xserver = {
-    enable = true;
-    desktopManager = {
-      xterm.enable = false;
-      xfce.enable = true;
-    };
-  };
-  services.displayManager.autoLogin.enable = false;
-  services.displayManager.defaultSession = "xfce";
+  services.gnome.gnome-remote-desktop.enable = true;
 
-  # Pulseaudio
-  services.pipewire.enable = lib.mkForce false;
-  services.pulseaudio = {
-    enable = true;
-    extraModules = [ pkgs.pulseaudio-module-xrdp ];
+  systemd.services.gnome-remote-desktop = {
+    wantedBy = [ "graphical.target" ];
   };
+
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
+
+  services.displayManager.autoLogin.enable = false;
+  services.getty.autologinUser = null;
+
+  networking.firewall.allowedTCPPorts = [
+    3389
+    5900
+  ];
 }

@@ -22,6 +22,9 @@
   boot.extraModulePackages = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [
+    "default_hugepagesz=1G"
+    "hugepagesz=1G"
+    "hugepages=24"
     "amd_pstate=passive"
     "ttm.pages_limit=29360128"
     "ttm.page_pool_size=29360128"

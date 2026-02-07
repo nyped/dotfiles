@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   profile,
   ...
 }:
@@ -29,7 +28,6 @@
     isNormalUser = true;
     extraGroups = [
       "audio"
-      "docker"
       "i2c"
       "render"
       "video"
@@ -65,6 +63,7 @@
 
   # Secrets
   programs.gnupg.agent.enable = true;
+  services.passSecretService.enable = true;
 
   # Packages
   environment.systemPackages = with pkgs; [
@@ -78,7 +77,4 @@
     tree
     wireguard-tools
   ];
-
-  # Big no
-  services.gnome.gnome-keyring.enable = lib.mkForce false;
 }

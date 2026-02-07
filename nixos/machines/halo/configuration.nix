@@ -18,7 +18,6 @@
 
   # Custom packages
   nixpkgs.overlays = [
-    (import ../../overlays/linux.nix)
   ];
 
   # Home
