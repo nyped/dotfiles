@@ -1,9 +1,7 @@
 return {
   { -- https://github.com/ellisonleao/gruvbox.nvim
     "ellisonleao/gruvbox.nvim",
-    dependencies = {
-      "ellisonleao/dotenv.nvim",
-    },
+    commit = "a472496e1a4465a2dd574389dcf6cdb29af9bf1b",
     priority = 1000,
     config = function()
       local transparent_mode = vim.env._IN_WSL == nil
@@ -13,6 +11,7 @@ return {
   },
   { -- https://github.com/rcarriga/nvim-notify
     "rcarriga/nvim-notify",
+    commit = "8701bece920b38ea289b457f902e2ad184131a5d",
     lazy = false,
     cmd = "Notifications",
     keys = {

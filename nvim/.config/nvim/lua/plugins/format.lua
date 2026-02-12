@@ -2,9 +2,6 @@ return {
   { -- https://github.com/stevearc/conform.nvim
     "stevearc/conform.nvim",
     event = "VeryLazy",
-    dependencies = {
-      "ellisonleao/dotenv.nvim",
-    },
     config = function()
       local format_after_save = nil
       if vim.env._NVIM_NO_AUTOFORMAT == nil then

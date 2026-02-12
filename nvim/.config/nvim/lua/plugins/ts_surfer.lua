@@ -1,6 +1,7 @@
 return {
   { -- https://github.com/ziontee113/syntax-tree-surfer
     "ziontee113/syntax-tree-surfer",
+    commit = "732ea6d0f868bcccd2f526be73afa46997d5a2fb",
     dependencies = "nvim-treesitter/nvim-treesitter",
     keys = {
       { -- Visual Selection from Normal Mode

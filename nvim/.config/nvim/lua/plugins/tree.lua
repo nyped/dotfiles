@@ -1,25 +1,18 @@
 return {
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
+  { -- https://github.com/nvim-tree/nvim-tree.lua
+    "nvim-tree/nvim-tree.lua",
+    commit = "037d89e60fb01a6c11a48a19540253b8c72a3c32",
+    lazy = false,
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
       "nvim-tree/nvim-web-devicons",
     },
-    lazy = true,
-    cmd = "Neotree",
-    opts = {
-      filesystem = {
-        filtered_items = {
-          hide_dotfiles = false,
-        }
-      }
-    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
     keys = {
       {
         "<Leader>vt",
-        "<cmd>Neotree<CR>",
+        "<cmd>NvimTreeOpen<CR>",
         desc = "open file finder",
       }
     }

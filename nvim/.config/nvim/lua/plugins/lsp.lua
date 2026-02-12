@@ -6,17 +6,9 @@ return {
   { -- https://github.com/neovim/nvim-lspconfig
     "neovim/nvim-lspconfig",
   },
-  { -- https://github.com/hedyhli/outline.nvim
-    "hedyhli/outline.nvim",
-    lazy = true,
-    cmd = { "Outline", "OutlineOpen" },
-    keys = { -- Example mapping to toggle outline
-      { "<leader>o", vim.cmd.Outline, desc = "Toggle outline" },
-    },
-    opts = {},
-  },
   { -- https://github.com/rmagatti/goto-preview
     "rmagatti/goto-preview",
+    commit = "d2d6923c9b9e0e43f0b9b566f261a8b1ae016540",
     config = true,
     keys = {
       {

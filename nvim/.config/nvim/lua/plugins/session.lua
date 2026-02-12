@@ -1,12 +1,4 @@
 return {
-  { -- https://github.com/ellisonleao/dotenv.nvim
-    "ellisonleao/dotenv.nvim",
-    opts = {
-      enable_on_load = true,
-      verbose = false,
-      file_name = ".env",
-    },
-  },
   { -- https://github.com/folke/snacks.nvim
     "folke/snacks.nvim",
     priority = 1000,

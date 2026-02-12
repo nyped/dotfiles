@@ -1,6 +1,7 @@
 return {
   { -- https://github.com/nvim-lualine/lualine.nvim
     "nvim-lualine/lualine.nvim",
+    commit = "47f91c416daef12db467145e16bed5bbfe00add8",
     event = "VeryLazy",
     config = function()
       -- Trailing spaces finder {{{
@@ -29,9 +30,9 @@ return {
           return "MI:" .. mixed_same_line
         end
         local space_indent_cnt =
-          vim.fn.searchcount({ pattern = space_pat, max_count = 1e3 }).total
+            vim.fn.searchcount({ pattern = space_pat, max_count = 1e3 }).total
         local tab_indent_cnt =
-          vim.fn.searchcount({ pattern = tab_pat, max_count = 1e3 }).total
+            vim.fn.searchcount({ pattern = tab_pat, max_count = 1e3 }).total
         if space_indent_cnt > tab_indent_cnt then
           return "MI:" .. tab_indent
         else
@@ -84,9 +85,9 @@ return {
               sources = { "nvim_diagnostic" },
               sections = { "error", "warn", "info", "hint" },
               symbols = { error = "E", warn = "W", info = "I", hint = "H" },
-              colored = true, -- Displays diagnostics status in color if set to true.
+              colored = true,           -- Displays diagnostics status in color if set to true.
               update_in_insert = false, -- Update diagnostics in insert mode.
-              always_visible = false, -- Show diagnostics even if there are none.
+              always_visible = false,   -- Show diagnostics even if there are none.
             },
           },
           lualine_y = { "progress" },
