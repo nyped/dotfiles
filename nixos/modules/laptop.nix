@@ -9,10 +9,10 @@
   services.logind.settings.Login.HandleLidSwitchExternalPower = "suspend";
   services.logind.settings.Login.HandlePowerKey = "suspend";
   services.logind.settings.Login.HandlePowerKeyLongPress = "poweroff";
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=60m
-    SuspendState=mem
-  '';
+  systemd.sleep.settings.Sleep = {
+    HibernateDelaySec = "60m";
+    SuspendState = "mem";
+  };
 
   # WG port
   networking.firewall.allowedUDPPorts = [ 1194 ];
