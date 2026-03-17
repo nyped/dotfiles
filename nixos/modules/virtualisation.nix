@@ -9,9 +9,6 @@
     data-root = "/docker";
   };
 
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ profile.user ];
-
   environment.systemPackages = [ pkgs.dnsmasq ];
   networking.firewall.trustedInterfaces = [ "virbr0" ];
   programs.virt-manager.enable = true;
