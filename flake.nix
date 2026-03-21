@@ -23,6 +23,7 @@
           host ? "nixos",
           server ? false,
           user ? user_,
+          cpu ? "amd",
         }@args:
         let
           profile = {
@@ -33,6 +34,7 @@
             host = host;
             server = server;
             user = user;
+            cpu = cpu;
           };
         in
         nixpkgs.lib.nixosSystem {
@@ -64,6 +66,7 @@
         };
         miami = mkConfiguration {
           host = "miami";
+          cpu = "intel";
           desktop = false;
           server = true;
           backupDir = "432af1f0";

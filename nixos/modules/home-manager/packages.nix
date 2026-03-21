@@ -1,18 +1,25 @@
 {
   pkgs,
+  lib,
   profile,
   ...
 }:
+let
+  match =
+    v: l:
+    builtins.elemAt (lib.lists.findFirst (
+      x: ((v: p: if lib.attrsets.matchAttrs p v then v else null) v (builtins.elemAt x 0)) != null
+    ) null l) 1;
+in
 {
   home.packages =
     with pkgs;
     [
       bash-language-server
       bat
-      btop-rocm
       cargo
       cmake
-      dmenu-rs
+      dmenu
       eza
       fastfetch
       file
@@ -32,6 +39,7 @@
       lua-language-server
       nil
       ninja
+      nix-search-cli
       nixfmt
       nmap
       pandoc
@@ -88,5 +96,29 @@
         # Server only packages
         [
         ]
-    );
+    )
+    ++ match { cpu = profile.cpu; } [
+      [
+        { cpu = "amd"; }
+        [
+          btop-rocm
+          fw-ectool
+        ]
+      ]
+      [
+        { cpu = "intel"; }
+        [
+          btop
+          intel-gpu-tools
+        ]
+      ]
+      [
+        { cpu = "broadcom"; }
+        [
+          btop
+          v4l-utils
+          raspberrypi-eeprom
+        ]
+      ]
+    ];
 }
