@@ -44,6 +44,7 @@
   # Local authority
   security.pki.certificates = [
     (builtins.readFile ../cert/lan.crt)
+    (builtins.readFile ../cert/foo.crt)
   ];
 
   # Shell

@@ -8,6 +8,8 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs =
@@ -71,6 +73,12 @@
           server = true;
           backupDir = "432af1f0";
           backupExtraPaths = [ "/data" ];
+        };
+        very = mkConfiguration {
+          host = "very";
+          cpu = "broadcom";
+          desktop = false;
+          server = true;
         };
       };
     };
