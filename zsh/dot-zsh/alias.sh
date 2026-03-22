@@ -49,6 +49,9 @@ altif curl myip 'curl ifconfig.me'
 if [[ -n $WAYLAND_DISPLAY ]]; then
   altif wl-copy  pbcopy
   altif wl-paste pbpaste
+elif [[ -n $SSH_CONNECTION ]]; then
+  altif osc-copy pbcopy
+  altif osc-paste pbpaste
 else
   altif xclip pbcopy 'xclip -selection clipboard'
   altif xclip pbpaste 'xclip -selection clipboard -o'

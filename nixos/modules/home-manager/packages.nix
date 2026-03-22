@@ -42,6 +42,7 @@ in
       nix-search-cli
       nixfmt
       nmap
+      oscclip
       pandoc
       papirus-icon-theme
       pass
@@ -53,10 +54,10 @@ in
       rustfmt
       shellcheck
       stow
+      tinymist
       tldr
       translate-shell
       tree-sitter
-      tinymist
       typst
       typstyle
       uv
