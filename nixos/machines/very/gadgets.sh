@@ -3,19 +3,19 @@
 
 export USB_DEVICE_DIR="g1"
 export USB_GADGET_PATH="/sys/kernel/config/usb_gadget"
-export USB_DEVICE_PATH="''${USB_GADGET_PATH}/''${USB_DEVICE_DIR}"
+export USB_DEVICE_PATH="${USB_GADGET_PATH}/${USB_DEVICE_DIR}"
 export USB_STRINGS_DIR="strings/0x409"
 export USB_KEYBOARD_FUNCTIONS_DIR="functions/hid.keyboard"
 export USB_MOUSE_FUNCTIONS_DIR="functions/hid.mouse"
 export USB_MASS_STORAGE_NAME="mass_storage.0"
-export USB_MASS_STORAGE_FUNCTIONS_DIR="functions/''${USB_MASS_STORAGE_NAME}"
+export USB_MASS_STORAGE_FUNCTIONS_DIR="functions/${USB_MASS_STORAGE_NAME}"
 export USB_CONFIG_INDEX=1
-export USB_CONFIG_DIR="configs/c.''${USB_CONFIG_INDEX}"
+export USB_CONFIG_DIR="configs/c.${USB_CONFIG_INDEX}"
 export USB_ALL_CONFIGS_DIR="configs/*"
 export USB_ALL_FUNCTIONS_DIR="functions/*"
 
 function usb_gadget_activate {
-  ls /sys/class/udc > "''${USB_DEVICE_PATH}/UDC"
+  ls /sys/class/udc > "${USB_DEVICE_PATH}/UDC"
   chmod 777 /dev/hidg0
   chmod 777 /dev/hidg1
 }
@@ -28,9 +28,9 @@ if [[ -d /sys/kernel/config/usb_gadget/g1/functions ]]; then
 fi
 
 # Adapted from https://github.com/girst/hardpass-sendHID/blob/master/README.md
-cd "''${USB_GADGET_PATH}"
-mkdir -p "''${USB_DEVICE_DIR}"
-cd "''${USB_DEVICE_DIR}"
+cd "${USB_GADGET_PATH}"
+mkdir -p "${USB_DEVICE_DIR}"
+cd "${USB_DEVICE_DIR}"
 
 echo 0x1d6b > idVendor  # Linux Foundation
 echo 0x0104 > idProduct # Multifunction Composite Gadget
@@ -38,15 +38,15 @@ echo 0x0100 > bcdDevice # v1.0.0
 echo 0x0200 > bcdUSB    # USB2
 
 mkdir -p "$USB_STRINGS_DIR"
-echo "6b65796d696d6570690" > "''${USB_STRINGS_DIR}/serialnumber"
-echo "tinypilot" > "''${USB_STRINGS_DIR}/manufacturer"
-echo "Multifunction USB Device" > "''${USB_STRINGS_DIR}/product"
+echo "6b65796d696d6570690" > "${USB_STRINGS_DIR}/serialnumber"
+echo "tinypilot" > "${USB_STRINGS_DIR}/manufacturer"
+echo "Multifunction USB Device" > "${USB_STRINGS_DIR}/product"
 
 # Keyboard
 mkdir -p "$USB_KEYBOARD_FUNCTIONS_DIR"
-echo 1 > "''${USB_KEYBOARD_FUNCTIONS_DIR}/protocol" # Keyboard
-echo 1 > "''${USB_KEYBOARD_FUNCTIONS_DIR}/subclass" # Boot interface subclass
-echo 8 > "''${USB_KEYBOARD_FUNCTIONS_DIR}/report_length"
+echo 1 > "${USB_KEYBOARD_FUNCTIONS_DIR}/protocol" # Keyboard
+echo 1 > "${USB_KEYBOARD_FUNCTIONS_DIR}/subclass" # Boot interface subclass
+echo 8 > "${USB_KEYBOARD_FUNCTIONS_DIR}/report_length"
 # Write the report descriptor
 D=$(mktemp)
 
@@ -82,17 +82,17 @@ D=$(mktemp)
   echo -ne \\x81\\x00       #   Input (Data,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)
   echo -ne \\xC0            # End Collection
 } >> "$D"
-cp "$D" "''${USB_KEYBOARD_FUNCTIONS_DIR}/report_desc"
+cp "$D" "${USB_KEYBOARD_FUNCTIONS_DIR}/report_desc"
 # Enable pre-boot events (if the gadget driver supports it).
-if [[ -f "''${USB_KEYBOARD_FUNCTIONS_DIR}/no_out_endpoint" ]]; then
-  echo 1 > "''${USB_KEYBOARD_FUNCTIONS_DIR}/no_out_endpoint"
+if [[ -f "${USB_KEYBOARD_FUNCTIONS_DIR}/no_out_endpoint" ]]; then
+  echo 1 > "${USB_KEYBOARD_FUNCTIONS_DIR}/no_out_endpoint"
 fi
 
 # Mouse
 mkdir -p "$USB_MOUSE_FUNCTIONS_DIR"
-echo 0 > "''${USB_MOUSE_FUNCTIONS_DIR}/protocol"
-echo 0 > "''${USB_MOUSE_FUNCTIONS_DIR}/subclass"
-echo 7 > "''${USB_MOUSE_FUNCTIONS_DIR}/report_length"
+echo 0 > "${USB_MOUSE_FUNCTIONS_DIR}/protocol"
+echo 0 > "${USB_MOUSE_FUNCTIONS_DIR}/subclass"
+echo 7 > "${USB_MOUSE_FUNCTIONS_DIR}/report_length"
 # Write the report descriptor
 D=$(mktemp)
 {
@@ -134,16 +134,16 @@ echo -ne \\x95\\x01      #   REPORT_COUNT (1)
 echo -ne \\x81\\x06      #   INPUT (Data,Var,Rel)
 echo -ne \\xC0           # END_COLLECTION
 } >> "$D"
-cp "$D" "''${USB_MOUSE_FUNCTIONS_DIR}/report_desc"
+cp "$D" "${USB_MOUSE_FUNCTIONS_DIR}/report_desc"
 
-mkdir -p "''${USB_CONFIG_DIR}"
-echo 250 > "''${USB_CONFIG_DIR}/MaxPower"
+mkdir -p "${USB_CONFIG_DIR}"
+echo 250 > "${USB_CONFIG_DIR}/MaxPower"
 
-CONFIGS_STRINGS_DIR="''${USB_CONFIG_DIR}/''${USB_STRINGS_DIR}"
-mkdir -p "''${CONFIGS_STRINGS_DIR}"
-echo "Config ''${USB_CONFIG_INDEX}: ECM network" > "''${CONFIGS_STRINGS_DIR}/configuration"
+CONFIGS_STRINGS_DIR="${USB_CONFIG_DIR}/${USB_STRINGS_DIR}"
+mkdir -p "${CONFIGS_STRINGS_DIR}"
+echo "Config ${USB_CONFIG_INDEX}: ECM network" > "${CONFIGS_STRINGS_DIR}/configuration"
 
-ln -s "''${USB_KEYBOARD_FUNCTIONS_DIR}" "''${USB_CONFIG_DIR}/"
-ln -s "''${USB_MOUSE_FUNCTIONS_DIR}" "''${USB_CONFIG_DIR}/"
+ln -s "${USB_KEYBOARD_FUNCTIONS_DIR}" "${USB_CONFIG_DIR}/"
+ln -s "${USB_MOUSE_FUNCTIONS_DIR}" "${USB_CONFIG_DIR}/"
 
 usb_gadget_activate
