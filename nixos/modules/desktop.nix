@@ -6,6 +6,7 @@
   # Sound
   services.pipewire.enable = true;
   services.pipewire.pulse.enable = true;
+  services.pipewire.systemWide = true;
   security.rtkit.enable = true;
 
   # System fonts

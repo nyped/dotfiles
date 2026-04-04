@@ -32,6 +32,7 @@
       "render"
       "video"
       "wheel"
+      "pipewire"
     ];
   };
 

@@ -9,6 +9,7 @@
 
     ./hardware-configuration.nix
 
+    ../../modules/desktop.nix
     ../../modules/backup.nix
     ../../modules/base.nix
     ../../modules/remote.nix

@@ -23,8 +23,7 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [
     "default_hugepagesz=1G"
-    "hugepagesz=1G"
-    "hugepages=24"
+    "transparent_hugepage=always"
     "amd_pstate=passive"
     "ttm.pages_limit=29360128"
     "ttm.page_pool_size=29360128"
@@ -32,7 +31,7 @@
   ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxpackages;
   boot.supportedFilesystems = [ "nfs" ];
 
   # CPU
@@ -41,7 +40,7 @@
   powerManagement.cpufreq.min = 400000;
   powerManagement.cpufreq.max = 4000000;
 
-  hardware.bluetooth.enable = false;
+  hardware.bluetooth.enable = true;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/a7e64b55-0cf1-4cb0-892a-5c6d22f7c509";
