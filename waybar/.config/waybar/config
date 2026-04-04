@@ -58,6 +58,8 @@
     "niri/window": {
         "format": "{title}",
         "max-length": 50,
+        "icon": true,
+        "icon-size": 15,
         "rewrite": {
            "(.*) — Mozilla Firefox": "Firefox",
            "(.*) - Chromium": "Chromium",
