@@ -32,7 +32,7 @@
   programs.swaylock.enable = true;
   programs.waybar.enable = true;
   programs.waybar.systemd.enable = true;
-  programs.waybar.systemd.target = "graphical-session.target";
+  programs.waybar.systemd.targets = [ "graphical-session.target" ];
   programs.fuzzel.enable = true;
   programs.firefox.enable = true;
 }

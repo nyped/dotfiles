@@ -8,9 +8,10 @@
   ];
 
   home.sessionVariables = {
+    OPENCODE_EXPERIMENTAL = "1";
   };
 
   programs.opencode.enable = true;
 
-  home.stateVersion = "25.05";
+  home.stateVersion = "26.05";
 }
