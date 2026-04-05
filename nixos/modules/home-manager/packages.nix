@@ -30,11 +30,6 @@ in
       handlr
       imagemagick
       jq
-      llvmPackages_latest.clang
-      llvmPackages_latest.clang-tools
-      llvmPackages_latest.libcxx
-      llvmPackages_latest.libllvm
-      llvmPackages_latest.lldb
       lua
       lua-language-server
       nil
@@ -76,6 +71,11 @@ in
           gammastep
           kitty
           libnotify
+          llvmPackages_latest.clang
+          llvmPackages_latest.clang-tools
+          llvmPackages_latest.libcxx
+          llvmPackages_latest.libllvm
+          llvmPackages_latest.lldb
           nautilus
           networkmanagerapplet
           pavucontrol
@@ -116,6 +116,7 @@ in
       [
         { cpu = "broadcom"; }
         [
+          alsa-utils
           btop
           v4l-utils
           raspberrypi-eeprom

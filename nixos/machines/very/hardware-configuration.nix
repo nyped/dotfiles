@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   pkgs,
   modulesPath,
   ...
@@ -44,7 +45,29 @@
     }
   ];
 
+  hardware.deviceTree = {
+    enable = true;
+    filter = lib.mkForce "bcm2711-rpi-4-b.dtb";
+    overlays = [
+      {
+        name = "tc358743-audio";
+        # The nixos-hardware tc358743 overlay sets the DTB root compatible to
+        # "brcm,bcm2711", so patch the dtbo to match (it ships as "brcm,bcm2835"
+        # which then fails the dtmerge compatibility check).
+        dtboFile = pkgs.runCommand "tc358743-audio.dtbo" {
+          nativeBuildInputs = [ pkgs.dtc ];
+        } ''
+          dtc -I dtb -O dts \
+            ${pkgs.linuxKernel.packages.linux_rpi4.kernel}/dtbs/overlays/tc358743-audio.dtbo \
+            | sed 's/compatible = "brcm,bcm2835"/compatible = "brcm,bcm2711"/' \
+            | dtc -I dts -O dtb -@ -o $out
+        '';
+      }
+    ];
+  };
+
   hardware.raspberry-pi."4" = {
+    apply-overlays-dtmerge.enable = true;
     tc358743.enable = true;
     dwc2 = {
       enable = true;
