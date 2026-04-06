@@ -15,8 +15,8 @@
 
   services.gammastep = {
     enable = true;
-    longitude = 48.8;
-    latitude = 2.3;
+    latitude = 48.8;
+    longitude = 2.3;
     settings = {
       general = {
         fade = 1;
