@@ -15,6 +15,7 @@
     ../../modules/remote.nix
     ../../modules/server.nix
     ../../modules/virtualisation.nix
+    ../../modules/slurm.nix
   ];
 
   # Custom packages

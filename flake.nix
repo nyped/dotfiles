@@ -10,10 +10,15 @@
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    { self, nixpkgs, sops-nix, ... }@inputs:
     let
       user_ = "lenny";
       mkConfiguration =
@@ -44,6 +49,7 @@
             inherit inputs profile;
           };
           modules = [
+            sops-nix.nixosModules.sops
             ./nixos/machines/${args.host}/configuration.nix
           ];
         };
