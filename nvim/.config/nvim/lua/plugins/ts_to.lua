@@ -4,112 +4,60 @@ return {
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
     config = function()
-      require("nvim-treesitter.configs").setup({
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ["af"] = {
-                query = "@function.outer",
-                desc = "TSTO Select outer part of a function",
-              },
-              ["if"] = {
-                query = "@function.inner",
-                desc = "TSTO Select inner part of a function",
-              },
-              ["ak"] = {
-                query = "@conditional.outer",
-                desc = "TSTO Select outer part of a conditional region",
-              },
-              ["ik"] = {
-                query = "@conditional.inner",
-                desc = "TSTO Select inner part of a conditional region",
-              },
-              ["ac"] = {
-                query = "@class.outer",
-                desc = "TSTO Select outer part of a class region",
-              },
-              ["ic"] = {
-                query = "@class.inner",
-                desc = "TSTO Select inner part of a class region",
-              },
-              ["as"] = {
-                query = "@scope",
-                query_group = "locals",
-                desc = "TSTO Select language scope",
-              },
-              ["al"] = {
-                query = "@loop.outer",
-                desc = "TSTO Select outer part of a loop region",
-              },
-              ["il"] = {
-                query = "@loop.inner",
-                desc = "TSTO Select inner part of a loop region",
-              },
-              ["lh"] = {
-                query = "@assignment.lhs",
-                desc = "TSTO go lhs assignment",
-              },
-              ["rh"] = {
-                query = "@assignment.rhs",
-                desc = "TSTO go lhs rhs",
-              },
-            },
-            selection_modes = {
-              ["@parameter.outer"] = "v",
-              ["@function.outer"] = "V",
-              ["@class.outer"] = "<c-v>",
-            },
-            include_surrounding_whitespace = false,
+      local select = require("nvim-treesitter-textobjects.select")
+      local move = require("nvim-treesitter-textobjects.move")
+
+      require("nvim-treesitter-textobjects").setup({
+        select = {
+          lookahead = true,
+          selection_modes = {
+            ["@parameter.outer"] = "v",
+            ["@function.outer"] = "V",
+            ["@class.outer"] = "<c-v>",
           },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next = {
-              ["]f"] = {
-                query = "@function.outer",
-                desc = "TSTO next function",
-              },
-              ["]k"] = {
-                query = "@conditional.outer",
-                desc = "TSTO next conditional",
-              },
-              ["]c"] = {
-                query = "@class.outer",
-                desc = "TSTO next class",
-              },
-              ["]l"] = {
-                query = "@loop.outer",
-                desc = "TSTO next loop",
-              },
-            },
-            goto_previous = {
-              ["[f"] = {
-                query = "@function.outer",
-                desc = "TSTO prev function",
-              },
-              ["[k"] = {
-                query = "@conditional.outer",
-                desc = "TSTO prev conditional",
-              },
-              ["[c"] = {
-                query = "@class.outer",
-                desc = "TSTO prev class",
-              },
-              ["[l"] = {
-                query = "@loop.outer",
-                desc = "TSTO prev loop",
-              },
-            },
-          },
+          include_surrounding_whitespace = false,
         },
+        move = { set_jumps = true },
       })
+
+      local sel = function(query, query_group)
+        return function() select.select_textobject(query, query_group or "textobjects") end
+      end
+      vim.keymap.set({ "x", "o" }, "af", sel("@function.outer"), { desc = "TSTO Select outer part of a function" })
+      vim.keymap.set({ "x", "o" }, "if", sel("@function.inner"), { desc = "TSTO Select inner part of a function" })
+      vim.keymap.set({ "x", "o" }, "ak", sel("@conditional.outer"),
+        { desc = "TSTO Select outer part of a conditional region" })
+      vim.keymap.set({ "x", "o" }, "ik", sel("@conditional.inner"),
+        { desc = "TSTO Select inner part of a conditional region" })
+      vim.keymap.set({ "x", "o" }, "ac", sel("@class.outer"), { desc = "TSTO Select outer part of a class region" })
+      vim.keymap.set({ "x", "o" }, "ic", sel("@class.inner"), { desc = "TSTO Select inner part of a class region" })
+      vim.keymap.set({ "x", "o" }, "as", sel("@scope", "locals"), { desc = "TSTO Select language scope" })
+      vim.keymap.set({ "x", "o" }, "al", sel("@loop.outer"), { desc = "TSTO Select outer part of a loop region" })
+      vim.keymap.set({ "x", "o" }, "il", sel("@loop.inner"), { desc = "TSTO Select inner part of a loop region" })
+      vim.keymap.set({ "x", "o" }, "lh", sel("@assignment.lhs"), { desc = "TSTO go lhs assignment" })
+      vim.keymap.set({ "x", "o" }, "rh", sel("@assignment.rhs"), { desc = "TSTO go lhs rhs" })
+
+      vim.keymap.set({ "n", "x", "o" }, "]f", function() move.goto_next_start("@function.outer") end,
+        { desc = "TSTO next function" })
+      vim.keymap.set({ "n", "x", "o" }, "]k", function() move.goto_next_start("@conditional.outer") end,
+        { desc = "TSTO next conditional" })
+      vim.keymap.set({ "n", "x", "o" }, "]c", function() move.goto_next_start("@class.outer") end,
+        { desc = "TSTO next class" })
+      vim.keymap.set({ "n", "x", "o" }, "]l", function() move.goto_next_start("@loop.outer") end,
+        { desc = "TSTO next loop" })
+      vim.keymap.set({ "n", "x", "o" }, "[f", function() move.goto_previous_start("@function.outer") end,
+        { desc = "TSTO prev function" })
+      vim.keymap.set({ "n", "x", "o" }, "[k", function() move.goto_previous_start("@conditional.outer") end,
+        { desc = "TSTO prev conditional" })
+      vim.keymap.set({ "n", "x", "o" }, "[c", function() move.goto_previous_start("@class.outer") end,
+        { desc = "TSTO prev class" })
+      vim.keymap.set({ "n", "x", "o" }, "[l", function() move.goto_previous_start("@loop.outer") end,
+        { desc = "TSTO prev loop" })
 
       -- already done by eyeliner
       if false then
         local ts_repeat_move =
-          require("nvim-treesitter.textobjects.repeatable_move")
+            require("nvim-treesitter-textobjects.repeatable_move")
 
         -- Repeat movement with ; and ,
         vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)

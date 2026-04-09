@@ -1,5 +1,5 @@
 -- no logs, enable it when you are debugging
-vim.lsp.set_log_level("OFF")
+vim.lsp.log.set_level("OFF")
 
 -- Virtual text on the current line
 vim.diagnostic.config({

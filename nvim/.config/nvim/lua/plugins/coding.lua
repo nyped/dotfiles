@@ -1,9 +1,4 @@
 return {
-  { -- https://github.com/nvim-mini/nvim-mini/mini.comment
-    "nvim-mini/mini.comment",
-    commit = "a0c721115faff8d05505c0a12dab410084d9e536",
-    event = "VeryLazy",
-  },
   { -- https://github.com/nvim-mini/nvim-mini/mini.surround
     "nvim-mini/mini.surround",
     commit = "d648a5601e1c48f175b07d10eba141da338a0a2a",
@@ -33,17 +28,17 @@ return {
     end,
   },
   { -- https://github.com/nvim-mini/mini.pairs
-    "nvim-mini/mini.pairs",
+    'windwp/nvim-autopairs',
     event = "InsertEnter",
-    commit = "4089aa6ea6423e02e1a8326a7a7a00159f6f5e04"
+    config = true,
+    commit = "59bce2eef357189c3305e25bc6dd2d138c1683f5",
   },
-  { -- https://github.com/mbbill/undotree
-    "mbbill/undotree",
-    commit = "fc28931fbfba66ab75d9af23fe46ffbbb9de6e8c",
+  { -- built-in since nvim 0.12, no external source needed
+    dir = vim.api.nvim_get_runtime_file("pack/dist/opt/nvim.undotree", false)[1],
+    name = "nvim.undotree",
     keys = {
-      { "<Leader>u", vim.cmd.UndotreeToggle, desc = "Undotree Toggle" },
+      { "<Leader>u", vim.cmd.Undotree, desc = "Undotree" },
     },
-    config = false,
   },
   { -- https://github.com/folke/trouble.nvim
     "folke/trouble.nvim",

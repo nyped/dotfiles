@@ -3,6 +3,10 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    keys = {
+      { "<Leader>fN", function() Snacks.notifier.hide() end, desc = "Dismiss notifications" },
+      { "<Leader>fn", function() Snacks.notifier.show_history() end, desc = "Notification history" },
+    },
     opts = {
       bigfile = { enabled = true },
       dashboard = { enabled = true, preset = { header = "nvim" } },
@@ -10,7 +14,7 @@ return {
       indent = { enabled = true, animate = { enabled = false } },
       input = { enabled = true },
       picker = { enabled = true },
-      notifier = { enabled = false },
+      notifier = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = false },

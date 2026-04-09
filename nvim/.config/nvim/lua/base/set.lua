@@ -36,7 +36,6 @@ vim.opt.mouse = "nv"
 
 vim.opt.shortmess = "FWSsa"
 
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 90
 vim.opt.foldmethod = "expr"
 

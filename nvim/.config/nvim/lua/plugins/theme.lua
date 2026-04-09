@@ -9,28 +9,4 @@ return {
       vim.cmd.colorscheme("gruvbox")
     end,
   },
-  { -- https://github.com/rcarriga/nvim-notify
-    "rcarriga/nvim-notify",
-    commit = "8701bece920b38ea289b457f902e2ad184131a5d",
-    lazy = false,
-    cmd = "Notifications",
-    keys = {
-      { "<Leader>fN", desc = "Dismiss notifications" },
-    },
-    config = function()
-      local notify = require("notify")
-
-      notify.setup({
-        background_colour = "#000000",
-      })
-      vim.notify = notify
-
-      vim.keymap.set(
-        "n",
-        "<Leader>fN",
-        notify.dismiss,
-        { desc = "Dismiss notifications" }
-      )
-    end,
-  },
 }

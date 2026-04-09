@@ -75,13 +75,6 @@ return {
         "<cmd>Telescope spell_suggest<CR>",
         desc = "Telescope spell_suggest",
       },
-      {
-        "<Leader>fn",
-        function()
-          require("telescope").extensions.notify.notify()
-        end,
-        desc = "Telescope extensions notify",
-      },
     },
   },
 }
