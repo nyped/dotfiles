@@ -146,4 +146,12 @@ echo "Config ${USB_CONFIG_INDEX}: ECM network" > "${CONFIGS_STRINGS_DIR}/configu
 ln -s "${USB_KEYBOARD_FUNCTIONS_DIR}" "${USB_CONFIG_DIR}/"
 ln -s "${USB_MOUSE_FUNCTIONS_DIR}" "${USB_CONFIG_DIR}/"
 
+# Mass storage (virtual media / ISO mount)
+mkdir -p "${USB_MASS_STORAGE_FUNCTIONS_DIR}/lun.0"
+echo 1 > "${USB_MASS_STORAGE_FUNCTIONS_DIR}/lun.0/removable"
+echo 1 > "${USB_MASS_STORAGE_FUNCTIONS_DIR}/lun.0/cdrom"
+echo 1 > "${USB_MASS_STORAGE_FUNCTIONS_DIR}/lun.0/ro"
+echo "" > "${USB_MASS_STORAGE_FUNCTIONS_DIR}/lun.0/file"
+ln -s "${USB_MASS_STORAGE_FUNCTIONS_DIR}" "${USB_CONFIG_DIR}/"
+
 usb_gadget_activate
