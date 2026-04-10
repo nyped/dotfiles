@@ -23,6 +23,7 @@ in
       eza
       fastfetch
       file
+      gcc
       glib
       gnumake
       gnupg
