@@ -46,7 +46,10 @@
     ];
 
     extraConfig = ''
+      ReturnToService=2
+
       SrunPortRange=60001-60300
+
       ProctrackType=proctrack/cgroup
       TaskPlugin=task/cgroup
     '';
