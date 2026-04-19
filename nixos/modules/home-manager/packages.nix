@@ -72,11 +72,6 @@ in
           gammastep
           kitty
           libnotify
-          llvmPackages_latest.clang
-          llvmPackages_latest.clang-tools
-          llvmPackages_latest.libcxx
-          llvmPackages_latest.libllvm
-          llvmPackages_latest.lldb
           nautilus
           networkmanagerapplet
           pavucontrol
