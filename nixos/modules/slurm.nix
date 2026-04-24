@@ -1,4 +1,9 @@
-{ profile, config, ... }:
+{
+  profile,
+  config,
+  lib,
+  ...
+}:
 {
   sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
@@ -13,11 +18,13 @@
     password = config.sops.secrets."munge/key".path;
   };
 
-  networking.firewall.allowedTCPPorts = [
-    6817
-    6818
-  ];
-  networking.firewall.allowedTCPPortRanges = [
+  networking.firewall.allowedTCPPorts =
+    lib.optionals (config.services.slurm.server.enable || config.services.slurm.client.enable)
+      [
+        6817
+        6818
+      ];
+  networking.firewall.allowedTCPPortRanges = lib.optionals config.services.slurm.client.enable [
     {
       from = 60001;
       to = 60300;
@@ -34,6 +41,7 @@
       "miami"
       "very"
     ];
+    enableStools = builtins.elem profile.host [ "slate" ];
 
     nodeName = [
       "halo CPUs=32 RealMemory=120000 State=UNKNOWN"

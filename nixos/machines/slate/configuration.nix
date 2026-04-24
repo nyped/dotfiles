@@ -13,6 +13,7 @@
     ../../modules/base.nix
     ../../modules/desktop.nix
     ../../modules/laptop.nix
+    ../../modules/slurm.nix
     ../../modules/virtualisation.nix
   ];
 
