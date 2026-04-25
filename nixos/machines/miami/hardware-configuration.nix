@@ -1,7 +1,7 @@
 {
   lib,
-  pkgs,
   modulesPath,
+  config,
   ...
 }:
 {
@@ -51,10 +51,26 @@
     }
   ];
 
+  # mdadm monitor program (encrypted with sops, installed at /etc/mdadm-program.sh)
+  sops.secrets."mdadm-program" = {
+    sopsFile = ../../../secrets/mdadm-program.sh;
+    format = "binary";
+    owner = "root";
+    mode = "0700";
+  };
+  # Secrets are not executable...
+  environment.etc."mdadm-program.sh" = {
+    mode = "0744";
+    text = ''
+      #!/usr/bin/env bash
+      bash ${config.sops.secrets."mdadm-program".path} "$@"
+    '';
+  };
+
   boot.swraid.enable = true;
   boot.swraid.mdadmConf = ''
     ARRAY /dev/md/raid level=raid1 num-devices=2 metadata=1.2 UUID=b8664b84:51837323:1ffed847:cca9d5db devices=/dev/nvme0n1p2,/dev/nvme1n1p2
-    PROGRAM ${pkgs.coreutils}/bin/true
+    PROGRAM /etc/mdadm-program.sh
   '';
 
   powerManagement.enable = true;

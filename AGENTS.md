@@ -58,4 +58,10 @@ sudo nixos-rebuild switch --flake /path/to/dotfiles#slate
 
 ---
 
+## Agent guidelines
+
+- **Always run `nix flake check` after editing any NixOS files** (machines, modules, overlays, flake inputs). It validates all four configurations (`slate`, `halo`, `miami`, `very`) and catches evaluation errors before deployment.
+
+---
+
 *The repo is intentionally modular: system‑wide NixOS settings, per‑user Home‑Manager config, and classic stow‑based dotfiles live side‑by‑side, enabling you to manage the whole workstation from a single flake.*
