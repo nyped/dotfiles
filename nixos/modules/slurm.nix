@@ -39,14 +39,12 @@
     client.enable = builtins.elem profile.host [
       "halo"
       "miami"
-      "very"
     ];
     enableStools = builtins.elem profile.host [ "slate" ];
 
     nodeName = [
       "halo CPUs=32 RealMemory=120000 State=UNKNOWN"
       "miami CPUs=4 RealMemory=15764 State=UNKNOWN"
-      "very CPUs=4 RealMemory=3728 State=UNKNOWN"
     ];
 
     partitionName = [

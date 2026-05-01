@@ -11,7 +11,6 @@
 
     ../../modules/base.nix
     ../../modules/server.nix
-    ../../modules/slurm.nix
     ../../modules/virtualisation.nix
   ];
 
