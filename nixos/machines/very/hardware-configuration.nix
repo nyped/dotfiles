@@ -12,7 +12,23 @@
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
+    kernelPackages =
+      let
+        rpiKernel = pkgs.callPackage "${inputs.nixos-hardware}/raspberry-pi/common/kernel.nix" {
+          rpiVersion = 4;
+          argsOverride = {
+            src = pkgs.fetchFromGitHub {
+              owner = "raspberrypi";
+              repo = "linux";
+              rev = "3d3dd5921d317d84208d1efe45d76abcda82eb98";
+              hash = "sha256-TVNm1p8S47oqiTlr4H6g5GV+iKpOfi3jlWUrQHFESCI=";
+            };
+            version = "6.18.26";
+            modDirVersion = "6.18.26";
+          };
+        };
+      in
+      pkgs.linuxPackagesFor rpiKernel;
     initrd.availableKernelModules = [
       "xhci_pci"
       "usbhid"
@@ -54,14 +70,17 @@
         # The nixos-hardware tc358743 overlay sets the DTB root compatible to
         # "brcm,bcm2711", so patch the dtbo to match (it ships as "brcm,bcm2835"
         # which then fails the dtmerge compatibility check).
-        dtboFile = pkgs.runCommand "tc358743-audio.dtbo" {
-          nativeBuildInputs = [ pkgs.dtc ];
-        } ''
-          dtc -I dtb -O dts \
-            ${pkgs.linuxKernel.packages.linux_rpi4.kernel}/dtbs/overlays/tc358743-audio.dtbo \
-            | sed 's/compatible = "brcm,bcm2835"/compatible = "brcm,bcm2711"/' \
-            | dtc -I dts -O dtb -@ -o $out
-        '';
+        dtboFile =
+          pkgs.runCommand "tc358743-audio.dtbo"
+            {
+              nativeBuildInputs = [ pkgs.dtc ];
+            }
+            ''
+              dtc -I dtb -O dts \
+                ${pkgs.linuxKernel.packages.linux_rpi4.kernel}/dtbs/overlays/tc358743-audio.dtbo \
+                | sed 's/compatible = "brcm,bcm2835"/compatible = "brcm,bcm2711"/' \
+                | dtc -I dts -O dtb -@ -o $out
+            '';
       }
     ];
   };
