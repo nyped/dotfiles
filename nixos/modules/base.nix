@@ -49,8 +49,9 @@
   ];
 
   # Shell
+  programs.command-not-found.enable = false;
+  programs.nix-index.enable = true;
   programs.zsh.enable = true;
-  programs.command-not-found.enable = true;
   programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.vteIntegration = true;
   users.defaultUserShell = pkgs.zsh;
