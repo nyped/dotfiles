@@ -8,6 +8,16 @@
   services.pipewire.pulse.enable = true;
   services.pipewire.systemWide = true;
   security.rtkit.enable = true;
+  # Black don't crack
+  services.pipewire.extraConfig.pipewire = {
+    "98-crackling-fix" = {
+      "context.properties" = {
+        "default.clock.quantum" = 1024;
+        "default.clock.min-quantum" = 1024;
+        "default.clock.max-quantum" = 8192;
+      };
+    };
+  };
 
   # System fonts
   fonts.packages = with pkgs; [
