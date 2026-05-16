@@ -5,6 +5,25 @@
   modulesPath,
   ...
 }:
+let
+  crossPkgs = import inputs.nixpkgs {
+    localSystem = "x86_64-linux";
+    crossSystem = "aarch64-linux";
+  };
+  rpiKernel = crossPkgs.callPackage "${inputs.nixos-hardware}/raspberry-pi/common/kernel.nix" {
+    rpiVersion = 4;
+    argsOverride = {
+      src = crossPkgs.fetchFromGitHub {
+        owner = "raspberrypi";
+        repo = "linux";
+        rev = "a72a0085aeac23ac8aa76c90c476e20626046ea7";
+        hash = "sha256-csrV6L67jNcU9FQjLl21KTL6fE6jWJkVq7RqeasMYjc=";
+      };
+      version = "6.18.29";
+      modDirVersion = "6.18.29";
+    };
+  };
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -12,23 +31,7 @@
   ];
 
   boot = {
-    kernelPackages =
-      let
-        rpiKernel = pkgs.callPackage "${inputs.nixos-hardware}/raspberry-pi/common/kernel.nix" {
-          rpiVersion = 4;
-          argsOverride = {
-            src = pkgs.fetchFromGitHub {
-              owner = "raspberrypi";
-              repo = "linux";
-              rev = "3d3dd5921d317d84208d1efe45d76abcda82eb98";
-              hash = "sha256-TVNm1p8S47oqiTlr4H6g5GV+iKpOfi3jlWUrQHFESCI=";
-            };
-            version = "6.18.26";
-            modDirVersion = "6.18.26";
-          };
-        };
-      in
-      pkgs.linuxPackagesFor rpiKernel;
+    kernelPackages = crossPkgs.linuxPackagesFor rpiKernel;
     initrd.availableKernelModules = [
       "xhci_pci"
       "usbhid"
