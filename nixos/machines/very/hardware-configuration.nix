@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  pkgs,
   modulesPath,
   ...
 }:
@@ -74,13 +73,13 @@ in
         # "brcm,bcm2711", so patch the dtbo to match (it ships as "brcm,bcm2835"
         # which then fails the dtmerge compatibility check).
         dtboFile =
-          pkgs.runCommand "tc358743-audio.dtbo"
+          crossPkgs.runCommand "tc358743-audio.dtbo"
             {
-              nativeBuildInputs = [ pkgs.dtc ];
+              nativeBuildInputs = [ crossPkgs.buildPackages.dtc ];
             }
             ''
               dtc -I dtb -O dts \
-                ${pkgs.linuxKernel.packages.linux_rpi4.kernel}/dtbs/overlays/tc358743-audio.dtbo \
+                ${rpiKernel}/dtbs/overlays/tc358743-audio.dtbo \
                 | sed 's/compatible = "brcm,bcm2835"/compatible = "brcm,bcm2711"/' \
                 | dtc -I dts -O dtb -@ -o $out
             '';

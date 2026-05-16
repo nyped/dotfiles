@@ -35,6 +35,11 @@
     };
   };
 
+  nix.settings = {
+    substituters = [ "https://nyped-rpi4.cachix.org" ];
+    trusted-public-keys = [ "nyped-rpi4.cachix.org-1:1iM0MnkSvq3CZXfFkc/7MpawYyfPQWvDBj4JKV1KOZ0=" ];
+  };
+
   # Machine
   networking.hostName = "very";
 
