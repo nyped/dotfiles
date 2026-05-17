@@ -12,7 +12,7 @@
     ../../modules/desktop.nix
     ../../modules/backup.nix
     ../../modules/base.nix
-    ../../modules/remote.nix
+    ../../modules/gnome.nix
     ../../modules/server.nix
     ../../modules/virtualisation.nix
     ../../modules/slurm.nix
