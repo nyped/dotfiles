@@ -18,7 +18,12 @@
   };
 
   outputs =
-    { self, nixpkgs, sops-nix, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      sops-nix,
+      ...
+    }@inputs:
     let
       user_ = "lenny";
       mkConfiguration =
@@ -78,7 +83,10 @@
           desktop = false;
           server = true;
           backupDir = "432af1f0";
-          backupExtraPaths = [ "/data" ];
+          backupExtraPaths = [
+            "/data"
+            "/home/${user_}/docker/data"
+          ];
         };
         very = mkConfiguration {
           host = "very";
