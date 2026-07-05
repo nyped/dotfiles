@@ -15,11 +15,11 @@ let
       src = crossPkgs.fetchFromGitHub {
         owner = "raspberrypi";
         repo = "linux";
-        rev = "a72a0085aeac23ac8aa76c90c476e20626046ea7";
-        hash = "sha256-csrV6L67jNcU9FQjLl21KTL6fE6jWJkVq7RqeasMYjc=";
+        rev = "63598c83153e19b1f99067ab6df7409de2c111f8";
+        hash = "sha256-sOX8iT4HxB4dqGIThx43/+pTpRCOz2qTj4HyQeI0cKY=";
       };
-      version = "6.18.29";
-      modDirVersion = "6.18.29";
+      version = "6.18.37";
+      modDirVersion = "6.18.37";
     };
   };
 in
