@@ -11,7 +11,7 @@ input {
     touchpad {
         tap
         dwt
-        // drag false
+        drag false
         natural-scroll
     }
 
