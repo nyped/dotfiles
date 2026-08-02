@@ -62,6 +62,28 @@ sudo nixos-rebuild switch --flake /path/to/dotfiles#slate
 
 - **Always run `nix flake check` after editing any NixOS files** (machines, modules, overlays, flake inputs). It validates all four configurations (`slate`, `halo`, `miami`, `very`) and catches evaluation errors before deployment.
 
+## Commit conventions
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) with scoped prefixes:
+
+| Scope | Prefix |
+|-------|--------|
+| Nix flake / modules | `feat(nix)`, `fix(nix)`, `chore(nix)` |
+| Home‑Manager config | `feat(hm)`, `fix(hm)` |
+| Stow‑based dotfiles | `feat(dotfiles)`, `fix(dotfiles)` |
+| Scripts | `feat(scripts)`, `fix(scripts)` |
+| Lock file updates | `ci` |
+| Documentation | `docs` |
+
+Examples:
+```
+feat(nix): add llm-agents.nix flake input with omp package
+fix(nix): accept inputs in specialArgs for llm-agents reference
+feat(hm): configure fuzzel launcher
+ci: auto-update flake.lock
+docs: update AGENTS.md with commit conventions
+```
+
 ---
 
 *The repo is intentionally modular: system‑wide NixOS settings, per‑user Home‑Manager config, and classic stow‑based dotfiles live side‑by‑side, enabling you to manage the whole workstation from a single flake.*
