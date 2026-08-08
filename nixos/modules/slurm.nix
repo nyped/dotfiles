@@ -32,19 +32,17 @@
   ];
 
   services.slurm = {
-    clusterName = "halo";
-    controlMachine = "halo";
+    clusterName = "home";
+    controlMachine = "miami";
 
-    server.enable = profile.host == "halo";
+    server.enable = profile.host == "miami";
     client.enable = builtins.elem profile.host [
-      "halo"
       "miami"
     ];
     enableStools = builtins.elem profile.host [ "slate" ];
 
     nodeName = [
-      "halo CPUs=32 RealMemory=120000 State=UNKNOWN"
-      "miami CPUs=4 RealMemory=15764 State=UNKNOWN"
+      "miami CPUs=4 RealMemory=15700 State=UNKNOWN"
     ];
 
     partitionName = [

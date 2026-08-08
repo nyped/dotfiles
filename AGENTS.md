@@ -8,7 +8,7 @@ This repository is a **modular dotfiles collection** built around **Nix flakes**
 
 | Component | Description |
 |-----------|-------------|
-| `flake.nix` | Defines the Nix flake: inputs (`nixpkgs`, `home-manager`), a `mkConfiguration` helper, and three concrete NixOS configurations (`slate`, `halo`, `miami`). |
+| `flake.nix` | Defines the Nix flake: inputs (`nixpkgs`, `home-manager`), a `mkConfiguration` helper, and three concrete NixOS configurations (`slate`, `very`, `miami`). |
 | `nixos/` | Contains all NixOS‑specific material.
 | `nixos/machines/<host>/configuration.nix` | Host‑specific composition of modules (imports `base`, `desktop`, `backup`, etc.) and Home‑Manager configuration for the user. |
 | `nixos/modules/` | Re‑usable NixOS modules:
@@ -60,7 +60,7 @@ sudo nixos-rebuild switch --flake /path/to/dotfiles#slate
 
 ## Agent guidelines
 
-- **Always run `nix flake check` after editing any NixOS files** (machines, modules, overlays, flake inputs). It validates all four configurations (`slate`, `halo`, `miami`, `very`) and catches evaluation errors before deployment.
+- **Always run `nix flake check` after editing any NixOS files** (machines, modules, overlays, flake inputs). It validates all three configurations (`slate`, `miami`, `very`) and catches evaluation errors before deployment.
 
 ## Commit conventions
 

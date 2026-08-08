@@ -74,12 +74,6 @@
             "/home/${user_}/.gnupg"
           ];
         };
-        halo = mkConfiguration {
-          host = "halo";
-          desktop = false;
-          server = true;
-          backupDir = "b7acfef1";
-        };
         miami = mkConfiguration {
           host = "miami";
           cpu = "intel";
