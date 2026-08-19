@@ -41,18 +41,6 @@
 
   hardware.graphics.extraPackages = [ pkgs.rocmPackages.clr.icd ];
   hardware.bluetooth.enable = true;
-  # FIXME(nyped): bluetooth headphones patched
-  hardware.bluetooth.package = pkgs.bluez.overrideAttrs (
-    finalAttrs: prevAttrs: {
-      patches = prevAttrs.patches ++ [
-        (pkgs.fetchpatch2 {
-          name = "fix-a2dp-sink-priority-regression";
-          url = "https://git.kernel.org/pub/scm/bluetooth/bluez.git/patch/?id=066a164a524e4983b850f5659b921cb42f84a0e0";
-          hash = "sha256-7n/1Dtoaz0Ll3JL6kDjJGAmu5t04vgYELNMeugHe0Vg=";
-        })
-      ];
-    }
-  );
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";
