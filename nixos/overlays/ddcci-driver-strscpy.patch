@@ -1,0 +1,49 @@
+diff --git a/ddcci/ddcci.c b/ddcci/ddcci.c
+index 6b41eab567ae9fa55ac8b7f34b934e2b8daf2933..e5d9ee2034d8f62d225957ffd14f91859461669b 100644
+--- a/ddcci/ddcci.c
++++ b/ddcci/ddcci.c
+@@ -765,7 +765,7 @@ static ssize_t ddcci_attr_prot_show(struct device *dev,
+ 
+ 	if (likely(device != NULL)) {
+ 		len = strnlen(device->prot, sizeof(device->prot));
+-		strncpy(buf, device->prot, PAGE_SIZE);
++		strscpy(buf, device->prot, PAGE_SIZE);
+ 		if (len == 0) {
+ 			ret = len;
+ 		} else if (likely(len < PAGE_SIZE)) {
+@@ -787,7 +787,7 @@ static ssize_t ddcci_attr_type_show(struct device *dev,
+ 
+ 	if (likely(device != NULL)) {
+ 		len = strnlen(device->type, sizeof(device->type));
+-		strncpy(buf, device->type, PAGE_SIZE);
++		strscpy(buf, device->type, PAGE_SIZE);
+ 		if (len == 0) {
+ 			ret = len;
+ 		} else if (likely(len < PAGE_SIZE)) {
+@@ -809,7 +809,7 @@ static ssize_t ddcci_attr_model_show(struct device *dev,
+ 
+ 	if (likely(device != NULL)) {
+ 		len = strnlen(device->model, sizeof(device->model));
+-		strncpy(buf, device->model, PAGE_SIZE);
++		strscpy(buf, device->model, PAGE_SIZE);
+ 		if (len == 0) {
+ 			ret = len;
+ 		} else if (likely(len < PAGE_SIZE)) {
+@@ -831,7 +831,7 @@ static ssize_t ddcci_attr_vendor_show(struct device *dev,
+ 
+ 	if (likely(device != NULL)) {
+ 		len = strnlen(device->vendor, sizeof(device->vendor));
+-		strncpy(buf, device->vendor, PAGE_SIZE);
++		strscpy(buf, device->vendor, PAGE_SIZE);
+ 		if (len == 0) {
+ 			ret = len;
+ 		} else if (likely(len < PAGE_SIZE)) {
+@@ -853,7 +853,7 @@ static ssize_t ddcci_attr_module_show(struct device *dev,
+ 
+ 	if (likely(device != NULL)) {
+ 		len = strnlen(device->module, sizeof(device->module));
+-		strncpy(buf, device->module, PAGE_SIZE);
++		strscpy(buf, device->module, PAGE_SIZE);
+ 		if (len == 0) {
+ 			ret = len;
+ 		} else if (likely(len < PAGE_SIZE)) {
