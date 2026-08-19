@@ -33,6 +33,9 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "nfs" ];
 
+  # Remote builder
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # CPU
   powerManagement.enable = true;
   powerManagement.cpuFreqGovernor = "ondemand";
