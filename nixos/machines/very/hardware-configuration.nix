@@ -41,7 +41,7 @@ in
     ];
     loader = {
       grub.enable = false;
-      generic-extlinux-compatible.enable = true;
+      generic-extlinux-compatible.useGenerationDeviceTree = false;
     };
     kernelParams = [
       "usb-storage.quirks=152d:0583:u"
@@ -90,11 +90,11 @@ in
   hardware.raspberry-pi."4" = {
     apply-overlays-dtmerge.enable = true;
     tc358743.enable = true;
-    dwc2 = {
-      enable = true;
-      dr_mode = "peripheral";
-    };
   };
+
+  hardware.raspberry-pi.configtxt.deviceTreeOverlays.pi4 = [
+    { dwc2.dr_mode = "peripheral"; }
+  ];
 
   hardware.enableRedistributableFirmware = true;
   nixpkgs.hostPlatform.system = "aarch64-linux";
