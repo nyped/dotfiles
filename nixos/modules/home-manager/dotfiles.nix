@@ -11,6 +11,9 @@ in
     ".config/bat/dark_bat.conf".source = mkOut "bat/.config/bat/dark_bat.conf";
     ".config/bat/light_bat.conf".source = mkOut "bat/.config/bat/light_bat.conf";
 
+    ".claude/settings.json".source = mkOut "claude/dot-claude/settings.json";
+    ".claude/statusline-command.sh".source = mkOut "claude/dot-claude/statusline-command.sh";
+
     ".config/dunst/dark_dunstrc".source = mkOut "dunst/.config/dunst/dark_dunstrc";
     ".config/dunst/light_dunstrc".source = mkOut "dunst/.config/dunst/light_dunstrc";
 

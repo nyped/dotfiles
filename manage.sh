@@ -9,6 +9,7 @@ readonly VERBOSE_ARGS=--verbose=2
 
 readonly targets=(
   bat
+  claude
   dunst
   fuzzel
   kitty

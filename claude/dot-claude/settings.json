@@ -1,0 +1,16 @@
+{
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true
+  },
+  "showThinkingSummaries": true,
+  "skipDangerousModePermissionPrompt": false,
+  "effortLevel": "medium",
+  "model": "claude-opus-5",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
+  "outputStyle": "concise"
+}
