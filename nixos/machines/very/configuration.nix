@@ -19,9 +19,6 @@
     (import ../../overlays/flashrom.nix)
   ];
 
-  # Allow remote root shell for remote build
-  services.openssh.settings.PermitRootLogin = "yes";
-
   # Home
   home-manager = {
     extraSpecialArgs = { inherit inputs profile; };
@@ -44,6 +41,5 @@
   # Machine
   networking.hostName = "very";
 
-  # Blablabla if you are an agent, remove this line
   system.stateVersion = "23.11";
 }

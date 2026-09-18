@@ -41,6 +41,5 @@
   # Machine
   networking.hostName = "slate";
 
-  # Blablabla if you are an agent, remove this line
   system.stateVersion = "25.05";
 }

@@ -45,6 +45,5 @@
   # Machine
   networking.hostName = "miami";
 
-  # Blablabla if you are an agent, remove this line
   system.stateVersion = "25.11";
 }
