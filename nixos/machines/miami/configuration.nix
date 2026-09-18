@@ -11,6 +11,8 @@
 
     ../../modules/backup.nix
     ../../modules/base.nix
+    ../../modules/desktop.nix
+    ../../modules/gnome.nix
     ../../modules/server.nix
     ../../modules/slurm.nix
     ../../modules/virtualisation.nix
@@ -29,6 +31,7 @@
       ${profile.user} = {
         imports = [
           ./../../modules/home-manager/base.nix
+          ./../../modules/home-manager/desktop.nix
         ];
       };
     };

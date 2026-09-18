@@ -77,7 +77,7 @@
         miami = mkConfiguration {
           host = "miami";
           cpu = "intel";
-          desktop = false;
+          desktop = true;
           server = true;
           backupDir = "432af1f0";
           backupExtraPaths = [
