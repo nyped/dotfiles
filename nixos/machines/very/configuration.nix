@@ -16,6 +16,7 @@
 
   # Custom packages
   nixpkgs.overlays = [
+    (import ../../overlays/flashrom.nix)
   ];
 
   # Allow remote root shell for remote build
