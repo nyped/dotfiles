@@ -14,14 +14,10 @@ sudo nixos-rebuild switch --flake
 
 ### Cross-compile (very / Raspberry Pi 4)
 
-The `very` machine uses a custom RPi4 kernel that is cross-compiled from x86_64. Standard packages still come from `cache.nixos.org`. The kernel is cached on [nyped-rpi4.cachix.org](https://app.cachix.org/cache/nyped-rpi4).
+The `very` machine uses a custom RPi4 kernel that is cross-compiled from x86_64. Standard packages still come from `cache.nixos.org`. The remote build is done via cross-compilation:
 
 ```bash
-# Build and deploy
-nixos-rebuild boot --target-host root@very --build-host localhost -j30 --flake . --print-build-logs
-
-# Push the kernel to Cachix (after building)
-nix build .#nixosConfigurations.very.config.boot.kernelPackages.kernel --no-link --print-out-paths | cachix push nyped-rpi4
+nixos-rebuild boot --target-host root@very --build-host localhost -j16 --flake . --print-build-logs
 ```
 
 ### Manual installation with GNU stow
