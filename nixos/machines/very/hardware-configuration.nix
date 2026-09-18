@@ -41,7 +41,6 @@ in
     ];
     loader = {
       grub.enable = false;
-      generic-extlinux-compatible.useGenerationDeviceTree = false;
     };
     kernelParams = [
       "usb-storage.quirks=152d:0583:u"
@@ -84,6 +83,38 @@ in
                 | dtc -I dts -O dtb -@ -o $out
             '';
       }
+      {
+        # Replaces the removed nixos-hardware raspberry-pi/4/dwc2.nix module
+        # (dropped upstream). Kept as a deviceTree overlay, not a
+        # configtxt.deviceTreeOverlays firmware overlay, so it applies through
+        # the same per-generation DTB as tc358743-audio above; the firmware
+        # overlay path requires useGenerationDeviceTree = false, which would
+        # stop u-boot from loading that generation DTB at all.
+        name = "dwc2-overlay";
+        dtsText = ''
+          /dts-v1/;
+          /plugin/;
+
+          / {
+            compatible = "brcm,bcm2711";
+
+            fragment@0 {
+              target = <&usb>;
+              #address-cells = <0x01>;
+              #size-cells = <0x01>;
+
+              __overlay__ {
+                compatible = "brcm,bcm2835-usb";
+                dr_mode = "peripheral";
+                g-np-tx-fifo-size = <0x20>;
+                g-rx-fifo-size = <0x22e>;
+                g-tx-fifo-size = <0x200 0x200 0x200 0x200 0x200 0x100 0x100>;
+                status = "okay";
+              };
+            };
+          };
+        '';
+      }
     ];
   };
 
@@ -91,10 +122,6 @@ in
     apply-overlays-dtmerge.enable = true;
     tc358743.enable = true;
   };
-
-  hardware.raspberry-pi.configtxt.deviceTreeOverlays.pi4 = [
-    { dwc2.dr_mode = "peripheral"; }
-  ];
 
   hardware.enableRedistributableFirmware = true;
   nixpkgs.hostPlatform.system = "aarch64-linux";
