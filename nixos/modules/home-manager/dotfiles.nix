@@ -19,6 +19,8 @@ in
 
     ".config/fuzzel/fuzzel.ini".source = mkOut "fuzzel/.config/fuzzel/fuzzel.ini";
 
+    ".config/jj/config.toml".source = mkOut "jj/.config/jj/config.toml";
+
     ".config/kitty/kitty-dark-scheme.conf".source = mkOut "kitty/.config/kitty/kitty-dark-scheme.conf";
     ".config/kitty/kitty-light-scheme.conf".source =
       mkOut "kitty/.config/kitty/kitty-light-scheme.conf";

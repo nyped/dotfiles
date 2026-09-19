@@ -1,0 +1,23 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+name = "nyped"
+email = "lenny.peers@gmail.com"
+
+[ui]
+default-command = "status"
+editor = "nvim"
+diff-formatter = ":git"
+
+[git]
+# Push to a branch named after the change, instead of refusing without a bookmark.
+push-new-bookmarks = true
+
+[aliases]
+l = ["log", "-r", "::@ | @::"]
+d = ["diff"]
+s = ["status"]
+tug = ["bookmark", "move", "--from", "closest_bookmark(@-)", "--to", "@-"]
+
+[revset-aliases]
+"closest_bookmark(to)" = "heads(::to & bookmarks())"

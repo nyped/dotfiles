@@ -31,6 +31,7 @@ in
       handlr
       imagemagick
       jq
+      jujutsu
       lua
       lua-language-server
       nil
@@ -58,6 +59,8 @@ in
       typstyle
       uv
       wl-clipboard
+      zellij
+      zoxide
     ]
     ++ (
       if profile.desktop then

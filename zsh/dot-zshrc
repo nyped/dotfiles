@@ -19,6 +19,7 @@ to_source=(
   ~/.zsh/alias.sh
   ~/.zsh/env.sh
   ~/.zsh/binding.sh
+  ~/.zsh/integrations.sh
   ~/.zsh/simple.zsh-theme
   /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
 )
