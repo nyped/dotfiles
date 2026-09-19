@@ -12,6 +12,7 @@ readonly targets=(
   claude
   dunst
   fuzzel
+  jj
   kitty
   niri
   nvim
@@ -25,6 +26,7 @@ readonly targets=(
   waybar
   xsession
   zathura
+  zellij
   zsh
 )
 
