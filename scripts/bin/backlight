@@ -78,45 +78,69 @@ case "$DEV" in
   ;;
 
   monitor)
-    readonly dev_file=/tmp/ddcc_i2c
+    # The i2c numbering only holds until the monitors are replugged, so the
+    # cache belongs in the runtime dir, which is per-user and wiped on logout.
+    readonly dev_file="${XDG_RUNTIME_DIR:-/tmp}/ddcc_i2c-${UID}"
 
-    # Probing the device
-    if [[ ! -f $dev_file ]]; then
-      path=$(ddccontrol -p 2>/dev/null | awk -F: '/at bus dev:/ {gsub("[.]",""); print $2}')
-      echo "dev:$path" > $dev_file
-    fi
-    IFS= read -r DEVICE < $dev_file
+    is_level() {
+      case "$1" in
+        ''|*[!0-9]*) return 1 ;;
+      esac
+    }
 
-    # Sanity check
+    # Reads $ADDRESS on the bus $1, writing $2 first if given. Prints the
+    # resulting value, or nothing if the bus does not answer.
+    read_ctrl() {
+      timeout 10 ddccontrol "$1" -r "$ADDRESS" ${2+-W "$2"} 2>/dev/null \
+        | awk -F'/' '$0 ~ /^Control / {val = $2} END {print val}'
+    }
+
+    # ddccontrol auto-selects the first bus it finds, which may be an internal
+    # panel that answers the EDID but none of the controls, so keep the first
+    # bus that actually returns a value.
+    probe_device() {
+      local candidate
+      while IFS= read -r candidate; do
+        if is_level "$(read_ctrl "$candidate")"; then
+          printf '%s\n' "$candidate" > "$dev_file.$$"
+          mv -f "$dev_file.$$" "$dev_file"
+          return 0
+        fi
+      done < <(timeout 30 ddccontrol -p 2>/dev/null | awk '$0 ~ /^ - Device: dev:/ {print $3}')
+
+      rm -f "$dev_file.$$"
+      return 1
+    }
+
+    DEVICE=
+    RET=
+    [[ -f $dev_file ]] && IFS= read -r DEVICE < "$dev_file"
+
     case "$DEVICE" in
-      dev:/dev/i2c-*)
-        ;;
-      *)
-        DEVICE=-p
-        rm -f $dev_file
-        ;;
+      dev:/dev/i2c-*) RET=$(read_ctrl "$DEVICE" "$DDC_VAL") ;;
     esac
 
-    RET=$(ddccontrol "$DEVICE" -r "$ADDRESS" -W "$DDC_VAL" 2>/dev/null | awk -F'/' 'END {print $2}')
+    # No cache, or a stale one pointing at a bus that has since moved: probe
+    # again rather than making the user press the key twice.
+    if ! is_level "$RET"; then
+      rm -f "$dev_file"
+      probe_device || exit 255
 
-    # Error check
-    case "$RET" in
-      ''|*[!0-9]*)
-        rm -f $dev_file
-        killall -9 ddccontrol &>/dev/null
-        exit 255
-        ;;
-    esac
+      IFS= read -r DEVICE < "$dev_file"
+      RET=$(read_ctrl "$DEVICE" "$DDC_VAL")
+      is_level "$RET" || exit 255
+    fi
   ;;
 esac
 
 echo "$RET"
 
-[[ -n $NOTIFY ]] && \
+if [[ -n $NOTIFY ]]; then
   notify-send "${DEV}" "${MESS} at ${RET}%" \
     -h string:x-canonical-private-synchronous:anything \
     -a notif \
     -i display-brightness \
     -h int:value:"$RET"
+fi
 
 # vim: set ts=2 sts=2 sw=2 et :
