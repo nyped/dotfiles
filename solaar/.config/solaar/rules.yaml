@@ -1,0 +1,24 @@
+%YAML 1.3
+# Solaar diversion rules.
+#
+# The back/forward buttons on the ERGO M575S are diverted at the HID++ level,
+# so they no longer send BTN_SIDE/BTN_EXTRA. Solaar turns them into
+# Mod+Page_Up / Mod+Page_Down instead, which niri binds to workspace
+# switching. Only the diverted device loses back/forward; every other mouse
+# keeps it.
+#
+# The diversion itself is per-device state that Solaar keeps in
+# ~/.config/solaar/config.yaml, keyed by serial, so it is NOT reproduced by
+# nixos-rebuild. On a fresh install run this once, with the device connected:
+#
+#   solaar config "ERGO M575S" divert-keys "Back Button" Diverted
+#   solaar config "ERGO M575S" divert-keys "Forward Button" Diverted
+#
+# Check it with:  solaar config "ERGO M575S" divert-keys
+---
+- Rule:
+  - Key: [Back Button, pressed]
+  - KeyPress: [Super_L, Page_Up]
+- Rule:
+  - Key: [Forward Button, pressed]
+  - KeyPress: [Super_L, Page_Down]

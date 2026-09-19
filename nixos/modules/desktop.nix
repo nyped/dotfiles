@@ -31,6 +31,20 @@
   services.blueman.enable = true;
   services.ddccontrol.enable = true;
 
+  # Logitech devices (ERGO M575S button diversion, see ~/.config/solaar/rules.yaml)
+  programs.solaar = {
+    enable = true;
+    userService.enable = true;
+    userService.window = "hide";
+    userService.extraArgs = [ "--restart-on-wake-up" ];
+  };
+
+  # Solaar rules synthesize key presses through /dev/uinput. Without this the
+  # module never loads, so the node gets no udev event and never gets an ACL.
+  # Access itself comes from the uaccess tag in Solaar's udev rule, which is
+  # scoped to an active local session, so no uinput group membership is needed.
+  hardware.uinput.enable = true;
+
   # dconf for theme management
   programs.dconf.enable = true;
   programs.dconf.profiles.user = {

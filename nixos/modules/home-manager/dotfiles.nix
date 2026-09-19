@@ -29,6 +29,8 @@ in
     ".config/nvim/lua".source = mkOut "nvim/.config/nvim/lua";
     ".config/nvim/init.lua".source = mkOut "nvim/.config/nvim/init.lua";
 
+    ".config/solaar/rules.yaml".source = mkOut "solaar/.config/solaar/rules.yaml";
+
     ".config/sway/config".source = mkOut "sway/.config/sway/config";
     ".config/sway/mark.sh".source = mkOut "sway/.config/sway/mark.sh";
     ".config/sway/menu.sh".source = mkOut "sway/.config/sway/menu.sh";

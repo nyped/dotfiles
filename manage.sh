@@ -16,6 +16,7 @@ readonly targets=(
   niri
   nvim
   scripts
+  solaar
   sway
   swaylock
   theme

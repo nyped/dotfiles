@@ -204,6 +204,10 @@ binds {
     Alt+Tab       { focus-workspace-down; }
     Alt+Backspace    { focus-workspace-previous; }
 
+    // Sent by Solaar from the ERGO M575S back/forward buttons
+    Mod+Page_Up   { focus-workspace-up; }
+    Mod+Page_Down { focus-workspace-down; }
+
     Mod+I  { consume-or-expel-window-left; }
     Mod+O  { consume-or-expel-window-right; }
     Mod+Shift+I  { move-column-left-or-to-monitor-left; }
