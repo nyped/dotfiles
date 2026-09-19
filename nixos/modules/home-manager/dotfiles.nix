@@ -44,6 +44,8 @@ in
 
     ".config/zathura/zathurarc".source = mkOut "zathura/.config/zathura/zathurarc";
 
+    ".config/zellij/config.kdl".source = mkOut "zellij/.config/zellij/config.kdl";
+
     ".config/tmux/tmux.conf".source = mkOut "tmux/.config/tmux/tmux.conf";
 
     "bin/backlight".source = mkOut "scripts/bin/backlight";

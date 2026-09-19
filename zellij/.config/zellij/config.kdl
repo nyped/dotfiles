@@ -1,0 +1,12 @@
+// Plain separators instead of powerline arrows.
+simplified_ui true
+
+// Follows the terminal, same as the kitty dark/light schemes.
+theme_dark "gruvbox-dark"
+theme_light "gruvbox-light"
+
+// Wayland clipboard, and no OSC 52 bell on copy.
+copy_command "wl-copy"
+copy_clipboard "system"
+
+show_release_notes false
