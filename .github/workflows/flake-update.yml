@@ -42,5 +42,6 @@ jobs:
           fi
           git add flake.lock
           git commit -m "ci: auto-update flake.lock"
-          git remote set-url origin http://$CI_TOKEN@$CI_GIT_URL/${{ github.repository }}.git
-          git push origin HEAD:${{ github.ref }}
+          git -c http.extraheader="Authorization: token ${CI_TOKEN}" \
+            push "http://${CI_GIT_URL}/${{ github.repository }}.git" \
+            "HEAD:${{ github.ref }}"
