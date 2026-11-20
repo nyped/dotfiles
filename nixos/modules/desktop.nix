@@ -29,7 +29,7 @@
   services.libinput.enable = true;
   programs.niri.enable = true;
   services.blueman.enable = true;
-  services.ddccontrol.enable = false;
+  services.ddccontrol.enable = true;
 
   # Logitech devices (ERGO M575S button diversion, see ~/.config/solaar/rules.yaml)
   programs.solaar = {
