@@ -21,6 +21,7 @@
   nixpkgs.overlays = [
     (import ../../overlays/libinput.nix)
     (import ../../overlays/niri.nix)
+    (import ../../overlays/waybar.nix)
   ];
 
   # Home
